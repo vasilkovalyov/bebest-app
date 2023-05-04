@@ -4,6 +4,7 @@ import { IUser } from './user.model';
 export interface IStudent extends IUser {
   name: string;
   surname: string;
+  password: string;
   phone?: string | null;
   about?: string | null;
 }

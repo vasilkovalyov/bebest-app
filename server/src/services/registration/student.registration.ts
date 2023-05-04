@@ -45,7 +45,6 @@ class StudentRegistration implements IRegistrationStrategy {
     const user: UserModelType = await new UserModel({
       userId: savedStudent._id,
       email: savedStudent.email,
-      password: savedStudent.password,
       role: savedStudent.role,
     });
 
