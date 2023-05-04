@@ -11,6 +11,8 @@ router.post(
   RegistrationController.registration
 );
 
+router.delete('/delete/student', StudentController.removeUser);
+
 router.post('/add-student', StudentController.addUser);
 
 export default router;

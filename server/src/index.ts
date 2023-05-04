@@ -24,7 +24,6 @@ import authRoute from './routes/auth.routes';
 
   server.use('/api', authRoute);
   server.use('/api', studentRoute);
-
   try {
     databaseConnect()
       .then((response) => {
