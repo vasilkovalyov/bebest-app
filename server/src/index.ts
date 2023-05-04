@@ -7,21 +7,22 @@ import dotenv from 'dotenv';
 
 import databaseConnect from './database';
 
-const server: Express = express();
-const PORT = process.env.PORT || 3000;
-dotenv.config();
-
-server.use(
-  cors({
-    credentials: true,
-  })
-);
-
-server.use(compression());
-server.use(cookieParser());
-server.use(bodyParser.json());
+import studentRoute from './routes/student.routes';
 
 (async () => {
+  const server: Express = express();
+  const PORT = process.env.PORT || 3000;
+  dotenv.config();
+
+  server.use(bodyParser.json());
+  server.use(cors({ credentials: true, origin: process.env.API_URL }));
+  server.use(express.urlencoded({ extended: true }));
+  server.use(compression());
+  server.use(cookieParser());
+  server.use(express.json());
+
+  server.use('/api', studentRoute);
+
   try {
     databaseConnect()
       .then((response) => {
