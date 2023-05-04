@@ -8,6 +8,7 @@ import dotenv from 'dotenv';
 import databaseConnect from './database';
 
 import studentRoute from './routes/student.routes';
+import authRoute from './routes/auth.routes';
 
 (async () => {
   const server: Express = express();
@@ -21,6 +22,7 @@ import studentRoute from './routes/student.routes';
   server.use(cookieParser());
   server.use(express.json());
 
+  server.use('/api', authRoute);
   server.use('/api', studentRoute);
 
   try {

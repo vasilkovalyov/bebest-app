@@ -24,7 +24,8 @@ class RegistrationController {
       }
 
       const response = await strategy.registration();
-      return res.status(200).json(response);
+
+      return res.status(response.status).json(response);
     } catch (e) {
       if (!(e instanceof Error)) return;
       return res.status(400).json({
