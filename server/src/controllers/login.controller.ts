@@ -4,7 +4,12 @@ import LoginService from '../services/login.service';
 class LoginController {
   async login(req: Request, res: Response) {
     try {
-      const { email, password } = req.body;
+      const { email, password } = req.query;
+      if (typeof email !== 'string' || typeof password !== 'string') {
+        return res.status(200).json({
+          data: 'Error',
+        });
+      }
       const response = await LoginService.login(email, password);
       if (response) {
         res.set('Authorization', `Bearer ${response.token}`);
@@ -20,7 +25,7 @@ class LoginController {
     } catch (e) {
       if (!(e instanceof Error)) return;
       return res.status(400).json({
-        data: e.message,
+        error: e.message,
       });
     }
   }

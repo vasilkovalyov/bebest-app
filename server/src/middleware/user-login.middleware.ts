@@ -6,7 +6,7 @@ export default async function (
   res: Response,
   next: NextFunction
 ): Promise<void | Response> {
-  const { error } = studentRegistrationSchema.validate(req.body, {
+  const { error } = studentRegistrationSchema.validate(req.query, {
     abortEarly: false,
   });
   if (error) {
