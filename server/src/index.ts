@@ -12,7 +12,7 @@ import authRoute from './routes/auth.routes';
 
 (async () => {
   const server: Express = express();
-  const PORT = process.env.PORT || 3000;
+  const PORT = process.env.PORT || 4000;
   dotenv.config();
 
   server.use(bodyParser.json());
