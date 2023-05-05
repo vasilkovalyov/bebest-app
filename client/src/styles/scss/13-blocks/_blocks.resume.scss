@@ -1,0 +1,66 @@
+@import '../1-settings/settings.colors';
+@import '../1-settings/settings.fonts';
+@import '../1-settings/settings.spacing';
+@import '../1-settings/settings.radius';
+@import '../1-settings/settings.fonts';
+@import '../1-settings/settings.sizes';
+
+.resume {
+  &__category-image {
+    width: 34px;
+    height: 34px;
+    padding: 8px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &--education {
+      background-color: #ffe7e7;
+    }
+
+    &--work-experience {
+      background-color: #ffe7e7;
+    }
+
+    img {
+      width: 100%;
+    }
+  }
+
+  &__category-content {
+    display: flex;
+  }
+
+  &__category-heading-wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  &__category-heading {
+    &.MuiTypography.MuiTypography-root {
+      margin-bottom: 0;
+    }
+  }
+
+  &__category-content-left {
+    flex: 0 1 120px;
+    margin-right: 30px;
+  }
+
+  &__category-content-right {
+    flex: 1;
+  }
+
+  &__category-years {
+    color: $white;
+    background-color: $blue;
+    display: inline-block;
+    padding: $spacing-0-m $spacing-1-s;
+    border-radius: $radius-xxl;
+    font-weight: $weight-semibold;
+    font-size: $size-1-m;
+    width: 100%;
+  }
+}

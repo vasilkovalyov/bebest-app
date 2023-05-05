@@ -1,0 +1,29 @@
+@import '../1-settings/settings.colors';
+@import '../1-settings/settings.sizes';
+@import '../1-settings/settings.fonts';
+@import '../1-settings/settings.spacing';
+
+.breadcrumbs {
+  color: $grey-4;
+  font-size: $size-1-m;
+  font-family: $base-font;
+  padding: $spacing-2-s 0;
+
+  .MuiBreadcrumbs-separator {
+    color: $grey-4;
+  }
+
+  &__item {
+    text-decoration: none;
+    color: inherit;
+    font-size: inherit;
+    font-family: inherit;
+
+    &.MuiTypography-root {
+      text-decoration: none;
+      color: inherit;
+      font-size: inherit;
+      font-family: inherit;
+    }
+  }
+}

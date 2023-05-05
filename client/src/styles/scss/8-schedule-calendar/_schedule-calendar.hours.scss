@@ -1,0 +1,10 @@
+@import '../1-settings/settings.sizes';
+
+.schedule-calendar-hours {
+  .calendar-day-hours {
+    &__item {
+      height: 30px;
+      font-size: $size-1-m;
+    }
+  }
+}

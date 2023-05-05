@@ -1,0 +1,22 @@
+@import '../1-settings/settings.sizes';
+@import '../1-settings/settings.colors';
+
+.schedule-calendar-week-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  overflow: hidden;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+
+  &__cell {
+    padding: 10px;
+    font-size: $size-1-m;
+
+    &.active {
+      color: $primary-color !important;
+    }
+  }
+}

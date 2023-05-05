@@ -1,0 +1,90 @@
+@import '../1-settings/settings.colors';
+@import '../1-settings/settings.sizes';
+@import '../1-settings/settings.spacing';
+
+.calendar-day {
+  &__top-info {
+    margin-left: 100px;
+  }
+
+  &__date {
+    > span {
+      margin: 0 4px;
+    }
+
+    &--active {
+      &.MuiTypography-root {
+        color: $primary-color;
+      }
+    }
+  }
+
+  &__today-info {
+    font-size: $size-1-l;
+  }
+
+  &__control-button {
+    &.MuiButtonBase-root {
+      padding: $spacing-0-xs $spacing-0-m;
+      min-width: auto;
+      color: $black;
+
+      &:hover {
+        color: $white;
+        background: $primary-color;
+      }
+    }
+  }
+
+  &__control-button {
+    padding: 10px;
+  }
+
+  &__body {
+    display: flex;
+    height: 800px;
+    overflow-y: scroll;
+  }
+
+  &__body-left {
+    width: 100px;
+    padding: 0 20px;
+  }
+
+  &__body-right {
+    flex: 1;
+  }
+
+  &__cell-list {
+    &.MuiList-root {
+      position: relative;
+    }
+  }
+
+  &__cell {
+    &.MuiListItem-root {
+      position: relative;
+      height: 100px;
+      background-color: $grey-2;
+      padding: 6px;
+    }
+
+    &:not(:last-child) {
+      border-bottom: 1px solid #dfe3e7;
+    }
+  }
+
+  &__timeline {
+    position: absolute;
+    top: 40%;
+    left: -20px;
+    right: 0;
+    height: 1px;
+    border: 1px solid $primary-color;
+    z-index: 1;
+  }
+
+  .calendar-event {
+    overflow-y: auto;
+  }
+}

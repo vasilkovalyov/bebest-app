@@ -1,0 +1,14 @@
+.page-teacher-profile {
+  &__body {
+    display: flex;
+  }
+
+  &__content {
+    margin-right: 30px;
+    width: calc(100% - 400px);
+  }
+  &__aside {
+    max-width: 400px;
+    width: 100%;
+  }
+}

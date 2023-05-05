@@ -1,0 +1,40 @@
+.work-schedule {
+  &__body {
+    max-width: 600px;
+    width: 100%;
+    padding-right: 100px;
+  }
+
+  &__list-date-times {
+    &.MuiList-root {
+      padding: 0;
+    }
+
+    .MuiListItem-root {
+      padding: 0;
+    }
+  }
+
+  &__item {
+    position: relative;
+  }
+
+  .form-button-field {
+    padding: 0;
+    min-width: auto;
+    position: absolute;
+    top: auto;
+    right: 0;
+    width: 30px;
+    height: 20px;
+    bottom: 10px;
+    transform: none;
+
+    &:nth-child(1) {
+      right: 0;
+    }
+    &:nth-child(2) {
+      right: -30px;
+    }
+  }
+}

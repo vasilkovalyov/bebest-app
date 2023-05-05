@@ -1,0 +1,21 @@
+.lessons-calendar-month-days {
+  display: grid;
+  grid-template-columns: repeat(31, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  overflow: hidden;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+
+  &__cell {
+    padding: 4px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &.active {
+    }
+  }
+}

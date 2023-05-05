@@ -1,0 +1,40 @@
+@import '../1-settings/settings.colors';
+@import '../1-settings/settings.radius';
+
+.MuiButtonBase-root {
+  border-radius: $radius-md !important;
+
+  &.Mui-disabled {
+    color: $white;
+    opacity: 0.7;
+  }
+
+  &.MuiButton-containedPrimary {
+    background: $primary-gradient;
+
+    &:hover {
+      color: $white;
+      background: $secondary-gradient;
+      border-color: $primary-color;
+    }
+  }
+
+  &.MuiButton-outlinedPrimary {
+    color: $primary-color;
+    border: 1px solid $primary-color;
+
+    &:hover {
+      color: $white;
+      background: $primary-gradient;
+      border-color: $primary-color;
+    }
+  }
+
+  &.MuiButton-containedSuccess {
+    background-color: $green;
+
+    &:hover {
+      background-color: darken($green, 10%);
+    }
+  }
+}

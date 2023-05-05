@@ -1,0 +1,12 @@
+@import '../1-settings/settings.colors';
+@import '../1-settings/settings.spacing';
+@import '../1-settings/settings.radius';
+
+.opportunity-variants {
+  &__item {
+    background-color: #f0f4f8;
+    border-radius: $radius-xxl;
+    padding: $spacing-0-xs $spacing-2-s;
+    color: rgba($dark-blue-1, 0.8);
+  }
+}

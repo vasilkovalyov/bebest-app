@@ -1,0 +1,17 @@
+@import '../1-settings/settings.colors';
+@import '../1-settings/settings.radius';
+@import '../1-settings/settings.shadows';
+@import '../1-settings/settings.spacing';
+@import '../1-settings/settings.responsive';
+
+.page-registration {
+  .container--registration {
+    max-width: 380px;
+    width: 100%;
+    margin: 0 auto 50px;
+
+    @media (min-width: $screen-lg) {
+      padding: $spacing-4-s $spacing-4-l;
+    }
+  }
+}

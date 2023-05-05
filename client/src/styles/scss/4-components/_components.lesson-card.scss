@@ -1,0 +1,30 @@
+@import '../1-settings/settings.colors';
+@import '../1-settings/settings.spacing';
+@import '../1-settings/settings.radius';
+@import '../1-settings/settings.sizes';
+
+.lesson-card {
+  background: $light-blue-3;
+  border: 1px solid $light-blue-2;
+  padding: $spacing-2-l $spacing-2-l $spacing-1-s;
+
+  &__badge {
+    border-radius: $radius-xxl;
+    padding: $spacing-0-s $spacing-1-s$spacing-0-s $spacing-1-m;
+    font-size: $size-1-s;
+
+    svg {
+      vertical-align: middle;
+      margin-bottom: 2px;
+      margin-right: 6px;
+    }
+  }
+
+  &__badge--date {
+    background-color: $green-light;
+  }
+
+  &__badge--time {
+    background-color: $pink-light;
+  }
+}

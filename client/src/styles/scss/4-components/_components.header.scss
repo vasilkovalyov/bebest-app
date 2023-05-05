@@ -1,0 +1,63 @@
+@import '../1-settings/settings.colors';
+@import '../1-settings/settings.fonts';
+@import '../1-settings/settings.sizes';
+@import '../1-settings/settings.spacing';
+@import '../1-settings/settings.responsive';
+
+.header {
+  padding: $spacing-1-m 0;
+  background: $white;
+  box-shadow: 0px 4px 50px rgba(42, 102, 193, 0.08);
+
+  &__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__logo {
+    display: inline-block;
+    max-width: 100px;
+    width: 100%;
+
+    @media (min-width: $screen-sm) {
+      max-width: 150px;
+    }
+  }
+
+  &__main-nav {
+  }
+
+  &__auth-list {
+  }
+
+  &__auth-list-item {
+    display: inline-flex;
+    align-items: center;
+
+    > svg {
+      margin-right: 8px;
+    }
+  }
+
+  &__auth-button {
+    font-size: $size-1-m;
+    text-decoration: none;
+  }
+
+  &__nav {
+    @media (max-width: $screen-sm-max) {
+      display: none;
+    }
+  }
+
+  &__nav-item {
+  }
+
+  &__nav-link {
+    color: $dark-blue-1;
+    font-size: $size-1-m;
+    font-family: $base-font;
+    text-decoration: none;
+  }
+}

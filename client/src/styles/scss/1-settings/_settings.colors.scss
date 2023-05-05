@@ -1,0 +1,37 @@
+$black: #292c32;
+$black-2: #191919;
+$white: #ffffff;
+
+$pink: #f04973;
+$blue: #55abfa;
+$aqua: #00d2ff;
+$aqua-dark: #2596ff;
+$blue: #55abfa;
+$orange: #fa6655;
+$gold: #ffc452;
+$green: #28da9a;
+
+$pink-light: #ffdee4;
+$yellow-light: #fdecc8;
+$violet-light: #e1daff;
+$aqua-light: #d0eefb;
+$green-light: #c7f2eb;
+
+//grey colors
+$grey-1: #c6ced3;
+$grey-2: #f2f5fa;
+$grey-3: #8b919e;
+$grey-4: #7d7f83;
+
+//blues colors
+$dark-blue-1: #454b58;
+
+$light-blue-1: #e2eefc;
+$light-blue-2: #dce3e8;
+$light-blue-3: #f7f9fc;
+
+$primary-color: $pink;
+//gradients
+
+$primary-gradient: linear-gradient(90deg, $pink 0%, $orange 100%);
+$secondary-gradient: linear-gradient(90deg, $aqua 0%, $aqua-dark 100%);

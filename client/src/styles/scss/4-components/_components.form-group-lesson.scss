@@ -1,0 +1,28 @@
+@import '../1-settings/settings.colors';
+@import '../1-settings/settings.spacing';
+@import '../1-settings/settings.radius';
+@import '../1-settings/settings.sizes';
+
+.form-group-lesson {
+  &__date-event {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+
+    .MuiFormControl-root {
+      width: 48%;
+    }
+  }
+
+  &__date-event-label {
+    width: 100%;
+    &.MuiTypography.MuiTypography-root {
+      font-size: $size-1-s;
+    }
+  }
+
+  &__button {
+    margin-right: 20px;
+  }
+}

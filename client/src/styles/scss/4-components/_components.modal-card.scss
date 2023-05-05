@@ -1,0 +1,46 @@
+@import '../1-settings/settings.colors';
+@import '../1-settings/settings.spacing';
+@import '../1-settings/settings.responsive';
+@import '../2-tools/tools.mixins';
+
+.modal-card {
+  @media (max-width: $screen-sm-max) {
+    height: 100vh;
+    overflow-y: scroll;
+  }
+
+  &.modal-card-default {
+    display: flex;
+    background-color: $white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: $spacing-3-l $spacing-4-l;
+    max-width: 774px;
+    width: 100%;
+  }
+
+  &.modal-card-full {
+    background-color: $white;
+    height: 100vh;
+    display: flex;
+    padding: $spacing-2-s;
+  }
+
+  &__body {
+    width: 100%;
+  }
+
+  &__button-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    height: 64px;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+}

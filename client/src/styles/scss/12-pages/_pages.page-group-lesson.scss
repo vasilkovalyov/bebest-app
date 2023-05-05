@@ -1,0 +1,21 @@
+@import '../1-settings/settings.colors';
+@import '../1-settings/settings.radius';
+@import '../1-settings/settings.shadows';
+@import '../1-settings/settings.spacing';
+@import '../1-settings/settings.responsive';
+
+.page-group-lesson {
+  &__body {
+    display: flex;
+  }
+
+  &__left {
+    width: calc(100% - 500px);
+  }
+
+  &__right {
+    width: 500px;
+    margin-left: 30px;
+    display: flex;
+  }
+}

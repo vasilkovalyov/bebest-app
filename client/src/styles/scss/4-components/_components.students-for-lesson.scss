@@ -1,0 +1,63 @@
+@import '../1-settings/settings.colors';
+@import '../1-settings/settings.radius';
+@import '../1-settings/settings.spacing';
+@import '../1-settings/settings.sizes';
+
+.students-for-lesson {
+  &__field-box {
+    position: relative;
+
+    .MuiAutocomplete-clearIndicator {
+      right: 20px;
+    }
+  }
+
+  &__field-button {
+    &.MuiButtonBase-root {
+      position: absolute;
+      top: 21px;
+      right: 0;
+      bottom: 0;
+      border-radius: $radius-xxl !important;
+      background: $primary-gradient;
+      padding: 0;
+      min-width: 36px;
+      height: 36px;
+      z-index: 2;
+
+      .form-button-field__icon {
+        margin: 0;
+        svg {
+          fill: $white !important;
+        }
+      }
+    }
+  }
+
+  &__list {
+    border: 1px solid $light-blue-2;
+  }
+
+  &__list-item {
+    position: relative;
+    font-size: $size-1-m;
+    padding: $spacing-0-m $spacing-1-l;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid $light-blue-2;
+    }
+  }
+
+  &__list-item-button {
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    transform: translateY(-50%);
+    min-width: auto;
+    padding: 0;
+
+    .form-button-field__icon {
+      margin-right: 0;
+    }
+  }
+}

@@ -1,0 +1,24 @@
+@import '1-settings/_settings';
+@import '2-tools/_tools';
+@import '3-generic/_generic';
+@import '4-components/_components';
+@import '5-forms/_forms';
+@import '6-calendar/_calendar';
+@import '7-lessons-calendar/_lessons-calendar';
+@import '8-schedule-calendar/_schedule-calendar';
+@import '9-layouts/_layouts';
+@import '10-sections/_sections';
+@import '11-utils/_utils';
+@import '12-pages/_pages';
+@import '13-blocks/_blocks';
+
+.form-step {
+  &--hide {
+    display: none;
+  }
+
+  &--disable {
+    pointer-events: none;
+    opacity: 0.7;
+  }
+}

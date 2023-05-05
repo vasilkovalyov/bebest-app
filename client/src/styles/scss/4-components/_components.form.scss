@@ -1,0 +1,210 @@
+@import '../1-settings/settings.colors';
+@import '../1-settings/settings.sizes';
+@import '../1-settings/settings.fonts';
+@import '../1-settings/settings.radius';
+@import '../1-settings/settings.spacing';
+@import '../1-settings/settings.responsive';
+
+.MuiTextField-root {
+  .MuiInputLabel-standard {
+    color: $grey-3;
+    font-weight: $weight-medium;
+    font-size: $size-1-m;
+    line-height: $base-lh;
+    font-family: $base-font;
+    text-transform: capitalize;
+
+    &.Mui-focused {
+      color: $grey-3;
+    }
+
+    &.Mui-error {
+      color: $grey-3;
+    }
+  }
+
+  .MuiFormHelperText-root {
+    &.Mui-error {
+      color: $primary-color;
+      text-align: right;
+    }
+  }
+
+  .MuiInput-root {
+    background-color: $grey-2;
+    border-radius: $radius-xxl;
+    padding: $spacing-0-xs $spacing-1-m;
+    overflow: hidden;
+
+    &.MuiInputBase-adornedEnd {
+      padding-right: 30px !important;
+      // width: calc(100% - 40px);
+      // overflow: visible;
+
+      // .MuiButtonBase-root {
+      //   position: absolute;
+      //   top: 50%;
+      //   transform: translateY(-50%);
+      //   right: -40px;
+      //   min-width: auto;
+      //   padding: 0;
+      //   margin: 0;
+      // }
+    }
+
+    &.Mui-error {
+      border: 1px solid $primary-color;
+    }
+
+    &::before,
+    &:after {
+      display: none;
+    }
+
+    input {
+      color: $dark-blue-1;
+      font-weight: $weight-medium;
+      font-size: $size-1-m;
+      line-height: $base-lh;
+      font-family: $base-font;
+    }
+  }
+}
+
+.MuiFormControlRadio {
+  &.MuiFormControlLabel-root {
+    .MuiRadio-root {
+      &:hover {
+        background-color: transparent;
+      }
+    }
+    .MuiSvgIcon-root {
+      &:nth-child(1) {
+        fill: $grey-1;
+      }
+      &:nth-child(2) {
+        fill: $primary-color;
+      }
+    }
+  }
+}
+
+.form-button-field {
+  padding-left: 0;
+  margin-bottom: 10px;
+
+  &--add {
+    right: -20px;
+  }
+
+  &--edit {
+    right: -20px;
+  }
+
+  &--remove {
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: -20px;
+  }
+
+  &__icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid $primary-color;
+    margin-right: 6px;
+  }
+
+  &__text {
+  }
+}
+
+.form-account {
+  .MuiFormControl-root {
+    @media (min-width: $screen-sm) {
+      max-width: 330px;
+    }
+  }
+
+  &__additional-button {
+    color: $grey-3;
+    padding: 0;
+    text-decoration: underline;
+    text-transform: initial;
+    padding-top: 10px;
+
+    @media (min-width: $screen-sm) {
+      margin-left: 10px;
+      margin-bottom: 8px;
+    }
+
+    @media (min-width: $screen-md) {
+    }
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+}
+
+.form-private-data {
+  .MuiInput-root {
+    &.MuiInputBase-adornedEnd {
+      width: calc(100% - 60px);
+      overflow: visible;
+
+      .MuiButtonBase-root {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        min-width: auto;
+        padding: 0;
+        margin: 0;
+
+        &:nth-of-type(1) {
+          right: -30px;
+        }
+        &:nth-of-type(2) {
+          right: -60px;
+        }
+        &:nth-of-type(3) {
+          right: -90px;
+        }
+      }
+    }
+  }
+}
+
+.MuiSlider-root {
+  .MuiSlider-rail {
+    background-color: $light-blue-2;
+  }
+
+  .MuiSlider-track {
+    background-color: $primary-color;
+    border-color: $primary-color;
+    border: none;
+  }
+
+  .MuiSlider-thumb {
+    width: 14px;
+    height: 14px;
+    background-color: $white;
+    border: 2px solid $primary-color;
+
+    &.Mui-focusVisible {
+      box-shadow: 0px 0px 0px 8px rgb(240 73 115 / 16%);
+    }
+
+    &:hover {
+      box-shadow: 0px 0px 0px 8px rgb(240 73 115 / 16%);
+    }
+  }
+}

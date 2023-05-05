@@ -1,0 +1,52 @@
+@import '../1-settings/settings.sizes';
+@import '../1-settings/settings.spacing';
+
+.calendar-week {
+  &__top-info {
+    margin-left: 100px;
+  }
+
+  &__date {
+    font-size: $size-2-xs;
+
+    > span {
+      margin: 0 4px;
+    }
+  }
+
+  &__today-info {
+    font-size: $size-1-l;
+  }
+
+  &__control-button {
+    &.MuiButtonBase-root {
+      padding: $spacing-0-xs $spacing-0-m;
+      min-width: auto;
+      color: $black;
+
+      &:hover {
+        color: $white;
+        background: $primary-color;
+      }
+    }
+  }
+
+  &__body {
+    display: flex;
+    height: 800px;
+    overflow-y: scroll;
+  }
+
+  &__body-left {
+    width: 100px;
+    padding: calc($spacing-4-m * 2) $spacing-2-s 0;
+  }
+
+  &__body-right {
+    flex: 1;
+  }
+
+  .calendar-event {
+    overflow-y: auto;
+  }
+}

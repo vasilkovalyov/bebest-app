@@ -1,0 +1,59 @@
+.lessons-calendar {
+  padding: 20px 0;
+  box-shadow: 0px 10px 60px rgba(42, 102, 193, 0.15);
+  border-radius: 10px;
+  overflow: hidden;
+
+  &__heading {
+    font-size: 20px;
+  }
+
+  &__current-time {
+    padding: 8px 14px;
+    background-color: #ffdee4;
+    display: inline-block;
+    border-radius: 20px;
+    margin-bottom: 20px;
+
+    > div {
+      display: inline-block;
+    }
+
+    svg {
+      vertical-align: middle;
+      margin-bottom: 2px;
+      margin-right: 10px;
+    }
+
+    &-text {
+      display: inline-block;
+      vertical-align: middle;
+      font-size: 15px;
+    }
+  }
+
+  &__control-button {
+    padding: 10px;
+  }
+
+  &__body {
+    display: flex;
+  }
+
+  &__body-left {
+    width: 100px;
+    padding: 42px 20px 0;
+  }
+
+  &__body-right {
+    position: relative;
+    flex: 1;
+  }
+
+  &__event-cell {
+    cursor: pointer;
+    z-index: 1;
+    outline: none;
+    border: none;
+  }
+}

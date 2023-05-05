@@ -1,0 +1,40 @@
+@import '../1-settings/settings.fonts';
+@import '../1-settings/settings.colors';
+@import '../2-tools/tools.mixins';
+
+.private-lessons-list {
+  .teacher-paid-card {
+  }
+
+  .private-lesson-tooltip-container {
+    max-width: 246px;
+    width: 100%;
+    position: absolute;
+    top: 60px;
+    right: 26px;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 1;
+    background-color: $white;
+    @include animate(visibility opacity);
+
+    .MuiButtonBase-root {
+      width: 100%;
+    }
+  }
+
+  &__item {
+    position: relative;
+
+    &:hover {
+      .teacher-paid-card {
+        border-color: $primary-color;
+      }
+
+      .private-lesson-tooltip-container {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+  }
+}

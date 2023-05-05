@@ -1,0 +1,27 @@
+@import '../1-settings/settings.colors';
+@import '../1-settings/settings.radius';
+@import '../1-settings/settings.spacing';
+
+.lesson-schedule-card-position-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s 0.3s linear, visibility 0.3s 0.3s linear;
+  z-index: 3;
+
+  &--show {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.lesson-schedule-card {
+  background: $white;
+  box-shadow: 0px 10px 60px #dfe8f6;
+  border-radius: $radius-lg;
+  padding: $spacing-2-l;
+  min-width: 270px;
+  width: 100%;
+}

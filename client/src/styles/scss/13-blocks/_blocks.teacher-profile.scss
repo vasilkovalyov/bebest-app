@@ -1,0 +1,66 @@
+@import '../1-settings/settings.colors';
+@import '../1-settings/settings.fonts';
+@import '../1-settings/settings.spacing';
+@import '../1-settings/settings.radius';
+@import '../2-tools/tools.mixins';
+
+.teacher-profile {
+  &.teacher-profile--has-shadow &__video-preview {
+    margin-top: -$spacing-3-l;
+    margin-left: -$spacing-3-l;
+    margin-right: -$spacing-3-l;
+  }
+
+  &__video-preview {
+    position: relative;
+    height: 60vw;
+    max-height: 400px;
+    margin-bottom: $spacing-4-s;
+
+    iframe,
+    video {
+      @include fillCover;
+      @include absoluteCover;
+    }
+  }
+
+  &__body {
+    display: flex;
+  }
+
+  &__body-left {
+    width: 140px;
+    margin-right: 30px;
+  }
+
+  &__body-right {
+    width: calc(100% - 170px);
+  }
+
+  &__image {
+    img {
+      width: 100%;
+    }
+  }
+
+  &__services {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  &__service-col {
+    width: calc(50% - 10px);
+  }
+
+  &__service-heading {
+  }
+
+  &__service-list {
+    > span {
+      &:not(:last-child) {
+        margin-right: 10px;
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+.booking-test-lesson {
+  &__body {
+    width: 100%;
+  }
+
+  &__heading {
+  }
+
+  &__info-list {
+    margin-bottom: 18px;
+  }
+
+  &__info {
+    &.MuiListItem-root {
+      padding: 0;
+    }
+  }
+
+  &__button {
+    width: 100%;
+  }
+}

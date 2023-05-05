@@ -1,0 +1,24 @@
+@import '../1-settings/settings.colors';
+@import '../1-settings/settings.sizes';
+
+.form-filter {
+  .MuiListItem-root {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  &__reset-button {
+    &.MuiButtonBase-root {
+      color: $primary-color;
+      text-decoration: underline;
+      font-size: $size-1-m;
+      text-transform: capitalize;
+      margin: 0 auto;
+
+      &:hover {
+        background-color: transparent;
+        text-decoration: none;
+      }
+    }
+  }
+}

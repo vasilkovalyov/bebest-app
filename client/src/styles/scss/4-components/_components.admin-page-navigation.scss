@@ -1,0 +1,30 @@
+@import '../1-settings/settings.colors';
+@import '../1-settings/settings.spacing';
+
+.admin-page-navigation {
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    padding: $spacing-0-l 0;
+    text-decoration: none;
+    border-bottom: 1px solid $light-blue-2;
+
+    &:first-child {
+      border-top: 1px solid $light-blue-2;
+    }
+
+    .MuiTypography {
+      color: $dark-blue-1;
+    }
+  }
+
+  &__link--active {
+    .MuiTypography {
+      color: $primary-color;
+    }
+  }
+
+  &__link-icon {
+    margin-right: 12px;
+  }
+}

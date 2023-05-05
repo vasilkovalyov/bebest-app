@@ -1,0 +1,65 @@
+@import '../1-settings/settings.colors';
+@import '../1-settings/settings.fonts';
+@import '../1-settings/settings.spacing';
+@import '../1-settings/settings.radius';
+
+.register-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-4-s $spacing-2-s $spacing-2-s;
+  background-color: $white;
+  border-radius: $radius-lg;
+  min-height: 200px;
+  border: 1px solid transparent;
+  box-shadow: 0px 10px 60px rgba(#dfe8f6, 0.15);
+  transition: border-color 0.3s linear, box-shadow 0.3s linear;
+
+  @media (min-width: 768px) {
+    padding: $spacing-5-m $spacing-2-s $spacing-2-s;
+    min-height: 280px;
+  }
+
+  &:hover {
+    border-color: $primary-color;
+    box-shadow: 0px 10px 60px rgba(#dfe8f6, 0);
+
+    .register-card__circle {
+      border-width: 2px;
+      border-color: $primary-color;
+
+      &::before {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+  }
+
+  &__circle {
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1px solid $grey-1;
+    transition: border 0.3s linear;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: $primary-color;
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0.3s linear, opacity 0.3s linear;
+    }
+  }
+}
