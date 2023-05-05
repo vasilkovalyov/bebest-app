@@ -29,6 +29,19 @@ class StudentController {
       });
     }
   }
+
+  async changePassword(req: Request, res: Response) {
+    try {
+      const { userId, password } = req.body;
+      const response = await UserService.changePassword(userId, password);
+      return res.status(200).json(response);
+    } catch (e) {
+      if (!(e instanceof Error)) return;
+      return res.status(400).json({
+        data: e.message,
+      });
+    }
+  }
 }
 
 export default new StudentController();

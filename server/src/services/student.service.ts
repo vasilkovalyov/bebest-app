@@ -37,16 +37,39 @@ class StudentService {
     });
 
     if (!user)
-      throw ApiError.BadRequestError(`User with email ${id} not a found!`);
+      throw ApiError.BadRequestError(`User with id ${id} not a found!`);
 
     const studentUser = await StudentModel.deleteOne({
       _id: id,
     });
 
     if (!studentUser)
-      throw ApiError.BadRequestError(`Student with email ${id} not a found!`);
+      throw ApiError.BadRequestError(`Student with id ${id} not a found!`);
 
     return true;
+  }
+
+  async changePassword(id: string, password: string) {
+    const studentModel = await StudentModel.findByIdAndUpdate(
+      { _id: id },
+      {
+        password: password,
+      },
+      {
+        new: true,
+      }
+    );
+
+    if (!studentModel)
+      throw ApiError.BadRequestError(`Student with id ${id} not a found!`);
+
+    return {
+      data: {
+        status: 200,
+        data: true,
+        message: 'Password has been update successfully!',
+      },
+    };
   }
 }
 
