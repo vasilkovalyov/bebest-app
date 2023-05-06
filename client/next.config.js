@@ -11,11 +11,4 @@ module.exports = {
     // Will be available on both server and client
     apiUrl: process.env.API_URL,
   },
-  // basePath: '/',
-  // images: {
-  //   loader: 'akamai',
-  //   path: '',
-  // },
-  // basePath: '/',
-  // assetPrefix: '/learning-platform',
 }

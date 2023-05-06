@@ -1,16 +1,40 @@
+import NextApp from 'next/app'
 import type { AppProps } from 'next/app'
-import { GetServerSidePropsContext } from 'next'
+import { AuthProvider } from '../context/auth-context'
+import { parseCookies } from 'nookies'
 
 import '../styles/scss/main.scss'
 
-export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+interface IAppProps {
+  userId: string
 }
 
-export const getServerSideProps = async (
-  context: GetServerSidePropsContext
-): Promise<{ props: any }> => {
+interface IInitialProps {
+  pageProps: IAppProps
+}
+
+export default function App({ Component, pageProps }: AppProps<IAppProps>) {
+  return (
+    <AuthProvider {...pageProps}>
+      <Component />
+    </AuthProvider>
+  )
+}
+
+App.getInitialProps = async ({ ctx }: any): Promise<IInitialProps> => {
+  const { token } = parseCookies(ctx)
+
+  if (token) {
+    return {
+      pageProps: {
+        userId: token,
+      },
+    }
+  }
+
   return {
-    props: {},
+    pageProps: {
+      userId: '',
+    },
   }
 }

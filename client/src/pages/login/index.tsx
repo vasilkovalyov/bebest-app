@@ -3,6 +3,8 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { AxiosError } from 'axios'
 
+import { useAuthContext } from '@/context/auth-context'
+
 import pages from '@/constants/pages'
 
 import Layout from '@/components/Layout'
@@ -14,6 +16,7 @@ import Container from '@mui/material/Container'
 import { loginUser, ILogin } from '@/components/Forms/Login/Login.service'
 
 function PageLogin() {
+  const { setUserId } = useAuthContext()
   const router = useRouter()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
@@ -25,12 +28,14 @@ function PageLogin() {
       if (response.status === 200) {
         setErrorMessage(null)
       }
-      router.push(pages.admin)
+      router.push(pages.admin).then(() => {
+        setUserId(response.data.data.token)
+        setIsLoading(false)
+      })
     } catch (e) {
       if (e instanceof AxiosError) {
         setErrorMessage(e.response?.data.error)
       }
-    } finally {
       setIsLoading(false)
     }
   }
