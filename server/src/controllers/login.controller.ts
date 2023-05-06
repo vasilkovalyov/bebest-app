@@ -13,7 +13,12 @@ class LoginController {
       const response = await LoginService.login(email, password);
       if (response) {
         res.set('Authorization', `Bearer ${response.token}`);
-        res.cookie('Bearer', response.token, {
+        res.cookie('token', response.token, {
+          domain: process.env.DOMAIN,
+          path: '/',
+          secure: false,
+        });
+        res.cookie('role', response.role, {
           domain: process.env.DOMAIN,
           path: '/',
           secure: false,
