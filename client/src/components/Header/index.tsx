@@ -7,8 +7,11 @@ import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
 
 import pages from '@/constants/pages'
+import { useAuthContext } from '@/context/auth-context'
 
 function Header() {
+  const { userId } = useAuthContext()
+
   return (
     <header className="header">
       <Container className="header__container">
@@ -26,30 +29,35 @@ function Header() {
           spacing={1}
           className="header__auth-list"
         >
-          <Box className="header__auth-list-item">
-            <Link
-              href={pages.login}
-              className="header__auth-button font-semibold color-dark-blue-1"
-            >
-              Sign in
-            </Link>
-          </Box>
-          <Box className="header__auth-list-item">
-            <Link
-              href={pages.registration}
-              className="header__auth-button font-semibold color-dark-blue-1"
-            >
-              Sign up
-            </Link>
-          </Box>
-          <Box className="header__auth-list-item">
-            <Link
-              href={pages.admin}
-              className="header__auth-button font-semibold color-dark-blue-1"
-            >
-              Admin
-            </Link>
-          </Box>
+          {userId ? (
+            <Box className="header__auth-list-item">
+              <Link
+                href={pages.admin}
+                className="header__auth-button font-semibold color-dark-blue-1"
+              >
+                Admin
+              </Link>
+            </Box>
+          ) : (
+            <>
+              <Box className="header__auth-list-item">
+                <Link
+                  href={pages.login}
+                  className="header__auth-button font-semibold color-dark-blue-1"
+                >
+                  Sign in
+                </Link>
+              </Box>
+              <Box className="header__auth-list-item">
+                <Link
+                  href={pages.registration}
+                  className="header__auth-button font-semibold color-dark-blue-1"
+                >
+                  Sign up
+                </Link>
+              </Box>
+            </>
+          )}
         </Stack>
       </Container>
     </header>

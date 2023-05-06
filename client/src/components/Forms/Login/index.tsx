@@ -99,7 +99,7 @@ function LoginForm({
           </Box>
         )}
         <Box display="flex" alignItems="center">
-          <Button type="submit" variant="contained">
+          <Button type="submit" variant="contained" disabled={isLoading}>
             Sign in
           </Button>
           <Box ml={2}>{isLoading ? <CircularProgress size={16} /> : null}</Box>
