@@ -1,3 +1,5 @@
+import cn from 'classnames'
+
 import { ILayoutProps } from './Layout.type'
 import Head from 'next/head'
 import Header from '../Header'
@@ -6,6 +8,7 @@ function Layout({
   title = 'Title',
   description = 'Description',
   children,
+  className,
 }: ILayoutProps) {
   return (
     <div id="wrapper">
@@ -16,7 +19,7 @@ function Layout({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <main>{children}</main>
+      <main className={cn(className)}>{children}</main>
       <footer></footer>
     </div>
   )
