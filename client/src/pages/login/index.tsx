@@ -2,11 +2,8 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { AxiosError } from 'axios'
-import { getCookie } from 'cookies-next'
 
 import pages from '@/constants/pages'
-import { PUBLIC_REQUESTS } from '@/constants/api-requests'
-import { useAjax } from '@/hooks/useAjax'
 
 import Layout from '@/components/Layout'
 import LoginForm from '@/components/Forms/Login'

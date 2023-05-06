@@ -1,5 +1,5 @@
 import type { AppProps } from 'next/app'
-import { GetServerSidePropsContext, GetServerSideProps } from 'next'
+import { GetServerSidePropsContext } from 'next'
 
 import '../styles/scss/main.scss'
 

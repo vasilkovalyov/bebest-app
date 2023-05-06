@@ -20,13 +20,6 @@ function Header() {
             height={30}
           />
         </Link>
-        {/* <nav className="header__navigation"></nav> */}
-        {/* <Box className="header__auth-profile">
-          <Stack direction="row">
-            <Link href={pages.login}>Login</Link>
-            <Link href={pages.registration}>Registration</Link>
-          </Stack>
-        </Box> */}
         <Stack
           direction="row"
           divider={<Divider orientation="vertical" flexItem />}

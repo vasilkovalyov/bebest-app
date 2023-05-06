@@ -1,5 +1,5 @@
 import $api from '@/utils/ajax'
-import { AxiosError, AxiosResponse } from 'axios'
+import { AxiosResponse } from 'axios'
 import { PUBLIC_REQUESTS } from '@/constants/api-requests'
 import { UserRole } from '@/types/role'
 
