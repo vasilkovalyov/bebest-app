@@ -1,5 +1,5 @@
 /** @type {import('next').NextConfig} */
-const path = require('path');
+const path = require('path')
 
 module.exports = {
   sassOptions: {
@@ -7,6 +7,10 @@ module.exports = {
   },
   swcMinify: true,
   reactStrictMode: false,
+  publicRuntimeConfig: {
+    // Will be available on both server and client
+    apiUrl: process.env.API_URL,
+  },
   // basePath: '/',
   // images: {
   //   loader: 'akamai',
@@ -14,4 +18,4 @@ module.exports = {
   // },
   // basePath: '/',
   // assetPrefix: '/learning-platform',
-};
+}
