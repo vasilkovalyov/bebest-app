@@ -1,3 +1,4 @@
+import { IAuthUserInfo } from '@/services/auth'
 import React, {
   ReactNode,
   createContext,
@@ -8,24 +9,25 @@ import React, {
 } from 'react'
 
 interface IAuthContextProps {
-  userId: string
-  setUserId: Dispatch<SetStateAction<string>>
+  user: IAuthUserInfo | null
+  setUser: Dispatch<SetStateAction<IAuthUserInfo | null>>
 }
 
 interface IAuthProviderProps {
   children: React.ReactNode
-  userId: string
+  user: IAuthUserInfo | null
 }
 
 export const AuthContext = createContext<IAuthContextProps>({
-  userId: '',
-  setUserId: (): string => '',
+  user: null,
+  setUser: (): string => '',
 })
 
-export function AuthProvider({ children, userId: id }: IAuthProviderProps) {
-  const [userId, setUserId] = useState<string>(id)
+export function AuthProvider({ children, user: userData }: IAuthProviderProps) {
+  const [user, setUser] = useState<IAuthUserInfo | null>(userData)
+
   return (
-    <AuthContext.Provider value={{ userId, setUserId }}>
+    <AuthContext.Provider value={{ user, setUser }}>
       {children}
     </AuthContext.Provider>
   )
