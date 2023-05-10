@@ -14,11 +14,14 @@ router.post(
 );
 
 router.delete('/delete/student', authMiddleware, StudentController.removeUser);
+
 router.post(
   '/update-password/student',
   authMiddleware,
   userChangePasswordMiddleware,
   StudentController.changePassword
 );
+
+router.get('/user-info/student', authMiddleware, StudentController.getUserInfo);
 
 export default router;

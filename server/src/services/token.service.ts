@@ -2,6 +2,13 @@ import jwt from 'jsonwebtoken';
 import { UserRole } from '../types/role';
 import expiresAuth from '../constants/expiresAuth';
 
+export interface ITokenVerifyResponse {
+  _id: string;
+  role: UserRole;
+  iat: number;
+  exp: number;
+}
+
 class TokenService {
   async generateTokens(
     payload: { _id: string; role: UserRole },
@@ -27,15 +34,11 @@ class TokenService {
   }
 
   async validateAccessToken(accessToken) {
-    try {
-      const userData = await jwt.verify(
-        accessToken,
-        process.env.JWT_ACCESS_SECRET || ''
-      );
-      return userData;
-    } catch (e) {
-      return null;
-    }
+    const userData = await jwt.verify(
+      accessToken,
+      process.env.JWT_ACCESS_SECRET || ''
+    );
+    return userData;
   }
 }
 

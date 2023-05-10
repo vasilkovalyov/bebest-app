@@ -1,6 +1,6 @@
 import ApiError from '../utils/api-error';
-import StudentModel, { StudentModelType } from '../models/student.model';
-import UserModel, { UserModelType } from '../models/user.model';
+import StudentModel from '../models/student.model';
+import UserModel from '../models/user.model';
 import bcrypt from 'bcrypt';
 
 class StudentService {
@@ -39,12 +39,20 @@ class StudentService {
       throw ApiError.BadRequestError(`Student with id ${id} not a found!`);
 
     return {
-      data: {
-        status: 200,
-        data: true,
-        message: 'Password has been update successfully!',
-      },
+      message: 'Password has been update successfully!',
     };
+  }
+
+  async getUserInfo(id: string) {
+    const studentModel = await StudentModel.findOne({ _id: id }).select(
+      '_id name surname email role phone about'
+    );
+
+    if (!studentModel) {
+      throw ApiError.BadRequestError(`Student with id ${id} not a found!`);
+    }
+
+    return studentModel;
   }
 }
 
