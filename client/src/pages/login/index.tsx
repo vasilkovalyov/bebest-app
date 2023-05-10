@@ -1,20 +1,23 @@
+// libs
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { AxiosError } from 'axios'
 
-import { useAuthContext } from '@/context/auth-context'
-
-import pages from '@/constants/pages'
-
+// material ui components
 import Layout from '@/components/Layout'
 import LoginForm from '@/components/Forms/Login'
 import Breadcrumbs from '@mui/material/Breadcrumbs'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 
+// custom components
 import { loginUser, ILogin } from '@/components/Forms/Login/Login.service'
+
+// other utils
+import { useAuthContext } from '@/context/auth-context'
 import { getUserInfo } from '@/services/auth'
+import pages from '@/constants/pages'
 
 function PageLogin() {
   const { setUser } = useAuthContext()

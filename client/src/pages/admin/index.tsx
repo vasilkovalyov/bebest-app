@@ -1,4 +1,7 @@
+// custom components
 import Layout from '@/components/Layout'
+
+// other utils
 import { useAuthContext } from '@/context/auth-context'
 
 export default function PageAdmin() {

@@ -1,11 +1,13 @@
+// libs
 import type { AppProps } from 'next/app'
+
+// other utils
+import { AuthProvider } from '@/context/auth-context'
+import { IAuthUserInfo, isAuth, getUserInfo } from '@/services/auth'
 import pages from '@/constants/pages'
-import { AuthProvider } from '../context/auth-context'
 
-import { IAuthUserInfo, isAuth } from '@/services/auth'
-import { getUserInfo } from '@/services/auth'
-
-import '../styles/scss/main.scss'
+// styles
+import '@/styles/scss/main.scss'
 
 export default function App({
   Component,

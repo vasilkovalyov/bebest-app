@@ -1,11 +1,14 @@
+// libs
 import Link from 'next/link'
 import Image from 'next/image'
 
+// material ui components
 import Container from '@mui/material/Container'
 import Stack from '@mui/material/Stack'
 import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
 
+// other utils
 import pages from '@/constants/pages'
 import { useAuthContext } from '@/context/auth-context'
 

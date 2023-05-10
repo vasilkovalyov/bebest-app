@@ -1,8 +1,12 @@
+// libs
+import Head from 'next/head'
 import cn from 'classnames'
 
-import { ILayoutProps } from './Layout.type'
-import Head from 'next/head'
+// custom components
 import Header from '../Header'
+
+// relate utils
+import { ILayoutProps } from './Layout.type'
 
 function Layout({
   title = 'Title',
