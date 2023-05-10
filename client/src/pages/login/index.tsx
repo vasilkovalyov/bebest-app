@@ -14,9 +14,10 @@ import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 
 import { loginUser, ILogin } from '@/components/Forms/Login/Login.service'
+import { getUserInfo } from '@/services/auth'
 
 function PageLogin() {
-  const { setUserId } = useAuthContext()
+  const { setUser } = useAuthContext()
   const router = useRouter()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
@@ -24,12 +25,17 @@ function PageLogin() {
   async function onSubmit({ email, password }: ILogin) {
     try {
       setIsLoading(true)
-      const response = await loginUser(email, password)
-      if (response.status === 200) {
+      const loginResponse = await loginUser(email, password)
+      if (loginResponse.status === 200) {
         setErrorMessage(null)
       }
+
+      const { role, token, userId } = loginResponse.data
+
       router.push(pages.admin).then(() => {
-        setUserId(response.data.data.token)
+        getUserInfo(role, userId, token).then((userResponse) => {
+          setUser(userResponse.data)
+        })
         setIsLoading(false)
       })
     } catch (e) {

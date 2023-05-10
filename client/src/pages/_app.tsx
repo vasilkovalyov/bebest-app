@@ -1,40 +1,55 @@
-import NextApp from 'next/app'
 import type { AppProps } from 'next/app'
+import pages from '@/constants/pages'
 import { AuthProvider } from '../context/auth-context'
-import { parseCookies } from 'nookies'
+
+import { IAuthUserInfo, isAuth } from '@/services/auth'
+import { getUserInfo } from '@/services/auth'
 
 import '../styles/scss/main.scss'
 
-interface IAppProps {
-  userId: string
-}
-
-interface IInitialProps {
-  pageProps: IAppProps
-}
-
-export default function App({ Component, pageProps }: AppProps<IAppProps>) {
+export default function App({
+  Component,
+  pageProps,
+}: AppProps<{ user: IAuthUserInfo }>) {
   return (
-    <AuthProvider {...pageProps}>
-      <Component />
+    <AuthProvider {...pageProps} user={pageProps.user}>
+      <Component {...pageProps} />
     </AuthProvider>
   )
 }
 
-App.getInitialProps = async ({ ctx }: any): Promise<IInitialProps> => {
-  const { token } = parseCookies(ctx)
+App.getInitialProps = async ({ ctx }: any): Promise<IAuthUserInfo | any> => {
+  const pathname = ctx.pathname.split('/')[1]
+  try {
+    const { token, userId, role } = ctx.req.cookies
+    if (pathname === pages.admin.replace('/', '') && !token) {
+      ctx.res.writeHead(302, { Location: '/404' })
+      ctx.res.end()
+      return
+    }
+    const auth = await isAuth(token)
 
-  if (token) {
+    if (pathname === pages.admin.replace('/', '') && !auth.isAuth) {
+      ctx.res.writeHead(302, { Location: '/404' })
+      ctx.res.end()
+      return
+    }
+    const user = await getUserInfo(role, userId, token)
+    const userData = await user.data
+
     return {
       pageProps: {
-        userId: token,
+        user: userData,
       },
     }
-  }
-
-  return {
-    pageProps: {
-      userId: '',
-    },
+  } catch (e) {
+    if (e instanceof Error) {
+      console.log('e', e.message)
+      return {
+        pageProps: {
+          user: null,
+        },
+      }
+    }
   }
 }

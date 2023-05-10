@@ -3,10 +3,11 @@ import Layout from '@/components/Layout'
 import { useAuthContext } from '../context/auth-context'
 
 export default function Home() {
-  const { userId } = useAuthContext()
+  const { user } = useAuthContext()
+
   return (
     <>
-      <Layout>Home page {userId}</Layout>
+      <Layout>Home page {JSON.stringify(user)}</Layout>
     </>
   )
 }

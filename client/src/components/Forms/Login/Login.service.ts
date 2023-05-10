@@ -9,11 +9,9 @@ export interface ILogin {
 }
 
 export interface AuthenticationUserResponse {
-  data: {
-    userId: string
-    role: UserRole
-    token: string
-  }
+  userId: string
+  role: UserRole
+  token: string
 }
 
 export async function loginUser(

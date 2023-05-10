@@ -10,7 +10,7 @@ import pages from '@/constants/pages'
 import { useAuthContext } from '@/context/auth-context'
 
 function Header() {
-  const { userId } = useAuthContext()
+  const { user } = useAuthContext()
 
   return (
     <header className="header">
@@ -29,7 +29,7 @@ function Header() {
           spacing={1}
           className="header__auth-list"
         >
-          {userId ? (
+          {user ? (
             <Box className="header__auth-list-item">
               <Link
                 href={pages.admin}
