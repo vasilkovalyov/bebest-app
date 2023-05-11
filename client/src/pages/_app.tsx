@@ -21,6 +21,14 @@ export default function App({
 }
 
 App.getInitialProps = async ({ ctx }: any): Promise<IAuthUserInfo | any> => {
+  if (!ctx.req) {
+    return {
+      pageProps: {
+        user: null,
+      },
+    }
+  }
+
   const pathname = ctx.pathname.split('/')[1]
   try {
     const { token, userId, role } = ctx.req.cookies
@@ -45,6 +53,7 @@ App.getInitialProps = async ({ ctx }: any): Promise<IAuthUserInfo | any> => {
       },
     }
   } catch (e) {
+    console.log(e)
     if (e instanceof Error) {
       console.log('e', e.message)
       return {
