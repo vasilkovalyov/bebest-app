@@ -2,6 +2,9 @@ import $api from '@/utils/ajax'
 import { AxiosResponse } from 'axios'
 import { UserRole } from '@/types/role'
 import { PRIVATE_REQUESTS } from '@/constants/api-requests'
+import { PUBLIC_REQUESTS } from '@/constants/api-requests'
+import { IRegistrationResponse } from '@/interfaces/common'
+import { IRegistrationStudent } from '../components/Forms/Registration/RegistrationStudent/RegistrationStudent.type'
 
 export interface IAuthUserInfo {
   _id: string
@@ -27,6 +30,20 @@ class StudentService {
         },
       }
     )
+    return response
+  }
+
+  async registrationStudent(
+    props: IRegistrationStudent
+  ): Promise<AxiosResponse<IRegistrationResponse>> {
+    const response = await $api().post(
+      `/${PUBLIC_REQUESTS.REGISTRATION_STUDENT}`,
+      {
+        ...props,
+        role: 'student',
+      }
+    )
+
     return response
   }
 }

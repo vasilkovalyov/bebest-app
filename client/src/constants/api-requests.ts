@@ -1,5 +1,6 @@
 export const PUBLIC_REQUESTS = {
   LOGIN: 'login',
+  REGISTRATION_STUDENT: 'registration/student',
   IS_AUTH: 'is-auth',
 }
 

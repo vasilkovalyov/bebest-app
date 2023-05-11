@@ -1,0 +1,29 @@
+@import '../1-settings/settings.colors';
+@import '../1-settings/settings.fonts';
+@import '../1-settings/settings.spacing';
+@import '../1-settings/settings.radius';
+
+.registration-switcher {
+  &__tab-item {
+    border: none;
+    color: $white;
+    background: $primary-gradient;
+    margin: 0 8px;
+    opacity: 0.7;
+    padding: $spacing-0-m $spacing-1-m;
+    min-height: auto;
+
+    &.Mui-selected {
+      color: $white;
+      opacity: 1;
+    }
+  }
+
+  .MuiTabs-indicator {
+    display: none;
+  }
+
+  .MuiTabs-flexContainer {
+    justify-content: center;
+  }
+}
