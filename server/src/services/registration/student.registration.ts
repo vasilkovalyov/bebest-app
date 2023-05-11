@@ -51,13 +51,7 @@ class StudentRegistration implements IRegistrationStrategy {
     const savedUser = await user.save();
 
     return {
-      data: {
-        _id: savedUser._id,
-        email: savedUser.email,
-        role: savedUser.role,
-      },
       message: successMessage,
-      status: 200,
     };
   }
 }
