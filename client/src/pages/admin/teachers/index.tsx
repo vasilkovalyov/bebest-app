@@ -1,13 +1,13 @@
 // material ui components
 import Typography from '@mui/material/Typography'
 
-// custom components
-import Layout from '@/components/Layout'
+// layouts
+import AdminLayout from '@/layouts/AdminLayout'
 
 export default function PageTeachers() {
   return (
-    <Layout>
+    <AdminLayout>
       <Typography variant="h4">Page teachers</Typography>
-    </Layout>
+    </AdminLayout>
   )
 }

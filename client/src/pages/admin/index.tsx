@@ -1,17 +1,17 @@
-// custom components
-import Layout from '@/components/Layout'
+// layouts
+import AdminLayout from '@/layouts/AdminLayout'
 
 // other utils
 import { useAuthContext } from '@/context/auth-context'
 
-export default function PageAdmin() {
+function PageAdmin() {
   const { user } = useAuthContext()
   return (
-    <>
-      <Layout>
-        User Admin Page
-        <div>{JSON.stringify(user, null, 2)}</div>
-      </Layout>
-    </>
+    <AdminLayout>
+      User Admin Page
+      <div>{JSON.stringify(user, null, 2)}</div>
+    </AdminLayout>
   )
 }
+
+export default PageAdmin

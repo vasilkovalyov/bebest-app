@@ -20,10 +20,10 @@ import Badge from '@mui/material/Badge'
 //custom components
 import Icon from '@/components/Generic/Icon'
 import { IconEnum } from '@/components/Generic/Icon/Icon.type'
+import AdminNavigation from '@/components/AdminNavigation'
 
 // other utils
 import adminPages from '@/models/adminPages'
-import colors from '@/constants/colors'
 import profilePages from '@/constants/profile-pages'
 import { UserRole } from '@/types/role'
 
@@ -86,52 +86,7 @@ function AccountNavigation({ userName, role }: IAccountNavigationProps) {
             open={Boolean(anchorElUser)}
             onClose={() => setAnchorElUser(null)}
           >
-            {adminPages.map((page) => {
-              if (!page.role.length) {
-                return (
-                  <MenuItem
-                    key={page.id}
-                    className="account-navigation__menu-item"
-                  >
-                    {page.icon ? (
-                      <Icon
-                        size={16}
-                        icon={page.icon}
-                        className="account-navigation__menu-icon"
-                      />
-                    ) : null}
-                    <Link
-                      href={page.path}
-                      className="account-navigation__menu-link"
-                    >
-                      {page.title}
-                    </Link>
-                  </MenuItem>
-                )
-              }
-              if (page.role.length > 0 && page.role.includes(role)) {
-                return (
-                  <MenuItem
-                    key={page.id}
-                    className="account-navigation__menu-item"
-                  >
-                    {page.icon ? (
-                      <Icon
-                        size={16}
-                        icon={page.icon}
-                        className="account-navigation__menu-icon"
-                      />
-                    ) : null}
-                    <Link
-                      href={page.path}
-                      className="account-navigation__menu-link"
-                    >
-                      {page.title}
-                    </Link>
-                  </MenuItem>
-                )
-              }
-            })}
+            <AdminNavigation role={role} />
             <MenuItem
               className="account-navigation__menu-item"
               onClick={logOut}

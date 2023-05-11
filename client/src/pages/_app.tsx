@@ -15,7 +15,7 @@ export default function App({
   pageProps,
 }: AppProps<{ user: IAuthUserInfo }>) {
   return (
-    <AuthProvider {...pageProps} user={pageProps.user}>
+    <AuthProvider {...pageProps}>
       <Component {...pageProps} />
     </AuthProvider>
   )

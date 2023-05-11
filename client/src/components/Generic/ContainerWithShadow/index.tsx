@@ -11,9 +11,15 @@ import { ContainerWithShadowProps } from './ContainerWithShadow.type'
 function ContainerWithShadow({
   className,
   children,
+  paddingSize,
 }: ContainerWithShadowProps) {
+  const sizeClass = cn({
+    'container-with-shadow--paddings-sm': paddingSize === 'sm',
+  })
   return (
-    <Box className={cn('container-with-shadow', className)}>{children}</Box>
+    <Box className={cn('container-with-shadow', sizeClass, className)}>
+      {children}
+    </Box>
   )
 }
 

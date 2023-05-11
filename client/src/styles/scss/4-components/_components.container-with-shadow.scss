@@ -13,4 +13,8 @@
   @media (min-width: $screen-md) {
     padding: $spacing-4-s $spacing-4-l;
   }
+
+  &--paddings-sm {
+    padding: $spacing-2-s;
+  }
 }

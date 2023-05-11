@@ -12,7 +12,7 @@ const adminPages: IAdminPageMenu[] = [
     id: 1,
     title: 'Account',
     icon: 'user',
-    path: profilePages.account,
+    path: profilePages.admin,
     role: [],
   },
   {

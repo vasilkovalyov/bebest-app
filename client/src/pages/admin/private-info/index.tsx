@@ -1,13 +1,17 @@
-// material ui components
-import Typography from '@mui/material/Typography'
+// layouts
+import AdminLayout from '@/layouts/AdminLayout'
 
-// custom components
-import Layout from '@/components/Layout'
+// other utils
+import { useAuthContext } from '@/context/auth-context'
 
-export default function PagePrivateInfo() {
+function PagePrivateInfo() {
+  const { user } = useAuthContext()
   return (
-    <Layout>
-      <Typography variant="h4">Page private info</Typography>
-    </Layout>
+    <AdminLayout>
+      Private Info Page
+      <div>{JSON.stringify(user, null, 2)}</div>
+    </AdminLayout>
   )
 }
+
+export default PagePrivateInfo
