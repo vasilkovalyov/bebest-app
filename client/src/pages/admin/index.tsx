@@ -6,12 +6,7 @@ import { useAuthContext } from '@/context/auth-context'
 
 function PageAdmin() {
   const { user } = useAuthContext()
-  return (
-    <AdminLayout>
-      User Admin Page
-      <div>{JSON.stringify(user, null, 2)}</div>
-    </AdminLayout>
-  )
+  return <AdminLayout heading="Account"></AdminLayout>
 }
 
 export default PageAdmin

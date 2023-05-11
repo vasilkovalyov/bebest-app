@@ -23,7 +23,7 @@ function Header() {
 
   return (
     <header className="header">
-      <Container className="header__container">
+      <Container maxWidth="xl" className="header__container">
         <Box className="header__left">
           <Link href={pages.home} className="header__logo">
             <Image

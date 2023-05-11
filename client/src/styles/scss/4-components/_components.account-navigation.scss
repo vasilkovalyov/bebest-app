@@ -4,6 +4,11 @@
 .account-navigation {
   min-height: auto;
 
+  &.account-navigation--aside-menu &__menu-item {
+    margin-left: -20px;
+    margin-right: -20px;
+  }
+
   .MuiAvatar-root {
     width: 34px;
     height: 34px;

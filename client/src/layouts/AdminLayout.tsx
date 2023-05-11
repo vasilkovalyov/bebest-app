@@ -19,7 +19,13 @@ import AdminNavigation from '@/components/AdminNavigation'
 // other utils
 import { useAuthContext } from '@/context/auth-context'
 
-function AdminLayout({ children }: { children: React.ReactNode }) {
+function AdminLayout({
+  heading,
+  children,
+}: {
+  heading?: string
+  children?: React.ReactNode
+}) {
   const { user } = useAuthContext()
 
   return (
@@ -33,7 +39,7 @@ function AdminLayout({ children }: { children: React.ReactNode }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <Container>
+        <Container maxWidth="xl">
           <Breadcrumbs aria-label="breadcrumb" className="breadcrumbs">
             <Link
               href="/"
@@ -49,13 +55,6 @@ function AdminLayout({ children }: { children: React.ReactNode }) {
             </Typography>
           </Breadcrumbs>
           <Box className="section-admin">
-            <Typography
-              marginBottom={3}
-              variant="h2"
-              className="MuiTypography section-admin__heading"
-            >
-              Account
-            </Typography>
             <Grid container spacing={4}>
               <Grid item xs={12} sm={4} md={3}>
                 <ContainerWithShadow paddingSize="sm">
@@ -70,13 +69,25 @@ function AdminLayout({ children }: { children: React.ReactNode }) {
                       <Typography variant="body2">{user?.role}</Typography>
                     </Box>
                   </Stack>
-                  <Box component="ul">
+                  <Box
+                    component="ul"
+                    className="account-navigation account-navigation--aside-menu"
+                  >
                     {user ? <AdminNavigation role={user?.role} /> : null}
                   </Box>
                 </ContainerWithShadow>
               </Grid>
               <Grid item xs={12} sm={8} md={9}>
                 <ContainerWithShadow paddingSize="sm">
+                  {heading ? (
+                    <Typography
+                      marginBottom={3}
+                      variant="h3"
+                      className="MuiTypography section-admin__heading"
+                    >
+                      {heading}
+                    </Typography>
+                  ) : null}
                   <div className="gutter-row">{children}</div>
                 </ContainerWithShadow>
               </Grid>

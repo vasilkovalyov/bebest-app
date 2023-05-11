@@ -6,12 +6,7 @@ import { useAuthContext } from '@/context/auth-context'
 
 function PagePrivateInfo() {
   const { user } = useAuthContext()
-  return (
-    <AdminLayout>
-      Private Info Page
-      <div>{JSON.stringify(user, null, 2)}</div>
-    </AdminLayout>
-  )
+  return <AdminLayout heading="Private info"></AdminLayout>
 }
 
 export default PagePrivateInfo
