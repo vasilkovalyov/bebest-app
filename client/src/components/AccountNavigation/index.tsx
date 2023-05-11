@@ -31,7 +31,7 @@ import { UserRole } from '@/types/role'
 import { IAccountNavigationProps } from './AccountNavigation.type'
 
 const getLinkByRole = (role: UserRole) => {
-  return role !== 'company' ? profilePages.lessons : profilePages.cources
+  return role !== 'company' ? profilePages.lessons : profilePages.courses
 }
 
 function AccountNavigation({ userName, role }: IAccountNavigationProps) {

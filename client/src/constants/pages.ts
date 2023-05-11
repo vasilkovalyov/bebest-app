@@ -2,7 +2,7 @@ const pages = {
   home: '/',
   login: '/login',
   registration: '/registration',
-  cources: '/cources',
+  courses: '/courses',
   lessons: '/lessons',
   teachers: '/teachers',
   companies: '/companies',

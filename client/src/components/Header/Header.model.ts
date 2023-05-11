@@ -4,8 +4,8 @@ import pages from '@/constants/pages'
 export const menu: INavigationMenuItem[] = [
   {
     id: 1,
-    path: pages.cources,
-    title: 'Cources',
+    path: pages.courses,
+    title: 'Courses',
     isAdminShow: true,
   },
   {

@@ -38,9 +38,9 @@ const adminPages: IAdminPageMenu[] = [
   },
   {
     id: 5,
-    title: 'Cources',
+    title: 'Courses',
     icon: 'lessons',
-    path: profilePages.cources,
+    path: profilePages.courses,
     role: ['company'],
   },
   {
