@@ -26,7 +26,7 @@ export enum IconEnum {
   EYE_DENIED = 'eye-denied',
   HEART_EMPTY = 'heart-empty',
   HEART_FULL = 'heart-full',
-  UNIVARSTY_HAT = 'univarsity-hat',
+  UNIVERSTY_HAT = 'univarsity-hat',
   ARROW_RIGHT = 'arrow-right',
   ARROW_BOTTOM = 'arrow-bottom',
   CALENDAR = 'calendar',

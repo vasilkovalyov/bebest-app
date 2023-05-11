@@ -26,4 +26,10 @@
       font-family: inherit;
     }
   }
+
+  &__item--link {
+    &:hover {
+      color: $primary-color;
+    }
+  }
 }

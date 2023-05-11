@@ -1,0 +1,17 @@
+@import '../1-settings/settings.fonts';
+@import '../1-settings/settings.sizes';
+@import '../2-tools/tools.mixins';
+
+.header-auth-navigation {
+  &__item {
+  }
+
+  &__link {
+    font-size: $size-1-m;
+    text-decoration: none;
+
+    &:hover {
+      color: $primary-color;
+    }
+  }
+}

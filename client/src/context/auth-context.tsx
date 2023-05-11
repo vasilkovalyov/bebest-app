@@ -1,4 +1,4 @@
-import { IAuthUserInfo } from '@/services/auth'
+import { IAuthUserInfo } from '@/services/student'
 import React, {
   createContext,
   useContext,

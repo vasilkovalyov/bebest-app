@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import pages from '@/constants/pages'
-import { isAuth } from './services/auth'
+import authService from './services/auth'
 
 export async function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname.split('/')[1]
@@ -10,7 +10,7 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL('/404', req.url))
   }
 
-  const response = await isAuth(authToken?.value)
+  const response = await authService.isAuth(authToken?.value)
   if (pathname === pages.admin.replace('/', '') && !response.isAuth) {
     return NextResponse.redirect(new URL('/404', req.url))
   }

@@ -3,7 +3,8 @@ import type { AppProps } from 'next/app'
 
 // other utils
 import { AuthProvider } from '@/context/auth-context'
-import { IAuthUserInfo, isAuth, getUserInfo } from '@/services/auth'
+import authService from '@/services/auth'
+import studentService, { IAuthUserInfo } from '@/services/student'
 import pages from '@/constants/pages'
 
 // styles
@@ -37,14 +38,14 @@ App.getInitialProps = async ({ ctx }: any): Promise<IAuthUserInfo | any> => {
       ctx.res.end()
       return
     }
-    const auth = await isAuth(token)
+    const auth = await authService.isAuth(token)
 
     if (pathname === pages.admin.replace('/', '') && !auth.isAuth) {
       ctx.res.writeHead(302, { Location: '/404' })
       ctx.res.end()
       return
     }
-    const user = await getUserInfo(role, userId, token)
+    const user = await studentService.getUserInfo(role, userId, token)
     const userData = await user.data
 
     return {

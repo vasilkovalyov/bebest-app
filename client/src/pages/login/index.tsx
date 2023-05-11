@@ -16,7 +16,7 @@ import { loginUser, ILogin } from '@/components/Forms/Login/Login.service'
 
 // other utils
 import { useAuthContext } from '@/context/auth-context'
-import { getUserInfo } from '@/services/auth'
+import studentService from '@/services/student'
 import pages from '@/constants/pages'
 
 function PageLogin() {
@@ -36,7 +36,7 @@ function PageLogin() {
       const { role, token, userId } = loginResponse.data
 
       router.push(pages.admin).then(() => {
-        getUserInfo(role, userId, token).then((userResponse) => {
+        studentService.getUserInfo(role, userId, token).then((userResponse) => {
           setUser(userResponse.data)
         })
         setIsLoading(false)
@@ -53,12 +53,15 @@ function PageLogin() {
     <Layout className="page-login">
       <Container>
         <Breadcrumbs aria-label="breadcrumb" className="breadcrumbs">
-          <Link href="/" className="breadcrumbs__item">
+          <Link
+            href="/"
+            className="breadcrumbs__item breadcrumbs__item--link color-dark-blue-1 font-medium"
+          >
             Home
           </Link>
           <Typography
             variant="body2"
-            className="MuiTypography breadcrumbs__item"
+            className="MuiTypography breadcrumbs__item font-medium"
           >
             Sign in
           </Typography>
