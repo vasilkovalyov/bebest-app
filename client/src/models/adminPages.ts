@@ -1,0 +1,83 @@
+import profilePages from '@/constants/profile-pages'
+
+export interface IAdminPageMenu {
+  id: number
+  path: string
+  title: string
+  icon?: string
+  role: string[]
+}
+const adminPages: IAdminPageMenu[] = [
+  {
+    id: 1,
+    title: 'Account',
+    icon: 'user',
+    path: profilePages.account,
+    role: [],
+  },
+  {
+    id: 2,
+    title: 'Private info',
+    icon: 'private-data',
+    path: profilePages.privateInfo,
+    role: [],
+  },
+  {
+    id: 3,
+    title: 'My lessons',
+    icon: 'lessons',
+    path: profilePages.lessons,
+    role: ['student', 'teacher'],
+  },
+  {
+    id: 4,
+    title: 'My teachers',
+    icon: 'heart-empty',
+    path: profilePages.teachers,
+    role: ['student'],
+  },
+  {
+    id: 5,
+    title: 'Cources',
+    icon: 'lessons',
+    path: profilePages.cources,
+    role: ['company'],
+  },
+  {
+    id: 6,
+    title: 'Payment',
+    icon: 'payment-info',
+    path: profilePages.payment,
+    role: [],
+  },
+  {
+    id: 7,
+    title: 'Services',
+    icon: 'services',
+    path: profilePages.services,
+    role: ['company'],
+  },
+  {
+    id: 8,
+    title: 'Statistics',
+    icon: 'statistics',
+    path: profilePages.statistics,
+    role: [],
+  },
+  {
+    id: 9,
+    title: 'Company team',
+    icon: 'company',
+    path: profilePages.companyTeam,
+    role: ['company'],
+  },
+  {
+    id: 10,
+    title: 'Chats',
+    icon: 'chat',
+    path: profilePages.chats,
+    role: [],
+  },
+]
+
+export default adminPages

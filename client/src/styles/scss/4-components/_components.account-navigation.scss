@@ -1,0 +1,34 @@
+@import '../1-settings/settings.colors';
+@import '../1-settings/settings.sizes';
+
+.account-navigation {
+  min-height: auto;
+
+  .MuiAvatar-root {
+    width: 34px;
+    height: 34px;
+  }
+
+  &__menu-item {
+    &:not(:last-child) {
+      margin-bottom: 4px;
+    }
+  }
+
+  &__menu-item:hover &__menu-link {
+    color: $primary-color;
+  }
+
+  &__menu-item:hover &__menu-icon {
+    color: $primary-color;
+  }
+
+  &__menu-link {
+    font-size: $size-1-m;
+    color: $black-2;
+  }
+
+  &__menu-icon {
+    margin-right: 10px;
+  }
+}

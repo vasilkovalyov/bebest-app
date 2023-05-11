@@ -8,9 +8,14 @@ import Stack from '@mui/material/Stack'
 import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
 
+// custom components
+import Navigation from '../Navigation'
+import AccountNavigation from '../AccountNavigation'
+
 // other utils
 import pages from '@/constants/pages'
 import { useAuthContext } from '@/context/auth-context'
+import { menu } from './Header.model'
 
 function Header() {
   const { user } = useAuthContext()
@@ -26,42 +31,34 @@ function Header() {
             height={30}
           />
         </Link>
-        <Stack
-          direction="row"
-          divider={<Divider orientation="vertical" flexItem />}
-          spacing={1}
-          className="header__auth-list"
-        >
-          {user ? (
+        <Navigation menu={menu} />
+        {!user ? (
+          <Stack
+            direction="row"
+            divider={<Divider orientation="vertical" flexItem />}
+            spacing={1}
+            className="header__auth-list"
+          >
             <Box className="header__auth-list-item">
               <Link
-                href={pages.admin}
+                href={pages.login}
                 className="header__auth-button font-semibold color-dark-blue-1"
               >
-                Admin
+                Sign in
               </Link>
             </Box>
-          ) : (
-            <>
-              <Box className="header__auth-list-item">
-                <Link
-                  href={pages.login}
-                  className="header__auth-button font-semibold color-dark-blue-1"
-                >
-                  Sign in
-                </Link>
-              </Box>
-              <Box className="header__auth-list-item">
-                <Link
-                  href={pages.registration}
-                  className="header__auth-button font-semibold color-dark-blue-1"
-                >
-                  Sign up
-                </Link>
-              </Box>
-            </>
-          )}
-        </Stack>
+            <Box className="header__auth-list-item">
+              <Link
+                href={pages.registration}
+                className="header__auth-button font-semibold color-dark-blue-1"
+              >
+                Sign up
+              </Link>
+            </Box>
+          </Stack>
+        ) : (
+          <AccountNavigation role={user.role} userName={user?.name} />
+        )}
       </Container>
     </header>
   )
