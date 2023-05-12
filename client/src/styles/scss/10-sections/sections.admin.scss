@@ -1,2 +1,24 @@
+@import '../1-settings/settings.colors';
+@import '../1-settings/settings.radius';
+@import '../1-settings/settings.shadows';
+@import '../1-settings/settings.spacing';
+@import '../1-settings/settings.responsive';
+
 .section-admin {
+  @media (min-width: $screen-md) {
+    display: flex;
+  }
+
+  &__aside {
+    padding-bottom: 0;
+
+    @media (min-width: $screen-md) {
+      flex: 0 1 300px;
+      margin-right: 40px;
+    }
+  }
+
+  &__body {
+    flex: 1 0 auto;
+  }
 }

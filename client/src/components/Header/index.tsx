@@ -6,12 +6,12 @@ import Image from 'next/image'
 import Container from '@mui/material/Container'
 import Stack from '@mui/material/Stack'
 import Box from '@mui/material/Box'
-import Divider from '@mui/material/Divider'
 
 // custom components
 import Navigation from '../Navigation'
-import AuthNavigation from '../AuthNavigation'
-import AccountNavigation from '../AccountNavigation'
+import AccountNavigation from '../HeaderToolbar'
+import HeaderAuthNavigation from '@/components/HeaderAuthNavigation'
+import AdminSocialNotification from '@/components/AdminSocialNotification'
 
 // other utils
 import pages from '@/constants/pages'
@@ -39,9 +39,18 @@ function Header() {
         </Box>
         <Box className="header__right">
           {!user ? (
-            <AuthNavigation />
+            <HeaderAuthNavigation />
           ) : (
-            <AccountNavigation role={user.role} userName={user?.name} />
+            <Stack direction="row" alignItems="center">
+              <Box marginRight={2}>
+                <AdminSocialNotification role={user.role} />
+              </Box>
+              <AccountNavigation
+                role={user.role}
+                userName={user?.name}
+                classNameMenu="admin-navigation-menu--header-menu"
+              />
+            </Stack>
           )}
         </Box>
       </Container>

@@ -6,15 +6,15 @@ import Stack from '@mui/material/Stack'
 import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
 
-// custom component
-import Icon from '../Generic/Icon'
+// custom components
+import Icon from '@/components/Generic/Icon'
 import { IconEnum } from '@/components/Generic/Icon/Icon.type'
 
 // other utils
 import pages from '@/constants/pages'
 import colors from '@/constants/colors'
 
-function AuthNavigation() {
+function HeaderAuthNavigation() {
   return (
     <Stack
       direction="row"
@@ -27,19 +27,19 @@ function AuthNavigation() {
           size={16}
           color={colors.primary}
           icon={IconEnum.PERSON}
-          className="account-navigation__menu-icon"
+          className="header-auth-navigation__item-icon"
         />
         <Link
           href={pages.login}
-          className="header-auth-navigation__link font-semibold color-dark-blue-1"
+          className="header-auth-navigation__item-link font-semibold color-dark-blue-1"
         >
           Sign in
         </Link>
       </Box>
-      <Box className="header__auth-list-item">
+      <Box className="header-auth-navigation__item">
         <Link
           href={pages.registration}
-          className="header-auth-navigation__link font-semibold color-dark-blue-1"
+          className="header-auth-navigation__item-link font-semibold color-dark-blue-1"
         >
           Sign up
         </Link>
@@ -48,4 +48,4 @@ function AuthNavigation() {
   )
 }
 
-export default AuthNavigation
+export default HeaderAuthNavigation

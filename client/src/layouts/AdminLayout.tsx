@@ -7,14 +7,13 @@ import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
 import Breadcrumbs from '@mui/material/Breadcrumbs'
 import Typography from '@mui/material/Typography'
-import Grid from '@mui/material/Grid'
 import Avatar from '@mui/material/Avatar'
 import Stack from '@mui/material/Stack'
 
 // custom components
 import Layout from '@/components/Layout'
 import ContainerWithShadow from '@/components/Generic/ContainerWithShadow'
-import AdminNavigation from '@/components/AdminNavigation'
+import AdminNavigation from '@/components/AdminNavigationMenuPages'
 
 // other utils
 import { useAuthContext } from '@/context/auth-context'
@@ -55,43 +54,51 @@ function AdminLayout({
             </Typography>
           </Breadcrumbs>
           <Box className="section-admin">
-            <Grid container spacing={4}>
-              <Grid item xs={12} sm={4} md={3}>
-                <ContainerWithShadow paddingSize="sm">
-                  <Stack direction="row" spacing={2}>
-                    <Box marginBottom={2}>
-                      <Avatar alt={user?.name} />
-                    </Box>
-                    <Box marginBottom={3}>
-                      <Typography variant="body1">
-                        {user?.name} {user?.surname}
-                      </Typography>
-                      <Typography variant="body2">{user?.role}</Typography>
-                    </Box>
-                  </Stack>
-                  <Box
-                    component="ul"
-                    className="account-navigation account-navigation--aside-menu"
-                  >
-                    {user ? <AdminNavigation role={user?.role} /> : null}
-                  </Box>
-                </ContainerWithShadow>
-              </Grid>
-              <Grid item xs={12} sm={8} md={9}>
-                <ContainerWithShadow paddingSize="sm">
-                  {heading ? (
-                    <Typography
-                      marginBottom={3}
-                      variant="h3"
-                      className="MuiTypography section-admin__heading"
-                    >
-                      {heading}
-                    </Typography>
-                  ) : null}
-                  <div className="gutter-row">{children}</div>
-                </ContainerWithShadow>
-              </Grid>
-            </Grid>
+            <ContainerWithShadow
+              paddingSize="sm"
+              className="section-admin__aside admin-aside-menu"
+            >
+              <Stack
+                direction="row"
+                spacing={2}
+                className="admin-aside-menu__user"
+                marginBottom={2}
+              >
+                <Box>
+                  <Avatar
+                    alt={user?.name}
+                    className="admin-aside-menu__user-image"
+                  />
+                </Box>
+                <Box marginBottom={3} className="admin-aside-menu__user-info">
+                  <Typography variant="body1" className="font-bold">
+                    {user?.name} {user?.surname}
+                  </Typography>
+                  <Typography variant="body2">{user?.role}</Typography>
+                </Box>
+              </Stack>
+              <Box
+                component="ul"
+                className="admin-navigation-menu admin-navigation-menu--aside-menu"
+              >
+                {user ? <AdminNavigation role={user?.role} /> : null}
+              </Box>
+            </ContainerWithShadow>
+            <ContainerWithShadow
+              paddingSize="sm"
+              className="section-admin__body"
+            >
+              {heading ? (
+                <Typography
+                  marginBottom={3}
+                  variant="h3"
+                  className="MuiTypography section-admin__heading"
+                >
+                  {heading}
+                </Typography>
+              ) : null}
+              <div className="gutter-row">{children}</div>
+            </ContainerWithShadow>
           </Box>
         </Container>
       </Layout>

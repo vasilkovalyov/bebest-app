@@ -1,0 +1,9 @@
+@import '../1-settings/settings.colors';
+
+.admin-social-notification {
+  &__link {
+    &:hover {
+      color: $primary-color;
+    }
+  }
+}

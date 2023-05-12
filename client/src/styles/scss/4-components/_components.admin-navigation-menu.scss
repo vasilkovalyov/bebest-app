@@ -1,0 +1,74 @@
+@import '../1-settings/settings.colors';
+@import '../1-settings/settings.sizes';
+@import '../1-settings/settings.spacing';
+
+.admin-navigation-menu {
+  min-height: auto;
+
+  &.admin-navigation-menu--header-menu {
+    .admin-navigation-menu__item {
+      padding: 0;
+    }
+
+    .admin-navigation-menu__link {
+      padding: $spacing-0-m $spacing-2-s;
+    }
+  }
+
+  &.admin-navigation-menu--header-menu {
+    .MuiAvatar-root {
+      width: 60px;
+      height: 60px;
+    }
+  }
+
+  &.admin-navigation-menu--aside-menu {
+    .admin-navigation-menu__item {
+      margin: 0 -20px;
+    }
+    .admin-navigation-menu__link {
+      padding: $spacing-1-m $spacing-2-s;
+    }
+  }
+
+  .admin-navigation-menu &__menu-item {
+    padding: 0;
+  }
+
+  .admin-navigation-menu &__menu-link {
+    padding: $spacing-1-l $spacing-2-l;
+    width: 100%;
+  }
+
+  .MuiAvatar-root {
+    width: 34px;
+    height: 34px;
+  }
+
+  &__item {
+    padding: 0;
+
+    &:not(:last-child) {
+      margin-bottom: 4px;
+    }
+  }
+
+  &__item:hover &__link {
+    color: $primary-color;
+  }
+
+  &__item:hover &__icon {
+    color: $primary-color;
+  }
+
+  &__link {
+    font-size: $size-1-m;
+    color: $black-2;
+    text-decoration: none;
+    width: 100%;
+  }
+
+  &__icon {
+    margin-right: 10px;
+  }
+}

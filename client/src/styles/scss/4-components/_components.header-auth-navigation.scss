@@ -1,12 +1,15 @@
-@import '../1-settings/settings.fonts';
 @import '../1-settings/settings.sizes';
-@import '../2-tools/tools.mixins';
+@import '../1-settings/settings.colors';
+@import '../1-settings/settings.spacing';
 
 .header-auth-navigation {
-  &__item {
+  padding: $spacing-0-l 0;
+
+  &__item-icon {
+    margin-right: 8px;
   }
 
-  &__link {
+  &__item-link {
     font-size: $size-1-m;
     text-decoration: none;
 

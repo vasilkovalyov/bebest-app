@@ -1,0 +1,74 @@
+// libs
+import { useState } from 'react'
+import cn from 'classnames'
+
+// custom hooks
+import { useLogout } from '@/hooks/useLogout'
+
+// material ui components
+import Box from '@mui/material/Box'
+import Toolbar from '@mui/material/Toolbar'
+import IconButton from '@mui/material/IconButton'
+import Typography from '@mui/material/Typography'
+import Menu from '@mui/material/Menu'
+import Avatar from '@mui/material/Avatar'
+import Tooltip from '@mui/material/Tooltip'
+import MenuItem from '@mui/material/MenuItem'
+
+//custom components
+import AdminNavigationMenuPages from '@/components/AdminNavigationMenuPages'
+
+// relate utils
+import { IAccountNavigationProps } from './HeaderToolbar.type'
+
+function HeaderToolbar({
+  userName,
+  role,
+  classNameMenu,
+}: IAccountNavigationProps) {
+  const { logOut } = useLogout()
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
+
+  return (
+    <Toolbar disableGutters className="header-toolbar">
+      <Box sx={{ flexGrow: 0 }}>
+        <Tooltip title="Open menu">
+          <IconButton
+            onClick={(e: React.MouseEvent<HTMLElement>) =>
+              setAnchorElUser(e.currentTarget)
+            }
+            sx={{ p: 0 }}
+          >
+            <Avatar alt={userName} />
+          </IconButton>
+        </Tooltip>
+        <Menu
+          className={cn('admin-navigation-menu', classNameMenu)}
+          sx={{ mt: '45px' }}
+          id="menu-appbar"
+          anchorEl={anchorElUser}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          keepMounted
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          open={Boolean(anchorElUser)}
+          onClose={() => setAnchorElUser(null)}
+        >
+          <AdminNavigationMenuPages role={role} />
+          <MenuItem className="admin-navigation-menu__item" onClick={logOut}>
+            <Typography className="admin-navigation-menu__link">
+              Log out
+            </Typography>
+          </MenuItem>
+        </Menu>
+      </Box>
+    </Toolbar>
+  )
+}
+
+export default HeaderToolbar
