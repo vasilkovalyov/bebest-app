@@ -1,5 +1,7 @@
 // libs
 import Link from 'next/link'
+import { useRouter } from 'next/router'
+import cn from 'classnames'
 
 // material ui components
 import MenuItem from '@mui/material/MenuItem'
@@ -14,13 +16,21 @@ import adminPages from '@/models/adminPages'
 import { IAdminNavigationMenuPagesProps } from './AdminNavigationMenuPages.type'
 
 function AdminNavigationMenuPages({ role }: IAdminNavigationMenuPagesProps) {
+  const router = useRouter()
+
   return (
     <>
       {adminPages.map((page) => {
         if (!page.role.length) {
           return (
             <MenuItem key={page.id} className="admin-navigation-menu__item">
-              <Link href={page.path} className="admin-navigation-menu__link">
+              <Link
+                href={page.path}
+                className={cn('admin-navigation-menu__link', {
+                  'admin-navigation-menu__link--active':
+                    router.pathname === page.path,
+                })}
+              >
                 {page.icon ? (
                   <Icon
                     size={16}
@@ -36,7 +46,13 @@ function AdminNavigationMenuPages({ role }: IAdminNavigationMenuPagesProps) {
         if (page.role.length > 0 && page.role.includes(role)) {
           return (
             <MenuItem key={page.id} className="admin-navigation-menu__item">
-              <Link href={page.path} className="admin-navigation-menu__link">
+              <Link
+                href={page.path}
+                className={cn('admin-navigation-menu__link', {
+                  'admin-navigation-menu__link--active':
+                    router.pathname === page.path,
+                })}
+              >
                 {page.icon ? (
                   <Icon
                     size={16}

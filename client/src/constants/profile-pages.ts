@@ -1,5 +1,5 @@
 const profilePages = {
-  admin: '/admin/',
+  admin: '/admin',
   privateInfo: '/admin/private-info',
   lessons: '/admin/lessons',
   teachers: '/admin/teachers',

@@ -29,6 +29,9 @@
     .admin-navigation-menu__link {
       padding: $spacing-1-m $spacing-2-s;
     }
+    .admin-navigation-menu__link--active {
+      color: $primary-color;
+    }
   }
 
   .admin-navigation-menu &__menu-item {
@@ -53,19 +56,13 @@
     }
   }
 
-  &__item:hover &__link {
-    color: $primary-color;
-  }
-
-  &__item:hover &__icon {
-    color: $primary-color;
-  }
-
   &__link {
     font-size: $size-1-m;
     color: $black-2;
     text-decoration: none;
     width: 100%;
+    display: inline-flex;
+    align-items: center;
   }
 
   &__icon {

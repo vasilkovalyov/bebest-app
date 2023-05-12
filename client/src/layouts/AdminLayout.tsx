@@ -11,7 +11,7 @@ import Avatar from '@mui/material/Avatar'
 import Stack from '@mui/material/Stack'
 
 // custom components
-import Layout from '@/components/Layout'
+import Header from '@/components/Header'
 import ContainerWithShadow from '@/components/Generic/ContainerWithShadow'
 import AdminNavigation from '@/components/AdminNavigationMenuPages'
 
@@ -37,7 +37,8 @@ function AdminLayout({
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Layout>
+      <Header />
+      <main>
         <Container maxWidth="xl">
           <Breadcrumbs aria-label="breadcrumb" className="breadcrumbs">
             <Link
@@ -101,7 +102,7 @@ function AdminLayout({
             </ContainerWithShadow>
           </Box>
         </Container>
-      </Layout>
+      </main>
     </>
   )
 }

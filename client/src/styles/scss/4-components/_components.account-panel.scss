@@ -1,0 +1,18 @@
+@import '../1-settings/settings.colors';
+
+.account-panel {
+  &__form-box {
+  }
+
+  &__edit-btn {
+    padding: 0;
+    color: $primary-color;
+    min-width: auto;
+    margin-bottom: 20px;
+
+    &:hover {
+      background-color: transparent;
+      opacity: 0.7;
+    }
+  }
+}

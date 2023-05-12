@@ -12,6 +12,10 @@
   &__aside {
     padding-bottom: 0;
 
+    @media (max-width: $header-breakpoint-max) {
+      display: none;
+    }
+
     @media (min-width: $screen-md) {
       flex: 0 1 300px;
       margin-right: 40px;
