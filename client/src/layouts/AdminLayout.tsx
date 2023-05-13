@@ -17,12 +17,15 @@ import AdminNavigation from '@/components/AdminNavigationMenuPages'
 
 // other utils
 import { useAuthContext } from '@/context/auth-context'
+import profilePages from '../constants/profile-pages'
 
 function AdminLayout({
   heading,
+  currentPageTitle,
   children,
 }: {
   heading?: string
+  currentPageTitle?: string
   children?: React.ReactNode
 }) {
   const { user } = useAuthContext()
@@ -47,12 +50,30 @@ function AdminLayout({
             >
               Home
             </Link>
-            <Typography
-              variant="body2"
-              className="MuiTypography breadcrumbs__item font-medium"
-            >
-              Admin
-            </Typography>
+            {currentPageTitle ? (
+              <Link
+                href={profilePages.admin}
+                className="breadcrumbs__item breadcrumbs__item--link color-dark-blue-1 font-medium"
+              >
+                Admin
+              </Link>
+            ) : null}
+            {currentPageTitle ? (
+              <Typography
+                variant="body2"
+                className="MuiTypography breadcrumbs__item font-medium"
+              >
+                {currentPageTitle}
+              </Typography>
+            ) : null}
+            {!currentPageTitle ? (
+              <Typography
+                variant="body2"
+                className="MuiTypography breadcrumbs__item font-medium"
+              >
+                Admin
+              </Typography>
+            ) : null}
           </Breadcrumbs>
           <Box className="section-admin">
             <ContainerWithShadow

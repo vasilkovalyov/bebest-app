@@ -17,6 +17,8 @@ export interface IAuthUserInfo {
 }
 
 class StudentService {
+  constructor() {}
+
   async getUserInfo(
     role: UserRole,
     id: string,
@@ -42,6 +44,14 @@ class StudentService {
         ...props,
         role: 'student',
       }
+    )
+
+    return response
+  }
+
+  async deleteUser(id: string): Promise<AxiosResponse<{ data: boolean }>> {
+    const response = await $api().delete(
+      `/${PRIVATE_REQUESTS.USER_DELETE}/student/${id}`
     )
 
     return response

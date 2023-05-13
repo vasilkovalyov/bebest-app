@@ -1,12 +1,13 @@
 import axios from 'axios'
 import getConfig from 'next/config'
+import cookiesService from '@/services/cookies'
 
 function $api(token?: string | undefined) {
   let authToken: string = ''
   if (token) {
     authToken = token
   } else {
-    authToken = ''
+    authToken = cookiesService.parseCookies('token')
   }
 
   let apiUrl = ''

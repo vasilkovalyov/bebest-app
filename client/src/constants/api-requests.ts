@@ -6,4 +6,6 @@ export const PUBLIC_REQUESTS = {
 
 export const PRIVATE_REQUESTS = {
   USER_INFO: 'user-info',
+  USER_DELETE: 'delete',
+  UPDATE_PASSWORD: 'update-password',
 }
