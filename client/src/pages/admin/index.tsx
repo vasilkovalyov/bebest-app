@@ -8,39 +8,52 @@ import Stack from '@mui/material/Stack'
 import Modal from '@mui/material/Modal'
 import Typography from '@mui/material/Typography'
 import CircularProgress from '@mui/material/CircularProgress'
+import Snackbar from '@mui/material/Snackbar'
+import Alert from '@mui/material/Alert'
 
 //custom components
 import AccountStudentForm from '@/components/Forms/Account/AccountStudent'
-import { IAccountStudent } from '@/components/Forms/Account/AccountStudent/AccountStudent.type'
 import ChangePasswordForm from '@/components/Forms/ChangePassword'
 import { IChangePassword } from '@/components/Forms/ChangePassword/ChangePassword.type'
 import ModalPopupBox from '@/components/ModalPopupBox'
+import AccountInfo from '@/components/AccountInfo'
 
 // layouts
 import AdminLayout from '@/layouts/AdminLayout'
 
 // other utils
 import { useAuthContext } from '@/context/auth-context'
-import studentService from '@/services/student'
+import studentService, { UserAccountInfoEditType } from '@/services/student'
 import { AxiosError } from 'axios'
-import { useLogout } from '../../hooks/useLogout'
+import { useLogout } from '@/hooks/useLogout'
+import { useNotification } from '@/hooks/useNotification'
+
+type TypeForm = 'account' | 'password' | 'remove-account'
 
 interface IFormAjaxProps {
   isLoading: boolean
   errorMessage?: string | null
-  typeForm?: 'account' | 'password' | 'remove-account' | null
+  typeForm?: TypeForm | null
 }
 
 function PageAdmin() {
   const { user } = useAuthContext()
   const { logOut } = useLogout()
+
   const [formAjaxProps, setFormAjaxProps] = useState<IFormAjaxProps>({
     isLoading: false,
   })
   const [editFormAccount, setEditFormAccount] = useState<boolean>(false)
   const [editFormPassword, setEditFormPassword] = useState<boolean>(false)
-
   const [modalOpen, setModalOpen] = useState<boolean>(false)
+
+  const [
+    isVisibleNotification,
+    messageNotification,
+    showNotification,
+    closeNotification,
+    setMessageNotification,
+  ] = useNotification()
 
   function onHandleOpenModal() {
     setModalOpen(true)
@@ -50,36 +63,64 @@ function PageAdmin() {
     setModalOpen(false)
   }
 
-  async function onSubmitAccount(props: IAccountStudent) {
-    setFormAjaxProps({
-      isLoading: true,
-      typeForm: 'account',
-    })
+  async function onSubmitAccount(props: UserAccountInfoEditType) {
+    if (!user?._id) return
 
-    setTimeout(() => {
-      console.log('props', props)
+    try {
+      setFormAjaxProps({
+        isLoading: true,
+        typeForm: 'account',
+      })
+
+      const response = await studentService.updateUserAccountInfo(
+        user?._id,
+        props
+      )
+      if (response.status === 200) {
+        showNotification()
+        setMessageNotification('Student account has updated')
+      }
+    } catch (e) {
+      if (e instanceof AxiosError) {
+        console.log(e.message)
+      }
+    } finally {
       setFormAjaxProps({
         isLoading: false,
         typeForm: null,
         errorMessage: null,
       })
-    }, 1000)
+    }
   }
 
   async function onSubmitChangePassword(props: IChangePassword) {
-    setFormAjaxProps({
-      isLoading: true,
-      typeForm: 'password',
-    })
+    if (!user?._id) return
 
-    setTimeout(() => {
-      console.log('props', props)
+    try {
+      setFormAjaxProps({
+        isLoading: true,
+        typeForm: 'password',
+      })
+
+      const response = await studentService.changePassword(
+        user?._id,
+        props.confirm_password
+      )
+      if (response.status === 200) {
+        showNotification()
+        setMessageNotification(response.data.message)
+      }
+    } catch (e) {
+      if (e instanceof AxiosError) {
+        console.log(e.message)
+      }
+    } finally {
       setFormAjaxProps({
         isLoading: false,
         typeForm: null,
         errorMessage: null,
       })
-    }, 1000)
+    }
   }
 
   async function handleRemoveAccount() {
@@ -117,52 +158,35 @@ function PageAdmin() {
           Edit
         </Button>
         {!editFormAccount ? (
-          <Box>
-            <Typography variant="subtitle1" className="font-normal">
-              Name
-            </Typography>
-            <Typography
-              variant="subtitle2"
-              className="color-grey-3"
-              marginBottom={2}
-            >
-              {user?.name}
-            </Typography>
-            <Typography variant="subtitle1" className="font-normal">
-              Surname
-            </Typography>
-            <Typography
-              variant="subtitle2"
-              className="color-grey-3"
-              marginBottom={2}
-            >
-              {user?.surname}
-            </Typography>
-            <Typography variant="subtitle1" className="font-normal">
-              Email
-            </Typography>
-            <Typography
-              variant="subtitle2"
-              className="color-grey-3"
-              marginBottom={2}
-            >
-              {user?.email}
-            </Typography>
-            {user?.phone ? (
-              <>
-                <Typography variant="subtitle1" className="font-normal">
-                  Phone
-                </Typography>
-                <Typography
-                  variant="subtitle2"
-                  className="color-grey-3"
-                  marginBottom={2}
-                >
-                  {user?.phone}
-                </Typography>
-              </>
-            ) : null}
-          </Box>
+          <AccountInfo
+            items={[
+              {
+                title: 'Name',
+                name: user?.name || null,
+                isTextarea: false,
+              },
+              {
+                title: 'Surname',
+                name: user?.surname || null,
+                isTextarea: false,
+              },
+              {
+                title: 'Email',
+                name: user?.email || null,
+                isTextarea: false,
+              },
+              {
+                title: 'Phone',
+                name: user?.phone || null,
+                isTextarea: false,
+              },
+              {
+                title: 'About',
+                name: user?.about || null,
+                isTextarea: true,
+              },
+            ]}
+          />
         ) : (
           <AccountStudentForm
             onSubmit={onSubmitAccount}
@@ -176,6 +200,8 @@ function PageAdmin() {
               email: user?.email || '',
               name: user?.name || '',
               surname: user?.surname || '',
+              phone: user?.phone || '',
+              about: user?.about || '',
             }}
           />
         )}
@@ -232,6 +258,14 @@ function PageAdmin() {
           </ModalPopupBox>
         </>
       </Modal>
+      <Snackbar
+        open={isVisibleNotification}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        autoHideDuration={3000}
+        onClose={closeNotification}
+      >
+        <Alert severity="success">{messageNotification}</Alert>
+      </Snackbar>
     </AdminLayout>
   )
 }

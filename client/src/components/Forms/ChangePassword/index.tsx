@@ -15,6 +15,7 @@ import {
   IChangePassword,
 } from './ChangePassword.type'
 import { PasswordChangeFormValidationSchema } from './ChangePassword.validation'
+import { useEffect } from 'react'
 
 function ChangePasswordForm({
   isLoading,
@@ -24,11 +25,21 @@ function ChangePasswordForm({
   const {
     handleSubmit,
     register,
+    reset,
     formState: { errors },
   } = useForm<IChangePassword>({
     mode: 'onSubmit',
     resolver: yupResolver(PasswordChangeFormValidationSchema),
   })
+
+  useEffect(() => {
+    if (!isLoading) {
+      reset({
+        password: '',
+        confirm_password: '',
+      })
+    }
+  }, [isLoading])
 
   return (
     <form

@@ -16,6 +16,8 @@ export interface IAuthUserInfo {
   role: UserRole
 }
 
+export type UserAccountInfoEditType = Omit<IAuthUserInfo, 'role' | '_id'>
+
 class StudentService {
   constructor() {}
 
@@ -52,6 +54,33 @@ class StudentService {
   async deleteUser(id: string): Promise<AxiosResponse<{ data: boolean }>> {
     const response = await $api().delete(
       `/${PRIVATE_REQUESTS.USER_DELETE}/student/${id}`
+    )
+
+    return response
+  }
+
+  async updateUserAccountInfo(id: string, props: UserAccountInfoEditType) {
+    const response = await $api().post(
+      `/${PRIVATE_REQUESTS.USER_INFO}/student`,
+      {
+        _id: id,
+        ...props,
+      }
+    )
+
+    return response
+  }
+
+  async changePassword(
+    id: string,
+    password: string
+  ): Promise<AxiosResponse<{ message: string }>> {
+    const response = await $api().post(
+      `/${PRIVATE_REQUESTS.UPDATE_PASSWORD}/student`,
+      {
+        _id: id,
+        password: password,
+      }
     )
 
     return response

@@ -1,13 +1,8 @@
-export interface IAccountStudent {
-  name: string
-  surname: string
-  email: string
-  phone?: string
-}
+import { UserAccountInfoEditType } from '@/services/student'
 
 export interface IAccountStudentFormProps {
-  initialData: IAccountStudent
-  onSubmit: (props: IAccountStudent) => void
+  initialData: UserAccountInfoEditType
+  onSubmit: (props: UserAccountInfoEditType) => void
   isLoading: boolean
   validationMessage?: string | null
 }

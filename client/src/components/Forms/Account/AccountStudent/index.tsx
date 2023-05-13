@@ -10,11 +10,9 @@ import Typography from '@mui/material/Typography'
 import CircularProgress from '@mui/material/CircularProgress'
 
 // relate utils
-import {
-  IAccountStudentFormProps,
-  IAccountStudent,
-} from './AccountStudent.type'
+import { IAccountStudentFormProps } from './AccountStudent.type'
 import { AccountStudentFormValidationSchema } from './AccountStudent.validation'
+import { UserAccountInfoEditType } from '@/services/student'
 
 function AccountStudentForm({
   initialData,
@@ -26,7 +24,7 @@ function AccountStudentForm({
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm<IAccountStudent>({
+  } = useForm<UserAccountInfoEditType>({
     mode: 'onSubmit',
     defaultValues: initialData,
     resolver: yupResolver(AccountStudentFormValidationSchema),
@@ -81,6 +79,38 @@ function AccountStudentForm({
           InputLabelProps={{ shrink: true }}
           error={!!errors.email?.message}
           helperText={errors.email?.message}
+        />
+      </Box>
+      <Box marginBottom={2}>
+        <TextField
+          {...register('phone')}
+          id="phone"
+          name="phone"
+          type="text"
+          label="Phone"
+          variant="standard"
+          className="form-field"
+          fullWidth
+          InputLabelProps={{ shrink: true }}
+          error={!!errors.phone?.message}
+          helperText={errors.phone?.message}
+        />
+      </Box>
+      <Box marginBottom={2}>
+        <TextField
+          {...register('about')}
+          id="about"
+          name="about"
+          type="text"
+          label="About"
+          variant="standard"
+          className="form-field"
+          fullWidth
+          multiline
+          minRows={5}
+          InputLabelProps={{ shrink: true }}
+          error={!!errors.about?.message}
+          helperText={errors.about?.message}
         />
       </Box>
       {validationMessage && (
