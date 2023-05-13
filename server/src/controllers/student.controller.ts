@@ -42,7 +42,6 @@ class StudentController {
       }
 
       const response = await StudentService.getUserInfo(id.toString());
-      console.log('response', response);
 
       return res.status(200).json(response);
     } catch (e) {
