@@ -17,6 +17,7 @@ import ChangePasswordForm from '@/components/Forms/ChangePassword'
 import { IChangePassword } from '@/components/Forms/ChangePassword/ChangePassword.type'
 import ModalPopupBox from '@/components/ModalPopupBox'
 import AccountInfo from '@/components/AccountInfo'
+import ContainerWithShadow from '@/components/Generic/ContainerWithShadow'
 
 // layouts
 import CabinetLayout from '@/layouts/CabinetLayout'
@@ -149,87 +150,105 @@ function PageCabinet() {
   }
 
   return (
-    <CabinetLayout heading="Account">
-      <Box className="account-panel">
-        <Button
-          onClick={() => setEditFormAccount(!editFormAccount)}
-          className="account-panel__edit-btn"
-        >
-          Edit
-        </Button>
-        {!editFormAccount ? (
-          <AccountInfo
-            items={[
-              {
-                title: 'Name',
-                name: user?.name || null,
-                isTextarea: false,
-              },
-              {
-                title: 'Surname',
-                name: user?.surname || null,
-                isTextarea: false,
-              },
-              {
-                title: 'Email',
-                name: user?.email || null,
-                isTextarea: false,
-              },
-              {
-                title: 'Phone',
-                name: user?.phone || null,
-                isTextarea: false,
-              },
-              {
-                title: 'About',
-                name: user?.about || null,
-                isTextarea: true,
-              },
-            ]}
-          />
-        ) : (
-          <AccountStudentForm
-            onSubmit={onSubmitAccount}
-            isLoading={formAjaxProps.typeForm === 'account' ? true : false}
-            validationMessage={
-              formAjaxProps.typeForm === 'account'
-                ? formAjaxProps.errorMessage
-                : null
-            }
-            initialData={{
-              email: user?.email || '',
-              name: user?.name || '',
-              surname: user?.surname || '',
-              phone: user?.phone || '',
-              about: user?.about || '',
-            }}
-          />
-        )}
-        <Button
-          onClick={() => setEditFormPassword(!editFormPassword)}
-          className="account-panel__edit-btn"
-        >
-          Change password
-        </Button>
-        {editFormPassword ? (
-          <Box mb={3}>
-            <ChangePasswordForm
-              onSubmit={onSubmitChangePassword}
-              isLoading={formAjaxProps.typeForm === 'password' ? true : false}
-              validationMessage={
-                formAjaxProps.typeForm === 'password'
-                  ? formAjaxProps.errorMessage
-                  : null
-              }
-            />
+    <CabinetLayout>
+      <Box marginBottom={4}>
+        <ContainerWithShadow paddingSize="sm">
+          <Typography
+            marginBottom={3}
+            variant="h3"
+            className="MuiTypography section-admin__heading"
+          >
+            Account
+          </Typography>
+          <Box className="account-panel">
+            <Button
+              onClick={() => setEditFormAccount(!editFormAccount)}
+              className="account-panel__edit-btn"
+            >
+              Edit
+            </Button>
+            {!editFormAccount ? (
+              <AccountInfo
+                items={[
+                  {
+                    title: 'Name',
+                    name: user?.name || null,
+                    isTextarea: false,
+                  },
+                  {
+                    title: 'Surname',
+                    name: user?.surname || null,
+                    isTextarea: false,
+                  },
+                  {
+                    title: 'Email',
+                    name: user?.email || null,
+                    isTextarea: false,
+                  },
+                  {
+                    title: 'Phone',
+                    name: user?.phone || null,
+                    isTextarea: false,
+                  },
+                  {
+                    title: 'About',
+                    name: user?.about || null,
+                    isTextarea: true,
+                  },
+                ]}
+              />
+            ) : (
+              <AccountStudentForm
+                onSubmit={onSubmitAccount}
+                isLoading={formAjaxProps.typeForm === 'account' ? true : false}
+                validationMessage={
+                  formAjaxProps.typeForm === 'account'
+                    ? formAjaxProps.errorMessage
+                    : null
+                }
+                initialData={{
+                  email: user?.email || '',
+                  name: user?.name || '',
+                  surname: user?.surname || '',
+                  phone: user?.phone || '',
+                  about: user?.about || '',
+                }}
+              />
+            )}
+            <Button
+              onClick={() => setEditFormPassword(!editFormPassword)}
+              className="account-panel__edit-btn"
+            >
+              Change password
+            </Button>
+            {editFormPassword ? (
+              <Box mb={3}>
+                <ChangePasswordForm
+                  onSubmit={onSubmitChangePassword}
+                  isLoading={
+                    formAjaxProps.typeForm === 'password' ? true : false
+                  }
+                  validationMessage={
+                    formAjaxProps.typeForm === 'password'
+                      ? formAjaxProps.errorMessage
+                      : null
+                  }
+                />
+              </Box>
+            ) : null}
           </Box>
-        ) : null}
+          <Box>
+            <Button
+              onClick={onHandleOpenModal}
+              type="submit"
+              variant="contained"
+            >
+              Remove account
+            </Button>
+          </Box>
+        </ContainerWithShadow>
       </Box>
-      <Box>
-        <Button onClick={onHandleOpenModal} type="submit" variant="contained">
-          Remove account
-        </Button>
-      </Box>
+      <Box marginBottom={4}></Box>
       <Modal open={modalOpen} onClose={handleCloseModal}>
         <>
           <ModalPopupBox type="full" onHandleClose={handleCloseModal}>

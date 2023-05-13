@@ -20,11 +20,9 @@ import { useAuthContext } from '@/context/auth-context'
 import profilePages from '../constants/profile-pages'
 
 function CabinetLayout({
-  heading,
   currentPageTitle,
   children,
 }: {
-  heading?: string
   currentPageTitle?: string
   children?: React.ReactNode
 }) {
@@ -108,21 +106,7 @@ function CabinetLayout({
                 {user ? <CabinetNavigation role={user?.role} /> : null}
               </Box>
             </ContainerWithShadow>
-            <ContainerWithShadow
-              paddingSize="sm"
-              className="section-admin__body"
-            >
-              {heading ? (
-                <Typography
-                  marginBottom={3}
-                  variant="h3"
-                  className="MuiTypography section-admin__heading"
-                >
-                  {heading}
-                </Typography>
-              ) : null}
-              <div className="gutter-row">{children}</div>
-            </ContainerWithShadow>
+            <Box className="section-admin__body">{children}</Box>
           </Box>
         </Container>
       </main>
