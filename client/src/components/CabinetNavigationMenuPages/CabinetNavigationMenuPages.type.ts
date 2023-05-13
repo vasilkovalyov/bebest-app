@@ -1,5 +1,5 @@
 import { UserRole } from '@/types/role'
 
-export interface IAdminNavigationMenuPagesProps {
+export interface ICabinetNavigationMenuPagesProps {
   role: UserRole
 }

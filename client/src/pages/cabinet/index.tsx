@@ -19,7 +19,7 @@ import ModalPopupBox from '@/components/ModalPopupBox'
 import AccountInfo from '@/components/AccountInfo'
 
 // layouts
-import AdminLayout from '@/layouts/AdminLayout'
+import CabinetLayout from '@/layouts/CabinetLayout'
 
 // other utils
 import { useAuthContext } from '@/context/auth-context'
@@ -36,7 +36,7 @@ interface IFormAjaxProps {
   typeForm?: TypeForm | null
 }
 
-function PageAdmin() {
+function PageCabinet() {
   const { user } = useAuthContext()
   const { logOut } = useLogout()
 
@@ -149,7 +149,7 @@ function PageAdmin() {
   }
 
   return (
-    <AdminLayout heading="Account">
+    <CabinetLayout heading="Account">
       <Box className="account-panel">
         <Button
           onClick={() => setEditFormAccount(!editFormAccount)}
@@ -266,8 +266,8 @@ function PageAdmin() {
       >
         <Alert severity="success">{messageNotification}</Alert>
       </Snackbar>
-    </AdminLayout>
+    </CabinetLayout>
   )
 }
 
-export default PageAdmin
+export default PageCabinet

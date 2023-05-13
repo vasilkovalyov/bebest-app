@@ -6,5 +6,5 @@ export interface INavigationMenuItem {
   id: number
   path: string
   title: string
-  isAdminShow: boolean
+  isCabinetShow: boolean
 }

@@ -1,18 +1,18 @@
 import profilePages from '@/constants/profile-pages'
 
-export interface IAdminPageMenu {
+export interface ICabinetPageMenu {
   id: number
   path: string
   title: string
   icon?: string
   role: string[]
 }
-const adminPages: IAdminPageMenu[] = [
+const cabinetPages: ICabinetPageMenu[] = [
   {
     id: 1,
     title: 'Account',
     icon: 'user',
-    path: profilePages.admin,
+    path: profilePages.cabinet,
     role: [],
   },
   {
@@ -80,4 +80,4 @@ const adminPages: IAdminPageMenu[] = [
   },
 ]
 
-export default adminPages
+export default cabinetPages

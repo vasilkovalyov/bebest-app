@@ -7,7 +7,7 @@ const pages = {
   teachers: '/teachers',
   companies: '/companies',
   articles: '/articles',
-  admin: '/admin',
+  cabinet: '/cabinet',
 }
 
 export default pages

@@ -14,7 +14,7 @@ function Navigation({ menu }: INavigationProps) {
     <Stack component={'nav'} direction="row" className="header-navigation">
       {menu.map((menuItem) => (
         <Fragment key={menuItem.id}>
-          {menuItem.isAdminShow ? (
+          {menuItem.isCabinetShow ? (
             <Box className="header-navigation__item">
               <Link
                 href={menuItem.path}

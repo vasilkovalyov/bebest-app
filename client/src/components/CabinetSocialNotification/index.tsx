@@ -14,13 +14,13 @@ import profilePages from '@/constants/profile-pages'
 import { UserRole } from '@/types/role'
 
 // relate utils
-import { IAdminSocialNotificationProps } from './AdminSocialNotification.type'
+import { ICabinetSocialNotificationProps } from './CabinetSocialNotification.type'
 
 const getLinkByRole = (role: UserRole) => {
   return role !== 'company' ? profilePages.lessons : profilePages.courses
 }
 
-function AdminSocialNotification({ role }: IAdminSocialNotificationProps) {
+function CabinetSocialNotification({ role }: ICabinetSocialNotificationProps) {
   return (
     <Stack direction="row" gap={2} className="admin-social-notification">
       <Link
@@ -51,4 +51,4 @@ function AdminSocialNotification({ role }: IAdminSocialNotificationProps) {
   )
 }
 
-export default AdminSocialNotification
+export default CabinetSocialNotification

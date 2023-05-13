@@ -6,12 +6,12 @@ export async function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname.split('/')[1]
   const authToken = req.cookies.get('token')
 
-  if (pathname === 'admin' && !authToken) {
+  if (pathname === 'cabinet' && !authToken) {
     return NextResponse.redirect(new URL('/404', req.url))
   }
 
   const response = await authService.isAuth(authToken?.value)
-  if (pathname === pages.admin.replace('/', '') && !response.isAuth) {
+  if (pathname === pages.cabinet.replace('/', '') && !response.isAuth) {
     return NextResponse.redirect(new URL('/404', req.url))
   }
 

@@ -31,16 +31,17 @@ App.getInitialProps = async ({ ctx }: any): Promise<IAuthUserInfo | any> => {
   }
 
   const pathname = ctx.pathname.split('/')[1]
+
   try {
     const { token, userId, role } = ctx.req.cookies
-    if (pathname === pages.admin.replace('/', '') && !token) {
+    if (pathname === pages.cabinet.replace('/', '') && !token) {
       ctx.res.writeHead(302, { Location: '/404' })
       ctx.res.end()
       return
     }
     const auth = await authService.isAuth(token)
 
-    if (pathname === pages.admin.replace('/', '') && !auth.isAuth) {
+    if (pathname === pages.cabinet.replace('/', '') && !auth.isAuth) {
       ctx.res.writeHead(302, { Location: '/404' })
       ctx.res.end()
       return

@@ -1,5 +1,5 @@
 // layouts
-import AdminLayout from '@/layouts/AdminLayout'
+import CabinetLayout from '@/layouts/CabinetLayout'
 
 // other utils
 import { useAuthContext } from '@/context/auth-context'
@@ -7,10 +7,10 @@ import { useAuthContext } from '@/context/auth-context'
 function PagePrivateInfo() {
   const { user } = useAuthContext()
   return (
-    <AdminLayout
+    <CabinetLayout
       heading="Private info"
       currentPageTitle="Private info"
-    ></AdminLayout>
+    ></CabinetLayout>
   )
 }
 

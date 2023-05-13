@@ -10,17 +10,19 @@ import MenuItem from '@mui/material/MenuItem'
 import Icon from '@/components/Generic/Icon'
 
 // other utils
-import adminPages from '@/models/adminPages'
+import cabinetPages from '@/models/cabinetPages'
 
 // relate utils
-import { IAdminNavigationMenuPagesProps } from './AdminNavigationMenuPages.type'
+import { ICabinetNavigationMenuPagesProps } from './CabinetNavigationMenuPages.type'
 
-function AdminNavigationMenuPages({ role }: IAdminNavigationMenuPagesProps) {
+function CabinetNavigationMenuPages({
+  role,
+}: ICabinetNavigationMenuPagesProps) {
   const router = useRouter()
 
   return (
     <>
-      {adminPages.map((page) => {
+      {cabinetPages.map((page) => {
         if (!page.role.length) {
           return (
             <MenuItem key={page.id} className="admin-navigation-menu__item">
@@ -70,4 +72,4 @@ function AdminNavigationMenuPages({ role }: IAdminNavigationMenuPagesProps) {
   )
 }
 
-export default AdminNavigationMenuPages
+export default CabinetNavigationMenuPages

@@ -11,7 +11,7 @@ import Box from '@mui/material/Box'
 import Navigation from '../Navigation'
 import AccountNavigation from '../HeaderToolbar'
 import HeaderAuthNavigation from '@/components/HeaderAuthNavigation'
-import AdminSocialNotification from '@/components/AdminSocialNotification'
+import CabinetSocialNotification from '@/components/CabinetSocialNotification'
 
 // other utils
 import pages from '@/constants/pages'
@@ -43,7 +43,7 @@ function Header() {
           ) : (
             <Stack direction="row" alignItems="center">
               <Box marginRight={2}>
-                <AdminSocialNotification role={user.role} />
+                <CabinetSocialNotification role={user.role} />
               </Box>
               <AccountNavigation
                 role={user.role}

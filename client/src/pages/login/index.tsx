@@ -35,7 +35,7 @@ function PageLogin() {
 
       const { role, token, userId } = loginResponse.data
 
-      router.push(pages.admin).then(() => {
+      router.push(pages.cabinet).then(() => {
         studentService.getUserInfo(role, userId, token).then((userResponse) => {
           setUser(userResponse.data)
         })

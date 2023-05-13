@@ -16,7 +16,7 @@ import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
 
 //custom components
-import AdminNavigationMenuPages from '@/components/AdminNavigationMenuPages'
+import CabinetNavigationMenuPages from '@/components/CabinetNavigationMenuPages'
 
 // relate utils
 import { IAccountNavigationProps } from './HeaderToolbar.type'
@@ -59,7 +59,7 @@ function HeaderToolbar({
           open={Boolean(anchorElUser)}
           onClose={() => setAnchorElUser(null)}
         >
-          <AdminNavigationMenuPages role={role} />
+          <CabinetNavigationMenuPages role={role} />
           <MenuItem className="admin-navigation-menu__item" onClick={logOut}>
             <Typography className="admin-navigation-menu__link">
               Log out

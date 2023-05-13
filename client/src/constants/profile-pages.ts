@@ -1,14 +1,14 @@
 const profilePages = {
-  admin: '/admin',
-  privateInfo: '/admin/private-info',
-  lessons: '/admin/lessons',
-  teachers: '/admin/teachers',
-  courses: '/admin/courses',
-  payment: '/admin/payment',
-  services: '/admin/services',
-  statistics: '/admin/statistics',
-  companyTeam: '/admin/company-team',
-  chats: '/admin/chats',
+  cabinet: '/cabinet',
+  privateInfo: '/cabinet/private-info',
+  lessons: '/cabinet/lessons',
+  teachers: '/cabinet/teachers',
+  courses: '/cabinet/courses',
+  payment: '/cabinet/payment',
+  services: '/cabinet/services',
+  statistics: '/cabinet/statistics',
+  companyTeam: '/cabinet/company-team',
+  chats: '/cabinet/chats',
 }
 
 export default profilePages

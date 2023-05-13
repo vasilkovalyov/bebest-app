@@ -13,13 +13,13 @@ import Stack from '@mui/material/Stack'
 // custom components
 import Header from '@/components/Header'
 import ContainerWithShadow from '@/components/Generic/ContainerWithShadow'
-import AdminNavigation from '@/components/AdminNavigationMenuPages'
+import CabinetNavigation from '@/components/CabinetNavigationMenuPages'
 
 // other utils
 import { useAuthContext } from '@/context/auth-context'
 import profilePages from '../constants/profile-pages'
 
-function AdminLayout({
+function CabinetLayout({
   heading,
   currentPageTitle,
   children,
@@ -33,7 +33,9 @@ function AdminLayout({
   return (
     <>
       <Head>
-        <title>LearnLangPlatform - Admin</title>
+        <title>
+          LearnLangPlatform - Cabinet {user?.name} {user?.surname}
+        </title>
         <meta
           name="description"
           content="The platform for learning languages"
@@ -52,10 +54,10 @@ function AdminLayout({
             </Link>
             {currentPageTitle ? (
               <Link
-                href={profilePages.admin}
+                href={profilePages.cabinet}
                 className="breadcrumbs__item breadcrumbs__item--link color-dark-blue-1 font-medium"
               >
-                Admin
+                Cabinet
               </Link>
             ) : null}
             {currentPageTitle ? (
@@ -71,7 +73,7 @@ function AdminLayout({
                 variant="body2"
                 className="MuiTypography breadcrumbs__item font-medium"
               >
-                Admin
+                Cabinet
               </Typography>
             ) : null}
           </Breadcrumbs>
@@ -103,7 +105,7 @@ function AdminLayout({
                 component="ul"
                 className="admin-navigation-menu admin-navigation-menu--aside-menu"
               >
-                {user ? <AdminNavigation role={user?.role} /> : null}
+                {user ? <CabinetNavigation role={user?.role} /> : null}
               </Box>
             </ContainerWithShadow>
             <ContainerWithShadow
@@ -128,4 +130,4 @@ function AdminLayout({
   )
 }
 
-export default AdminLayout
+export default CabinetLayout
