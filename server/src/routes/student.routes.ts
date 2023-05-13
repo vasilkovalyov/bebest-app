@@ -13,7 +13,11 @@ router.post(
   RegistrationController.registration
 );
 
-router.delete('/delete/student', authMiddleware, StudentController.removeUser);
+router.delete(
+  '/delete/student/:id',
+  authMiddleware,
+  StudentController.removeUser
+);
 
 router.post(
   '/update-password/student',

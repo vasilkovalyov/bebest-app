@@ -50,7 +50,9 @@ class LoginController {
 
       return res.status(200).json({ isAuth: true });
     } catch (err) {
-      return res.status(401).json({ message: 'User is not authorized!' });
+      return res
+        .status(401)
+        .json({ message: 'User is not authorized!', isAuth: false });
     }
   }
 }

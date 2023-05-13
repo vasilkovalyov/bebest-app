@@ -5,11 +5,11 @@ import ApiError from '../utils/api-error';
 class StudentController {
   async removeUser(req: Request, res: Response) {
     try {
-      const { userId } = req.body;
-      if (!userId) {
+      const { id } = req.params;
+      if (!id) {
         throw ApiError.BadRequestError('You have to add send userId');
       }
-      const response = await StudentService.removeUser(userId);
+      const response = await StudentService.removeUser(id);
       return res.status(200).json({
         data: response,
       });
@@ -42,12 +42,14 @@ class StudentController {
       }
 
       const response = await StudentService.getUserInfo(id.toString());
+      console.log('response', response);
 
       return res.status(200).json(response);
     } catch (e) {
       if (!(e instanceof Error)) return;
       return res.status(400).json({
         message: e.message,
+        isAuth: false,
       });
     }
   }
