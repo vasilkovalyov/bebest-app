@@ -11,6 +11,11 @@ export interface IStudent extends IUser {
 
 export type StudentModelType = IStudent & Document;
 
+export type StudentAccountEditableModelType = Omit<
+  IStudent,
+  'password' | 'userId' | 'role'
+>;
+
 const StudentSchema = new Schema<StudentModelType>({
   name: { type: String, required: true },
   surname: { type: String, required: true },

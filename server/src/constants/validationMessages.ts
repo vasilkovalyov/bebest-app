@@ -1,5 +1,5 @@
 export default {
-  userIdValid: 'Please enter userId',
+  userIdValid: 'Please enter user id',
   nameValid: 'Please enter a valid name field',
   surnameValid: 'Please enter a valid surnameValid field',
   emailValid: 'Please enter a valid email field',

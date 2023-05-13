@@ -3,7 +3,7 @@ import validationMessages from '../constants/validationMessages';
 import { passwordRegex } from './password';
 
 const changePassowrdSchema = Joi.object({
-  userId: Joi.string().required().messages({
+  _id: Joi.string().required().messages({
     'string.empty': validationMessages.userIdValid,
   }),
   password: Joi.string()

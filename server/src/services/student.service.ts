@@ -1,5 +1,7 @@
 import ApiError from '../utils/api-error';
-import StudentModel from '../models/student.model';
+import StudentModel, {
+  StudentAccountEditableModelType,
+} from '../models/student.model';
 import UserModel from '../models/user.model';
 import bcrypt from 'bcrypt';
 
@@ -39,7 +41,7 @@ class StudentService {
       throw ApiError.BadRequestError(`Student with id ${id} not a found!`);
 
     return {
-      message: 'Password has been update successfully!',
+      message: 'Password has updated successfull!',
     };
   }
 
@@ -53,6 +55,20 @@ class StudentService {
     }
 
     return studentModel;
+  }
+
+  async updateUserInfo(id: string, props: StudentAccountEditableModelType) {
+    const response = await StudentModel.findOneAndUpdate(
+      { _id: id },
+      {
+        ...props,
+      },
+      { new: true }
+    ).select('_id name surname email phone about');
+
+    if (!response) throw ApiError.BadRequestError('Student did not update');
+
+    return response;
   }
 }
 

@@ -15,7 +15,7 @@ export default async function (
     const userData = await tokenService.validateAccessToken(token);
 
     if (!userData) {
-      return res.status(401).json({ message: 'Token has been destroyed!' });
+      return res.status(401).json({ message: 'Token has destroyed!' });
     }
 
     return next();

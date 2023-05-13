@@ -26,6 +26,12 @@ router.post(
   StudentController.changePassword
 );
 
+router.post(
+  '/user-info/student',
+  authMiddleware,
+  StudentController.updateUserInfo
+);
+
 router.get('/user-info/student', authMiddleware, StudentController.getUserInfo);
 
 export default router;

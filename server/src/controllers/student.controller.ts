@@ -7,7 +7,7 @@ class StudentController {
     try {
       const { id } = req.params;
       if (!id) {
-        throw ApiError.BadRequestError('You have to add send userId');
+        throw ApiError.BadRequestError('You have to add send user id');
       }
       const response = await StudentService.removeUser(id);
       return res.status(200).json({
@@ -23,8 +23,8 @@ class StudentController {
 
   async changePassword(req: Request, res: Response) {
     try {
-      const { userId, password } = req.body;
-      const response = await StudentService.changePassword(userId, password);
+      const { _id, password } = req.body;
+      const response = await StudentService.changePassword(_id, password);
       return res.status(200).json(response);
     } catch (e) {
       if (!(e instanceof Error)) return;
@@ -49,6 +49,24 @@ class StudentController {
       return res.status(400).json({
         message: e.message,
         isAuth: false,
+      });
+    }
+  }
+
+  async updateUserInfo(req: Request, res: Response) {
+    try {
+      const { _id, ...props } = req.body;
+      if (!_id) {
+        throw ApiError.BadRequestError('You did not send user id');
+      }
+
+      const response = await StudentService.updateUserInfo(_id, props);
+
+      return res.status(200).json(response);
+    } catch (e) {
+      if (!(e instanceof Error)) return;
+      return res.status(400).json({
+        message: e.message,
       });
     }
   }
