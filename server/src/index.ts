@@ -9,6 +9,7 @@ import databaseConnect from './database';
 
 import studentRoute from './routes/student.routes';
 import authRoute from './routes/auth.routes';
+import subjectRoute from './routes/subject.routes';
 
 (async () => {
   const server: Express = express();
@@ -24,6 +25,8 @@ import authRoute from './routes/auth.routes';
 
   server.use('/api', authRoute);
   server.use('/api', studentRoute);
+  server.use('/api', subjectRoute);
+
   try {
     databaseConnect()
       .then((response) => {
