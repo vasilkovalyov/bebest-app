@@ -37,10 +37,6 @@ function LoginForm({
   } = useForm<ILogin>({
     mode: 'onSubmit',
     resolver: yupResolver(LoginFormValidationSchema),
-    defaultValues: {
-      email: '',
-      password: '',
-    },
   })
 
   return (
@@ -102,8 +98,13 @@ function LoginForm({
             </Typography>
           </Box>
         )}
-        <Box display="flex" alignItems="center">
-          <Button type="submit" variant="contained" disabled={isLoading}>
+        <Box display="flex" alignItems="center" justifyContent="center">
+          <Button
+            type="submit"
+            variant="contained"
+            size="small"
+            disabled={isLoading}
+          >
             Sign in
           </Button>
           <Box ml={2}>{isLoading ? <CircularProgress size={16} /> : null}</Box>

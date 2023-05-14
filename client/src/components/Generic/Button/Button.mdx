@@ -1,0 +1,164 @@
+{/* Button.mdx */}
+
+import { Meta, Story, Preview } from '@storybook/blocks'
+
+import { ThemeProvider } from '@mui/material'
+import Button from '@mui/material/Button'
+import Stack from '@mui/material/Stack'
+import Box from '@mui/material/Box'
+import Grid from '@mui/material/Grid'
+
+import theme from '../../../theme/primaryTheme.ts'
+
+<Meta title="Components/Button/Guideline" />
+
+<style>
+  {`
+    p {
+      color: inherit !important;
+      font-weight: inherit !important;
+      margin: 0 !important;
+    }
+  `}
+</style>
+
+<ThemeProvider theme={theme}>
+
+# Buttons
+
+<Grid container spacing={4}>
+  <Grid item xs={12} sm={6} md={3}>
+    #### Primary
+    <Box marginBottom={2}>
+      <Button variant="text" color="primary">
+        Text
+      </Button>
+    </Box>
+    <Box marginBottom={2}>
+      <Button variant="outlined" color="primary">
+        Outlined
+      </Button>
+    </Box>
+    <Box marginBottom={2}>
+      <Button variant="contained" color="primary">
+        Contained
+      </Button>
+    </Box>
+    <Box marginBottom={2}>
+      <Button variant="contained" color="primary" size="small">
+        Small
+      </Button>
+    </Box>
+    <Box marginBottom={2}>
+      <Button variant="contained" color="primary" size="medium">
+        Medium
+      </Button>
+    </Box>
+    <Box marginBottom={2}>
+      <Button variant="contained" color="primary" size="large">
+        Large
+      </Button>
+    </Box>
+  </Grid>
+  <Grid item xs={12} sm={6} md={3}>
+    #### Secondary
+    <Box marginBottom={2}>
+      <Button variant="text" color="secondary">
+        Text
+      </Button>
+    </Box>
+    <Box marginBottom={2}>
+      <Button variant="outlined" color="secondary">
+        Outlined
+      </Button>
+    </Box>
+    <Box marginBottom={2}>
+      <Button variant="contained" color="secondary">
+        Contained
+      </Button>
+    </Box>
+    <Box marginBottom={2}>
+      <Button variant="contained" color="secondary" size="small">
+        Small
+      </Button>
+    </Box>
+    <Box marginBottom={2}>
+      <Button variant="contained" color="secondary" size="medium">
+        Medium
+      </Button>
+    </Box>
+    <Box marginBottom={2}>
+      <Button variant="contained" color="secondary" size="large">
+        Large
+      </Button>
+    </Box>
+  </Grid>
+  <Grid item xs={12} sm={6} md={3}>
+    #### Success
+    <Box marginBottom={2}>
+      <Button variant="text" color="success">
+        Text
+      </Button>
+    </Box>
+    <Box marginBottom={2}>
+      <Button variant="outlined" color="success">
+        Outlined
+      </Button>
+    </Box>
+    <Box marginBottom={2}>
+      <Button variant="contained" color="success">
+        Contained
+      </Button>
+    </Box>
+    <Box marginBottom={2}>
+      <Button variant="contained" color="success" size="small">
+        Small
+      </Button>
+    </Box>
+    <Box marginBottom={2}>
+      <Button variant="contained" color="success" size="medium">
+        Medium
+      </Button>
+    </Box>
+    <Box marginBottom={2}>
+      <Button variant="contained" color="success" size="large">
+        Large
+      </Button>
+    </Box>
+  </Grid>
+  <Grid item xs={12} sm={6} md={3}>
+    #### Info
+    <Box marginBottom={2}>
+      <Button variant="text" color="info">
+        Text
+      </Button>
+    </Box>
+    <Box marginBottom={2}>
+      <Button variant="outlined" color="info">
+        Outlined
+      </Button>
+    </Box>
+    <Box marginBottom={2}>
+      <Button variant="contained" color="info">
+        Contained
+      </Button>
+    </Box>
+    <Box marginBottom={2}>
+      <Button variant="contained" color="info" size="small">
+        Small
+      </Button>
+    </Box>
+    <Box marginBottom={2}>
+      <Button variant="contained" color="info" size="medium">
+        Medium
+      </Button>
+    </Box>
+    <Box marginBottom={2}>
+      <Button variant="contained" color="info" size="large">
+        Large
+      </Button>
+    </Box>
+  </Grid>
+</Grid>
+
+</ThemeProvider>

@@ -1,0 +1,22 @@
+@import '../settings/settings.spacing';
+@import '../settings/settings.responsive';
+
+.header-navigation {
+  @media (max-width: $header-breakpoint-max) {
+    display: none;
+  }
+
+  &__list {
+    margin: 0;
+    padding: 0;
+
+    @media (min-width: $header-breakpoint) {
+      display: flex;
+      align-items: center;
+    }
+  }
+  &__item {
+    list-style-type: none;
+    margin: 0 14px;
+  }
+}

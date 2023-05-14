@@ -1,0 +1,49 @@
+.color-primary {
+  color: $primary-color;
+  * {
+    color: inherit;
+  }
+}
+
+.color-secondary {
+  color: $secondary-color;
+  * {
+    color: inherit;
+  }
+}
+
+.color-success {
+  color: $success-color;
+  * {
+    color: inherit;
+  }
+}
+
+.color-info {
+  color: $info-color;
+  * {
+    color: inherit;
+  }
+}
+
+.color-grey-light {
+  color: $grey-light;
+  * {
+    color: inherit;
+  }
+}
+
+.color-grey-middle {
+  color: $grey-middle;
+  * {
+    color: inherit;
+  }
+}
+
+.color-grey-dark {
+  color: $grey-dark;
+
+  * {
+    color: inherit;
+  }
+}

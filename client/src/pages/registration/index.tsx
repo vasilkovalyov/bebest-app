@@ -12,7 +12,7 @@ import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
 
 // custom components
-import Layout from '@/components/Layout'
+import Layout from '@/layouts/Layout'
 import TabPanel from '@/components/Generic/TabPanel'
 import ContainerWithShadow from '@/components/Generic/ContainerWithShadow'
 import { IRegistrationStudent } from '../../components/Forms/Registration/RegistrationStudent/RegistrationStudent.type'
@@ -48,42 +48,42 @@ export default function Registration() {
   }
 
   return (
-    <Container>
-      <Layout className="page-registration">
-        <Container>
-          <Breadcrumbs aria-label="breadcrumb" className="breadcrumbs">
-            <Link
-              href="/"
-              className="breadcrumbs__item breadcrumbs__item--link color-dark-blue-1 font-medium"
-            >
-              Home
-            </Link>
-            <Typography
-              variant="body2"
-              className="MuiTypography breadcrumbs__item font-medium"
-            >
-              Registration
-            </Typography>
-          </Breadcrumbs>
+    <Layout className="page-registration">
+      <Container>
+        <Breadcrumbs aria-label="breadcrumb" className="breadcrumbs">
+          <Link href="/" className="breadcrumbs__link">
+            Home
+          </Link>
           <Typography
-            component="h1"
-            variant="h2"
-            className="MuiTypography section-registration__heading ta-c"
-            marginBottom={3}
+            variant="body1"
+            component="span"
+            className="breadcrumbs__text"
           >
             Registration
           </Typography>
-          {successMessage === null ? (
+        </Breadcrumbs>
+
+        <Typography
+          variant="h3"
+          className="MuiTypography ta-c"
+          marginBottom={3}
+        >
+          Registration
+        </Typography>
+        {successMessage === null ? (
+          <Box
+            maxWidth={400}
+            marginBottom={8}
+            margin={{
+              marginLeft: 'auto',
+              marginRight: 'auto',
+            }}
+          >
             <ContainerWithShadow className="container--registration">
               <Box className="registration-switcher">
-                <Box>
-                  <Typography
-                    marginBottom={2}
-                    textAlign="center"
-                    variant="body1"
-                    className="color-dark-blue-1 font-bold"
-                  >
-                    I register as:
+                <Box marginBottom={2}>
+                  <Typography marginBottom={1} textAlign="center" variant="h6">
+                    Register as:
                   </Typography>
                   <Tabs
                     className="registration-switcher__tabs"
@@ -111,8 +111,7 @@ export default function Registration() {
                   <Typography
                     marginBottom={2}
                     textAlign="center"
-                    variant="body2"
-                    className="color-dark-blue-1"
+                    variant="subtitle2"
                   >
                     A student can study, participate in free and paid workshops,
                     courses and book individual lessons
@@ -127,8 +126,7 @@ export default function Registration() {
                   <Typography
                     marginBottom={2}
                     textAlign="center"
-                    variant="body2"
-                    className="color-dark-blue-1"
+                    variant="subtitle2"
                   >
                     A mentor can create and conduct workshops and individual
                     classes with students, on a paid or free basis
@@ -138,8 +136,7 @@ export default function Registration() {
                   <Typography
                     marginBottom={2}
                     textAlign="center"
-                    variant="body2"
-                    className="color-dark-blue-1"
+                    variant="subtitle2"
                   >
                     The company has opportunities to create courses, register,
                     appoint mentors and conduct courses on a paid and free basis
@@ -147,19 +144,19 @@ export default function Registration() {
                 </TabPanel>
               </Box>
             </ContainerWithShadow>
-          ) : (
-            <Box textAlign="center">
-              <Typography marginBottom={2}>{successMessage}</Typography>
-              <Link
-                href="/"
-                className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-sghohy-MuiButtonBase-root-MuiButton-root"
-              >
-                Ok
-              </Link>
-            </Box>
-          )}
-        </Container>
-      </Layout>
-    </Container>
+          </Box>
+        ) : (
+          <Box textAlign="center" marginBottom={8}>
+            <Typography marginBottom={2}>{successMessage}</Typography>
+            <Link
+              href="/"
+              className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-sghohy-MuiButtonBase-root-MuiButton-root"
+            >
+              Ok
+            </Link>
+          </Box>
+        )}
+      </Container>
+    </Layout>
   )
 }

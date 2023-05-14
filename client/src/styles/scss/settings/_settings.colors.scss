@@ -1,0 +1,30 @@
+$pink: #f04973;
+$orange: #fa6655;
+$green: #049e66;
+$grey-light: #f2f5fa;
+$grey-middle: #8b919e;
+$grey-dark: #454b58;
+$black: #292c32;
+$gold: #ffc452;
+$blue: #55abfa;
+$blue-dark: rgba(50, 144, 212, 0.75);
+$aqua: #00d2ff;
+$aqua-dark: #2596ff;
+
+$white: #ffffff;
+
+$pink-light: #ffdee4;
+$yellow-light: #fdecc8;
+$violet-light: #e1daff;
+$aqua-light: #d0eefb;
+$green-light: #c7f2eb;
+
+$primary-color: $pink;
+$secondary-color: $blue;
+$success-color: $green;
+$info-color: $grey-middle;
+
+//gradients
+
+$primary-gradient: linear-gradient(90deg, $pink 0%, $orange 100%);
+$secondary-gradient: linear-gradient(90deg, $aqua 0%, $aqua-dark 100%);

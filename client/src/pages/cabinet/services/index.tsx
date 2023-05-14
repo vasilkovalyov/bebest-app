@@ -2,5 +2,5 @@
 import CabinetLayout from '@/layouts/CabinetLayout'
 
 export default function PageServices() {
-  return <CabinetLayout></CabinetLayout>
+  return <CabinetLayout currentPageTitle="Services"></CabinetLayout>
 }

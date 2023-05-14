@@ -8,10 +8,10 @@ import Stack from '@mui/material/Stack'
 import Box from '@mui/material/Box'
 
 // custom components
-import Navigation from '../Navigation'
-import AccountNavigation from '../HeaderToolbar'
+import HeaderNavigation from '../HeaderNavigation'
+import HeaderToolbar from '../HeaderToolbar'
 import HeaderAuthNavigation from '@/components/HeaderAuthNavigation'
-import CabinetSocialNotification from '@/components/CabinetSocialNotification'
+import AccountSocialNotification from '@/components/AccountSocialNotification'
 
 // other utils
 import pages from '@/constants/pages'
@@ -24,7 +24,11 @@ function Header() {
   return (
     <header className="header">
       <Container maxWidth="xl" className="header__container">
-        <Box className="header__left">
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+        >
           <Link href={pages.home} className="header__logo">
             <Image
               src="/images/logo.png"
@@ -33,26 +37,20 @@ function Header() {
               height={30}
             />
           </Link>
-        </Box>
-        <Box className="header__center">
-          <Navigation menu={menu} />
-        </Box>
-        <Box className="header__right">
-          {!user ? (
-            <HeaderAuthNavigation />
-          ) : (
-            <Stack direction="row" alignItems="center">
-              <Box marginRight={2}>
-                <CabinetSocialNotification role={user.role} />
-              </Box>
-              <AccountNavigation
-                role={user.role}
-                userName={user?.name}
-                classNameMenu="admin-navigation-menu--header-menu"
-              />
-            </Stack>
-          )}
-        </Box>
+          <HeaderNavigation menu={menu} />
+          <Box>
+            {!user ? (
+              <HeaderAuthNavigation />
+            ) : (
+              <Stack direction="row" alignItems="center">
+                <Box marginRight={2}>
+                  <AccountSocialNotification role={user.role} />
+                </Box>
+                <HeaderToolbar role={user.role} userName={user?.name} />
+              </Stack>
+            )}
+          </Box>
+        </Stack>
       </Container>
     </header>
   )

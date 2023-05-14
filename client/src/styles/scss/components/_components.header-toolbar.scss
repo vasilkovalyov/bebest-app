@@ -1,0 +1,52 @@
+@import '../settings/settings.spacing';
+@import '../settings/settings.colors';
+
+.header-toolbar {
+  min-height: auto;
+
+  &__menu {
+    .MuiMenu-list {
+      .MuiButtonBase-root {
+        width: 100%;
+        height: auto;
+        min-height: initial;
+        text-transform: capitalize;
+        color: inherit;
+        font-weight: 400;
+        text-align: left;
+        display: block;
+        padding: $spacing-0-s $spacing-0-l;
+
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.04);
+        }
+      }
+
+      .MuiMenuItem-root {
+        padding: 0 $spacing-0-l;
+        color: $grey-dark;
+        margin-bottom: 0;
+
+        &:hover {
+          .MuiButtonBase-root {
+            background-color: transparent;
+          }
+        }
+      }
+
+      a {
+        padding: $spacing-0-l;
+        display: block;
+        width: 100%;
+        text-decoration: none;
+        color: initial;
+        display: inline-flex;
+        align-items: center;
+
+        svg {
+          margin-right: 10px;
+        }
+      }
+    }
+  }
+}

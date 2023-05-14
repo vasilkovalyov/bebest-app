@@ -1,0 +1,103 @@
+{/* Button.mdx */}
+
+import { Meta, Story, Preview } from '@storybook/blocks'
+
+import { ThemeProvider } from '@mui/material'
+import TextField from '@mui/material/TextField'
+import Stack from '@mui/material/Stack'
+import Box from '@mui/material/Box'
+import Grid from '@mui/material/Grid'
+import InputAdornment from '@mui/material/InputAdornment'
+
+import Icon from '../../Generic/Icon'
+import { IconEnum } from '../../Generic/Icon/Icon.type.ts'
+
+import theme from '../../../theme/primaryTheme.ts'
+
+<Meta title="Form/TextField/Guideline" />
+
+<style>
+  {`
+    .MuiFormHelperText-root.Mui-error {
+      color: #d32f2f !important;
+    }
+  `}
+</style>
+
+<ThemeProvider theme={theme}>
+
+# TextField
+
+#### Default
+
+<Box marginBottom={2}>
+  <TextField
+    id="field"
+    name="field"
+    type="text"
+    label="Label"
+    variant="standard"
+    fullWidth
+    InputLabelProps={{ shrink: true }}
+  />
+</Box>
+
+#### Validation error
+
+<Box marginBottom={2}>
+  <TextField
+    id="field"
+    name="field"
+    type="text"
+    label="Label"
+    variant="standard"
+    fullWidth
+    InputLabelProps={{ shrink: true }}
+    error={true}
+    helperText="Error text"
+  />
+</Box>
+
+#### Icon left
+
+<Box marginBottom={2}>
+  <TextField
+    id="field"
+    name="field"
+    type="text"
+    label="Label"
+    variant="standard"
+    fullWidth
+    InputLabelProps={{ shrink: true }}
+    InputProps={{
+      startAdornment: (
+        <InputAdornment position="start">
+          <Icon size={20} icon={IconEnum.EYE_ACCESS} />
+        </InputAdornment>
+      ),
+    }}
+  />
+</Box>
+
+#### Icon right
+
+<Box marginBottom={2}>
+  <TextField
+    id="field"
+    name="field"
+    type="text"
+    label="Label"
+    variant="standard"
+    fullWidth
+    InputLabelProps={{ shrink: true }}
+    InputProps={{
+      endAdornment: (
+        <InputAdornment position="end">
+          <Icon size={20} icon={IconEnum.EYE_ACCESS} />
+        </InputAdornment>
+      ),
+    }}
+  />
+</Box>
+
+</ThemeProvider>

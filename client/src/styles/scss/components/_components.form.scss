@@ -1,0 +1,37 @@
+@import '../settings/settings.spacing';
+@import '../settings/settings.colors';
+
+.MuiTextField-root {
+  .Mui-disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  .MuiFormLabel-root {
+    position: relative;
+    margin: 0;
+
+    &.Mui-error,
+    &.Mui-focused {
+      color: inherit;
+    }
+  }
+
+  .MuiInputBase-root {
+    margin: 0;
+
+    &.Mui-error {
+      .MuiInputBase-input {
+        border-color: $primary-color !important;
+      }
+    }
+  }
+
+  .Mui-focused {
+    &.MuiInputBase-root {
+      .MuiInput-input {
+        border: 2px solid $grey-middle;
+      }
+    }
+  }
+}

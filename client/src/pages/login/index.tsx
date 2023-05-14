@@ -5,11 +5,12 @@ import { useRouter } from 'next/router'
 import { AxiosError } from 'axios'
 
 // material ui components
-import Layout from '@/components/Layout'
+import Layout from '@/layouts/Layout'
 import LoginForm from '@/components/Forms/Login'
 import Breadcrumbs from '@mui/material/Breadcrumbs'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
+import Box from '@mui/material/Box'
 
 // custom components
 import { loginUser, ILogin } from '@/components/Forms/Login/Login.service'
@@ -53,32 +54,37 @@ function PageLogin() {
     <Layout className="page-login">
       <Container>
         <Breadcrumbs aria-label="breadcrumb" className="breadcrumbs">
-          <Link
-            href="/"
-            className="breadcrumbs__item breadcrumbs__item--link color-dark-blue-1 font-medium"
-          >
+          <Link href="/" className="breadcrumbs__link">
             Home
           </Link>
           <Typography
-            variant="body2"
-            className="MuiTypography breadcrumbs__item font-medium"
+            variant="body1"
+            component="span"
+            className="breadcrumbs__text"
           >
-            Sign in
+            Login
           </Typography>
         </Breadcrumbs>
         <Typography
-          component="h1"
-          variant="h2"
-          className="MuiTypography section-registration__heading ta-c"
+          variant="h3"
+          className="MuiTypography  ta-c"
           marginBottom={3}
         >
           Sign in
         </Typography>
-        <LoginForm
-          onSubmit={onSubmit}
-          isLoading={isLoading}
-          validationMessage={errorMessage}
-        />
+        <Box
+          maxWidth={400}
+          margin={{
+            marginLeft: 'auto',
+            marginRight: 'auto',
+          }}
+        >
+          <LoginForm
+            onSubmit={onSubmit}
+            isLoading={isLoading}
+            validationMessage={errorMessage}
+          />
+        </Box>
       </Container>
     </Layout>
   )

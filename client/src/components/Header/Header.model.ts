@@ -1,7 +1,7 @@
-import { INavigationMenuItem } from '../Navigation/Navigation.type'
+import { IHeaderNavigationMenuItem } from '../HeaderNavigation/HeaderNavigation.type'
 import pages from '@/constants/pages'
 
-export const menu: INavigationMenuItem[] = [
+export const menu: IHeaderNavigationMenuItem[] = [
   {
     id: 1,
     path: pages.courses,

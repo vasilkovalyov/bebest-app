@@ -18,11 +18,7 @@ function AccountInfo({ items }: IAccountInfoProps) {
               <Typography variant="subtitle1" className="font-normal">
                 {item.title}
               </Typography>
-              <Typography
-                variant="subtitle2"
-                className="color-grey-3"
-                marginBottom={2}
-              >
+              <Typography variant="subtitle2" marginBottom={2}>
                 {item.name}
               </Typography>
             </Fragment>

@@ -1,0 +1,14 @@
+@import '../settings/settings.colors';
+@import '../settings/settings.spacing';
+
+.breadcrumbs {
+  padding: $spacing-2-s 0;
+
+  &__text {
+    color: $grey-middle;
+  }
+  &__link {
+    color: $grey-dark;
+    text-decoration: none;
+  }
+}

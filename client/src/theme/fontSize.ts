@@ -1,0 +1,25 @@
+const fontSize = {
+  fz_1_xxs: 13,
+  fz_1_xs: 14,
+  fz_1_sm: 15,
+  fz_1_md: 16,
+  fz_1_lg: 18,
+  fz_2_xs: 20,
+  fz_2_sm: 22,
+  fz_2_md: 24,
+  fz_2_lg: 26,
+  fz_2_xl: 28,
+  fz_3_xs: 30,
+  fz_3_sm: 32,
+  fz_3_md: 34,
+  fz_3_lg: 36,
+  fz_3_xl: 38,
+  fz_4_xs: 40,
+  fz_4_sm: 42,
+  fz_4_md: 44,
+  fz_4_lg: 46,
+  fz_4_xl: 48,
+  fz_5_xs: 50,
+}
+
+export default fontSize

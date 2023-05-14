@@ -1,0 +1,43 @@
+/* ==========================================================================
+   #FONTS
+   ========================================================================== */
+
+/* Font */
+$base-font: 'Instrument Sans', Arial, Helvetica, sans-serif !default;
+$heading-font: 'Instrument Sans', Arial, Helvetica, sans-serif !default;
+
+$base-lh: 1.2;
+
+/* Size | Line height */
+$body-font-size: 16px !default;
+$body-line-height: $base-lh !default;
+
+$small-font-size: 12px !default;
+$small-line-height: $base-lh !default;
+
+$h1-font-size-small: 40px !default;
+$h1-font-size: 50px !default;
+$h1-line-heght: $base-lh !default;
+
+$h2-font-size-small: 40px !default;
+$h2-font-size: 50px !default;
+$h2-line-heght: $base-lh !default;
+
+$h3-font-size: 30px !default;
+$h3-line-heght: $base-lh !default;
+
+$h4-font-size: 20px !default;
+$h4-line-heght: $base-lh !default;
+
+$h5-font-size: 18px !default;
+$h5-line-heght: $base-lh !default;
+
+$h6-font-size: 16px !default;
+$h6-line-heght: $base-lh !default;
+
+/* Weight */
+$weight-normal: 400 !default;
+$weight-medium: 500 !default;
+$weight-semibold: 600 !default;
+$weight-bold: 700 !default;
+$weight-black: 900 !default;

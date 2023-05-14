@@ -1,0 +1,22 @@
+@import '../settings/settings.spacing';
+@import '../settings/settings.responsive';
+@import '../settings/settings.colors';
+@import '../settings/settings.radius';
+@import '../settings/settings.shadows';
+@import '../settings/settings.spacing';
+@import '../settings/settings.responsive';
+
+.container-with-shadow {
+  background-color: $white;
+  border-radius: $radius-lg;
+  box-shadow: $base-shadow;
+  padding: $spacing-3-s $spacing-2-l;
+
+  @media (min-width: $screen-md) {
+    padding: $spacing-4-s $spacing-4-l;
+  }
+
+  &.container-with-shadow--paddings-sm {
+    padding: $spacing-3-s $spacing-2-l;
+  }
+}

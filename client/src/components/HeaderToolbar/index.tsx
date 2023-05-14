@@ -9,7 +9,7 @@ import { useLogout } from '@/hooks/useLogout'
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
 import IconButton from '@mui/material/IconButton'
-import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
 import Menu from '@mui/material/Menu'
 import Avatar from '@mui/material/Avatar'
 import Tooltip from '@mui/material/Tooltip'
@@ -43,7 +43,7 @@ function HeaderToolbar({
           </IconButton>
         </Tooltip>
         <Menu
-          className={cn('admin-navigation-menu', classNameMenu)}
+          className={cn('header-toolbar__menu', classNameMenu)}
           sx={{ mt: '45px' }}
           id="menu-appbar"
           anchorEl={anchorElUser}
@@ -60,10 +60,8 @@ function HeaderToolbar({
           onClose={() => setAnchorElUser(null)}
         >
           <CabinetNavigationMenuPages role={role} />
-          <MenuItem className="admin-navigation-menu__item" onClick={logOut}>
-            <Typography className="admin-navigation-menu__link">
-              Log out
-            </Typography>
+          <MenuItem onClick={logOut}>
+            <Button variant="text">Log out</Button>
           </MenuItem>
         </Menu>
       </Box>

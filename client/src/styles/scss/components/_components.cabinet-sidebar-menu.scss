@@ -1,0 +1,34 @@
+@import '../settings/settings.spacing';
+@import '../settings/settings.colors';
+
+.cabinet-sidebar-menu {
+  .MuiMenuItem-root {
+    padding: 0;
+    color: $grey-dark;
+    margin-bottom: 0;
+
+    &:hover {
+      .MuiButtonBase-root {
+        background-color: transparent;
+      }
+    }
+  }
+
+  a {
+    padding: $spacing-0-l $spacing-2-l;
+    display: block;
+    width: 100%;
+    text-decoration: none;
+    color: initial;
+    display: inline-flex;
+    align-items: center;
+
+    &.active {
+      color: $primary-color;
+    }
+
+    svg {
+      margin-right: 10px;
+    }
+  }
+}

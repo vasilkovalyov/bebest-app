@@ -44,69 +44,68 @@ function CabinetLayout({
       <main>
         <Container maxWidth="xl">
           <Breadcrumbs aria-label="breadcrumb" className="breadcrumbs">
-            <Link
-              href="/"
-              className="breadcrumbs__item breadcrumbs__item--link color-dark-blue-1 font-medium"
-            >
+            <Link href="/" className="breadcrumbs__link">
               Home
             </Link>
             {currentPageTitle ? (
-              <Link
-                href={profilePages.cabinet}
-                className="breadcrumbs__item breadcrumbs__item--link color-dark-blue-1 font-medium"
-              >
+              <Link href={profilePages.cabinet} className="breadcrumbs__link">
                 Cabinet
               </Link>
             ) : null}
             {currentPageTitle ? (
               <Typography
-                variant="body2"
-                className="MuiTypography breadcrumbs__item font-medium"
+                variant="body1"
+                component="span"
+                className="breadcrumbs__text"
               >
                 {currentPageTitle}
               </Typography>
             ) : null}
             {!currentPageTitle ? (
               <Typography
-                variant="body2"
-                className="MuiTypography breadcrumbs__item font-medium"
+                variant="body1"
+                component="span"
+                className="breadcrumbs__text"
               >
                 Cabinet
               </Typography>
             ) : null}
           </Breadcrumbs>
-          <Box className="section-admin">
+          <Box className="section-cabinet">
             <ContainerWithShadow
               paddingSize="sm"
-              className="section-admin__aside admin-aside-menu"
+              className="section-cabinet__aside"
             >
               <Stack
                 direction="row"
+                alignItems="center"
                 spacing={2}
-                className="admin-aside-menu__user"
-                marginBottom={2}
+                padding={2.5}
               >
                 <Box>
                   <Avatar
                     alt={user?.name}
-                    className="admin-aside-menu__user-image"
+                    style={{ width: '54px', height: '54px' }}
                   />
                 </Box>
-                <Box marginBottom={3} className="admin-aside-menu__user-info">
-                  <Typography variant="body1" className="font-bold">
+                <Box marginBottom={3}>
+                  <Typography variant="body2" marginBottom={0.5}>
                     {user?.name} {user?.surname}
                   </Typography>
-                  <Typography variant="body2">{user?.role}</Typography>
+                  <Typography variant="body1" marginBottom={0}>
+                    {user?.role}
+                  </Typography>
                 </Box>
               </Stack>
               <Box
                 component="ul"
-                className="admin-navigation-menu admin-navigation-menu--aside-menu"
+                className="cabinet-sidebar-menu"
+                marginBottom={2.5}
               >
                 {user ? <CabinetNavigation role={user?.role} /> : null}
               </Box>
             </ContainerWithShadow>
-            <Box className="section-admin__body">{children}</Box>
+            <Box className="section-cabinet__body">{children}</Box>
           </Box>
         </Container>
       </main>

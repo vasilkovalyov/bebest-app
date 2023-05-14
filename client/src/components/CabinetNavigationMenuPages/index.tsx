@@ -25,21 +25,14 @@ function CabinetNavigationMenuPages({
       {cabinetPages.map((page) => {
         if (!page.role.length) {
           return (
-            <MenuItem key={page.id} className="admin-navigation-menu__item">
+            <MenuItem key={page.id}>
               <Link
                 href={page.path}
-                className={cn('admin-navigation-menu__link', {
-                  'admin-navigation-menu__link--active':
-                    router.pathname === page.path,
+                className={cn({
+                  active: router.pathname === page.path,
                 })}
               >
-                {page.icon ? (
-                  <Icon
-                    size={16}
-                    icon={page.icon}
-                    className="admin-navigation-menu__icon"
-                  />
-                ) : null}
+                {page.icon ? <Icon size={16} icon={page.icon} /> : null}
                 {page.title}
               </Link>
             </MenuItem>
@@ -47,21 +40,14 @@ function CabinetNavigationMenuPages({
         }
         if (page.role.length > 0 && page.role.includes(role)) {
           return (
-            <MenuItem key={page.id} className="admin-navigation-menu__item">
+            <MenuItem key={page.id}>
               <Link
                 href={page.path}
-                className={cn('admin-navigation-menu__link', {
-                  'admin-navigation-menu__link--active':
-                    router.pathname === page.path,
+                className={cn({
+                  active: router.pathname === page.path,
                 })}
               >
-                {page.icon ? (
-                  <Icon
-                    size={16}
-                    icon={page.icon}
-                    className="admin-navigation-menu__icon"
-                  />
-                ) : null}
+                {page.icon ? <Icon size={16} icon={page.icon} /> : null}
                 {page.title}
               </Link>
             </MenuItem>

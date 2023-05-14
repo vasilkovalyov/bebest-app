@@ -1,0 +1,16 @@
+@import '../settings/settings.colors';
+@import '../settings/settings.shadows';
+@import '../settings/settings.spacing';
+@import '../settings/settings.responsive';
+
+.header {
+  background: $white;
+  box-shadow: $base-shadow;
+  padding: $spacing-1-s 0;
+
+  &__container {
+    // display: flex;
+    // align-items: center;
+    // justify-content: space-between;
+  }
+}

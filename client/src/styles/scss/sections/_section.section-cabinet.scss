@@ -1,0 +1,23 @@
+@import '../settings/settings.responsive';
+
+.section-cabinet {
+  display: flex;
+  align-items: flex-start;
+
+  &__aside {
+    flex: 0 1 300px;
+    margin-right: 30px;
+
+    @media (max-width: $header-breakpoint-max) {
+      display: none;
+    }
+
+    &.container-with-shadow {
+      padding: 0;
+    }
+  }
+
+  &__body {
+    flex: 1;
+  }
+}

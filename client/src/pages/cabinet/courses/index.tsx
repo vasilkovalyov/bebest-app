@@ -2,5 +2,5 @@
 import CabinetLayout from '@/layouts/CabinetLayout'
 
 export default function PageCourses() {
-  return <CabinetLayout></CabinetLayout>
+  return <CabinetLayout currentPageTitle="Courses"></CabinetLayout>
 }

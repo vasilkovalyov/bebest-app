@@ -2,5 +2,5 @@
 import CabinetLayout from '@/layouts/CabinetLayout'
 
 export default function PageCompanyTeam() {
-  return <CabinetLayout></CabinetLayout>
+  return <CabinetLayout currentPageTitle="Company Team"></CabinetLayout>
 }

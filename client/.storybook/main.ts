@@ -1,6 +1,10 @@
-import type { StorybookConfig } from '@storybook/nextjs';
+import type { StorybookConfig } from '@storybook/nextjs'
 const config: StorybookConfig = {
-  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
+  stories: [
+    '../src/**/*.mdx',
+    '../src/**/*.stories.mdx',
+    '../src/**/*.stories.@(js|jsx|ts|tsx)',
+  ],
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
@@ -26,6 +30,6 @@ const config: StorybookConfig = {
   docs: {
     autodocs: 'tag',
   },
-};
-export default config;
-export const framework = '@storybook/react';
+}
+export default config
+export const framework = '@storybook/react'

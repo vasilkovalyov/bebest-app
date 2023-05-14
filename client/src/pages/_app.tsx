@@ -1,11 +1,13 @@
 // libs
 import type { AppProps } from 'next/app'
+import { ThemeProvider } from '@mui/material/styles'
 
 // other utils
 import { AuthProvider } from '@/context/auth-context'
 import authService from '@/services/auth'
 import studentService, { IAuthUserInfo } from '@/services/student'
 import pages from '@/constants/pages'
+import theme from '../theme/primaryTheme'
 
 // styles
 import '@/styles/scss/main.scss'
@@ -16,7 +18,9 @@ export default function App({
 }: AppProps<{ user: IAuthUserInfo }>) {
   return (
     <AuthProvider {...pageProps}>
-      <Component {...pageProps} />
+      <ThemeProvider theme={theme}>
+        <Component {...pageProps} />
+      </ThemeProvider>
     </AuthProvider>
   )
 }
