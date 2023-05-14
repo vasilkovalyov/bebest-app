@@ -39,6 +39,7 @@ function ChangePasswordForm({
         confirm_password: '',
       })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading])
 
   return (
