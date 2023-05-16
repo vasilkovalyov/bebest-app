@@ -106,7 +106,9 @@ p {
 a {
   @include animate(color);
 
-  &:hover {
-    color: $primary-color;
+  &:not(.MuiButtonBase-root) {
+    &:hover {
+      color: $primary-color;
+    }
   }
 }

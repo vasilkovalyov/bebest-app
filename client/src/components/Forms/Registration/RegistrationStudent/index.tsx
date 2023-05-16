@@ -113,9 +113,7 @@ function RegistrartionStudentForm({
       </Box>
       {validationMessage && (
         <Box marginBottom={2}>
-          <Typography variant="body2" className="MuiTypography">
-            {validationMessage}
-          </Typography>
+          <Typography variant="body2">{validationMessage}</Typography>
         </Box>
       )}
       <Box display="flex" alignItems="center" justifyContent="center">

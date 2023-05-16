@@ -93,7 +93,7 @@ function LoginForm({
         </Box>
         {validationMessage && (
           <Box marginBottom={2}>
-            <Typography variant="body2" className="MuiTypography">
+            <Typography variant="body2" color="danger" textAlign="center">
               {validationMessage}
             </Typography>
           </Box>

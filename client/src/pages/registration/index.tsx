@@ -10,6 +10,7 @@ import Container from '@mui/material/Container'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 
 // custom components
 import Layout from '@/layouts/Layout'
@@ -91,17 +92,17 @@ export default function Registration() {
                     onChange={(_, value: number) => setTabValue(value)}
                   >
                     <Tab
-                      className="registration-switcher__tab-item"
+                      className="registration-switcher__tab-item font-semibold"
                       value={0}
                       label="Student"
                     />
                     <Tab
-                      className="registration-switcher__tab-item"
+                      className="registration-switcher__tab-item font-semibold"
                       value={1}
                       label="Teacher"
                     />
                     <Tab
-                      className="registration-switcher__tab-item"
+                      className="registration-switcher__tab-item font-semibold"
                       value={2}
                       label="Company"
                     />
@@ -148,12 +149,9 @@ export default function Registration() {
         ) : (
           <Box textAlign="center" marginBottom={8}>
             <Typography marginBottom={2}>{successMessage}</Typography>
-            <Link
-              href="/"
-              className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-sghohy-MuiButtonBase-root-MuiButton-root"
-            >
+            <Button href="/" variant="contained" size="small">
               Ok
-            </Link>
+            </Button>
           </Box>
         )}
       </Container>
