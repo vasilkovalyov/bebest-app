@@ -17,15 +17,13 @@ import MenuItem from '@mui/material/MenuItem'
 
 //custom components
 import CabinetNavigationMenuPages from '@/components/CabinetNavigationMenuPages'
+import { useAuthContext } from '@/context/auth-context'
 
 // relate utils
 import { IAccountNavigationProps } from './HeaderToolbar.type'
 
-function HeaderToolbar({
-  userName,
-  role,
-  classNameMenu,
-}: IAccountNavigationProps) {
+function HeaderToolbar({ classNameMenu }: IAccountNavigationProps) {
+  const { user } = useAuthContext()
   const { logOut } = useLogout()
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
 
@@ -39,7 +37,7 @@ function HeaderToolbar({
             }
             sx={{ p: 0 }}
           >
-            <Avatar alt={userName} />
+            <Avatar alt={user?.name} />
           </IconButton>
         </Tooltip>
         <Menu
@@ -59,7 +57,7 @@ function HeaderToolbar({
           open={Boolean(anchorElUser)}
           onClose={() => setAnchorElUser(null)}
         >
-          <CabinetNavigationMenuPages role={role} />
+          <CabinetNavigationMenuPages />
           <MenuItem onClick={logOut}>
             <Button variant="text">Log out</Button>
           </MenuItem>

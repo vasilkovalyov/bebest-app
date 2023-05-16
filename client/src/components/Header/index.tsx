@@ -44,9 +44,9 @@ function Header() {
             ) : (
               <Stack direction="row" alignItems="center">
                 <Box marginRight={2}>
-                  <AccountSocialNotification role={user.role} />
+                  <AccountSocialNotification />
                 </Box>
-                <HeaderToolbar role={user.role} userName={user?.name} />
+                <HeaderToolbar />
               </Stack>
             )}
           </Box>

@@ -13,12 +13,11 @@ import Icon from '@/components/Generic/Icon'
 import cabinetPages from '@/models/cabinetPages'
 
 // relate utils
-import { ICabinetNavigationMenuPagesProps } from './CabinetNavigationMenuPages.type'
+import { useAuthContext } from '@/context/auth-context'
 
-function CabinetNavigationMenuPages({
-  role,
-}: ICabinetNavigationMenuPagesProps) {
+function CabinetNavigationMenuPages() {
   const router = useRouter()
+  const { user } = useAuthContext()
 
   return (
     <>
@@ -38,7 +37,7 @@ function CabinetNavigationMenuPages({
             </MenuItem>
           )
         }
-        if (page.role.length > 0 && page.role.includes(role)) {
+        if (user && page.role.length > 0 && page.role.includes(user?.role)) {
           return (
             <MenuItem key={page.id}>
               <Link
