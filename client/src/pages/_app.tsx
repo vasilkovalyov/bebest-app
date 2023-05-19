@@ -1,72 +1,79 @@
 // libs
+import React, { ReactNode } from 'react'
 import type { AppProps } from 'next/app'
+import { Provider } from 'react-redux'
+import { wrapper } from '@/redux/store'
+
+import { setAuthState } from '@/redux/slices/auth'
 import { ThemeProvider } from '@mui/material/styles'
+import { parseCookies } from 'nookies'
 
 // other utils
-import { AuthProvider } from '@/context/auth-context'
 import authService from '@/services/auth'
-import studentService, { IAuthUserInfo } from '@/services/student'
+import studentService from '@/services/student'
 import pages from '@/constants/pages'
 import theme from '../theme/primaryTheme'
 
 // styles
 import '@/styles/scss/main.scss'
+import { UserRole } from '@/types/role'
 
-export default function App({
-  Component,
-  pageProps,
-}: AppProps<{ user: IAuthUserInfo }>) {
+type AppPropsWithLayout = AppProps & {
+  Component: ReactNode
+}
+
+function App({ Component, ...rest }: AppPropsWithLayout) {
+  const { store, props } = wrapper.useWrappedStore(rest)
+
   return (
-    <AuthProvider {...pageProps}>
+    <Provider store={store}>
       <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
+        <Component {...props.pageProps} />
       </ThemeProvider>
-    </AuthProvider>
+    </Provider>
   )
 }
 
-App.getInitialProps = async ({ ctx }: any): Promise<IAuthUserInfo | any> => {
-  if (!ctx.req) {
-    return {
-      pageProps: {
-        user: null,
-      },
-    }
-  }
+App.getInitialProps = wrapper.getInitialAppProps(
+  (store) =>
+    async ({ ctx, Component }) => {
+      if (!ctx.req) {
+        return {
+          pageProps: {
+            user: null,
+          },
+        }
+      }
 
-  const pathname = ctx.pathname.split('/')[1]
-
-  try {
-    const { token, userId, role } = ctx.req.cookies
-    if (pathname === pages.cabinet.replace('/', '') && !token) {
-      ctx.res.writeHead(302, { Location: '/404' })
-      ctx.res.end()
-      return
-    }
-    const auth = await authService.isAuth(token)
-
-    if (pathname === pages.cabinet.replace('/', '') && !auth.isAuth) {
-      ctx.res.writeHead(302, { Location: '/404' })
-      ctx.res.end()
-      return
-    }
-    const user = await studentService.getUserInfo(role, userId, token)
-    const userData = await user.data
-
-    return {
-      pageProps: {
-        user: userData,
-      },
-    }
-  } catch (e) {
-    console.log(e)
-    if (e instanceof Error) {
-      console.log('e', e.message)
+      try {
+        const { token, userId, role } = parseCookies(ctx)
+        if (ctx.asPath === pages.cabinet.replace('/', '') && !token) {
+          ctx.res?.writeHead(302, { Location: '/404' })
+          ctx.res?.end()
+        }
+        const auth = await authService.isAuth(token)
+        if (ctx.asPath === pages.cabinet.replace('/', '') && !auth.isAuth) {
+          ctx.res?.writeHead(302, { Location: '/404' })
+          ctx.res?.end()
+        }
+        const user = await studentService.getUserInfo(
+          role as UserRole,
+          userId,
+          token
+        )
+        const userData = await user.data
+        store.dispatch(setAuthState(userData))
+      } catch (e) {
+        if (e instanceof Error) {
+          console.log('e', e.message)
+        }
+      }
       return {
-        pageProps: {
-          user: null,
-        },
+        pageProps: Component.getInitialProps
+          ? await Component.getInitialProps({ ...ctx, store })
+          : {},
       }
     }
-  }
-}
+)
+
+export default App

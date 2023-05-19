@@ -15,11 +15,14 @@ import AccountSocialNotification from '@/components/AccountSocialNotification'
 
 // other utils
 import pages from '@/constants/pages'
-import { useAuthContext } from '@/context/auth-context'
 import { menu } from './Header.model'
 
+//redux
+import { useSelector } from 'react-redux'
+import { selectAuthState } from '@/redux/slices/auth'
+
 function Header() {
-  const { user } = useAuthContext()
+  const { isAuth } = useSelector(selectAuthState)
 
   return (
     <header className="header">
@@ -39,7 +42,7 @@ function Header() {
           </Link>
           <HeaderNavigation menu={menu} />
           <Box>
-            {!user ? (
+            {!isAuth ? (
               <HeaderAuthNavigation />
             ) : (
               <Stack direction="row" alignItems="center">

@@ -16,13 +16,16 @@ import Box from '@mui/material/Box'
 import { loginUser, ILogin } from '@/components/Forms/Login/Login.service'
 
 // other utils
-import { useAuthContext } from '@/context/auth-context'
 import studentService from '@/services/student'
 import pages from '@/constants/pages'
 
+//redux
+import { useDispatch } from 'react-redux'
+import { setAuthState } from '@/redux/slices/auth'
+
 function PageLogin() {
-  const { setUser } = useAuthContext()
   const router = useRouter()
+  const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
@@ -38,7 +41,7 @@ function PageLogin() {
 
       router.push(pages.cabinet).then(() => {
         studentService.getUserInfo(role, userId, token).then((userResponse) => {
-          setUser(userResponse.data)
+          dispatch(setAuthState(userResponse.data))
         })
         setIsLoading(false)
       })

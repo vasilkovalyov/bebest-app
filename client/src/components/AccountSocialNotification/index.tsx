@@ -13,19 +13,20 @@ import { IconEnum } from '@/components/Generic/Icon/Icon.type'
 import profilePages from '@/constants/profile-pages'
 import { UserRole } from '@/types/role'
 
-// relate utils
-import { useAuthContext } from '@/context/auth-context'
+//redux
+import { useSelector } from 'react-redux'
+import { selectAuthState } from '@/redux/slices/auth'
 
 const getLinkByRole = (role: UserRole) => {
   return role !== 'company' ? profilePages.lessons : profilePages.courses
 }
 
 function AccountSocialNotification() {
-  const { user } = useAuthContext()
+  const { user } = useSelector(selectAuthState)
 
   return (
     <Stack direction="row" gap={2} className="account-social-notification">
-      {user ? (
+      {user.role ? (
         <Link
           href={getLinkByRole(user.role)}
           className="account-social-notification__link color-grey-dark"

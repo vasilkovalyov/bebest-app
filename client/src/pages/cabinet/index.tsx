@@ -23,11 +23,14 @@ import ContainerWithShadow from '@/components/Generic/ContainerWithShadow'
 import CabinetLayout from '@/layouts/CabinetLayout'
 
 // other utils
-import { useAuthContext } from '@/context/auth-context'
 import studentService, { UserAccountInfoEditType } from '@/services/student'
 import { AxiosError } from 'axios'
 import { useLogout } from '@/hooks/useLogout'
 import { useNotification } from '@/hooks/useNotification'
+
+//redux
+import { useSelector } from 'react-redux'
+import { selectAuthState } from '@/redux/slices/auth'
 
 type TypeForm = 'account' | 'password' | 'remove-account'
 
@@ -38,7 +41,7 @@ interface IFormAjaxProps {
 }
 
 function PageCabinet() {
-  const { user } = useAuthContext()
+  const { user } = useSelector(selectAuthState)
   const { logOut } = useLogout()
 
   const [formAjaxProps, setFormAjaxProps] = useState<IFormAjaxProps>({

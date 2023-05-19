@@ -17,13 +17,16 @@ import MenuItem from '@mui/material/MenuItem'
 
 //custom components
 import CabinetNavigationMenuPages from '@/components/CabinetNavigationMenuPages'
-import { useAuthContext } from '@/context/auth-context'
+
+//redux
+import { useSelector } from 'react-redux'
+import { selectAuthState } from '@/redux/slices/auth'
 
 // relate utils
 import { IAccountNavigationProps } from './HeaderToolbar.type'
 
 function HeaderToolbar({ classNameMenu }: IAccountNavigationProps) {
-  const { user } = useAuthContext()
+  const authState = useSelector(selectAuthState)
   const { logOut } = useLogout()
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
 
@@ -37,7 +40,7 @@ function HeaderToolbar({ classNameMenu }: IAccountNavigationProps) {
             }
             sx={{ p: 0 }}
           >
-            <Avatar alt={user?.name} />
+            <Avatar alt={authState.user.name} />
           </IconButton>
         </Tooltip>
         <Menu

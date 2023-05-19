@@ -1,4 +1,7 @@
 // libs
+import { Provider } from 'react-redux'
+import { setAuthState } from '@/redux/slices/auth'
+
 import Link from 'next/link'
 import Head from 'next/head'
 
