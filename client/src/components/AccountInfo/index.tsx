@@ -3,6 +3,7 @@ import { Fragment } from 'react'
 
 // material ui components
 import Box from '@mui/material/Box'
+import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 
 // relate utils
@@ -15,12 +16,15 @@ function AccountInfo({ items }: IAccountInfoProps) {
         if (item.name) {
           return (
             <Fragment key={index}>
-              <Typography variant="subtitle1" className="font-normal">
-                {item.title}
-              </Typography>
-              <Typography variant="subtitle2" marginBottom={2}>
-                {item.name}
-              </Typography>
+              <Stack direction="row" gap={2}>
+                <Typography variant="subtitle1" className="font-normal">
+                  {item.title}
+                </Typography>
+                <Box component="span"> - </Box>
+                <Typography variant="body2" marginBottom={2}>
+                  {item.name}
+                </Typography>
+              </Stack>
             </Fragment>
           )
         }

@@ -164,6 +164,13 @@ const theme = createTheme({
         },
       },
     },
+    MuiAlert: {
+      styleOverrides: {
+        message: {
+          fontWeight: 400,
+        },
+      },
+    },
   },
 })
 

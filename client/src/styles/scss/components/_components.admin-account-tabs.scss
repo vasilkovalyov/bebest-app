@@ -1,0 +1,11 @@
+.admin-account-tabs {
+  &__item {
+    display: inline-flex;
+    align-items: center;
+    flex-direction: row;
+  }
+
+  &__item-icon {
+    margin-right: 8px;
+  }
+}

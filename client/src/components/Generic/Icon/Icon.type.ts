@@ -45,4 +45,10 @@ export enum IconEnum {
   CHEVRON_LEFT = 'chevron-left',
   LINK = 'link',
   CHECKMARK = 'checkmark',
+  EDIT = 'edit',
+  LOCK_OUTLINE = 'lock-outline',
+  LOCK_OPEN = 'lock-open',
+  LOCK_OUTLINE_OPEN = 'lock-outline-open',
+  LOCK = 'lock',
+  BIN = 'bin',
 }
