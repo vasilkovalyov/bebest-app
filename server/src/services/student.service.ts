@@ -64,7 +64,7 @@ class StudentService {
         ...props,
       },
       { new: true }
-    ).select('_id name surname email phone about');
+    ).select('_id name surname email phone about role');
 
     if (!response) throw ApiError.BadRequestError('Student did not update');
 
