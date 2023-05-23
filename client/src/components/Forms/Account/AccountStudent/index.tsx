@@ -1,10 +1,10 @@
 // libs
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 //redux
-import { useSelector } from 'react-redux'
-import { selectAuthState } from '@/redux/slices/auth'
+import { useAppSelector, useActions } from '@/redux/hooks'
 
 //hooks
 import { useNotification } from '@/hooks/useNotification'
@@ -23,10 +23,10 @@ import { AccountStudentFormValidationSchema } from './AccountStudent.validation'
 // other utils
 import studentService, { UserAccountInfoEditType } from '@/services/student'
 import { AxiosError } from 'axios'
-import { useState } from 'react'
 
 function AccountStudentForm() {
-  const { user } = useSelector(selectAuthState)
+  const { setAuthState } = useActions()
+  const user = useAppSelector((state) => state.user.user)
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const [
@@ -55,18 +55,16 @@ function AccountStudentForm() {
 
   async function onSubmit(props: UserAccountInfoEditType) {
     if (!user?._id) return
+    setIsLoading(true)
 
     try {
-      setIsLoading(true)
-
       const response = await studentService.updateUserAccountInfo(
         user?._id,
         props
       )
-      if (response.status === 200) {
-        showNotification()
-        setMessageNotification('Account info has updated')
-      }
+      setAuthState(response.data)
+      showNotification()
+      setMessageNotification('Account info has updated')
     } catch (e) {
       if (e instanceof AxiosError) {
         console.log(e.message)

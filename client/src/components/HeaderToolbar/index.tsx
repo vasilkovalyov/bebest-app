@@ -2,6 +2,9 @@
 import { useState } from 'react'
 import cn from 'classnames'
 
+//redux
+import { useAppSelector } from '@/redux/hooks'
+
 // custom hooks
 import { useLogout } from '@/hooks/useLogout'
 
@@ -18,15 +21,11 @@ import MenuItem from '@mui/material/MenuItem'
 //custom components
 import CabinetNavigationMenuPages from '@/components/CabinetNavigationMenuPages'
 
-//redux
-import { useSelector } from 'react-redux'
-import { selectAuthState } from '@/redux/slices/auth'
-
 // relate utils
 import { IAccountNavigationProps } from './HeaderToolbar.type'
 
 function HeaderToolbar({ classNameMenu }: IAccountNavigationProps) {
-  const authState = useSelector(selectAuthState)
+  const user = useAppSelector((store) => store.user.user)
   const { logOut } = useLogout()
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
 
@@ -40,7 +39,7 @@ function HeaderToolbar({ classNameMenu }: IAccountNavigationProps) {
             }
             sx={{ p: 0 }}
           >
-            <Avatar alt={authState.user.name} />
+            <Avatar alt={user.name} />
           </IconButton>
         </Tooltip>
         <Menu

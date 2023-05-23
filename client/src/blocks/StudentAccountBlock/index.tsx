@@ -16,7 +16,7 @@ import StudentAccount from '@/components/Student/StudentAccount'
 import Icon from '@/components/Generic/Icon'
 import { IconEnum } from '@/components/Generic/Icon/Icon.type'
 
-function PageCabinet() {
+function StudentAccountBlock() {
   const [tabValue, setTabValue] = useState<number>(0)
 
   return (
@@ -71,4 +71,4 @@ function PageCabinet() {
   )
 }
 
-export default PageCabinet
+export default StudentAccountBlock

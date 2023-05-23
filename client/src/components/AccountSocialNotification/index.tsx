@@ -1,6 +1,9 @@
 // libs
 import Link from 'next/link'
 
+//redux
+import { useAppSelector } from '@/redux/hooks'
+
 // material ui components
 import Stack from '@mui/material/Stack'
 import Badge from '@mui/material/Badge'
@@ -13,16 +16,12 @@ import { IconEnum } from '@/components/Generic/Icon/Icon.type'
 import profilePages from '@/constants/profile-pages'
 import { UserRole } from '@/types/role'
 
-//redux
-import { useSelector } from 'react-redux'
-import { selectAuthState } from '@/redux/slices/auth'
-
 const getLinkByRole = (role: UserRole) => {
   return role !== 'company' ? profilePages.lessons : profilePages.courses
 }
 
 function AccountSocialNotification() {
-  const { user } = useSelector(selectAuthState)
+  const user = useAppSelector((state) => state.user.user)
 
   return (
     <Stack direction="row" gap={2} className="account-social-notification">

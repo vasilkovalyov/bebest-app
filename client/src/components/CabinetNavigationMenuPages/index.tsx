@@ -13,12 +13,11 @@ import Icon from '@/components/Generic/Icon'
 import cabinetPages from '@/models/cabinetPages'
 
 //redux
-import { useSelector } from 'react-redux'
-import { selectAuthState } from '@/redux/slices/auth'
+import { useAppSelector } from '@/redux/hooks'
 
 function CabinetNavigationMenuPages() {
   const router = useRouter()
-  const authState = useSelector(selectAuthState)
+  const user = useAppSelector((state) => state.user.user)
 
   return (
     <>
@@ -39,9 +38,9 @@ function CabinetNavigationMenuPages() {
           )
         }
         if (
-          authState.user.role &&
+          user.role &&
           page.role.length > 0 &&
-          page.role.includes(authState.user.role)
+          page.role.includes(user.role)
         ) {
           return (
             <MenuItem key={page.id}>

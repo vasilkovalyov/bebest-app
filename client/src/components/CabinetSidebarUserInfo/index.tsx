@@ -1,15 +1,14 @@
+//redux
+import { useAppSelector } from '@/redux/hooks'
+
 // material ui components
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Avatar from '@mui/material/Avatar'
 import Stack from '@mui/material/Stack'
 
-//redux
-import { useSelector } from 'react-redux'
-import { selectAuthState } from '@/redux/slices/auth'
-
 function CabinetSidebarUserInfo() {
-  const { user } = useSelector(selectAuthState)
+  const user = useAppSelector((state) => state.user.user)
 
   return (
     <Stack direction="row" alignItems="center" spacing={2} padding={2.5}>

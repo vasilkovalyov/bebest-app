@@ -1,12 +1,15 @@
 // libs
 import React, { ReactNode } from 'react'
 import type { AppProps } from 'next/app'
+import { parseCookies } from 'nookies'
+
+//redux
 import { Provider } from 'react-redux'
 import { wrapper } from '@/redux/store'
-
 import { setAuthState } from '@/redux/slices/auth'
+
+//material ui
 import { ThemeProvider } from '@mui/material/styles'
-import { parseCookies } from 'nookies'
 
 // other utils
 import authService from '@/services/auth'
@@ -51,11 +54,17 @@ App.getInitialProps = wrapper.getInitialAppProps(
           ctx.res?.writeHead(302, { Location: '/404' })
           ctx.res?.end()
         }
-        const auth = await authService.isAuth(token)
-        if (ctx.asPath === pages.cabinet.replace('/', '') && !auth.isAuth) {
+
+        const response = await authService.isAuth(token)
+
+        if (
+          ctx.asPath === pages.cabinet.replace('/', '') &&
+          !response?.isAuth
+        ) {
           ctx.res?.writeHead(302, { Location: '/404' })
           ctx.res?.end()
         }
+
         const user = await studentService.getUserInfo(
           role as UserRole,
           userId,

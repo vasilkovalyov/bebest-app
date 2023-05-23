@@ -1,5 +1,4 @@
-import { createSlice, PayloadAction, createAction } from '@reduxjs/toolkit'
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AppState } from '../store'
 import { HYDRATE } from 'next-redux-wrapper'
 import { UserRole } from '@/types/role'

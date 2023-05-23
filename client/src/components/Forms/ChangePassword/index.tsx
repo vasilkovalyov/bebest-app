@@ -4,8 +4,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 //redux
-import { useSelector } from 'react-redux'
-import { selectAuthState } from '@/redux/slices/auth'
+import { useAppSelector } from '@/redux/hooks'
 
 //hooks
 import { useNotification } from '@/hooks/useNotification'
@@ -27,7 +26,7 @@ import studentService from '@/services/student'
 import { AxiosError } from 'axios'
 
 function ChangePasswordForm() {
-  const { user } = useSelector(selectAuthState)
+  const user = useAppSelector((state) => state.user.user)
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const [

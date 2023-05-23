@@ -1,6 +1,9 @@
 // libs
 import { useState } from 'react'
 
+//redux
+import { useAppSelector } from '@/redux/hooks'
+
 // material ui components
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -15,10 +18,6 @@ import ModalPopupBox from '@/components/ModalPopupBox'
 import Icon from '@/components/Generic/Icon'
 import { IconEnum } from '@/components/Generic/Icon/Icon.type'
 
-//redux
-import { useSelector } from 'react-redux'
-import { selectAuthState } from '@/redux/slices/auth'
-
 //hooks
 import { useLogout } from '@/hooks/useLogout'
 
@@ -28,7 +27,7 @@ import studentService from '@/services/student'
 
 function StudentAccount() {
   const { logOut } = useLogout()
-  const { user } = useSelector(selectAuthState)
+  const user = useAppSelector((store) => store.user.user)
   const [isEdit, seIsEdit] = useState<boolean>(false)
   const [modalOpen, setModalOpen] = useState<boolean>(false)
 

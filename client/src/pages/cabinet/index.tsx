@@ -1,3 +1,6 @@
+//redux
+import { useAppSelector } from '@/redux/hooks'
+
 // material ui components
 import Box from '@mui/material/Box'
 
@@ -5,19 +8,15 @@ import Box from '@mui/material/Box'
 import CabinetLayout from '@/layouts/CabinetLayout'
 
 // blocks
-import StudentAccount from '../../blocks/StudentAccount'
-
-//redux
-import { useSelector } from 'react-redux'
-import { selectAuthState } from '@/redux/slices/auth'
+import StudentAccountBlock from '@/blocks/StudentAccountBlock'
 
 function PageCabinet() {
-  const { user } = useSelector(selectAuthState)
+  const user = useAppSelector((store) => store.user.user)
 
   return (
     <CabinetLayout>
       <Box marginBottom={4}>
-        {user.role === 'student' && <StudentAccount />}
+        {user.role === 'student' && <StudentAccountBlock />}
       </Box>
     </CabinetLayout>
   )

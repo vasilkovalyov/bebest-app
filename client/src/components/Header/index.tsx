@@ -2,6 +2,9 @@
 import Link from 'next/link'
 import Image from 'next/image'
 
+//redux
+import { useAppSelector } from '../../redux/hooks'
+
 // material ui components
 import Container from '@mui/material/Container'
 import Stack from '@mui/material/Stack'
@@ -17,12 +20,8 @@ import AccountSocialNotification from '@/components/AccountSocialNotification'
 import pages from '@/constants/pages'
 import { menu } from './Header.model'
 
-//redux
-import { useSelector } from 'react-redux'
-import { selectAuthState } from '@/redux/slices/auth'
-
 function Header() {
-  const { isAuth } = useSelector(selectAuthState)
+  const { isAuth } = useAppSelector((state) => state.user)
 
   return (
     <header className="header">

@@ -59,7 +59,10 @@ class StudentService {
     return response
   }
 
-  async updateUserAccountInfo(id: string, props: UserAccountInfoEditType) {
+  async updateUserAccountInfo(
+    id: string,
+    props: UserAccountInfoEditType
+  ): Promise<AxiosResponse<IAuthUserInfo>> {
     const response = await $api().post(
       `/${PRIVATE_REQUESTS.USER_INFO}/student`,
       {
