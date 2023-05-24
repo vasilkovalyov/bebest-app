@@ -54,11 +54,15 @@ function StudentAccount() {
     }
   }
 
+  function onHandleClose() {
+    seIsEdit(!isEdit)
+  }
+
   return (
     <Box paddingY={4} className="student-account">
       <Stack direction="row" className="student-account__controllers">
         <Button onClick={() => seIsEdit(!isEdit)}>
-          <Icon icon={IconEnum.EDIT} size={18} />
+          {!isEdit ? <Icon icon={IconEnum.EDIT} size={18} /> : 'Close'}
         </Button>
         <Button onClick={onHandleOpenModal}>
           <Icon icon={IconEnum.BIN} size={18} />
@@ -70,33 +74,28 @@ function StudentAccount() {
             {
               title: 'Name',
               name: user?.name || null,
-              isTextarea: false,
             },
             {
               title: 'Surname',
               name: user?.surname || null,
-              isTextarea: false,
             },
             {
               title: 'Email',
               name: user?.email || null,
-              isTextarea: false,
             },
             {
               title: 'Phone',
               name: user?.phone || null,
-              isTextarea: false,
             },
             {
               title: 'About',
               name: user?.about || null,
-              isTextarea: true,
             },
           ]}
         />
       ) : (
         <Box maxWidth={400}>
-          <AccountStudentForm />
+          <AccountStudentForm onHandleClose={onHandleClose} />
         </Box>
       )}
       <Modal open={modalOpen} onClose={handleCloseModal}>
