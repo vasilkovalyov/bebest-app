@@ -1,6 +1,5 @@
 const profilePages = {
   cabinet: '/cabinet',
-  privateInfo: '/cabinet/private-info',
   lessons: '/cabinet/lessons',
   teachers: '/cabinet/teachers',
   courses: '/cabinet/courses',

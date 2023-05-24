@@ -201,7 +201,7 @@ theme.typography.h3 = {
   border: 0,
 
   [theme.breakpoints.up('md')]: {
-    fontSize: fontSize.fz_3_xl,
+    fontSize: fontSize.fz_3_xs,
   },
 }
 
