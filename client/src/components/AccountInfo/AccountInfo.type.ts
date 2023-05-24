@@ -1,10 +1,11 @@
 interface IInfo {
   title: string
-  name: string | null
-  isTextarea: boolean
+  name?: string | null
 }
 
 export interface IAccountInfoProps {
-  // items: Record<string, IInfo>
   items: IInfo[]
+  directionItems?: 'row' | 'column'
+  gap?: number
+  marginBottom?: number
 }

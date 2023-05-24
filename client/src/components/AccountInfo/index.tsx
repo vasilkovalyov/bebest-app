@@ -9,23 +9,36 @@ import Typography from '@mui/material/Typography'
 // relate utils
 import { IAccountInfoProps } from './AccountInfo.type'
 
-function AccountInfo({ items }: IAccountInfoProps) {
+function AccountInfo({
+  items,
+  directionItems = 'row',
+  gap = 2,
+  marginBottom = 2,
+}: IAccountInfoProps) {
   return (
     <Box>
       {items.map((item, index) => {
         if (item.name) {
           return (
-            <Fragment key={index}>
-              <Stack direction="row" gap={2}>
-                <Typography variant="subtitle1" className="font-normal">
+            <Box key={index} marginBottom={marginBottom}>
+              <Stack direction={directionItems} gap={gap}>
+                <Typography
+                  variant="subtitle1"
+                  className="font-normal"
+                  marginBottom={0}
+                >
                   {item.title}
                 </Typography>
-                <Box component="span"> - </Box>
-                <Typography variant="body2" marginBottom={2}>
-                  {item.name}
-                </Typography>
+                {directionItems !== 'column' ? (
+                  <Box component="span"> - </Box>
+                ) : null}
+                {item.name ? (
+                  <Typography variant="body2" marginBottom={0}>
+                    {item.name}
+                  </Typography>
+                ) : null}
               </Stack>
-            </Fragment>
+            </Box>
           )
         }
         return null
