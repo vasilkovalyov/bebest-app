@@ -13,13 +13,19 @@ import { IconEnum } from '@/components/Generic/Icon/Icon.type'
 import Icon from '@/components/Generic/Icon'
 
 // relate utils
-import { IStudentEducationInfo } from './StudentEducationInfoForm.type'
+import {
+  IStudentEducationInfo,
+  IAccountStudentFormProps,
+} from './StudentEducationInfoForm.type'
 import { StudentEducationInfoFormValidationSchema } from './StudentEducationInfoForm.validation'
 
+// other utils
 import colors from '@/constants/colors'
 import { Stack } from '@mui/material'
+import { PRIVATE_REQUESTS } from '@/constants/api-requests'
+import $api from '@/utils/ajax'
 
-const initialData: IStudentEducationInfo = {
+const defaultInitialData: IStudentEducationInfo = {
   subjects: [
     {
       subject_study: '',
@@ -28,7 +34,10 @@ const initialData: IStudentEducationInfo = {
   ],
 }
 
-function AccountStudentForm({ onHandleClose }: { onHandleClose: () => void }) {
+function AccountStudentForm({
+  initialData,
+  onHandleClose,
+}: IAccountStudentFormProps) {
   const {
     handleSubmit,
     register,
@@ -36,30 +45,44 @@ function AccountStudentForm({ onHandleClose }: { onHandleClose: () => void }) {
     formState: { errors },
   } = useForm<IStudentEducationInfo>({
     mode: 'onSubmit',
-    defaultValues: initialData,
+    defaultValues: {
+      subjects: [
+        ...(initialData?.subjects || []),
+        ...defaultInitialData.subjects,
+      ],
+    },
     resolver: yupResolver(StudentEducationInfoFormValidationSchema),
   })
 
-  const {
-    fields,
-    remove: remove,
-    append: append,
-  } = useFieldArray({
+  const { fields, remove, append } = useFieldArray({
     control,
     name: 'subjects',
   })
 
-  function handleAddSubject(data: IStudentEducationInfo) {
+  async function handleAddSubject(data: IStudentEducationInfo) {
+    await $api().post(`/${PRIVATE_REQUESTS.ADD_SUBJECT_STUDENT}`, {
+      ...data.subjects[data.subjects.length - 1],
+    })
+
     append({
       subject_study: '',
       level_mastery_subject: '',
     })
   }
 
+  async function handleRemoveSubject(id: string, index: number) {
+    try {
+      await $api().delete(`/${PRIVATE_REQUESTS.REMOVE_SUBJECT_STUDENT}/${id}`)
+      remove(index)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   return (
     <Box>
       <form className="form">
-        {fields.map(({ id }, index) => (
+        {fields.map(({ id, _id }, index) => (
           <Box key={id}>
             <Box maxWidth={400}>
               <Box marginBottom={2}>
@@ -103,7 +126,7 @@ function AccountStudentForm({ onHandleClose }: { onHandleClose: () => void }) {
                 <Button
                   type="button"
                   size="small"
-                  onClick={() => remove(index)}
+                  onClick={() => handleRemoveSubject(_id || '', index)}
                 >
                   <Box
                     component="span"

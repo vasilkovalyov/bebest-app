@@ -1,5 +1,5 @@
 // libs
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 //redux
 import { useAppSelector } from '@/redux/hooks'
@@ -15,10 +15,45 @@ import Icon from '@/components/Generic/Icon'
 import { IconEnum } from '@/components/Generic/Icon/Icon.type'
 import StudentEducationInfoForm from '@/components/Forms/Account/StudentEducationInfoForm'
 import { Typography } from '@mui/material'
+import { IStudentEducation } from '@/components/Forms/Account/StudentEducationInfoForm/StudentEducationInfoForm.type'
+import { IAccountInfo } from '@/components/AccountInfo/AccountInfo.type'
+
+//other utils
+import { PRIVATE_REQUESTS } from '@/constants/api-requests'
+import $api from '@/utils/ajax'
+
+function getInfo(subjects: IStudentEducation[]): IAccountInfo[] {
+  const newSubjects: IAccountInfo[] = []
+  for (let item of subjects) {
+    const subjectObj: IAccountInfo = {
+      title: 'Subject',
+      name: item.subject_study,
+    }
+    const subjectLevelObj: IAccountInfo = {
+      title: 'The level of mastery of the subject',
+      name: item.level_mastery_subject,
+    }
+    newSubjects.push(subjectObj)
+    newSubjects.push(subjectLevelObj)
+  }
+  return newSubjects
+}
 
 function StudentEducationInfo() {
   const user = useAppSelector((store) => store.user.user)
   const [isEdit, seIsEdit] = useState<boolean>(false)
+  const [subjects, setSubjects] = useState<IStudentEducation[] | []>([])
+
+  async function loadSubjects() {
+    const response = await $api().get(
+      `/${PRIVATE_REQUESTS.GET_SUBJECTS_STUDENT}`
+    )
+    setSubjects(response.data.subjects)
+  }
+
+  useEffect(() => {
+    loadSubjects()
+  }, [])
 
   function onHandleClose() {
     seIsEdit(!isEdit)
@@ -33,13 +68,25 @@ function StudentEducationInfo() {
       </Stack>
       {!isEdit ? (
         <>
-          <Typography variant="body1">
-            No data. Click on Edit button to add information.
-          </Typography>
-          <AccountInfo directionItems="column" gap={1} items={[]} />
+          {subjects.length ? (
+            <AccountInfo
+              directionItems="column"
+              gap={1}
+              items={getInfo(subjects)}
+            />
+          ) : (
+            <Typography variant="body1">
+              No data. Click on Edit button to add information.
+            </Typography>
+          )}
         </>
       ) : (
-        <StudentEducationInfoForm onHandleClose={onHandleClose} />
+        <StudentEducationInfoForm
+          initialData={{
+            subjects: subjects,
+          }}
+          onHandleClose={onHandleClose}
+        />
       )}
     </Box>
   )
