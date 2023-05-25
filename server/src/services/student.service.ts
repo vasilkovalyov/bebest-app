@@ -2,6 +2,10 @@ import ApiError from '../utils/api-error';
 import StudentModel, {
   StudentAccountEditableModelType,
 } from '../models/student.model';
+import StudentSubjectsModel, {
+  IStudentSubject,
+  StudentSubjectsModelType,
+} from '../models/student-subjects';
 import UserModel from '../models/user.model';
 import bcrypt from 'bcrypt';
 
@@ -68,6 +72,52 @@ class StudentService {
 
     if (!response) throw ApiError.BadRequestError('Student did not update');
 
+    return response;
+  }
+
+  async addSubjects(_id: string, props: IStudentSubject) {
+    const response =
+      await StudentSubjectsModel.findOne<StudentSubjectsModelType>({
+        studentId: _id,
+      });
+
+    if (response) {
+      await StudentSubjectsModel.findOneAndUpdate(
+        { studentId: _id },
+        { $push: { subjects: props } },
+        { new: true }
+      );
+    } else {
+      const studentSubject = await new StudentSubjectsModel({
+        studentId: _id,
+        subjects: props,
+      });
+      const response = await studentSubject.save();
+      await StudentModel.findOneAndUpdate({ _id }, { subjects: response._id });
+    }
+
+    return {
+      message: 'Subject add successfull!',
+    };
+  }
+
+  async removeSubject(userId: string, subjectId: string) {
+    const response = await StudentSubjectsModel.findOneAndUpdate(
+      {
+        studentId: userId,
+      },
+      { $pull: { subjects: { _id: subjectId } } },
+      { new: true }
+    );
+    return {
+      message: 'Subject removed successfull!',
+    };
+  }
+
+  async getSubjects(_id: string) {
+    const response = await StudentSubjectsModel.findOne({
+      studentId: _id,
+    }).select('subjects');
     return response;
   }
 }

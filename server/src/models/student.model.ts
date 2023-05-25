@@ -1,5 +1,6 @@
 import { Schema, model, Document } from 'mongoose';
 import { IUser } from './user.model';
+import { IStudentSubject } from './student-subjects';
 
 export interface IStudent extends IUser {
   name: string;
@@ -7,6 +8,7 @@ export interface IStudent extends IUser {
   password: string;
   phone?: string | null;
   about?: string | null;
+  subjects?: IStudentSubject[] | [];
 }
 
 export type StudentModelType = IStudent & Document;
@@ -28,6 +30,10 @@ const StudentSchema = new Schema<StudentModelType>({
   },
   phone: { type: String, required: false, default: null },
   about: { type: String, required: false, default: null },
+  subjects: {
+    ref: 'StudentSubjects',
+    type: Schema.Types.ObjectId,
+  },
 });
 
 const Student = model('Student', StudentSchema);

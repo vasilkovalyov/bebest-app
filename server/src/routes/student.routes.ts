@@ -34,4 +34,22 @@ router.post(
 
 router.get('/user-info/student', authMiddleware, StudentController.getUserInfo);
 
+router.post(
+  '/add-subject/student',
+  authMiddleware,
+  StudentController.addSubject
+);
+
+router.delete(
+  '/remove-subject/student/:id',
+  authMiddleware,
+  StudentController.removeSubject
+);
+
+router.get(
+  '/get-subject/student',
+  authMiddleware,
+  StudentController.getSubject
+);
+
 export default router;
