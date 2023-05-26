@@ -1,5 +1,7 @@
 // material ui components
 import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box'
+import Divider from '@mui/material/Divider'
 
 //custom components
 import ContainerWithShadow from '@/components/Generic/ContainerWithShadow'
@@ -15,6 +17,9 @@ function StudentEducationInfoBlock() {
       >
         Information education
       </Typography>
+      <Box marginBottom={3}>
+        <Divider />
+      </Box>
       <StudentEducationInfo />
     </ContainerWithShadow>
   )
