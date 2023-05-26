@@ -1,4 +1,5 @@
 // libs
+import { useState } from 'react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, useFieldArray } from 'react-hook-form'
 
@@ -7,10 +8,13 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import Divider from '@mui/material/Divider'
+import Modal from '@mui/material/Modal'
+import Typography from '@mui/material/Typography'
 
 //custom components
 import { IconEnum } from '@/components/Generic/Icon/Icon.type'
 import Icon from '@/components/Generic/Icon'
+import WarningIcon from '@/components/Generic/WarningIcon'
 
 // relate utils
 import {
@@ -22,8 +26,7 @@ import { StudentEducationInfoFormValidationSchema } from './StudentEducationInfo
 // other utils
 import colors from '@/constants/colors'
 import { Stack } from '@mui/material'
-import { PRIVATE_REQUESTS } from '@/constants/api-requests'
-import $api from '@/utils/ajax'
+import studentSubjectsService from '@/services/student-subjects'
 
 const defaultInitialData: IStudentEducationInfo = {
   subjects: [
@@ -37,7 +40,17 @@ const defaultInitialData: IStudentEducationInfo = {
 function AccountStudentForm({
   initialData,
   onHandleClose,
+  onHandleUpdate,
 }: IAccountStudentFormProps) {
+  const [modalOpen, setModalOpen] = useState<boolean>(false)
+  const [selectRemoveSubjectId, setSelectRemoveSubjectId] = useState<{
+    id: string
+    index: number
+  }>({
+    id: '',
+    index: -1,
+  })
+
   const {
     handleSubmit,
     register,
@@ -60,23 +73,46 @@ function AccountStudentForm({
   })
 
   async function handleAddSubject(data: IStudentEducationInfo) {
-    await $api().post(`/${PRIVATE_REQUESTS.ADD_SUBJECT_STUDENT}`, {
-      ...data.subjects[data.subjects.length - 1],
-    })
-
-    append({
-      subject_study: '',
-      level_mastery_subject: '',
-    })
-  }
-
-  async function handleRemoveSubject(id: string, index: number) {
     try {
-      await $api().delete(`/${PRIVATE_REQUESTS.REMOVE_SUBJECT_STUDENT}/${id}`)
-      remove(index)
+      const subject = { ...data.subjects[data.subjects.length - 1] }
+      await studentSubjectsService.addSubject(subject)
+
+      append({
+        subject_study: '',
+        level_mastery_subject: '',
+      })
+
+      onHandleUpdate()
     } catch (e) {
       console.log(e)
     }
+  }
+
+  async function handleOpenModal(id: string, index: number) {
+    setSelectRemoveSubjectId({
+      id,
+      index,
+    })
+    setModalOpen(true)
+  }
+
+  async function handleRemoveSubject() {
+    try {
+      await studentSubjectsService.removeSubject(selectRemoveSubjectId.id)
+      remove(selectRemoveSubjectId.index)
+      onHandleUpdate()
+      setSelectRemoveSubjectId({
+        id: '',
+        index: -1,
+      })
+      handleCloseModal()
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  function handleCloseModal() {
+    setModalOpen(false)
   }
 
   return (
@@ -95,6 +131,7 @@ function AccountStudentForm({
                   className="form-field"
                   placeholder="Example: javascript, english, react e.g"
                   fullWidth
+                  disabled={fields.length - 1 > index}
                   InputLabelProps={{ shrink: true }}
                   error={!!errors.subjects?.[index]?.subject_study?.message}
                   helperText={errors.subjects?.[index]?.subject_study?.message}
@@ -111,6 +148,7 @@ function AccountStudentForm({
                   fullWidth
                   multiline
                   minRows={4}
+                  disabled={fields.length - 1 > index}
                   InputLabelProps={{ shrink: true }}
                   error={
                     !!errors.subjects?.[index]?.level_mastery_subject?.message
@@ -126,7 +164,7 @@ function AccountStudentForm({
                 <Button
                   type="button"
                   size="small"
-                  onClick={() => handleRemoveSubject(_id || '', index)}
+                  onClick={() => handleOpenModal(_id || '', index)}
                 >
                   <Box
                     component="span"
@@ -160,7 +198,6 @@ function AccountStudentForm({
             ) : null}
           </Box>
         ))}
-
         <Box display="flex" alignItems="center" marginBottom={3} maxWidth={400}>
           <Stack direction="row" gap={2}>
             <Button
@@ -196,6 +233,52 @@ function AccountStudentForm({
           </Stack>
         </Box>
       </form>
+      <Modal open={modalOpen} onClose={handleCloseModal}>
+        <Box className="modal-box">
+          <Button className="modal-box__button-close" onClick={onHandleClose}>
+            <Icon
+              icon={IconEnum.CROSS_OUTLINE}
+              size={20}
+              color="#000000"
+              className="modal-box__button-close-icon"
+            />
+          </Button>
+          <Box className="modal-box__inner">
+            <Box textAlign="center" marginBottom={2}>
+              <WarningIcon />
+            </Box>
+            <Typography
+              variant="h4"
+              className="MuiTypography ta-c"
+              marginBottom={2}
+            >
+              Do you really want to remove subject?
+            </Typography>
+            <Stack
+              direction="row"
+              justifyContent="center"
+              marginTop={2}
+              marginBottom={2}
+              spacing={3}
+            >
+              <Button
+                variant="contained"
+                size="small"
+                onClick={handleCloseModal}
+              >
+                decline
+              </Button>
+              <Button
+                variant="outlined"
+                size="small"
+                onClick={handleRemoveSubject}
+              >
+                accept
+              </Button>
+            </Stack>
+          </Box>
+        </Box>
+      </Modal>
     </Box>
   )
 }

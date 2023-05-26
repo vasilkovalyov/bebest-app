@@ -1,14 +1,11 @@
-export interface IStudentEducation {
-  _id?: string
-  subject_study: string
-  level_mastery_subject: string
-}
+import { IStudentSubject } from '@/services/student-subjects'
 
 export interface IStudentEducationInfo {
-  subjects: IStudentEducation[] | []
+  subjects: IStudentSubject[] | []
 }
 
 export interface IAccountStudentFormProps {
   initialData?: IStudentEducationInfo
   onHandleClose: () => void
+  onHandleUpdate: () => void
 }

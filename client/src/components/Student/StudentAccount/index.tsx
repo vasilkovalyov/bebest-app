@@ -14,9 +14,9 @@ import Typography from '@mui/material/Typography'
 //custom components
 import AccountStudentForm from '@/components/Forms/Account/AccountStudent'
 import AccountInfo from '@/components/AccountInfo'
-import ModalPopupBox from '@/components/ModalPopupBox'
 import Icon from '@/components/Generic/Icon'
 import { IconEnum } from '@/components/Generic/Icon/Icon.type'
+import WarningIcon from '@/components/Generic/WarningIcon'
 
 //hooks
 import { useLogout } from '@/hooks/useLogout'
@@ -99,27 +99,41 @@ function StudentAccount() {
         </Box>
       )}
       <Modal open={modalOpen} onClose={handleCloseModal}>
-        {/* <ModalPopupBox type="full" onHandleClose={handleCloseModal}> */}
-        <Box>
-          <Typography variant="h2" className="MuiTypography ta-c">
-            Do you really want to remove your account?
-          </Typography>
-          <Stack
-            direction="row"
-            justifyContent="center"
-            marginTop={2}
-            marginBottom={2}
-            spacing={3}
+        <Box className="modal-box modal-box-full">
+          <Button
+            className="modal-box__button-close"
+            onClick={handleCloseModal}
           >
-            <Button variant="contained" onClick={handleCloseModal}>
-              decline
-            </Button>
-            <Button variant="outlined" onClick={handleRemoveAccount}>
-              accept
-            </Button>
-          </Stack>
+            <Icon
+              icon={IconEnum.CROSS_OUTLINE}
+              size={20}
+              color="#000000"
+              className="modal-box__button-close-icon"
+            />
+          </Button>
+          <Box className="modal-box__inner">
+            <Box textAlign="center" marginBottom={2}>
+              <WarningIcon />
+            </Box>
+            <Typography variant="h3" className="MuiTypography ta-c">
+              Do you really want to remove your account?
+            </Typography>
+            <Stack
+              direction="row"
+              justifyContent="center"
+              marginTop={2}
+              marginBottom={2}
+              spacing={3}
+            >
+              <Button variant="contained" onClick={handleCloseModal}>
+                decline
+              </Button>
+              <Button variant="outlined" onClick={handleRemoveAccount}>
+                accept
+              </Button>
+            </Stack>
+          </Box>
         </Box>
-        {/* </ModalPopupBox> */}
       </Modal>
     </Box>
   )

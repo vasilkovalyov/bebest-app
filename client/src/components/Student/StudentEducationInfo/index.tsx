@@ -1,13 +1,12 @@
 // libs
 import { useEffect, useState } from 'react'
 
-//redux
-import { useAppSelector } from '@/redux/hooks'
-
 // material ui components
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
+import Fade from '@mui/material/Fade'
+import CircularProgress from '@mui/material/CircularProgress'
 
 //custom components
 import AccountInfo from '@/components/AccountInfo'
@@ -15,14 +14,14 @@ import Icon from '@/components/Generic/Icon'
 import { IconEnum } from '@/components/Generic/Icon/Icon.type'
 import StudentEducationInfoForm from '@/components/Forms/Account/StudentEducationInfoForm'
 import { Typography } from '@mui/material'
-import { IStudentEducation } from '@/components/Forms/Account/StudentEducationInfoForm/StudentEducationInfoForm.type'
 import { IAccountInfo } from '@/components/AccountInfo/AccountInfo.type'
 
 //other utils
-import { PRIVATE_REQUESTS } from '@/constants/api-requests'
-import $api from '@/utils/ajax'
+import studentSubjectsService, {
+  IStudentSubject,
+} from '@/services/student-subjects'
 
-function getInfo(subjects: IStudentEducation[]): IAccountInfo[] {
+function getInfo(subjects: IStudentSubject[]): IAccountInfo[] {
   const newSubjects: IAccountInfo[] = []
   for (let item of subjects) {
     const subjectObj: IAccountInfo = {
@@ -40,15 +39,19 @@ function getInfo(subjects: IStudentEducation[]): IAccountInfo[] {
 }
 
 function StudentEducationInfo() {
-  const user = useAppSelector((store) => store.user.user)
   const [isEdit, seIsEdit] = useState<boolean>(false)
-  const [subjects, setSubjects] = useState<IStudentEducation[] | []>([])
+  const [subjects, setSubjects] = useState<IStudentSubject[] | []>([])
+  const [loading, setLoading] = useState<boolean>(true)
 
   async function loadSubjects() {
-    const response = await $api().get(
-      `/${PRIVATE_REQUESTS.GET_SUBJECTS_STUDENT}`
-    )
-    setSubjects(response.data.subjects)
+    try {
+      const response = await studentSubjectsService.getSubjects()
+      setSubjects(response.data.subjects)
+    } catch (e) {
+      console.log(e)
+    } finally {
+      setLoading(false)
+    }
   }
 
   useEffect(() => {
@@ -59,6 +62,10 @@ function StudentEducationInfo() {
     seIsEdit(!isEdit)
   }
 
+  async function onHandleUpdate() {
+    await loadSubjects()
+  }
+
   return (
     <Box paddingY={4} className="student-account">
       <Stack direction="row" className="student-account__controllers">
@@ -66,27 +73,38 @@ function StudentEducationInfo() {
           {!isEdit ? <Icon icon={IconEnum.EDIT} size={18} /> : 'Close'}
         </Button>
       </Stack>
-      {!isEdit ? (
-        <>
-          {subjects.length ? (
-            <AccountInfo
-              directionItems="column"
-              gap={1}
-              items={getInfo(subjects)}
-            />
-          ) : (
-            <Typography variant="body1">
-              No data. Click on Edit button to add information.
-            </Typography>
-          )}
-        </>
+      {loading ? (
+        <Box textAlign="center">
+          <Fade in={true} unmountOnExit>
+            <CircularProgress />
+          </Fade>
+        </Box>
       ) : (
-        <StudentEducationInfoForm
-          initialData={{
-            subjects: subjects,
-          }}
-          onHandleClose={onHandleClose}
-        />
+        <Box>
+          {!isEdit ? (
+            <Box>
+              {subjects.length ? (
+                <AccountInfo
+                  directionItems="column"
+                  gap={1}
+                  items={getInfo(subjects)}
+                />
+              ) : (
+                <Typography variant="body1">
+                  No data. Click on Edit button to add information.
+                </Typography>
+              )}
+            </Box>
+          ) : (
+            <StudentEducationInfoForm
+              initialData={{
+                subjects: subjects,
+              }}
+              onHandleUpdate={onHandleUpdate}
+              onHandleClose={onHandleClose}
+            />
+          )}
+        </Box>
       )}
     </Box>
   )
