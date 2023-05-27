@@ -24,6 +24,7 @@ import { useLogout } from '@/hooks/useLogout'
 //other utils
 import { AxiosError } from 'axios'
 import studentService from '@/services/student'
+import teacherService from '@/services/teacher'
 
 function StudentAccount() {
   const { logOut } = useLogout()
@@ -41,7 +42,15 @@ function StudentAccount() {
 
   async function handleRemoveAccount() {
     try {
-      const response = await studentService.deleteUser()
+      let response: unknown | any
+
+      if (user.role === 'student') {
+        response = await studentService.deleteUser()
+      }
+      if (user.role === 'teacher') {
+        response = await teacherService.deleteUser()
+      }
+
       if (response.data.data) {
         logOut()
       }
@@ -114,7 +123,7 @@ function StudentAccount() {
               <WarningIcon />
             </Box>
             <Typography variant="h3" className="MuiTypography ta-c">
-              Do you really want to remove your account?
+              Do you really want to remove your {user.role} account?
             </Typography>
             <Stack
               direction="row"

@@ -23,6 +23,7 @@ import { PasswordChangeFormValidationSchema } from './ChangePassword.validation'
 
 // other utils
 import studentService from '@/services/student'
+import teacherService from '@/services/teacher'
 import { AxiosError } from 'axios'
 
 function ChangePasswordForm() {
@@ -63,9 +64,16 @@ function ChangePasswordForm() {
     try {
       setIsLoading(true)
 
-      const response = await studentService.changePassword(
-        props.confirm_password
-      )
+      let response: unknown | any
+
+      if (user.role === 'student') {
+        response = await studentService.changePassword(props.confirm_password)
+      }
+
+      if (user.role === 'teacher') {
+        response = await teacherService.changePassword(props.confirm_password)
+      }
+
       if (response.status === 200) {
         showNotification()
         setMessageNotification(response.data.message)

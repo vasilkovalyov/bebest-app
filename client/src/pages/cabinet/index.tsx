@@ -16,11 +16,11 @@ function PageCabinet() {
 
   return (
     <CabinetLayout>
+      <Box marginBottom={4}>
+        <StudentAccountBlock />
+      </Box>
       {user.role === 'student' ? (
         <>
-          <Box marginBottom={4}>
-            <StudentAccountBlock />
-          </Box>
           <Box marginBottom={4}>
             <StudentEducationInfoBlock />
           </Box>

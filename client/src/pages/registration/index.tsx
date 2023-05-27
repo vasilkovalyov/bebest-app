@@ -3,7 +3,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 
 // material ui components
-import RegistrationStudentForm from '@/components/Forms/Registration/RegistrationStudent'
+
 import Breadcrumbs from '@mui/material/Breadcrumbs'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
@@ -16,11 +16,15 @@ import Button from '@mui/material/Button'
 import Layout from '@/layouts/Layout'
 import TabPanel from '@/components/Generic/TabPanel'
 import ContainerWithShadow from '@/components/Generic/ContainerWithShadow'
+import RegistrationStudentForm from '@/components/Forms/Registration/RegistrationStudent'
 import { IRegistrationStudent } from '../../components/Forms/Registration/RegistrationStudent/RegistrationStudent.type'
+import RegistrationTeacherForm from '@/components/Forms/Registration/RegistrationTeacher'
+import { IRegistrationTeacher } from '../../components/Forms/Registration/RegistrationTeacher/RegistrationTeacher.type'
 
 // other utils
 import { UserRole } from '@/types/role'
-import studentService from '../../services/student'
+import studentService from '@/services/student'
+import teacherService from '@/services/teacher'
 import { AxiosError } from 'axios'
 
 export default function Registration() {
@@ -29,22 +33,27 @@ export default function Registration() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
 
-  async function handleRegistration<T extends IRegistrationStudent>(
-    role: UserRole,
-    data: T
-  ) {
+  async function handleRegistration<
+    S extends IRegistrationStudent,
+    T extends IRegistrationTeacher
+  >(role: UserRole, data: S | T) {
     try {
       setIsLoading(true)
       if (role === 'student') {
-        const response = await studentService.registrationStudent(data as T)
+        const response = await studentService.registrationStudent(data as S)
         setSuccessMessage(response.data.message)
       }
-      setIsLoading(false)
+      if (role === 'teacher') {
+        const response = await teacherService.registration(data as T)
+        setSuccessMessage(response.data.message)
+      }
     } catch (e) {
       setIsLoading(false)
       if (e instanceof AxiosError) {
         setErrorMessage(e.response?.data.message)
       }
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -132,6 +141,11 @@ export default function Registration() {
                     A mentor can create and conduct workshops and individual
                     classes with students, on a paid or free basis
                   </Typography>
+                  <RegistrationTeacherForm
+                    onSubmit={(props) => handleRegistration('teacher', props)}
+                    isLoading={isLoading}
+                    validationMessage={errorMessage}
+                  />
                 </TabPanel>
                 <TabPanel value={tabValue} index={2}>
                   <Typography

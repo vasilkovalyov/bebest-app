@@ -14,6 +14,7 @@ import { ThemeProvider } from '@mui/material/styles'
 // other utils
 import authService from '@/services/auth'
 import studentService from '@/services/student'
+import teacherService from '@/services/teacher'
 import pages from '@/constants/pages'
 import theme from '../theme/primaryTheme'
 
@@ -65,11 +66,18 @@ App.getInitialProps = wrapper.getInitialAppProps(
           ctx.res?.end()
         }
 
-        const user = await studentService.getUserInfo(
-          role as UserRole,
-          userId,
-          token
-        )
+        let user: unknown | any
+        if (role === ('student' as UserRole)) {
+          user = await studentService.getUserInfo(
+            role as UserRole,
+            userId,
+            token
+          )
+        }
+        if (role === ('teacher' as UserRole)) {
+          user = await teacherService.getUserInfo(token)
+        }
+
         const userData = await user.data
         store.dispatch(setAuthState(userData))
       } catch (e) {

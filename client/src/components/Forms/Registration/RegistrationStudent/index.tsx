@@ -14,7 +14,7 @@ import {
   IRegistrationStudentFormProps,
   IRegistrationStudent,
 } from './RegistrationStudent.type'
-import { LoginFormValidationSchema } from './RegistrationStudent.validation'
+import { RegistrationFormValidationSchema } from './RegistrationStudent.validation'
 
 function RegistrartionStudentForm({
   onSubmit,
@@ -27,7 +27,7 @@ function RegistrartionStudentForm({
     formState: { errors },
   } = useForm<IRegistrationStudent>({
     mode: 'onSubmit',
-    resolver: yupResolver(LoginFormValidationSchema),
+    resolver: yupResolver(RegistrationFormValidationSchema),
   })
 
   return (
