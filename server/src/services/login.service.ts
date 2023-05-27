@@ -1,9 +1,9 @@
 import ApiError from '../utils/api-error';
-import StudentModel, { StudentModelType } from '../models/student.model';
-import UserModel, { UserModelType } from '../models/user.model';
+import StudentModel from '../models/student.model';
+import TeacherModel from '../models/teacher.model';
+import UserModel from '../models/user.model';
 import bcrypt from 'bcrypt';
 import { ILoginResponse } from '../interfaces/response';
-import { UserRole } from '../types/role';
 import TokenService from './token.service';
 
 class LoginService {
@@ -39,6 +39,30 @@ class LoginService {
       return {
         userId: studentModel._id,
         role: studentModel.role,
+        token: token.accessToken,
+      };
+    }
+    if (user.role === 'teacher') {
+      const teacherModel = await TeacherModel.findOne({
+        _id: user.userId,
+      });
+
+      if (!teacherModel)
+        throw ApiError.BadRequestError(
+          `Teacher with email ${email} not a found!`
+        );
+
+      const validPass = await bcrypt.compare(password, teacherModel.password);
+      if (!validPass) throw ApiError.BadRequestError(`Wrong password!`);
+
+      const token = await TokenService.generateTokens({
+        _id: teacherModel._id,
+        role: teacherModel.role,
+      });
+
+      return {
+        userId: teacherModel._id,
+        role: teacherModel.role,
         token: token.accessToken,
       };
     }

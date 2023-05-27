@@ -3,6 +3,7 @@ import { UserRole } from 'types/role';
 
 import RegistrationStrategy from '../services/registration/registration';
 import StudentRegistration from '../services/registration/student.registration';
+import TeacherRegistration from '../services/registration/teacher.registration';
 
 class RegistrationController {
   async registration(req: Request, res: Response) {
@@ -15,6 +16,10 @@ class RegistrationController {
       if (role === 'student') {
         strategy.setStrategy(new StudentRegistration(req.body));
         strategy.successMessage = 'Student was created successfull';
+      }
+      if (role === 'teacher') {
+        strategy.setStrategy(new TeacherRegistration(req.body));
+        strategy.successMessage = 'Teacher was created successfull';
       }
 
       if (!strategy) {
