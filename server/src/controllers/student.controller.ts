@@ -1,17 +1,16 @@
 import { Request, Response } from 'express';
 import StudentService from '../services/student.service';
-import ApiError from '../utils/api-error';
 import tokenService from '../services/token.service';
 import { ITokenData } from 'interfaces/token';
 
 class StudentController {
   async removeUser(req: Request, res: Response) {
     try {
-      const { id } = req.params;
-      if (!id) {
-        throw ApiError.BadRequestError('You have to add send user id');
-      }
-      const response = await StudentService.removeUser(id);
+      const userData = (await tokenService.validateAccessToken(
+        req.headers.authorization
+      )) as ITokenData;
+
+      const response = await StudentService.removeUser(userData._id);
       return res.status(200).json({
         data: response,
       });
@@ -25,8 +24,16 @@ class StudentController {
 
   async changePassword(req: Request, res: Response) {
     try {
-      const { _id, password } = req.body;
-      const response = await StudentService.changePassword(_id, password);
+      const userData = (await tokenService.validateAccessToken(
+        req.headers.authorization
+      )) as ITokenData;
+
+      const { password } = req.body;
+
+      const response = await StudentService.changePassword(
+        userData._id,
+        password
+      );
       return res.status(200).json(response);
     } catch (e) {
       if (!(e instanceof Error)) return;
@@ -38,12 +45,11 @@ class StudentController {
 
   async getUserInfo(req: Request, res: Response) {
     try {
-      const { id } = req.query;
-      if (!id) {
-        throw ApiError.BadRequestError('You did not send user id');
-      }
+      const userData = (await tokenService.validateAccessToken(
+        req.headers.authorization
+      )) as ITokenData;
 
-      const response = await StudentService.getUserInfo(id.toString());
+      const response = await StudentService.getUserInfo(userData._id);
 
       return res.status(200).json(response);
     } catch (e) {
@@ -57,12 +63,14 @@ class StudentController {
 
   async updateUserInfo(req: Request, res: Response) {
     try {
-      const { _id, ...props } = req.body;
-      if (!_id) {
-        throw ApiError.BadRequestError('You did not send user id');
-      }
+      const userData = (await tokenService.validateAccessToken(
+        req.headers.authorization
+      )) as ITokenData;
 
-      const response = await StudentService.updateUserInfo(_id, props);
+      const response = await StudentService.updateUserInfo(
+        userData._id,
+        req.body
+      );
 
       return res.status(200).json(response);
     } catch (e) {
