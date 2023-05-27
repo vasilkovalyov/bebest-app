@@ -1,5 +1,6 @@
 @import '../settings/settings.spacing';
 @import '../settings/settings.colors';
+@import '../settings/settings.sizes';
 
 .cabinet-sidebar-menu {
   .MuiMenuItem-root {
@@ -15,13 +16,14 @@
   }
 
   a {
-    padding: $spacing-0-l $spacing-2-l;
+    padding: $spacing-1-m $spacing-2-l;
     display: block;
     width: 100%;
     text-decoration: none;
     color: initial;
     display: inline-flex;
     align-items: center;
+    font-size: $size-1-l;
 
     &.active {
       color: $primary-color;
