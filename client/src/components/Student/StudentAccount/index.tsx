@@ -40,10 +40,8 @@ function StudentAccount() {
   }
 
   async function handleRemoveAccount() {
-    if (!user?._id) return
-
     try {
-      const response = await studentService.deleteUser(user?._id)
+      const response = await studentService.deleteUser()
       if (response.data.data) {
         logOut()
       }

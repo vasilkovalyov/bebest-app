@@ -71,14 +71,10 @@ function AccountStudentForm({ onHandleClose }: { onHandleClose: () => void }) {
   })
 
   async function onSubmit(props: UserAccountInfoEditType) {
-    if (!user?._id) return
     setIsLoading(true)
 
     try {
-      const response = await studentService.updateUserAccountInfo(
-        user?._id,
-        props
-      )
+      const response = await studentService.updateUserAccountInfo(props)
       setAuthState(response.data)
       onHandleClose()
     } catch (e) {

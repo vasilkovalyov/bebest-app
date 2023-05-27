@@ -51,22 +51,20 @@ class StudentService {
     return response
   }
 
-  async deleteUser(id: string): Promise<AxiosResponse<{ data: boolean }>> {
+  async deleteUser(): Promise<AxiosResponse<{ data: boolean }>> {
     const response = await $api().delete(
-      `/${PRIVATE_REQUESTS.USER_DELETE}/student/${id}`
+      `/${PRIVATE_REQUESTS.USER_DELETE}/student`
     )
 
     return response
   }
 
   async updateUserAccountInfo(
-    id: string,
     props: UserAccountInfoEditType
   ): Promise<AxiosResponse<IAuthUserInfo>> {
     const response = await $api().post(
       `/${PRIVATE_REQUESTS.USER_INFO}/student`,
       {
-        _id: id,
         ...props,
       }
     )
@@ -75,13 +73,11 @@ class StudentService {
   }
 
   async changePassword(
-    id: string,
     password: string
   ): Promise<AxiosResponse<{ message: string }>> {
     const response = await $api().post(
       `/${PRIVATE_REQUESTS.UPDATE_PASSWORD}/student`,
       {
-        _id: id,
         password: password,
       }
     )

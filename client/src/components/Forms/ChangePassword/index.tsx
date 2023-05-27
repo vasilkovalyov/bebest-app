@@ -64,7 +64,6 @@ function ChangePasswordForm() {
       setIsLoading(true)
 
       const response = await studentService.changePassword(
-        user?._id,
         props.confirm_password
       )
       if (response.status === 200) {
