@@ -30,7 +30,7 @@ function StudentAccountBlock() {
       <Typography
         marginBottom={3}
         variant="h3"
-        className="MuiTypography section-admin__heading"
+        className="section-admin__heading"
       >
         Account
       </Typography>

@@ -122,7 +122,7 @@ function StudentAccount() {
             <Box textAlign="center" marginBottom={2}>
               <WarningIcon />
             </Box>
-            <Typography variant="h3" className="MuiTypography ta-c">
+            <Typography variant="h3" className="ta-c">
               Do you really want to remove your {user.role} account?
             </Typography>
             <Stack

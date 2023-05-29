@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react'
 
 // material ui components
+import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
@@ -13,7 +14,6 @@ import AccountInfo from '@/components/AccountInfo'
 import Icon from '@/components/Generic/Icon'
 import { IconEnum } from '@/components/Generic/Icon/Icon.type'
 import StudentEducationInfoForm from '@/components/Forms/Account/StudentEducationInfoForm'
-import { Typography } from '@mui/material'
 import { IAccountInfo } from '@/components/AccountInfo/AccountInfo.type'
 
 //other utils

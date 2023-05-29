@@ -73,11 +73,7 @@ export default function Registration() {
           </Typography>
         </Breadcrumbs>
 
-        <Typography
-          variant="h3"
-          className="MuiTypography ta-c"
-          marginBottom={3}
-        >
+        <Typography variant="h3" className="ta-c" marginBottom={3}>
           Registration
         </Typography>
         {successMessage === null ? (

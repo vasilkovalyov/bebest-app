@@ -18,11 +18,7 @@ export default function FourOhFour() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="not-found-page">
-        <Typography
-          variant="h1"
-          className="MuiTypography ta-c"
-          marginBottom={2}
-        >
+        <Typography variant="h1" className="ta-c" marginBottom={2}>
           404 - Page Not Found
         </Typography>
         <Box className="not-found-page__image" marginBottom={4}>

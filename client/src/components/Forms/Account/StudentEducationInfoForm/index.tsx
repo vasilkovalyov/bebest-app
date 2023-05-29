@@ -247,11 +247,7 @@ function AccountStudentForm({
             <Box textAlign="center" marginBottom={2}>
               <WarningIcon />
             </Box>
-            <Typography
-              variant="h4"
-              className="MuiTypography ta-c"
-              marginBottom={2}
-            >
+            <Typography variant="h4" className="ta-c" marginBottom={2}>
               Do you really want to remove subject?
             </Typography>
             <Stack

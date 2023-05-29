@@ -13,7 +13,7 @@ function StudentEducationInfoBlock() {
       <Typography
         marginBottom={3}
         variant="h5"
-        className="MuiTypography section-admin__heading"
+        className="section-admin__heading"
       >
         Information education
       </Typography>

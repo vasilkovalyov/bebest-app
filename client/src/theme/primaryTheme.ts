@@ -171,6 +171,13 @@ const theme = createTheme({
         },
       },
     },
+    MuiFormControlLabel: {
+      styleOverrides: {
+        label: {
+          marginBottom: 0,
+        },
+      },
+    },
   },
 })
 
