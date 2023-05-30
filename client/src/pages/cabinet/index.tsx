@@ -12,7 +12,7 @@ import StudentAccountBlock from '@/blocks/StudentAccountBlock'
 import StudentEducationInfoBlock from '@/blocks/StudentEducationInfoBlock'
 import TeacherWorkExperienceBlock from '../../blocks/TeacherWorkExperienceBlock'
 import TeacherCostPersonalLessonsBlock from '../../blocks/TeacherCostPersonalLessonsBlock'
-import MainFieldsActivityBlock from '../../blocks/MainFieldsActivityBlock'
+import MainFieldsActivityBlock from '../../blocks/UserFieldsActivityBlock'
 
 function PageCabinet() {
   const user = useAppSelector((store) => store.user.user)

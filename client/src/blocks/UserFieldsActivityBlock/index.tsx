@@ -14,12 +14,12 @@ import CircularProgress from '@mui/material/CircularProgress'
 import Icon from '@/components/Generic/Icon'
 import { IconEnum } from '@/components/Generic/Icon/Icon.type'
 import ContainerWithShadow from '@/components/Generic/ContainerWithShadow'
-import FieldsActivity from '../../components/Forms/FieldsActivity'
+import UserFieldsActivity from '../../components/Forms/UserFieldsActivity'
 
 //other utils
 import { ITeacherWorkExperience } from '@/services/teacher-work-experience'
 
-function MainFieldsActivityBlock() {
+function UserFieldsActivityBlock() {
   const [isEdit, seIsEdit] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
   const [workExperiences, setWorkExperiences] = useState<
@@ -63,7 +63,7 @@ function MainFieldsActivityBlock() {
                 )}
               </Box>
             ) : (
-              <FieldsActivity
+              <UserFieldsActivity
                 initialData={undefined}
                 onHandleUpdate={() => {}}
                 onHandleClose={onHandleClose}
@@ -76,4 +76,4 @@ function MainFieldsActivityBlock() {
   )
 }
 
-export default MainFieldsActivityBlock
+export default UserFieldsActivityBlock

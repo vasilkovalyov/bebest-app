@@ -18,30 +18,30 @@ import WarningIcon from '@/components/Generic/WarningIcon'
 
 // relate utils
 import {
-  IFieldsActivityInfo,
-  IFieldsActivityFormProps,
-} from './FieldsActivity.type'
+  IUserFieldsActivityInfo,
+  IUserFieldsActivityFormProps,
+} from './UserFieldsActivity.type'
 
 // other utils
 import colors from '@/constants/colors'
 import { Stack } from '@mui/material'
 // import studentSubjectsService from '@/services/student-subjects'
-import { IFieldActivity } from '@/services/fields-activity'
+import { IUserFieldActivity } from '@/services/user-fields-activity'
 
-const defaultWorkExperience: IFieldActivity = {
+const defaultWorkExperience: IUserFieldActivity = {
   activity: '',
   skills: '',
 }
 
-const defaultInitialData: IFieldsActivityInfo = {
+const defaultInitialData: IUserFieldsActivityInfo = {
   fields_activity: [defaultWorkExperience],
 }
 
-function FieldsActivityForm({
+function UserFieldsActivityForm({
   initialData,
   onHandleClose,
   onHandleUpdate,
-}: IFieldsActivityFormProps) {
+}: IUserFieldsActivityFormProps) {
   const [modalOpen, setModalOpen] = useState<boolean>(false)
   const [selectRemoveWorkExperienceId, setSelectRemoveWorkExperienceId] =
     useState<{
@@ -60,7 +60,7 @@ function FieldsActivityForm({
     control,
     trigger,
     formState: { errors },
-  } = useForm<IFieldsActivityInfo>({
+  } = useForm<IUserFieldsActivityInfo>({
     mode: 'onSubmit',
     defaultValues: {
       fields_activity: [
@@ -75,7 +75,7 @@ function FieldsActivityForm({
     name: 'fields_activity',
   })
 
-  async function handleAddFieldActivity(data: IFieldsActivityInfo) {
+  async function handleAddFieldActivity(data: IUserFieldsActivityInfo) {
     try {
       const fieldsActivity = {
         ...data.fields_activity[data.fields_activity.length - 1],
@@ -288,4 +288,4 @@ function FieldsActivityForm({
   )
 }
 
-export default FieldsActivityForm
+export default UserFieldsActivityForm
