@@ -11,6 +11,7 @@ import CabinetLayout from '@/layouts/CabinetLayout'
 import StudentAccountBlock from '@/blocks/StudentAccountBlock'
 import StudentEducationInfoBlock from '@/blocks/StudentEducationInfoBlock'
 import TeacherWorkExperienceBlock from '../../blocks/TeacherWorkExperienceBlock'
+import TeacherCostPersonalLessonsBlock from '../../blocks/TeacherCostPersonalLessonsBlock'
 
 function PageCabinet() {
   const user = useAppSelector((store) => store.user.user)
@@ -26,9 +27,14 @@ function PageCabinet() {
         </Box>
       ) : null}
       {user.role === 'teacher' ? (
-        <Box marginBottom={4}>
-          <TeacherWorkExperienceBlock />
-        </Box>
+        <>
+          <Box marginBottom={4}>
+            <TeacherCostPersonalLessonsBlock />
+          </Box>
+          <Box marginBottom={4}>
+            <TeacherWorkExperienceBlock />
+          </Box>
+        </>
       ) : null}
     </CabinetLayout>
   )
