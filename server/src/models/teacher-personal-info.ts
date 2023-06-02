@@ -12,7 +12,7 @@ export interface ITeacherCostPersonalLesson {
   trial_duration: string;
   trial_price: string;
   is_trial_free: boolean;
-  use_trial: boolean;
+  use_trial: string;
 }
 
 export interface ITeacherWorkExperience {
@@ -68,7 +68,7 @@ const TeacherPersonalInfoSchema = new Schema<ITeacherPersonalInfoModel>({
       type: Boolean,
     },
     use_trial: {
-      type: Boolean,
+      type: String,
     },
   },
   work_experience: [
