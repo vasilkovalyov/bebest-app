@@ -78,6 +78,115 @@ class TeacherController {
       });
     }
   }
+
+  async addMainFieldsActivity(req: Request, res: Response) {
+    try {
+      const userData = (await tokenService.validateAccessToken(
+        req.headers.authorization
+      )) as ITokenData;
+      const response = await TeacherService.addMainFieldsActivity(
+        userData._id,
+        req.body
+      );
+      return res.status(200).json(response);
+    } catch (e) {
+      if (!(e instanceof Error)) return;
+      return res.status(400).json({
+        message: e.message,
+      });
+    }
+  }
+
+  async removeMainFieldsActivity(req: Request, res: Response) {
+    try {
+      const userData = (await tokenService.validateAccessToken(
+        req.headers.authorization
+      )) as ITokenData;
+      const { id } = req.params;
+
+      const response = await TeacherService.removeMainFieldsActivity(
+        userData._id,
+        id
+      );
+      return res.status(200).json(response);
+    } catch (e) {
+      if (!(e instanceof Error)) return;
+      return res.status(400).json({
+        message: e.message,
+      });
+    }
+  }
+
+  async updatePersonalLessons(req: Request, res: Response) {
+    try {
+      const userData = (await tokenService.validateAccessToken(
+        req.headers.authorization
+      )) as ITokenData;
+      const response = await TeacherService.updatePersonalLessons(
+        userData._id,
+        req.body
+      );
+      return res.status(200).json(response);
+    } catch (e) {
+      if (!(e instanceof Error)) return;
+      return res.status(400).json({
+        message: e.message,
+      });
+    }
+  }
+
+  async addWorkExperience(req: Request, res: Response) {
+    try {
+      const userData = (await tokenService.validateAccessToken(
+        req.headers.authorization
+      )) as ITokenData;
+      const response = await TeacherService.addWorkExperience(
+        userData._id,
+        req.body
+      );
+      return res.status(200).json(response);
+    } catch (e) {
+      if (!(e instanceof Error)) return;
+      return res.status(400).json({
+        message: e.message,
+      });
+    }
+  }
+
+  async removeWorkExperience(req: Request, res: Response) {
+    try {
+      const userData = (await tokenService.validateAccessToken(
+        req.headers.authorization
+      )) as ITokenData;
+      const { id } = req.params;
+
+      const response = await TeacherService.removeWorkExperience(
+        userData._id,
+        id
+      );
+      return res.status(200).json(response);
+    } catch (e) {
+      if (!(e instanceof Error)) return;
+      return res.status(400).json({
+        message: e.message,
+      });
+    }
+  }
+
+  async getPersonalnfo(req: Request, res: Response) {
+    try {
+      const userData = (await tokenService.validateAccessToken(
+        req.headers.authorization
+      )) as ITokenData;
+      const response = await TeacherService.getPersonalnfo(userData._id);
+      return res.status(200).json(response);
+    } catch (e) {
+      if (!(e instanceof Error)) return;
+      return res.status(400).json({
+        message: e.message,
+      });
+    }
+  }
 }
 
 export default new TeacherController();

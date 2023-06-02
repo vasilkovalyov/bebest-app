@@ -34,4 +34,40 @@ router.post(
   TeacherController.updateUserInfo
 );
 
+router.post(
+  '/main-fields-activity/teacher',
+  authMiddleware,
+  TeacherController.addMainFieldsActivity
+);
+
+router.delete(
+  '/main-fields-activity/teacher/:id',
+  authMiddleware,
+  TeacherController.removeMainFieldsActivity
+);
+
+router.post(
+  '/personal-lessons/teacher',
+  authMiddleware,
+  TeacherController.updatePersonalLessons
+);
+
+router.post(
+  '/work-experience/teacher',
+  authMiddleware,
+  TeacherController.addWorkExperience
+);
+
+router.delete(
+  '/work-experience/teacher/:id',
+  authMiddleware,
+  TeacherController.removeWorkExperience
+);
+
+router.get(
+  '/personal-info/teacher',
+  authMiddleware,
+  TeacherController.getPersonalnfo
+);
+
 export default router;
