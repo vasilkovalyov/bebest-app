@@ -12,7 +12,7 @@ import Modal from '@mui/material/Modal'
 import Typography from '@mui/material/Typography'
 
 //custom components
-import AccountStudentForm from '@/components/Forms/Account/AccountStudent'
+import AccountTeacherForm from '@/components/Forms/Account/AccountTeacher'
 import AccountInfo from '@/components/AccountInfo'
 import Icon from '@/components/Generic/Icon'
 import { IconEnum } from '@/components/Generic/Icon/Icon.type'
@@ -23,9 +23,9 @@ import { useLogout } from '@/hooks/useLogout'
 
 //other utils
 import { AxiosError } from 'axios'
-import studentService from '@/services/student'
+import teacherService from '@/services/teacher'
 
-function StudentAccount() {
+function TeacherAccount() {
   const { logOut } = useLogout()
   const user = useAppSelector((store) => store.user.user)
   const [isEdit, seIsEdit] = useState<boolean>(false)
@@ -43,7 +43,7 @@ function StudentAccount() {
     try {
       let response: unknown | any
 
-      response = await studentService.deleteUser()
+      response = await teacherService.deleteUser()
 
       if (response.data.data) {
         logOut()
@@ -96,7 +96,7 @@ function StudentAccount() {
         />
       ) : (
         <Box maxWidth={400}>
-          <AccountStudentForm onHandleClose={onHandleClose} />
+          <AccountTeacherForm onHandleClose={onHandleClose} />
         </Box>
       )}
       <Modal open={modalOpen} onClose={handleCloseModal}>
@@ -139,4 +139,4 @@ function StudentAccount() {
     </Box>
   )
 }
-export default StudentAccount
+export default TeacherAccount

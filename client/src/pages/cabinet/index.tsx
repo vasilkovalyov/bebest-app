@@ -8,7 +8,7 @@ import Box from '@mui/material/Box'
 import CabinetLayout from '@/layouts/CabinetLayout'
 
 // blocks
-import StudentAccountBlock from '@/blocks/StudentAccountBlock'
+import AccountBlock from '@/blocks/AccountBlock'
 import StudentEducationInfoBlock from '@/blocks/StudentEducationInfoBlock'
 import TeacherWorkExperienceBlock from '../../blocks/TeacherWorkExperienceBlock'
 import TeacherCostPersonalLessonsBlock from '../../blocks/TeacherCostPersonalLessonsBlock'
@@ -20,7 +20,7 @@ function PageCabinet() {
   return (
     <CabinetLayout>
       <Box marginBottom={4}>
-        <StudentAccountBlock />
+        <AccountBlock />
       </Box>
       {user.role === 'student' ? (
         <Box marginBottom={4}>
