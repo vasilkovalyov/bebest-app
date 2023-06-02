@@ -1,6 +1,9 @@
 // libs
-import { useState } from 'react'
+import { ChangeEvent, useState, useEffect } from 'react'
 import { useForm, useFieldArray } from 'react-hook-form'
+
+//redux
+import { useAppSelector } from '@/redux/hooks'
 
 // material ui components
 import Box from '@mui/material/Box'
@@ -10,6 +13,10 @@ import Divider from '@mui/material/Divider'
 import Modal from '@mui/material/Modal'
 import Typography from '@mui/material/Typography'
 import MenuItem from '@mui/material/MenuItem'
+import InputLabel from '@mui/material/InputLabel'
+import Select, { SelectChangeEvent } from '@mui/material/Select'
+import Checkbox from '@mui/material/Checkbox'
+import ListItemText from '@mui/material/ListItemText'
 
 //custom components
 import { IconEnum } from '@/components/Generic/Icon/Icon.type'
@@ -20,7 +27,13 @@ import WarningIcon from '@/components/Generic/WarningIcon'
 import {
   IUserFieldsActivityInfo,
   IUserFieldsActivityFormProps,
+  ISkillsChecked,
+  ISubjects,
 } from './UserFieldsActivity.type'
+import {
+  getFieldsAndSubjectsData,
+  getUpdatedCheckedSkills,
+} from './UserFieldsActivity.utils'
 
 // other utils
 import colors from '@/constants/colors'
@@ -30,7 +43,7 @@ import { IUserFieldActivity } from '@/services/user-fields-activity'
 
 const defaultWorkExperience: IUserFieldActivity = {
   activity: '',
-  skills: '',
+  skills: [],
 }
 
 const defaultInitialData: IUserFieldsActivityInfo = {
@@ -42,6 +55,10 @@ function UserFieldsActivityForm({
   onHandleClose,
   onHandleUpdate,
 }: IUserFieldsActivityFormProps) {
+  const subjects = useAppSelector((store) => store.subjects.subjects)
+
+  const [checkedSkills, setCheckedSkills] = useState<ISkillsChecked[]>([])
+  const [selectedSkills, setSelectedSkills] = useState<ISubjects[]>([])
   const [modalOpen, setModalOpen] = useState<boolean>(false)
   const [selectRemoveWorkExperienceId, setSelectRemoveWorkExperienceId] =
     useState<{
@@ -52,53 +69,37 @@ function UserFieldsActivityForm({
       index: -1,
     })
 
-  const {
-    handleSubmit,
-    register,
-    setValue,
-    getValues,
-    control,
-    trigger,
-    formState: { errors },
-  } = useForm<IUserFieldsActivityInfo>({
-    mode: 'onSubmit',
-    defaultValues: {
-      fields_activity: [
-        ...(initialData?.fields_activity || []),
-        ...defaultInitialData.fields_activity,
-      ],
-    },
-  })
+  const { handleSubmit, register, setValue, getValues, control } =
+    useForm<IUserFieldsActivityInfo>({
+      mode: 'onSubmit',
+      defaultValues: {
+        fields_activity: [
+          ...(initialData?.fields_activity || []),
+          ...defaultInitialData.fields_activity,
+        ],
+      },
+    })
 
   const { fields, remove, append } = useFieldArray({
     control,
     name: 'fields_activity',
   })
 
-  async function handleAddFieldActivity(data: IUserFieldsActivityInfo) {
+  async function handleAdd(data: IUserFieldsActivityInfo) {
     try {
       const fieldsActivity = {
         ...data.fields_activity[data.fields_activity.length - 1],
       }
       // await studentSubjectsService.addSubject(workExperience)
-
       append(defaultWorkExperience)
-
       onHandleUpdate()
+      setSelectedSkills((prevState) => [...prevState, { subjects: [] }])
     } catch (e) {
       console.log(e)
     }
   }
 
-  async function handleOpenModal(id: string, index: number) {
-    setSelectRemoveWorkExperienceId({
-      id,
-      index,
-    })
-    setModalOpen(true)
-  }
-
-  async function handleRemoveFieldActivity() {
+  async function handleRemove() {
     try {
       // await studentSubjectsService.removeSubject(selectRemoveWorkExperienceId.id)
       remove(selectRemoveWorkExperienceId.index)
@@ -108,25 +109,93 @@ function UserFieldsActivityForm({
         index: -1,
       })
       handleCloseModal()
+
+      const checkedArr = checkedSkills.filter((item, key) => {
+        if (key !== selectRemoveWorkExperienceId.index) return item
+      })
+      const selectedSkillsArr = selectedSkills.filter((item, key) => {
+        if (key !== selectRemoveWorkExperienceId.index) return item
+      })
+      setCheckedSkills(checkedArr)
+      setSelectedSkills(selectedSkillsArr)
     } catch (e) {
       console.log(e)
     }
+  }
+
+  function handleOpenModal(id: string, index: number) {
+    setSelectRemoveWorkExperienceId({
+      id,
+      index,
+    })
+    setModalOpen(true)
   }
 
   function handleCloseModal() {
     setModalOpen(false)
   }
 
-  function onHandleChangeActivity() {
-    console.log(1)
+  function onHandleChangeActivity(activity: string, index: number) {
+    let tempArr = [...selectedSkills]
+    let checkedSkillsArr = [...checkedSkills]
+
+    const activitySubjects = subjects.filter((item) => {
+      if (item.category === activity) return item
+    })
+
+    if (tempArr.length === 0) {
+      tempArr.push({ subjects: activitySubjects[0].children })
+    } else {
+      tempArr = tempArr.map((item, key) => {
+        if (index !== key) return item
+        return { subjects: activitySubjects[0].children }
+      })
+
+      checkedSkillsArr = checkedSkillsArr.map((item, key) => {
+        if (index !== key) return item
+        item = { subjects: [] }
+        return item
+      })
+    }
+
+    setValue(`fields_activity.${index}.activity`, activitySubjects[0].category)
+    setSelectedSkills(tempArr)
+    setCheckedSkills(checkedSkillsArr)
   }
+
+  function onHandleChangeSkills(
+    event: SelectChangeEvent<string[]>,
+    index: number
+  ) {
+    const values = event.target.value as string[]
+    const updatedCheckedSkills = getUpdatedCheckedSkills(
+      checkedSkills,
+      values,
+      index
+    )
+    setCheckedSkills(updatedCheckedSkills)
+  }
+
+  function loadSubjects() {
+    if (!initialData?.fields_activity.length) return
+    const { subjectArr, checkedSubjectArr } = getFieldsAndSubjectsData(
+      initialData?.fields_activity,
+      subjects
+    )
+    setSelectedSkills(subjectArr)
+    setCheckedSkills(checkedSubjectArr)
+  }
+
+  useEffect(() => {
+    loadSubjects()
+  }, [])
 
   return (
     <Box>
       <form className="form">
-        {fields.map(({ id, _id }, index) => (
-          <Box key={id}>
-            <Box maxWidth={500}>
+        <Box maxWidth={500}>
+          {fields.map(({ id, _id }, index) => (
+            <Box key={id}>
               <Box marginBottom={2}>
                 <TextField
                   {...register(`fields_activity.${index}.activity`)}
@@ -138,82 +207,122 @@ function UserFieldsActivityForm({
                   className="form-field"
                   placeholder="Activity"
                   fullWidth
-                  onChange={onHandleChangeActivity}
+                  onChange={(
+                    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+                  ) => {
+                    onHandleChangeActivity(e.target.value, index)
+                  }}
                   InputLabelProps={{ shrink: true }}
+                  value={getValues().fields_activity[index].activity || ' '}
+                  defaultValue={
+                    fields.length - 1 !== index
+                      ? getValues().fields_activity[index].activity
+                      : [' ']
+                  }
                   disabled={fields.length - 1 > index}
                 >
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  <MenuItem disabled value=" ">
+                    Select activity
+                  </MenuItem>
+                  {subjects.length
+                    ? subjects.map(({ _id, category }) => (
+                        <MenuItem key={_id} value={category}>
+                          {category}
+                        </MenuItem>
+                      ))
+                    : null}
                 </TextField>
               </Box>
               <Box marginBottom={2}>
-                <TextField
+                <InputLabel>Skills</InputLabel>
+                <Select
                   {...register(`fields_activity.${index}.skills`)}
                   id={`fields_activity-${index}-skills`}
-                  select
-                  type="text"
-                  label="Skills"
-                  variant="standard"
-                  className="form-field"
-                  placeholder="Skills"
-                  fullWidth
-                  onChange={onHandleChangeActivity}
-                  InputLabelProps={{ shrink: true }}
+                  multiple
+                  value={
+                    checkedSkills.length && checkedSkills[index]
+                      ? checkedSkills[index].subjects
+                      : ['']
+                  }
+                  defaultValue={['']}
                   disabled={fields.length - 1 > index}
+                  onChange={(e: SelectChangeEvent<string[]>) =>
+                    onHandleChangeSkills(e, index)
+                  }
+                  renderValue={(selected) => {
+                    const updatedSelected = selected.filter(
+                      (item) => item !== ''
+                    )
+                    return updatedSelected.join(',')
+                  }}
                 >
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
-                </TextField>
+                  <MenuItem disabled value=" ">
+                    Select skills
+                  </MenuItem>
+
+                  {selectedSkills.length && selectedSkills[index]
+                    ? selectedSkills[index].subjects.map((item) => (
+                        <MenuItem key={item._id} value={item.subject}>
+                          <Checkbox
+                            checked={
+                              checkedSkills[index].subjects.indexOf(
+                                item.subject
+                              ) > -1
+                            }
+                          />
+                          <ListItemText primary={item.subject} />
+                        </MenuItem>
+                      ))
+                    : null}
+                </Select>
               </Box>
+              {fields.length - 1 > index ? (
+                <>
+                  <Button
+                    type="button"
+                    size="small"
+                    onClick={() => handleOpenModal(_id || '', index)}
+                  >
+                    <Box
+                      component="span"
+                      marginRight={1}
+                      display="inline-block"
+                      style={{
+                        verticalAlign: 'middle',
+                      }}
+                    >
+                      <Icon
+                        icon={IconEnum.BIN}
+                        color={colors.primary}
+                        size={16}
+                      />
+                    </Box>
+                    <Box
+                      component="span"
+                      display="inline-block"
+                      style={{
+                        verticalAlign: 'middle',
+                        paddingTop: 4,
+                      }}
+                    >
+                      Remove
+                    </Box>
+                  </Button>
+                  <Box marginTop={1} marginBottom={4}>
+                    <Divider />
+                  </Box>
+                </>
+              ) : null}
             </Box>
-            {fields.length - 1 > index ? (
-              <>
-                <Button
-                  type="button"
-                  size="small"
-                  onClick={() => handleOpenModal(_id || '', index)}
-                >
-                  <Box
-                    component="span"
-                    marginRight={1}
-                    display="inline-block"
-                    style={{
-                      verticalAlign: 'middle',
-                    }}
-                  >
-                    <Icon
-                      icon={IconEnum.BIN}
-                      color={colors.primary}
-                      size={16}
-                    />
-                  </Box>
-                  <Box
-                    component="span"
-                    display="inline-block"
-                    style={{
-                      verticalAlign: 'middle',
-                      paddingTop: 4,
-                    }}
-                  >
-                    Remove
-                  </Box>
-                </Button>
-                <Box marginTop={1} marginBottom={4}>
-                  <Divider />
-                </Box>
-              </>
-            ) : null}
-          </Box>
-        ))}
+          ))}
+        </Box>
         <Box display="flex" alignItems="center" marginBottom={3} maxWidth={400}>
           <Stack direction="row" gap={2}>
             <Button
               type="submit"
               variant="outlined"
               size="small"
-              onClick={handleSubmit(handleAddFieldActivity)}
+              onClick={handleSubmit(handleAdd)}
             >
               <Box
                 component="span"
@@ -233,7 +342,7 @@ function UserFieldsActivityForm({
                   paddingTop: 2,
                 }}
               >
-                Add work experience
+                Add activity
               </Box>
             </Button>
             <Button variant="outlined" size="small" onClick={onHandleClose}>
@@ -273,11 +382,7 @@ function UserFieldsActivityForm({
               >
                 decline
               </Button>
-              <Button
-                variant="outlined"
-                size="small"
-                onClick={handleRemoveFieldActivity}
-              >
+              <Button variant="outlined" size="small" onClick={handleRemove}>
                 accept
               </Button>
             </Stack>

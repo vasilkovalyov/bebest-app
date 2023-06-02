@@ -5,5 +5,5 @@ import { AxiosResponse } from 'axios'
 export interface IUserFieldActivity {
   _id?: string
   activity: string
-  skills: string
+  skills: string[] | []
 }
