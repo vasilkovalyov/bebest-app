@@ -1,6 +1,9 @@
 //libs
 import { useState } from 'react'
 
+//redux
+import { useAppSelector } from '@/redux/hooks'
+
 // material ui components
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
@@ -11,21 +14,20 @@ import Fade from '@mui/material/Fade'
 import CircularProgress from '@mui/material/CircularProgress'
 
 //custom components
-import AccountInfo from '@/components/AccountInfo'
 import Icon from '@/components/Generic/Icon'
 import { IconEnum } from '@/components/Generic/Icon/Icon.type'
 import ContainerWithShadow from '@/components/Generic/ContainerWithShadow'
-import TeacherWorkExperience from '../../components/Forms/TeacherWorkExperience'
+import TeacherWorkExperience from '@/components/Forms/TeacherWorkExperience'
+import PreviewInfo from '../../components/PreviewInfo'
 
 //other utils
-import { ITeacherWorkExperience } from '@/services/teacher-work-experience'
 
 function TeacherWorkExperienceBlock() {
   const [isEdit, seIsEdit] = useState<boolean>(false)
-  const [loading, setLoading] = useState<boolean>(false)
-  const [workExperiences, setWorkExperiences] = useState<
-    ITeacherWorkExperience[] | []
-  >([])
+
+  const teacherPersonalInfo = useAppSelector(
+    (store) => store.teacherPersonalInfo
+  )
 
   function onHandleClose() {
     seIsEdit(!isEdit)
@@ -49,7 +51,7 @@ function TeacherWorkExperienceBlock() {
             {!isEdit ? <Icon icon={IconEnum.EDIT} size={18} /> : 'Close'}
           </Button>
         </Stack>
-        {loading ? (
+        {teacherPersonalInfo.loading ? (
           <Box textAlign="center">
             <Fade in={true} unmountOnExit>
               <CircularProgress />
@@ -59,8 +61,58 @@ function TeacherWorkExperienceBlock() {
           <Box>
             {!isEdit ? (
               <Box>
-                {workExperiences.length ? (
-                  <Box>test</Box>
+                {teacherPersonalInfo.work_experience.length ? (
+                  <Box>
+                    {teacherPersonalInfo.work_experience.map((item) => (
+                      <Box key={item._id}>
+                        <PreviewInfo
+                          heading="Company"
+                          values={[item.company_name]}
+                        />
+                        {item.description ? (
+                          <PreviewInfo
+                            heading="Description"
+                            values={[item.description]}
+                          />
+                        ) : null}
+                        <Stack direction="row" gap={2}>
+                          <Box>
+                            <Typography
+                              variant="body1"
+                              fontWeight={700}
+                              marginBottom={1}
+                            >
+                              Start date
+                            </Typography>
+                            <Typography
+                              variant="body1"
+                              className="font-normal"
+                              marginBottom={0}
+                            >
+                              {item.startDate}
+                            </Typography>
+                          </Box>
+                          <Box>
+                            <Typography
+                              variant="body1"
+                              fontWeight={700}
+                              marginBottom={1}
+                            >
+                              End Date
+                            </Typography>
+                            <Typography
+                              variant="body1"
+                              className="font-normal"
+                              marginBottom={0}
+                            >
+                              {item.endDate}
+                              {item.isStillWorking ? 'Still working' : null}
+                            </Typography>
+                          </Box>
+                        </Stack>
+                      </Box>
+                    ))}
+                  </Box>
                 ) : (
                   <Typography variant="body1">
                     No data. Click on Edit button to add information.
@@ -68,13 +120,7 @@ function TeacherWorkExperienceBlock() {
                 )}
               </Box>
             ) : (
-              <TeacherWorkExperience
-                initialData={{
-                  work_experience: [],
-                }}
-                onHandleUpdate={() => {}}
-                onHandleClose={onHandleClose}
-              />
+              <TeacherWorkExperience onHandleClose={onHandleClose} />
             )}
           </Box>
         )}

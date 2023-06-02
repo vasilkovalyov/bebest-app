@@ -5,7 +5,5 @@ export interface ITeacherWorkExperienceInfo {
 }
 
 export interface ITeacherWorkExperienceFormProps {
-  initialData?: ITeacherWorkExperienceInfo
   onHandleClose: () => void
-  onHandleUpdate: () => void
 }

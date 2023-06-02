@@ -1,5 +1,10 @@
+//libs
+import { useEffect } from 'react'
+
 //redux
 import { useAppSelector } from '@/redux/hooks'
+import { useDispatch } from 'react-redux'
+import { fetchTeacherPersonalInfo } from '@/redux/slices/teacher-personal-info'
 
 // material ui components
 import Box from '@mui/material/Box'
@@ -10,12 +15,19 @@ import CabinetLayout from '@/layouts/CabinetLayout'
 // blocks
 import AccountBlock from '@/blocks/AccountBlock'
 import StudentEducationInfoBlock from '@/blocks/StudentEducationInfoBlock'
-import TeacherWorkExperienceBlock from '../../blocks/TeacherWorkExperienceBlock'
-import TeacherCostPersonalLessonsBlock from '../../blocks/TeacherCostPersonalLessonsBlock'
-import MainFieldsActivityBlock from '../../blocks/UserFieldsActivityBlock'
+import TeacherWorkExperienceBlock from '@/blocks/TeacherWorkExperienceBlock'
+import TeacherCostPersonalLessonsBlock from '@/blocks/TeacherCostPersonalLessonsBlock'
+import MainFieldsActivityBlock from '@/blocks/UserFieldsActivityBlock'
 
 function PageCabinet() {
   const user = useAppSelector((store) => store.user.user)
+  const dispatch = useDispatch<any>()
+
+  useEffect(() => {
+    if (user.role === 'teacher') {
+      dispatch(fetchTeacherPersonalInfo())
+    }
+  }, [dispatch])
 
   return (
     <CabinetLayout>

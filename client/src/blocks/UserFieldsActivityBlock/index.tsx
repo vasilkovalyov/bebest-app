@@ -1,6 +1,9 @@
 //libs
 import { useState } from 'react'
 
+//redux
+import { useAppSelector } from '@/redux/hooks'
+
 // material ui components
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
@@ -15,16 +18,14 @@ import Icon from '@/components/Generic/Icon'
 import { IconEnum } from '@/components/Generic/Icon/Icon.type'
 import ContainerWithShadow from '@/components/Generic/ContainerWithShadow'
 import UserFieldsActivity from '../../components/Forms/UserFieldsActivity'
-
-//other utils
-import { ITeacherWorkExperience } from '@/services/teacher-work-experience'
+import PreviewInfo from '@/components/PreviewInfo'
 
 function UserFieldsActivityBlock() {
+  const teacherPersonalInfo = useAppSelector(
+    (store) => store.teacherPersonalInfo
+  )
+
   const [isEdit, seIsEdit] = useState<boolean>(false)
-  const [loading, setLoading] = useState<boolean>(false)
-  const [workExperiences, setWorkExperiences] = useState<
-    ITeacherWorkExperience[] | []
-  >([])
 
   function onHandleClose() {
     seIsEdit(!isEdit)
@@ -44,32 +45,45 @@ function UserFieldsActivityBlock() {
             {!isEdit ? <Icon icon={IconEnum.EDIT} size={18} /> : 'Close'}
           </Button>
         </Stack>
-        {loading ? (
+        {teacherPersonalInfo.loading ? (
           <Box textAlign="center">
             <Fade in={true} unmountOnExit>
               <CircularProgress />
             </Fade>
           </Box>
         ) : (
-          <Box>
+          <>
             {!isEdit ? (
-              <Box>
-                {workExperiences.length ? (
-                  <Box>test</Box>
+              <>
+                {teacherPersonalInfo.fields_activity.length ? (
+                  <>
+                    {teacherPersonalInfo.fields_activity.map((field, index) => (
+                      <Box key={field._id} marginBottom={2}>
+                        <PreviewInfo
+                          heading="Activity"
+                          values={[field.activity]}
+                        />
+                        <PreviewInfo heading="Skills" values={field.skills} />
+                        {teacherPersonalInfo.fields_activity.length !== 1 &&
+                        teacherPersonalInfo.fields_activity.length - 1 !==
+                          index ? (
+                          <Box marginTop={3} marginBottom={3}>
+                            <Divider />
+                          </Box>
+                        ) : null}
+                      </Box>
+                    ))}
+                  </>
                 ) : (
                   <Typography variant="body1">
                     No data. Click on Edit button to add information.
                   </Typography>
                 )}
-              </Box>
+              </>
             ) : (
-              <UserFieldsActivity
-                initialData={undefined}
-                onHandleUpdate={() => {}}
-                onHandleClose={onHandleClose}
-              />
+              <UserFieldsActivity onHandleClose={onHandleClose} />
             )}
-          </Box>
+          </>
         )}
       </Box>
     </ContainerWithShadow>

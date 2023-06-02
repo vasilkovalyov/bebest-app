@@ -3,5 +3,4 @@ import { ITeacherCostPersonalLesson } from '@/services/teacher-cost-personal-les
 export interface ITeacherCostPersonalLessonsFormProps {
   initialData?: ITeacherCostPersonalLesson
   onHandleClose: () => void
-  onHandleUpdate: () => void
 }

@@ -2,11 +2,15 @@
 import { useState, ChangeEvent } from 'react'
 import { useForm } from 'react-hook-form'
 
+//redux
+import { useDispatch } from 'react-redux'
+import { useAppSelector } from '@/redux/hooks'
+import { fetchTeacherPersonalInfo } from '@/redux/slices/teacher-personal-info'
+
 // material ui components
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
-import Divider from '@mui/material/Divider'
 import Modal from '@mui/material/Modal'
 import Checkbox from '@mui/material/Checkbox'
 import FormControlLabel from '@mui/material/FormControlLabel'
@@ -14,6 +18,7 @@ import Typography from '@mui/material/Typography'
 import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
 import FormControl from '@mui/material/FormControl'
+import Stack from '@mui/material/Stack'
 
 //custom components
 import Icon from '@/components/Generic/Icon'
@@ -24,28 +29,40 @@ import InfoIcon from '@/components/Generic/InfoIcon'
 import { ITeacherCostPersonalLessonsFormProps } from './TeacherCostPersonalLessons.type'
 
 // other utils
-import { Stack } from '@mui/material'
-// import studentSubjectsService from '@/services/student-subjects'
+import teacherCostPersonalLessonsService, {
+  UseTrialLessonType,
+} from '@/services/teacher-cost-personal-lessons'
 import { ITeacherCostPersonalLesson } from '@/services/teacher-cost-personal-lessons'
 
-const defaultCostPersonalLessons: ITeacherCostPersonalLesson = {
+const defaultData: ITeacherCostPersonalLesson = {
   duration: '',
   price: '',
   is_free: false,
   trial_duration: '',
   trial_price: '',
   is_trial_free: false,
-  use_trial: false,
+  use_trial: 'false',
 }
 
 function TeacherCostPersonalLessons({
-  initialData,
   onHandleClose,
-  onHandleUpdate,
 }: ITeacherCostPersonalLessonsFormProps) {
-  const [isFreeLessons, setIsFreeLessons] = useState<boolean>(false)
-  const [isTrialFreeLessons, setIsTrialFreeLessons] = useState<boolean>(false)
-  const [useTrial, setUseTrial] = useState<boolean>(true)
+  const dispatch = useDispatch<any>()
+
+  const teacherPersonalInfo = useAppSelector(
+    (store) => store.teacherPersonalInfo
+  )
+
+  const [isFreeLessons, setIsFreeLessons] = useState<boolean>(
+    teacherPersonalInfo.personal_lessons?.is_free || defaultData.is_free
+  )
+  const [isTrialFreeLessons, setIsTrialFreeLessons] = useState<boolean>(
+    teacherPersonalInfo.personal_lessons?.is_trial_free ||
+      defaultData.is_trial_free
+  )
+  const [useTrial, setUseTrial] = useState<UseTrialLessonType>(
+    teacherPersonalInfo.personal_lessons?.use_trial || defaultData.use_trial
+  )
   const [modalOpen, setModalOpen] = useState<boolean>(false)
 
   function handleCloseModal() {
@@ -55,19 +72,22 @@ function TeacherCostPersonalLessons({
   const { handleSubmit, register, setValue } =
     useForm<ITeacherCostPersonalLesson>({
       mode: 'onSubmit',
-      defaultValues: defaultCostPersonalLessons,
+      defaultValues: teacherPersonalInfo.personal_lessons || defaultData,
     })
 
   async function onHandleSave(data: ITeacherCostPersonalLesson) {
     try {
-      console.log('data', data)
+      await teacherCostPersonalLessonsService.updatePersonalLessonsInfo(data)
+      dispatch(fetchTeacherPersonalInfo())
+      onHandleClose()
     } catch (e) {
       console.log(e)
     }
   }
 
-  function onChangeFreeTrialLessons() {
+  function onChangeFreeLessons() {
     setIsFreeLessons(!isFreeLessons)
+    setValue('is_free', !isFreeLessons)
     setValue('price', '')
   }
 
@@ -76,8 +96,9 @@ function TeacherCostPersonalLessons({
     setValue('trial_price', '')
   }
 
-  function onChangeUseTrialLessons(value: boolean) {
+  function onChangeUseTrialLessons(value: UseTrialLessonType) {
     setUseTrial(value)
+    setValue('use_trial', value)
     setValue('trial_duration', '')
     setValue('trial_price', '')
   }
@@ -122,8 +143,8 @@ function TeacherCostPersonalLessons({
             <FormControlLabel
               {...register('is_free')}
               label="Free lessons"
-              onChange={onChangeFreeTrialLessons}
-              control={<Checkbox />}
+              onChange={onChangeFreeLessons}
+              control={<Checkbox checked={isFreeLessons} />}
             />
           </Box>
         </Box>
@@ -160,24 +181,25 @@ function TeacherCostPersonalLessons({
                 aria-labelledby="demo-row-radio-buttons-group-label"
                 name="row-radio-buttons-group"
                 value={useTrial}
+                defaultValue={useTrial}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  onChangeUseTrialLessons(e.target.value === 'true')
+                  onChangeUseTrialLessons(e.target.value as UseTrialLessonType)
                 }}
               >
                 <FormControlLabel
-                  value="true"
+                  value={true}
                   control={<Radio />}
                   label="I want to conduct trial classes"
                 />
                 <FormControlLabel
-                  value="false"
+                  value={false}
                   control={<Radio />}
                   label="I do NOT want to do trial classes"
                 />
               </RadioGroup>
             </FormControl>
           </Box>
-          {useTrial ? (
+          {useTrial === 'true' ? (
             <>
               <Box marginBottom={2}>
                 <TextField
@@ -213,7 +235,7 @@ function TeacherCostPersonalLessons({
                   {...register('is_trial_free')}
                   label="Free trial lessons"
                   onChange={onChangeTrialFreeTrialLessons}
-                  control={<Checkbox />}
+                  control={<Checkbox checked={isTrialFreeLessons} />}
                 />
               </Box>
             </>

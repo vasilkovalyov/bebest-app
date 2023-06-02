@@ -1,7 +1,12 @@
 // libs
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, useFieldArray } from 'react-hook-form'
+
+//redux
+import { useAppSelector } from '@/redux/hooks'
+import { useDispatch } from 'react-redux'
+import { fetchTeacherPersonalInfo } from '@/redux/slices/teacher-personal-info'
 
 // material ui components
 import Box from '@mui/material/Box'
@@ -28,8 +33,8 @@ import { TeacherWorkExperienceFormValidationSchema } from './TeacherWorkExperien
 // other utils
 import colors from '@/constants/colors'
 import { Stack } from '@mui/material'
-// import studentSubjectsService from '@/services/student-subjects'
 import { ITeacherWorkExperience } from '@/services/teacher-work-experience'
+import teacherWorkExperienceService from '@/services/teacher-work-experience'
 
 const defaultWorkExperience: ITeacherWorkExperience = {
   company_name: '',
@@ -44,10 +49,14 @@ const defaultInitialData: ITeacherWorkExperienceInfo = {
 }
 
 function TeacherWorkExperienceForm({
-  initialData,
   onHandleClose,
-  onHandleUpdate,
 }: ITeacherWorkExperienceFormProps) {
+  const workExperienceStore = useAppSelector(
+    (store) => store.teacherPersonalInfo.work_experience
+  )
+  const dispatch = useDispatch<any>()
+  const [checkboxArr, setCheckboxArr] = useState<boolean[]>([])
+
   const [modalOpen, setModalOpen] = useState<boolean>(false)
   const [selectRemoveWorkExperienceId, setSelectRemoveWorkExperienceId] =
     useState<{
@@ -70,7 +79,7 @@ function TeacherWorkExperienceForm({
     mode: 'onSubmit',
     defaultValues: {
       work_experience: [
-        ...(initialData?.work_experience || []),
+        ...(workExperienceStore || []),
         ...defaultInitialData.work_experience,
       ],
     },
@@ -82,22 +91,28 @@ function TeacherWorkExperienceForm({
     name: 'work_experience',
   })
 
+  useEffect(() => {
+    const checkedArr = workExperienceStore.map((item) => item.isStillWorking)
+    setCheckboxArr([...checkedArr, false])
+  }, [])
+
   async function handleAddWorkExperience(data: ITeacherWorkExperienceInfo) {
     try {
       const workExperience = {
         ...data.work_experience[data.work_experience.length - 1],
       }
-      // await studentSubjectsService.addSubject(workExperience)
+
+      await teacherWorkExperienceService.addWorkExperience(workExperience)
+      dispatch(fetchTeacherPersonalInfo())
 
       append(defaultWorkExperience)
-
-      onHandleUpdate()
     } catch (e) {
       console.log(e)
     }
   }
 
-  async function handleOpenModal(id: string, index: number) {
+  function handleOpenModal(id: string, index: number) {
+    console.log(id, index)
     setSelectRemoveWorkExperienceId({
       id,
       index,
@@ -107,9 +122,13 @@ function TeacherWorkExperienceForm({
 
   async function handleRemoveWorkExperience() {
     try {
-      // await studentSubjectsService.removeSubject(selectRemoveWorkExperienceId.id)
+      await teacherWorkExperienceService.removeWorkExperience(
+        selectRemoveWorkExperienceId.id
+      )
+      dispatch(fetchTeacherPersonalInfo())
+
       remove(selectRemoveWorkExperienceId.index)
-      onHandleUpdate()
+
       setSelectRemoveWorkExperienceId({
         id: '',
         index: -1,
@@ -125,6 +144,13 @@ function TeacherWorkExperienceForm({
   }
 
   function onChangeStillWorkingCheckbox(index: number) {
+    const checkedArr = checkboxArr.map((item, key) => {
+      if (key === index) {
+        return !checkboxArr[key]
+      }
+      return item
+    })
+    setCheckboxArr(checkedArr)
     trigger([`work_experience.${index}.endDate`])
     setValue(
       `work_experience.${index}.isStillWorking`,
@@ -228,6 +254,7 @@ function TeacherWorkExperienceForm({
                     <Checkbox
                       {...register(`work_experience.${index}.isStillWorking`)}
                       onChange={() => onChangeStillWorkingCheckbox(index)}
+                      checked={checkboxArr[index] ? true : false}
                       inputProps={{ 'aria-label': 'controlled' }}
                     />
                   }

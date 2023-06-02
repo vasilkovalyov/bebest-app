@@ -6,9 +6,7 @@ export interface IUserFieldsActivityInfo {
 }
 
 export interface IUserFieldsActivityFormProps {
-  initialData?: IUserFieldsActivityInfo
   onHandleClose: () => void
-  onHandleUpdate: () => void
 }
 
 export interface ISkillsChecked {
