@@ -3,9 +3,11 @@ import { AppDispatch, RootState } from '../store'
 import { useSelector } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { authSlice } from '../slices/auth'
+import { subjectsSlice } from '../slices/subjects'
 
 const actions = {
   ...authSlice.actions,
+  ...subjectsSlice.actions,
 }
 
 // export const useAppDispatch = () => useDispatch<AppDispatch>()

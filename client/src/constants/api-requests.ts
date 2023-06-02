@@ -3,6 +3,7 @@ export const PUBLIC_REQUESTS = {
   REGISTRATION_STUDENT: 'registration/student',
   REGISTRATION_TEACHER: 'registration/teacher',
   IS_AUTH: 'is-auth',
+  GET_SUBJECTS: 'subjects',
 }
 
 export const PRIVATE_REQUESTS = {

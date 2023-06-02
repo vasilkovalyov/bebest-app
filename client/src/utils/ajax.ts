@@ -2,12 +2,14 @@ import axios from 'axios'
 import getConfig from 'next/config'
 import cookiesService from '@/services/cookies'
 
-function $api(token?: string | undefined) {
+function $api(token?: string | undefined | null) {
   let authToken: string = ''
   if (token) {
     authToken = token
   } else {
-    authToken = cookiesService.parseCookies('token')
+    if (token !== null) {
+      authToken = cookiesService.parseCookies('token')
+    }
   }
 
   let apiUrl = ''
@@ -24,7 +26,7 @@ function $api(token?: string | undefined) {
     method: 'get, post, put, delete',
     headers: {
       'X-Requested-With': 'XMLHttpRequest',
-      Authorization: authToken,
+      Authorization: authToken || '',
     },
   })
 }

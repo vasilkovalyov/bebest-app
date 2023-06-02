@@ -7,6 +7,7 @@ import { parseCookies } from 'nookies'
 import { Provider } from 'react-redux'
 import { wrapper } from '@/redux/store'
 import { setAuthState } from '@/redux/slices/auth'
+import { setSubjects } from '@/redux/slices/subjects'
 
 //material ui
 import { ThemeProvider } from '@mui/material/styles'
@@ -17,6 +18,8 @@ import studentService from '@/services/student'
 import teacherService from '@/services/teacher'
 import pages from '@/constants/pages'
 import theme from '../theme/primaryTheme'
+
+import subjectsService from '../services/subjects'
 
 // styles
 import '@/styles/scss/main.scss'
@@ -50,12 +53,18 @@ App.getInitialProps = wrapper.getInitialAppProps(
       }
 
       try {
+        const subjectResponse = await subjectsService.getSubjects()
+        store.dispatch(setSubjects(subjectResponse.data))
+      } catch (e) {
+        console.log(e)
+      }
+
+      try {
         const { token, userId, role } = parseCookies(ctx)
         if (ctx.asPath === pages.cabinet.replace('/', '') && !token) {
           ctx.res?.writeHead(302, { Location: '/404' })
           ctx.res?.end()
         }
-
         const response = await authService.isAuth(token)
 
         if (
@@ -84,6 +93,7 @@ App.getInitialProps = wrapper.getInitialAppProps(
         if (e instanceof Error) {
           console.log('e', e.message)
         }
+      } finally {
       }
       return {
         pageProps: Component.getInitialProps

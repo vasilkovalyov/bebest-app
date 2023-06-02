@@ -1,6 +1,7 @@
 import thunk from 'redux-thunk'
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
 import { authSlice } from '../slices/auth'
+import { subjectsSlice } from '../slices/subjects'
 import { createWrapper } from 'next-redux-wrapper'
 import { combineReducers } from 'redux'
 import { serviceApi } from '../apiService'
@@ -9,7 +10,8 @@ import { serviceApi } from '../apiService'
 
 const rootReducer = combineReducers({
   [authSlice.name]: authSlice.reducer,
-  [serviceApi.reducerPath]: serviceApi.reducer,
+  [subjectsSlice.name]: subjectsSlice.reducer,
+  // [serviceApi.reducerPath]: serviceApi.reducer,
 })
 
 const makeStore = () =>
