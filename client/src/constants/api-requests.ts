@@ -13,4 +13,8 @@ export const PRIVATE_REQUESTS = {
   ADD_SUBJECT_STUDENT: 'add-subject/student',
   REMOVE_SUBJECT_STUDENT: 'remove-subject/student',
   GET_SUBJECTS_STUDENT: 'get-subject/student',
+  MAIN_FIELDS_ACTIVITY: 'main-fields-activity',
+  PERSONAL_INFO: 'personal-info',
+  PERSONAL_LESSONS_TEACHER: 'personal-lessons/teacher',
+  WORK_EXPERIENCE: 'work-experience',
 }
