@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 
 //redux
 import { useDispatch } from 'react-redux'
-import { useAppSelector } from '@/redux/hooks'
+import { useAppSelector, useActions } from '@/redux/hooks'
 import { fetchTeacherPersonalInfo } from '@/redux/slices/teacher-personal-info'
 
 // material ui components
@@ -29,6 +29,7 @@ import InfoIcon from '@/components/Generic/InfoIcon'
 import { ITeacherCostPersonalLessonsFormProps } from './TeacherCostPersonalLessons.type'
 
 // other utils
+import teacherService from '@/services/teacher'
 import teacherCostPersonalLessonsService, {
   UseTrialLessonType,
 } from '@/services/teacher-cost-personal-lessons'
@@ -48,6 +49,7 @@ function TeacherCostPersonalLessons({
   onHandleClose,
 }: ITeacherCostPersonalLessonsFormProps) {
   const dispatch = useDispatch<any>()
+  const { setAuthState } = useActions()
 
   const teacherPersonalInfo = useAppSelector(
     (store) => store.teacherPersonalInfo
@@ -79,6 +81,8 @@ function TeacherCostPersonalLessons({
     try {
       await teacherCostPersonalLessonsService.updatePersonalLessonsInfo(data)
       dispatch(fetchTeacherPersonalInfo())
+      const teachernfoResponse = await teacherService.getUserInfo()
+      setAuthState(teachernfoResponse.data)
       onHandleClose()
     } catch (e) {
       console.log(e)

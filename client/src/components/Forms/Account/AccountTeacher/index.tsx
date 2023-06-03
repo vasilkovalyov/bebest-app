@@ -74,7 +74,8 @@ function AccountTeacherForm({ onHandleClose }: { onHandleClose: () => void }) {
     setIsLoading(true)
 
     try {
-      const response = await teacherService.updateUserAccountInfo(props)
+      await teacherService.updateUserAccountInfo(props)
+      const response = await teacherService.getUserInfo()
       setAuthState(response.data)
       onHandleClose()
     } catch (e) {
