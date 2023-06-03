@@ -1,6 +1,5 @@
-// libs
-import { Provider } from 'react-redux'
-import { setAuthState } from '@/redux/slices/auth'
+//redux
+import { useAppSelector } from '@/redux/hooks'
 
 import Link from 'next/link'
 import Head from 'next/head'
@@ -10,14 +9,14 @@ import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
 import Breadcrumbs from '@mui/material/Breadcrumbs'
 import Typography from '@mui/material/Typography'
-import Avatar from '@mui/material/Avatar'
-import Stack from '@mui/material/Stack'
+import Divider from '@mui/material/Divider'
 
 // custom components
 import Header from '@/components/Header'
 import ContainerWithShadow from '@/components/Generic/ContainerWithShadow'
 import CabinetNavigation from '@/components/CabinetNavigationMenuPages'
 import CabinetSidebarUserInfo from '@/components/CabinetSidebarUserInfo'
+import ProgressAccount from '@/components/ProgressAccount'
 
 // other utils
 import profilePages from '../constants/profile-pages'
@@ -29,6 +28,8 @@ function CabinetLayout({
   currentPageTitle?: string
   children?: React.ReactNode
 }) {
+  const userStore = useAppSelector((store) => store.user.user)
+
   return (
     <>
       <Head>
@@ -76,6 +77,13 @@ function CabinetLayout({
               className="section-cabinet__aside"
             >
               <CabinetSidebarUserInfo />
+              {userStore.role === 'teacher' &&
+              userStore.progress_account.profile_progress ? (
+                <Box paddingTop={2} paddingX={3} marginBottom={2}>
+                  <ProgressAccount />
+                  <Divider />
+                </Box>
+              ) : null}
               <Box
                 component="ul"
                 className="cabinet-sidebar-menu"

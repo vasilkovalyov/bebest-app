@@ -241,7 +241,7 @@ theme.typography.body1 = {
 
 theme.typography.body2 = {
   color: colors.black,
-  fontSize: fontSize.fz_1_sm,
+  fontSize: fontSize.fz_1_xs,
   fontWeight: 600,
   marginBottom: 16,
   border: 0,

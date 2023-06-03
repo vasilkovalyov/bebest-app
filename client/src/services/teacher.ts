@@ -5,18 +5,12 @@ import { PRIVATE_REQUESTS } from '@/constants/api-requests'
 import { PUBLIC_REQUESTS } from '@/constants/api-requests'
 import { IRegistrationResponse } from '@/interfaces/common'
 import { IRegistrationTeacher } from '../components/Forms/Registration/RegistrationTeacher/RegistrationTeacher.type'
+import { IAuthUserInfo } from '@/redux/slices/auth'
 
-export interface IAuthUserInfo {
-  _id: string
-  name: string
-  surname: string
-  email: string
-  phone: string | null
-  about: string | null
-  role: UserRole
-}
-
-export type UserAccountInfoEditType = Omit<IAuthUserInfo, 'role' | '_id'>
+export type UserAccountInfoEditType = Omit<
+  IAuthUserInfo,
+  'role' | '_id' | 'progress_account'
+>
 
 class TeacherService {
   constructor() {}
