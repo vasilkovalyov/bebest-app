@@ -93,6 +93,9 @@ const TeacherPersonalInfoSchema = new Schema<ITeacherPersonalInfoModel>({
   ],
 });
 
-const Subject = model('TeacherPersonalInfo', TeacherPersonalInfoSchema);
+const teacherPersonalInfo = model(
+  'TeacherPersonalInfo',
+  TeacherPersonalInfoSchema
+);
 
-export default Subject;
+export default teacherPersonalInfo;

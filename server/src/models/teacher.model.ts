@@ -30,6 +30,6 @@ const TeacherSchema = new Schema<TeacherModelType>({
   about: { type: String, required: false, default: null },
 });
 
-const Student = model('Teacher', TeacherSchema);
+const Teacher = model('Teacher', TeacherSchema);
 
-export default Student;
+export default Teacher;
