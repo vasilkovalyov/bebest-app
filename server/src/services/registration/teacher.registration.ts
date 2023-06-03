@@ -1,8 +1,11 @@
 import { IRegistrationStrategy } from './registration';
 import TeacherModel from '../../models/teacher.model';
+import teacherProgressAccountService from '../../services/teacher-progress-account';
 import UserModel from '../../models/user.model';
 import ApiError from '../../utils/api-error';
 import bcrypt from 'bcrypt';
+
+import TeacherPersonalnfoModel from '../../models/teacher-personal-info';
 
 import { IRegistrationResponse } from '../../interfaces/response';
 
@@ -48,6 +51,14 @@ class TeacherRegistration implements IRegistrationStrategy {
     });
 
     await user.save();
+    await teacherProgressAccountService.createBaseAccountProgress(
+      savedTeacher._id
+    );
+
+    const teacherPersonalnfo = await new TeacherPersonalnfoModel({
+      teacherId: savedTeacher._id,
+    });
+    await teacherPersonalnfo.save();
 
     return {
       message: successMessage,

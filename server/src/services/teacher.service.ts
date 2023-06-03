@@ -3,11 +3,14 @@ import TeacherModel, {
   TeacherAccountEditableModelType,
 } from '../models/teacher.model';
 import UserModel from '../models/user.model';
-import TeacherPersonalnfo, {
+import TeacherPersonalnfoModel, {
   ITeacherCostPersonalLesson,
   ITeacherMainFieldsActivity,
   ITeacherWorkExperience,
 } from '../models/teacher-personal-info';
+import TeacherProgressAccountModel from '../models/teacher-progress-account';
+
+import teacherProgressAccountService from '../services/teacher-progress-account';
 import bcrypt from 'bcrypt';
 
 class TeacherService {
@@ -19,12 +22,15 @@ class TeacherService {
     if (!user.deletedCount)
       throw ApiError.BadRequestError(`User with id ${id} not a found!`);
 
-    const studentUser = await TeacherModel.deleteOne({
+    await TeacherModel.deleteOne({
       _id: id,
     });
-
-    if (!studentUser)
-      throw ApiError.BadRequestError(`Teacher with id ${id} not a found!`);
+    await TeacherPersonalnfoModel.deleteOne({
+      teacherId: id,
+    });
+    await TeacherProgressAccountModel.deleteOne({
+      teacherId: id,
+    });
 
     return true;
   }
@@ -55,11 +61,23 @@ class TeacherService {
       '_id name surname email role phone about'
     );
 
+    const teacherProgressAccount =
+      await teacherProgressAccountService.getAccountProgress(id);
+
     if (!teacherModel) {
       throw ApiError.BadRequestError(`Teacher with id ${id} not a found!`);
     }
 
-    return teacherModel;
+    return {
+      _id: teacherModel._id,
+      name: teacherModel.name,
+      surname: teacherModel.surname,
+      email: teacherModel.email,
+      phone: teacherModel.phone,
+      about: teacherModel.about,
+      role: teacherModel.role,
+      progress_account: teacherProgressAccount,
+    };
   }
 
   async updateUserInfo(id: string, props: TeacherAccountEditableModelType) {
@@ -73,46 +91,51 @@ class TeacherService {
 
     if (!response) throw ApiError.BadRequestError('Teacher did not update');
 
+    await teacherProgressAccountService.updateAccountInfo(id, {
+      phone: response.phone,
+      about: response.about,
+    });
+
     return response;
   }
 
   async addMainFieldsActivity(id: string, props: ITeacherMainFieldsActivity) {
-    const response = await TeacherPersonalnfo.findOne({ teacherId: id });
-    if (response) {
-      await TeacherPersonalnfo.findOneAndUpdate(
-        { teacherId: id },
-        { $push: { fields_activity: props } },
-        { new: true }
-      );
-    } else {
-      const teacherPersonalInfoResponse = await new TeacherPersonalnfo({
-        teacherId: id,
-        fields_activity: props,
-      });
-      await teacherPersonalInfoResponse.save();
+    const response = await TeacherPersonalnfoModel.findOneAndUpdate(
+      { teacherId: id },
+      { $push: { fields_activity: props } },
+      { new: true }
+    ).select('fields_activity');
+
+    if (response && response.fields_activity.length === 1) {
+      await teacherProgressAccountService.addMainActivity(id);
     }
+
     return {
       message: 'Teacher main fields activity add successfull!',
     };
   }
 
-  async removeMainFieldsActivity(userId: string, activityId: string) {
-    await TeacherPersonalnfo.findOneAndUpdate(
+  async removeMainFieldsActivity(id: string, activityId: string) {
+    const response = await TeacherPersonalnfoModel.findOneAndUpdate(
       {
-        teacherId: userId,
+        teacherId: id,
       },
       { $pull: { fields_activity: { _id: activityId } } },
       { new: true }
     );
+
+    if (response && response.fields_activity.length === 0) {
+      await teacherProgressAccountService.removeMainActivity(id);
+    }
     return {
       message: 'Teacher main fields activity remove successfull!',
     };
   }
 
   async updatePersonalLessons(id: string, props: ITeacherCostPersonalLesson) {
-    const response = await TeacherPersonalnfo.findOne({ teacherId: id });
+    const response = await TeacherPersonalnfoModel.findOne({ teacherId: id });
     if (response) {
-      await TeacherPersonalnfo.findOneAndUpdate(
+      await TeacherPersonalnfoModel.findOneAndUpdate(
         { teacherId: id },
         {
           personal_lessons: {
@@ -122,28 +145,30 @@ class TeacherService {
         { new: true }
       );
     } else {
-      const teacherPersonalInfoResponse = await new TeacherPersonalnfo({
+      const teacherPersonalInfoResponse = await new TeacherPersonalnfoModel({
         teacherId: id,
         personal_lessons: props,
       });
       await teacherPersonalInfoResponse.save();
     }
+
+    await teacherProgressAccountService.updatePriceLessons(id, props);
+
     return {
       message: 'Teacher personal lessons updated successfull!',
     };
   }
 
   async addWorkExperience(id: string, props: ITeacherWorkExperience) {
-    const response = await TeacherPersonalnfo.findOne({ teacherId: id });
-    console.log('response', response);
+    const response = await TeacherPersonalnfoModel.findOne({ teacherId: id });
     if (response) {
-      await TeacherPersonalnfo.findOneAndUpdate(
+      await TeacherPersonalnfoModel.findOneAndUpdate(
         { teacherId: id },
         { $push: { work_experience: props } },
         { new: true }
       );
     } else {
-      const teacherPersonalInfoResponse = await new TeacherPersonalnfo({
+      const teacherPersonalInfoResponse = await new TeacherPersonalnfoModel({
         teacherId: id,
         work_experience: props,
       });
@@ -155,7 +180,7 @@ class TeacherService {
   }
 
   async removeWorkExperience(userId: string, workExperienceId: string) {
-    await TeacherPersonalnfo.findOneAndUpdate(
+    await TeacherPersonalnfoModel.findOneAndUpdate(
       {
         teacherId: userId,
       },
@@ -168,9 +193,9 @@ class TeacherService {
   }
 
   async getPersonalnfo(id: string) {
-    const response = await TeacherPersonalnfo.findOne({ teacherId: id }).select(
-      '_id teacherId fields_activity personal_lessons work_experience'
-    );
+    const response = await TeacherPersonalnfoModel.findOne({
+      teacherId: id,
+    }).select('_id teacherId fields_activity personal_lessons work_experience');
 
     if (!response) {
       throw ApiError.BadRequestError(`Teacher with id ${id} not a found!`);
