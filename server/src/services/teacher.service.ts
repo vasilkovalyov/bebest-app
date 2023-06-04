@@ -162,33 +162,32 @@ class TeacherService {
   }
 
   async addWorkExperience(id: string, props: ITeacherWorkExperience) {
-    const response = await TeacherPersonalnfoModel.findOne({ teacherId: id });
-    if (response) {
-      await TeacherPersonalnfoModel.findOneAndUpdate(
-        { teacherId: id },
-        { $push: { work_experience: props } },
-        { new: true }
-      );
-    } else {
-      const teacherPersonalInfoResponse = await new TeacherPersonalnfoModel({
-        teacherId: id,
-        work_experience: props,
-      });
-      await teacherPersonalInfoResponse.save();
+    const response = await TeacherPersonalnfoModel.findOneAndUpdate(
+      { teacherId: id },
+      { $push: { work_experience: props } },
+      { new: true }
+    ).select('work_experience');
+
+    if (response && response.work_experience.length === 1) {
+      await teacherProgressAccountService.addWorkExperience(id);
     }
+
     return {
       message: 'Teacher work experience add successfull!',
     };
   }
 
-  async removeWorkExperience(userId: string, workExperienceId: string) {
-    await TeacherPersonalnfoModel.findOneAndUpdate(
-      {
-        teacherId: userId,
-      },
+  async removeWorkExperience(id: string, workExperienceId: string) {
+    const response = await TeacherPersonalnfoModel.findOneAndUpdate(
+      { teacherId: id },
       { $pull: { work_experience: { _id: workExperienceId } } },
       { new: true }
-    );
+    ).select('work_experience');
+
+    if (response && response.work_experience.length === 0) {
+      await teacherProgressAccountService.removeWorkExperience(id);
+    }
+
     return {
       message: 'Teacher work experience remove successfull!',
     };

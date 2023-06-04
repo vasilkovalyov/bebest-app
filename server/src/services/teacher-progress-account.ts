@@ -102,6 +102,7 @@ class TeacherProgressAccountService {
       { teacherId: id },
       {
         subjects: {
+          ...progressAccount.subjects,
           value: 1,
         },
         total_checked_count: progressAccount.total_checked_count + 1,
@@ -123,6 +124,7 @@ class TeacherProgressAccountService {
       { teacherId: id },
       {
         subjects: {
+          ...progressAccount.subjects,
           value: 0,
         },
         total_checked_count: progressAccount.total_checked_count - 1,
@@ -157,13 +159,59 @@ class TeacherProgressAccountService {
       { teacherId: id },
       {
         personal_lessons: {
+          ...progressAccount.trial_lessons,
           value: props.duration ? 1 : 0,
         },
         trial_lessons: {
+          ...progressAccount.trial_lessons,
           value: props.trial_duration ? 1 : 0,
         },
         total_checked_count: totalCountProgress,
         profile_progress: getPercentOnCountData(totalCountProgress),
+      },
+      { new: true }
+    );
+  }
+
+  async addWorkExperience(id: string) {
+    const progressAccount = await TeacherProgressAccountModel.findOne({
+      teacherId: id,
+    });
+    if (!progressAccount) return;
+
+    await TeacherProgressAccountModel.findOneAndUpdate(
+      { teacherId: id },
+      {
+        experience: {
+          ...progressAccount.experience,
+          value: 1,
+        },
+        total_checked_count: progressAccount.total_checked_count + 1,
+        profile_progress: getPercentOnCountData(
+          progressAccount.total_checked_count + 1
+        ),
+      },
+      { new: true }
+    );
+  }
+
+  async removeWorkExperience(id: string) {
+    const progressAccount = await TeacherProgressAccountModel.findOne({
+      teacherId: id,
+    });
+    if (!progressAccount) return;
+
+    await TeacherProgressAccountModel.findOneAndUpdate(
+      { teacherId: id },
+      {
+        experience: {
+          ...progressAccount.experience,
+          value: 0,
+        },
+        total_checked_count: progressAccount.total_checked_count - 1,
+        profile_progress: getPercentOnCountData(
+          progressAccount.total_checked_count - 1
+        ),
       },
       { new: true }
     );
