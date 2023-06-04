@@ -16,6 +16,18 @@ function getPercentOnCountData(count: number) {
 }
 
 class TeacherProgressAccountService {
+  private _getTotalProgressAfterUpdateValue(pointValue, newValue, totalCount) {
+    let total = totalCount;
+    if (!pointValue) {
+      if (newValue) {
+        total += 1;
+      }
+    } else if (!newValue) {
+      total -= 1;
+    }
+    return total;
+  }
+
   async createBaseAccountProgress(id: string) {
     const account = await TeacherProgressAccountModel.findOne({
       teacherId: id,
@@ -41,29 +53,31 @@ class TeacherProgressAccountService {
     });
     if (!progressAccount) return;
 
-    const arrProgress: number[] = [progressAccount.fullname.value];
-    let totalCount = progressAccount.total_checked_count;
-
-    if (!progressAccount.phone.value) {
-      arrProgress.push(1);
-      totalCount += 1;
-    }
-    if (!progressAccount.about.value) {
-      arrProgress.push(1);
-      totalCount += 1;
-    }
+    let totalCountProgress = progressAccount.total_checked_count;
+    totalCountProgress = this._getTotalProgressAfterUpdateValue(
+      progressAccount.phone.value,
+      props.phone,
+      totalCountProgress
+    );
+    totalCountProgress = this._getTotalProgressAfterUpdateValue(
+      progressAccount.about.value,
+      props.about,
+      totalCountProgress
+    );
 
     await TeacherProgressAccountModel.findOneAndUpdate(
       { teacherId: id },
       {
         phone: {
+          ...progressAccount.phone,
           value: props.phone ? 1 : 0,
         },
         about: {
+          ...progressAccount.about,
           value: props.about ? 1 : 0,
         },
-        total_checked_count: totalCount,
-        profile_progress: getPercentOnCountData(arrProgress.length),
+        total_checked_count: totalCountProgress,
+        profile_progress: getPercentOnCountData(totalCountProgress),
       },
       { new: true }
     );
@@ -126,22 +140,18 @@ class TeacherProgressAccountService {
     });
     if (!progressAccount) return;
 
-    let totalCount = progressAccount.total_checked_count;
+    let totalCountProgress = progressAccount.total_checked_count;
 
-    if (props.duration) {
-      console.log('duration true', props.duration);
-      totalCount += 1;
-    } else {
-      console.log('duration false', props.duration);
-      totalCount -= 1;
-    }
-    if (props.trial_duration) {
-      console.log('trial duration true', props.trial_duration);
-      totalCount += 1;
-    } else {
-      console.log('trial duration false', props.trial_duration);
-      totalCount -= 1;
-    }
+    totalCountProgress = this._getTotalProgressAfterUpdateValue(
+      progressAccount.personal_lessons.value,
+      props.duration,
+      totalCountProgress
+    );
+    totalCountProgress = this._getTotalProgressAfterUpdateValue(
+      progressAccount.trial_lessons.value,
+      props.trial_duration,
+      totalCountProgress
+    );
 
     await TeacherProgressAccountModel.findOneAndUpdate(
       { teacherId: id },
@@ -152,8 +162,8 @@ class TeacherProgressAccountService {
         trial_lessons: {
           value: props.trial_duration ? 1 : 0,
         },
-        total_checked_count: totalCount,
-        profile_progress: getPercentOnCountData(totalCount),
+        total_checked_count: totalCountProgress,
+        profile_progress: getPercentOnCountData(totalCountProgress),
       },
       { new: true }
     );

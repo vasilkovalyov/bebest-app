@@ -96,7 +96,9 @@ class TeacherService {
       about: response.about,
     });
 
-    return response;
+    return {
+      message: 'Teacher info update successfull!',
+    };
   }
 
   async addMainFieldsActivity(id: string, props: ITeacherMainFieldsActivity) {
