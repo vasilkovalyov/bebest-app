@@ -45,7 +45,7 @@ function TeacherWorkExperienceBlock() {
       <Box marginBottom={3}>
         <Divider />
       </Box>
-      <Box paddingY={4} className="box-account">
+      <Box className="box-account">
         <Stack direction="row" className="box-account__controllers">
           <Button onClick={() => seIsEdit(!isEdit)}>
             {!isEdit ? <Icon icon={IconEnum.EDIT} size={18} /> : 'Close'}

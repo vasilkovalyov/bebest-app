@@ -41,7 +41,7 @@ function TeacherCostPersonalLessonsBlock() {
       <Box marginBottom={3}>
         <Divider />
       </Box>
-      <Box paddingY={4} className="box-account">
+      <Box className="box-account">
         <Stack direction="row" className="box-account__controllers">
           <Button onClick={() => seIsEdit(!isEdit)}>
             {!isEdit ? <Icon icon={IconEnum.EDIT} size={18} /> : 'Close'}
@@ -54,50 +54,58 @@ function TeacherCostPersonalLessonsBlock() {
             </Fade>
           </Box>
         ) : (
-          <Box>
+          <>
             {!isEdit ? (
-              <Box>
+              <>
                 {teacherPersonalInfo.personal_lessons ? (
-                  <Box marginBottom={2}>
-                    <Box marginBottom={2}>
+                  <Box>
+                    <PreviewInfo
+                      category="Private lessons"
+                      heading={
+                        teacherPersonalInfo.personal_lessons.duration +
+                        ' ' +
+                        'hour'
+                      }
+                      values={[
+                        teacherPersonalInfo.personal_lessons.is_free
+                          ? 'Free'
+                          : teacherPersonalInfo.personal_lessons.price +
+                            ' ' +
+                            '$',
+                      ]}
+                      marginBottom={4}
+                    />
+                    {teacherPersonalInfo.personal_lessons.use_trial ? (
                       <PreviewInfo
-                        category="Private lessons"
-                        heading={teacherPersonalInfo.personal_lessons.duration}
+                        category="Trial lessons"
+                        heading={
+                          teacherPersonalInfo.personal_lessons.trial_duration +
+                          ' ' +
+                          'hour'
+                        }
                         values={[
-                          teacherPersonalInfo.personal_lessons.is_free
-                            ? 'Free'
-                            : teacherPersonalInfo.personal_lessons.price,
+                          getTrialLessonResult(
+                            teacherPersonalInfo.personal_lessons.use_trial,
+                            teacherPersonalInfo.personal_lessons.is_trial_free,
+                            teacherPersonalInfo.personal_lessons.trial_price +
+                              ' ' +
+                              '$'
+                          ),
                         ]}
-                        marginBottom={4}
+                        marginBottom={0}
                       />
-                      {teacherPersonalInfo.personal_lessons.use_trial ? (
-                        <PreviewInfo
-                          category="Trial lessons"
-                          heading={
-                            teacherPersonalInfo.personal_lessons.trial_duration
-                          }
-                          values={[
-                            getTrialLessonResult(
-                              teacherPersonalInfo.personal_lessons.use_trial,
-                              teacherPersonalInfo.personal_lessons
-                                .is_trial_free,
-                              teacherPersonalInfo.personal_lessons.trial_price
-                            ),
-                          ]}
-                        />
-                      ) : null}
-                    </Box>
+                    ) : null}
                   </Box>
                 ) : (
                   <Typography variant="body1">
                     No data. Click on Edit button to add information.
                   </Typography>
                 )}
-              </Box>
+              </>
             ) : (
               <TeacherCostPersonalLessons onHandleClose={onHandleClose} />
             )}
-          </Box>
+          </>
         )}
       </Box>
     </ContainerWithShadow>

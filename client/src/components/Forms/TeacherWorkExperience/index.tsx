@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, useFieldArray } from 'react-hook-form'
 
 //redux
-import { useAppSelector } from '@/redux/hooks'
+import { useAppSelector, useActions } from '@/redux/hooks'
 import { useDispatch } from 'react-redux'
 import { fetchTeacherPersonalInfo } from '@/redux/slices/teacher-personal-info'
 
@@ -35,6 +35,7 @@ import colors from '@/constants/colors'
 import { Stack } from '@mui/material'
 import { ITeacherWorkExperience } from '@/services/teacher-work-experience'
 import teacherWorkExperienceService from '@/services/teacher-work-experience'
+import teacherService from '@/services/teacher'
 
 const defaultWorkExperience: ITeacherWorkExperience = {
   company_name: '',
@@ -55,6 +56,8 @@ function TeacherWorkExperienceForm({
     (store) => store.teacherPersonalInfo.work_experience
   )
   const dispatch = useDispatch<any>()
+  const { setAuthState } = useActions()
+
   const [checkboxArr, setCheckboxArr] = useState<boolean[]>([])
 
   const [modalOpen, setModalOpen] = useState<boolean>(false)
@@ -101,10 +104,10 @@ function TeacherWorkExperienceForm({
       const workExperience = {
         ...data.work_experience[data.work_experience.length - 1],
       }
-
       await teacherWorkExperienceService.addWorkExperience(workExperience)
       dispatch(fetchTeacherPersonalInfo())
-
+      const teachernfoResponse = await teacherService.getUserInfo()
+      setAuthState(teachernfoResponse.data)
       append(defaultWorkExperience)
     } catch (e) {
       console.log(e)
@@ -125,10 +128,11 @@ function TeacherWorkExperienceForm({
       await teacherWorkExperienceService.removeWorkExperience(
         selectRemoveWorkExperienceId.id
       )
+
       dispatch(fetchTeacherPersonalInfo())
-
+      const teachernfoResponse = await teacherService.getUserInfo()
+      setAuthState(teachernfoResponse.data)
       remove(selectRemoveWorkExperienceId.index)
-
       setSelectRemoveWorkExperienceId({
         id: '',
         index: -1,
