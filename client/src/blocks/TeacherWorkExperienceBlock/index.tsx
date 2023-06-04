@@ -18,7 +18,7 @@ import Icon from '@/components/Generic/Icon'
 import { IconEnum } from '@/components/Generic/Icon/Icon.type'
 import ContainerWithShadow from '@/components/Generic/ContainerWithShadow'
 import TeacherWorkExperience from '@/components/Forms/TeacherWorkExperience'
-import PreviewInfo from '../../components/PreviewInfo'
+import WorkExperiencePreview from '@/components/WorkExperiencePreview'
 
 //other utils
 
@@ -60,65 +60,9 @@ function TeacherWorkExperienceBlock() {
         ) : (
           <Box>
             {!isEdit ? (
-              <Box>
-                {teacherPersonalInfo.work_experience.length ? (
-                  <Box>
-                    {teacherPersonalInfo.work_experience.map((item) => (
-                      <Box key={item._id}>
-                        <PreviewInfo
-                          heading="Company"
-                          values={[item.company_name]}
-                        />
-                        {item.description ? (
-                          <PreviewInfo
-                            heading="Description"
-                            values={[item.description]}
-                          />
-                        ) : null}
-                        <Stack direction="row" gap={2}>
-                          <Box>
-                            <Typography
-                              variant="body1"
-                              fontWeight={700}
-                              marginBottom={1}
-                            >
-                              Start date
-                            </Typography>
-                            <Typography
-                              variant="body1"
-                              className="font-normal"
-                              marginBottom={0}
-                            >
-                              {item.startDate}
-                            </Typography>
-                          </Box>
-                          <Box>
-                            <Typography
-                              variant="body1"
-                              fontWeight={700}
-                              marginBottom={1}
-                            >
-                              End Date
-                            </Typography>
-                            <Typography
-                              variant="body1"
-                              className="font-normal"
-                              marginBottom={0}
-                            >
-                              {item.endDate}
-                              {item.isStillWorking ? 'Still working' : null}
-                            </Typography>
-                          </Box>
-                        </Stack>
-                      </Box>
-                    ))}
-                  </Box>
-                ) : (
-                  <Typography variant="body1">
-                    No data. Click on Edit button to add information.
-                  </Typography>
-                )}
-              </Box>
+              <WorkExperiencePreview
+                items={teacherPersonalInfo.work_experience}
+              />
             ) : (
               <TeacherWorkExperience onHandleClose={onHandleClose} />
             )}

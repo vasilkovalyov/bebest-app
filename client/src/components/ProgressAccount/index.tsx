@@ -53,7 +53,6 @@ function ProgressAccount() {
       <Typography variant="h6">
         Fill out your profile 100% so that students can find you
       </Typography>
-      {progressAccountStore.total_checked_count}
       {progressAccountStore?.profile_progress ? (
         <Box marginBottom={2}>
           <Typography>{progressAccountStore.profile_progress}%</Typography>
