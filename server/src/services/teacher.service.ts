@@ -12,6 +12,9 @@ import TeacherProgressAccountModel from '../models/teacher-progress-account';
 
 import teacherProgressAccountService from '../services/teacher-progress-account';
 import bcrypt from 'bcrypt';
+import TeacherPaymentCardModel, {
+  IPaymentCard,
+} from '../models/teacher-payment-card';
 
 class TeacherService {
   async removeUser(id: string) {

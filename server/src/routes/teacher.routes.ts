@@ -66,4 +66,17 @@ router.get(
   TeacherController.getPersonalnfo
 );
 
+router.post(
+  '/payment-card/teacher',
+  authMiddleware,
+  TeacherController.addPaymentCard
+);
+router.delete(
+  '/payment-card/teacher',
+  authMiddleware,
+  TeacherController.removePaymentCard
+);
+
+router.get('/payment-card/teacher', TeacherController.getPaymentCard);
+
 export default router;

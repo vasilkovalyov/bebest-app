@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import TeacherService from '../services/teacher.service';
 import tokenService from '../services/token.service';
+import teacherPaymentCardService from '../services/teacher-payment-card';
 import { ITokenData } from 'interfaces/token';
 
 class TeacherController {
@@ -179,6 +180,59 @@ class TeacherController {
         req.headers.authorization
       )) as ITokenData;
       const response = await TeacherService.getPersonalnfo(userData._id);
+      return res.status(200).json(response);
+    } catch (e) {
+      if (!(e instanceof Error)) return;
+      return res.status(400).json({
+        message: e.message,
+      });
+    }
+  }
+
+  async addPaymentCard(req: Request, res: Response) {
+    try {
+      const userData = (await tokenService.validateAccessToken(
+        req.headers.authorization
+      )) as ITokenData;
+      const response = await teacherPaymentCardService.addPaymentCard(
+        userData._id,
+        req.body
+      );
+      return res.status(200).json(response);
+    } catch (e) {
+      if (!(e instanceof Error)) return;
+      return res.status(400).json({
+        message: e.message,
+      });
+    }
+  }
+  async removePaymentCard(req: Request, res: Response) {
+    try {
+      const userData = (await tokenService.validateAccessToken(
+        req.headers.authorization
+      )) as ITokenData;
+      const { id } = req.params;
+      const response = await teacherPaymentCardService.removePaymentCard(
+        userData._id
+      );
+      return res.status(200).json(response);
+    } catch (e) {
+      if (!(e instanceof Error)) return;
+      return res.status(400).json({
+        message: e.message,
+      });
+    }
+  }
+
+  async getPaymentCard(req: Request, res: Response) {
+    try {
+      const userData = (await tokenService.validateAccessToken(
+        req.headers.authorization
+      )) as ITokenData;
+
+      const response = await teacherPaymentCardService.getPaymentCard(
+        userData._id
+      );
       return res.status(200).json(response);
     } catch (e) {
       if (!(e instanceof Error)) return;

@@ -87,7 +87,7 @@ class TeacherProgressAccountService {
     const account = await TeacherProgressAccountModel.findOne({
       teacherId: id,
     }).select(
-      'about photo phone bank_data certificate experience trial_lessons personal_lessons fullname subjects video profile_progress total_checked_count'
+      'about photo phone payment_card certificate experience trial_lessons personal_lessons fullname subjects video profile_progress total_checked_count'
     );
     return account;
   }
@@ -206,6 +206,49 @@ class TeacherProgressAccountService {
       {
         experience: {
           ...progressAccount.experience,
+          value: 0,
+        },
+        total_checked_count: progressAccount.total_checked_count - 1,
+        profile_progress: getPercentOnCountData(
+          progressAccount.total_checked_count - 1
+        ),
+      },
+      { new: true }
+    );
+  }
+
+  async addPaymentCard(id: string) {
+    const progressAccount = await TeacherProgressAccountModel.findOne({
+      teacherId: id,
+    });
+    if (!progressAccount) return;
+
+    await TeacherProgressAccountModel.findOneAndUpdate(
+      { teacherId: id },
+      {
+        payment_card: {
+          ...progressAccount.payment_card,
+          value: 1,
+        },
+        total_checked_count: progressAccount.total_checked_count + 1,
+        profile_progress: getPercentOnCountData(
+          progressAccount.total_checked_count + 1
+        ),
+      },
+      { new: true }
+    );
+  }
+  async removePaymentCard(id: string) {
+    const progressAccount = await TeacherProgressAccountModel.findOne({
+      teacherId: id,
+    });
+    if (!progressAccount) return;
+
+    await TeacherProgressAccountModel.findOneAndUpdate(
+      { teacherId: id },
+      {
+        payment_card: {
+          ...progressAccount.payment_card,
           value: 0,
         },
         total_checked_count: progressAccount.total_checked_count - 1,

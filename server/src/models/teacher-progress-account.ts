@@ -16,7 +16,7 @@ export interface ITeacherProgressAccount {
     value: number;
     title?: string;
   };
-  bank_data: {
+  payment_card: {
     value: number;
     title?: string;
   };
@@ -95,7 +95,7 @@ const TeacherProgressAccountSchema =
         default: 0,
       },
     },
-    bank_data: {
+    payment_card: {
       value: {
         type: Number,
         enum: [0, 1],
