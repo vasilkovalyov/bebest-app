@@ -16,7 +16,7 @@ export interface ITeacherProgressAccount {
     value: number
     title: string
   }
-  bank_data?: {
+  payment_card?: {
     value: number
     title: string
   }
@@ -77,7 +77,7 @@ const defaultProgressAccountState: ITeacherProgressAccount = {
     value: 0,
     title: '',
   },
-  bank_data: {
+  payment_card: {
     value: 0,
     title: '',
   },
