@@ -1,7 +1,8 @@
 // libs
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { AxiosError } from 'axios'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useForm } from 'react-hook-form'
 
 //redux
 import { useAppSelector, useActions } from '@/redux/hooks'
@@ -17,7 +18,7 @@ import { AccountStudentFormValidationSchema } from './AccountStudent.validation'
 
 // other utils
 import studentService, { UserAccountInfoEditType } from '@/services/student'
-import { AxiosError } from 'axios'
+import { useLoadUserInfo } from '@/hooks/useLoadUserInfo'
 
 const fields: Readonly<
   {
@@ -53,6 +54,7 @@ function AccountStudentForm({ onHandleClose }: { onHandleClose: () => void }) {
   const { setAuthState } = useActions()
   const user = useAppSelector((state) => state.user.user)
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const { loadUserInfo } = useLoadUserInfo()
 
   const {
     handleSubmit,
@@ -74,8 +76,8 @@ function AccountStudentForm({ onHandleClose }: { onHandleClose: () => void }) {
     setIsLoading(true)
 
     try {
-      const response = await studentService.updateUserAccountInfo(props)
-      setAuthState(response.data)
+      await studentService.updateUserAccountInfo(props)
+      loadUserInfo('student')
       onHandleClose()
     } catch (e) {
       if (e instanceof AxiosError) {
