@@ -17,7 +17,7 @@ import subjectRoute from './routes/subject.routes';
   const PORT = process.env.PORT || 4000;
   dotenv.config();
 
-  server.use(bodyParser.json());
+  server.use(bodyParser.json({ limit: '50mb' }));
   server.use(cors({ credentials: true, origin: process.env.API_URL }));
   server.use(express.urlencoded({ extended: true }));
   server.use(compression());

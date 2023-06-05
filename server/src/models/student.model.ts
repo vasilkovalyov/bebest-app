@@ -1,8 +1,10 @@
 import { Schema, model, Document } from 'mongoose';
 import { IUser } from './user.model';
 import { IStudentSubject } from './student-subjects';
+import { File } from 'buffer';
 
 export interface IStudent extends IUser {
+  avatar?: string;
   name: string;
   surname: string;
   password: string;
@@ -15,10 +17,15 @@ export type StudentModelType = IStudent & Document;
 
 export type StudentAccountEditableModelType = Omit<
   IStudent,
-  'password' | 'userId' | 'role'
->;
+  'password' | 'userId' | 'role' | 'avatar'
+> & {
+  avatar?: File;
+};
 
 const StudentSchema = new Schema<StudentModelType>({
+  avatar: {
+    type: String,
+  },
   name: { type: String, required: true },
   surname: { type: String, required: true },
   email: { type: String, required: true, unique: true },

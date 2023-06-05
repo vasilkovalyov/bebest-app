@@ -8,6 +8,7 @@ import StudentSubjectsModel, {
 } from '../models/student-subjects';
 import UserModel from '../models/user.model';
 import bcrypt from 'bcrypt';
+const cloudinary = require('../utils/cloudinary');
 
 class StudentService {
   async removeUser(id: string) {
@@ -51,7 +52,7 @@ class StudentService {
 
   async getUserInfo(id: string) {
     const studentModel = await StudentModel.findOne({ _id: id }).select(
-      '_id name surname email role phone about'
+      '_id name surname email role phone about avatar'
     );
 
     if (!studentModel) {
@@ -62,10 +63,21 @@ class StudentService {
   }
 
   async updateUserInfo(id: string, props: StudentAccountEditableModelType) {
+    let avatarImage = '';
+    if (props.avatar) {
+      const res = await cloudinary.uploader.upload(props.avatar, {
+        folder: 'bebest',
+        width: 120,
+        crop: 'scale',
+      });
+      avatarImage = res.secure_url;
+    }
+
     const response = await StudentModel.findOneAndUpdate(
       { _id: id },
       {
         ...props,
+        avatar: avatarImage,
       },
       { new: true }
     );
