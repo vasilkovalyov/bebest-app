@@ -68,11 +68,13 @@ class StudentService {
         ...props,
       },
       { new: true }
-    ).select('_id name surname email phone about role');
+    );
 
     if (!response) throw ApiError.BadRequestError('Student did not update');
 
-    return response;
+    return {
+      message: 'Student info update successfull',
+    };
   }
 
   async addSubjects(_id: string, props: IStudentSubject) {
