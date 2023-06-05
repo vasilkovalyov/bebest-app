@@ -20,6 +20,7 @@ import { loginUser, ILogin } from '@/components/Forms/Login/Login.service'
 
 // other utils
 import studentService from '@/services/student'
+import teacherService from '@/services/teacher'
 import pages from '@/constants/pages'
 
 function PageLogin() {
@@ -39,9 +40,16 @@ function PageLogin() {
       const { role, token, userId } = loginResponse.data
 
       router.push(pages.cabinet).then(() => {
-        studentService.getUserInfo(role, userId, token).then((userResponse) => {
-          setAuthState(userResponse.data)
-        })
+        if (role === 'student') {
+          studentService.getUserInfo().then((userResponse) => {
+            setAuthState(userResponse.data)
+          })
+        }
+        if (role === 'teacher') {
+          teacherService.getUserInfo().then((userResponse) => {
+            setAuthState(userResponse.data)
+          })
+        }
         setIsLoading(false)
       })
     } catch (e) {
