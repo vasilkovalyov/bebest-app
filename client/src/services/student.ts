@@ -5,16 +5,7 @@ import { PRIVATE_REQUESTS } from '@/constants/api-requests'
 import { PUBLIC_REQUESTS } from '@/constants/api-requests'
 import { IRegistrationResponse } from '@/interfaces/common'
 import { IRegistrationStudent } from '../components/Forms/Registration/RegistrationStudent/RegistrationStudent.type'
-
-export interface IAuthUserInfo {
-  _id: string
-  name: string
-  surname: string
-  email: string
-  phone: string | null
-  about: string | null
-  role: UserRole
-}
+import { IAuthUserInfo } from '@/redux/slices/auth'
 
 export type UserAccountInfoEditType = Omit<IAuthUserInfo, 'role' | '_id'>
 

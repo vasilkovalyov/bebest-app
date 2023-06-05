@@ -95,7 +95,7 @@ function StudentAccount() {
           ]}
         />
       ) : (
-        <Box maxWidth={400}>
+        <Box maxWidth={800}>
           <AccountStudentForm onHandleClose={onHandleClose} />
         </Box>
       )}

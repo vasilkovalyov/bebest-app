@@ -60,6 +60,7 @@ export interface IAuthUserInfo {
   phone?: string | null
   about?: string | null
   role: UserRole | null
+  avatar?: string | null
   progress_account?: ITeacherProgressAccount
 }
 
@@ -125,6 +126,7 @@ const defaultAuthState: IAuthUserInfo = {
   phone: null,
   about: null,
   role: null,
+  avatar: null,
   progress_account: defaultProgressAccountState,
 }
 

@@ -13,7 +13,11 @@ function CabinetSidebarUserInfo() {
   return (
     <Stack direction="row" alignItems="center" spacing={2} padding={2.5}>
       <Box>
-        <Avatar alt={user.name} style={{ width: '54px', height: '54px' }} />
+        <Avatar
+          alt={user.name}
+          src={user.avatar || ''}
+          style={{ width: '54px', height: '54px' }}
+        />
       </Box>
       <Box marginBottom={3}>
         <Typography variant="body2" marginBottom={0.5}>

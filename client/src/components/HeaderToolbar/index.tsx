@@ -39,7 +39,7 @@ function HeaderToolbar({ classNameMenu }: IAccountNavigationProps) {
             }
             sx={{ p: 0 }}
           >
-            <Avatar alt={user.name} />
+            <Avatar alt={user.name} src={user.avatar || ''} />
           </IconButton>
         </Tooltip>
         <Menu

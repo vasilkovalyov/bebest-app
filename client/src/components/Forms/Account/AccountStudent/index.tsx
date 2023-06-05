@@ -11,7 +11,11 @@ import { useAppSelector } from '@/redux/hooks'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
+import Grid from '@mui/material/Grid'
 import CircularProgress from '@mui/material/CircularProgress'
+
+//custom components
+import UploadAvatar from '@/components/UploadAvatar'
 
 // relate utils
 import { AccountStudentFormValidationSchema } from './AccountStudent.validation'
@@ -54,10 +58,12 @@ function AccountStudentForm({ onHandleClose }: { onHandleClose: () => void }) {
   const user = useAppSelector((state) => state.user.user)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const { loadUserInfo } = useLoadUserInfo()
+  const [selectedImage, setSelectedImage] = useState<string | null>(null)
 
   const {
     handleSubmit,
     register,
+    setValue,
     formState: { errors },
   } = useForm<UserAccountInfoEditType>({
     mode: 'onSubmit',
@@ -67,6 +73,7 @@ function AccountStudentForm({ onHandleClose }: { onHandleClose: () => void }) {
       phone: user.phone,
       email: user.email,
       about: user.about,
+      avatar: user.avatar,
     },
     resolver: yupResolver(AccountStudentFormValidationSchema),
   })
@@ -87,6 +94,11 @@ function AccountStudentForm({ onHandleClose }: { onHandleClose: () => void }) {
     }
   }
 
+  function onChangeUploadAvatar(imageStr: string) {
+    setSelectedImage(imageStr)
+    setValue('avatar', imageStr)
+  }
+
   return (
     <Box>
       <form
@@ -94,38 +106,53 @@ function AccountStudentForm({ onHandleClose }: { onHandleClose: () => void }) {
         onSubmit={handleSubmit(onSubmit)}
         className="form form-login"
       >
-        {fields.map(({ name, label, textarea }) => (
-          <Box key={name} marginBottom={2}>
-            <TextField
-              {...register(name)}
-              id={name}
-              name={name}
-              type="text"
-              label={label}
-              variant="standard"
-              className="form-field"
-              fullWidth
-              {...(textarea && { multiline: true, minRows: 5 })}
-              InputLabelProps={{ shrink: true }}
-              error={!!errors[name]?.message}
-              helperText={errors[name]?.message}
-            />
-          </Box>
-        ))}
-        <Box display="flex" alignItems="center" marginBottom={3}>
-          <Button
-            type="submit"
-            variant="contained"
-            size="small"
-            disabled={isLoading}
-          >
-            Save
-          </Button>
-          <Box ml={2}>{isLoading ? <CircularProgress size={16} /> : null}</Box>
-          <Button variant="outlined" size="small" onClick={onHandleClose}>
-            Close
-          </Button>
-        </Box>
+        <Grid container spacing={4}>
+          <Grid item md={3}>
+            <Box display="flex" flexDirection="column" alignItems="center">
+              <UploadAvatar
+                image={selectedImage || user.avatar}
+                onChange={onChangeUploadAvatar}
+              />
+              <TextField hidden {...register('avatar')} />
+            </Box>
+          </Grid>
+          <Grid item md={6}>
+            {fields.map(({ name, label, textarea }) => (
+              <Box key={name} marginBottom={2}>
+                <TextField
+                  {...register(name)}
+                  id={name}
+                  name={name}
+                  type="text"
+                  label={label}
+                  variant="standard"
+                  className="form-field"
+                  fullWidth
+                  {...(textarea && { multiline: true, minRows: 5 })}
+                  InputLabelProps={{ shrink: true }}
+                  error={!!errors[name]?.message}
+                  helperText={errors[name]?.message}
+                />
+              </Box>
+            ))}
+            <Box display="flex" alignItems="center" marginBottom={3}>
+              <Button
+                type="submit"
+                variant="contained"
+                size="small"
+                disabled={isLoading}
+              >
+                Save
+              </Button>
+              <Box ml={2}>
+                {isLoading ? <CircularProgress size={16} /> : null}
+              </Box>
+              <Button variant="outlined" size="small" onClick={onHandleClose}>
+                Close
+              </Button>
+            </Box>
+          </Grid>
+        </Grid>
       </form>
     </Box>
   )
