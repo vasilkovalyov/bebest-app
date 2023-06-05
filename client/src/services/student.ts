@@ -22,17 +22,10 @@ class StudentService {
   constructor() {}
 
   async getUserInfo(
-    role: UserRole,
-    id: string,
     token?: string | undefined
   ): Promise<AxiosResponse<IAuthUserInfo>> {
     const response = await $api(token).get(
-      `/${PRIVATE_REQUESTS.USER_INFO}/${role}`,
-      {
-        params: {
-          id,
-        },
-      }
+      `/${PRIVATE_REQUESTS.USER_INFO}/student`
     )
     return response
   }

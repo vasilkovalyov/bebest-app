@@ -30,6 +30,7 @@ function ProgressAccount() {
 
   function getGeneratedProgressInfo() {
     const progressArr = []
+    if (!progressAccountStore) return
 
     for (let [key, value] of Object.entries(progressAccountStore)) {
       if (typeof value === 'object') {

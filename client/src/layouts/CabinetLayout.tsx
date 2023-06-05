@@ -78,6 +78,7 @@ function CabinetLayout({
             >
               <CabinetSidebarUserInfo />
               {userStore.role === 'teacher' &&
+              userStore.progress_account &&
               userStore.progress_account.profile_progress ? (
                 <Box paddingTop={2} paddingX={3} marginBottom={2}>
                   <ProgressAccount />

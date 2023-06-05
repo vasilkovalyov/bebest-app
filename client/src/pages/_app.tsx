@@ -77,11 +77,7 @@ App.getInitialProps = wrapper.getInitialAppProps(
 
         let user: unknown | any
         if (role === ('student' as UserRole)) {
-          user = await studentService.getUserInfo(
-            role as UserRole,
-            userId,
-            token
-          )
+          user = await studentService.getUserInfo(token)
         }
         if (role === ('teacher' as UserRole)) {
           user = await teacherService.getUserInfo(token)

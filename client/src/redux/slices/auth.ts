@@ -60,7 +60,7 @@ export interface IAuthUserInfo {
   phone?: string | null
   about?: string | null
   role: UserRole | null
-  progress_account: ITeacherProgressAccount
+  progress_account?: ITeacherProgressAccount
 }
 
 export interface IAuthState {
