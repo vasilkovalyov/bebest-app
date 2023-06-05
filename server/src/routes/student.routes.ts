@@ -28,6 +28,12 @@ router.post(
   StudentController.updateUserInfo
 );
 
+router.post(
+  '/upload-avatar/student',
+  authMiddleware,
+  StudentController.uploadUserAvatar
+);
+
 router.get('/user-info/student', authMiddleware, StudentController.getUserInfo);
 
 router.post(

@@ -1,10 +1,6 @@
-import ApiError from '../utils/api-error';
-import {
-  ITeacher,
-  TeacherAccountEditableModelType,
-} from '../models/teacher.model';
+import { File } from 'buffer';
+import { ITeacher } from '../models/teacher.model';
 import TeacherProgressAccountModel, {
-  ITeacherProgressAccount,
   totalStepCounts,
 } from '../models/teacher-progress-account';
 import { ITeacherCostPersonalLesson } from '../models/teacher-personal-info';
@@ -47,6 +43,34 @@ class TeacherProgressAccountService {
     return null;
   }
 
+  async addPhoto(id: string, file: string) {
+    const progressAccount = await TeacherProgressAccountModel.findOne({
+      teacherId: id,
+    });
+    if (!progressAccount) return;
+
+    let totalCountProgress = progressAccount.total_checked_count;
+
+    totalCountProgress = this._getTotalProgressAfterUpdateValue(
+      progressAccount.photo.value,
+      file,
+      totalCountProgress
+    );
+
+    await TeacherProgressAccountModel.findOneAndUpdate(
+      { teacherId: id },
+      {
+        photo: {
+          ...progressAccount.photo,
+          value: file ? 1 : 0,
+        },
+        total_checked_count: totalCountProgress,
+        profile_progress: getPercentOnCountData(totalCountProgress),
+      },
+      { new: true }
+    );
+  }
+
   async updateAccountInfo(id: string, props: TeacherProgressAccountInfoType) {
     const progressAccount = await TeacherProgressAccountModel.findOne({
       teacherId: id,
@@ -54,16 +78,22 @@ class TeacherProgressAccountService {
     if (!progressAccount) return;
 
     let totalCountProgress = progressAccount.total_checked_count;
-    totalCountProgress = this._getTotalProgressAfterUpdateValue(
-      progressAccount.phone.value,
-      props.phone,
-      totalCountProgress
-    );
-    totalCountProgress = this._getTotalProgressAfterUpdateValue(
-      progressAccount.about.value,
-      props.about,
-      totalCountProgress
-    );
+
+    if (props.phone) {
+      totalCountProgress = this._getTotalProgressAfterUpdateValue(
+        progressAccount.phone.value,
+        props.phone,
+        totalCountProgress
+      );
+    }
+
+    if (props.about) {
+      totalCountProgress = this._getTotalProgressAfterUpdateValue(
+        progressAccount.about.value,
+        props.about,
+        totalCountProgress
+      );
+    }
 
     await TeacherProgressAccountModel.findOneAndUpdate(
       { teacherId: id },

@@ -25,6 +25,12 @@ router.post(
 router.get('/user-info/teacher', authMiddleware, TeacherController.getUserInfo);
 
 router.post(
+  '/upload-avatar/teacher',
+  authMiddleware,
+  TeacherController.uploadUserAvatar
+);
+
+router.post(
   '/user-info/teacher',
   authMiddleware,
   TeacherController.updateUserInfo

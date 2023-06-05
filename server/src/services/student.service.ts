@@ -1,3 +1,4 @@
+import { File } from 'buffer';
 import ApiError from '../utils/api-error';
 import StudentModel, {
   StudentAccountEditableModelType,
@@ -8,7 +9,7 @@ import StudentSubjectsModel, {
 } from '../models/student-subjects';
 import UserModel from '../models/user.model';
 import bcrypt from 'bcrypt';
-const cloudinary = require('../utils/cloudinary');
+import { uploadAvatar } from '../utils/upload-file';
 
 class StudentService {
   async removeUser(id: string) {
@@ -62,14 +63,33 @@ class StudentService {
     return studentModel;
   }
 
+  async uploadUserAvatar(id: string, file: File) {
+    let avatarImage = '';
+    if (file) {
+      const res = await uploadAvatar(file);
+      avatarImage = res.secure_url;
+    }
+
+    const response = await StudentModel.findOneAndUpdate(
+      { _id: id },
+      {
+        avatar: avatarImage,
+      },
+      { new: true }
+    );
+
+    if (!response)
+      throw ApiError.BadRequestError('Student avatar did not update');
+
+    return {
+      message: 'Student avatar update successfull!',
+    };
+  }
+
   async updateUserInfo(id: string, props: StudentAccountEditableModelType) {
     let avatarImage = '';
-    if (props.avatar) {
-      const res = await cloudinary.uploader.upload(props.avatar, {
-        folder: 'bebest',
-        width: 120,
-        crop: 'scale',
-      });
+    if (props.avatar || props.avatar === null) {
+      const res = await uploadAvatar(props.avatar);
       avatarImage = res.secure_url;
     }
 

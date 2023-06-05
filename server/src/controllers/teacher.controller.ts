@@ -61,6 +61,26 @@ class TeacherController {
     }
   }
 
+  async uploadUserAvatar(req: Request, res: Response) {
+    try {
+      const userData = (await tokenService.validateAccessToken(
+        req.headers.authorization
+      )) as ITokenData;
+
+      const response = await TeacherService.uploadUserAvatar(
+        userData._id,
+        req.body.avatar
+      );
+
+      return res.status(200).json(response);
+    } catch (e) {
+      if (!(e instanceof Error)) return;
+      return res.status(400).json({
+        message: e.message,
+      });
+    }
+  }
+
   async updateUserInfo(req: Request, res: Response) {
     try {
       const userData = (await tokenService.validateAccessToken(

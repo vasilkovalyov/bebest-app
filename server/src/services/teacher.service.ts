@@ -1,3 +1,4 @@
+import { File } from 'buffer';
 import ApiError from '../utils/api-error';
 import TeacherModel, {
   TeacherAccountEditableModelType,
@@ -12,9 +13,7 @@ import TeacherProgressAccountModel from '../models/teacher-progress-account';
 
 import teacherProgressAccountService from '../services/teacher-progress-account';
 import bcrypt from 'bcrypt';
-import TeacherPaymentCardModel, {
-  IPaymentCard,
-} from '../models/teacher-payment-card';
+import { uploadAvatar } from '../utils/upload-file';
 
 class TeacherService {
   async removeUser(id: string) {
@@ -61,25 +60,58 @@ class TeacherService {
 
   async getUserInfo(id: string) {
     const teacherModel = await TeacherModel.findOne({ _id: id }).select(
-      '_id name surname email role phone about'
+      '_id name surname email role phone about avatar'
     );
-
-    const teacherProgressAccount =
-      await teacherProgressAccountService.getAccountProgress(id);
 
     if (!teacherModel) {
       throw ApiError.BadRequestError(`Teacher with id ${id} not a found!`);
     }
 
+    const teacherProgressAccount =
+      await teacherProgressAccountService.getAccountProgress(id);
+
     return {
       _id: teacherModel._id,
       name: teacherModel.name,
+      avatar: teacherModel.avatar,
       surname: teacherModel.surname,
       email: teacherModel.email,
       phone: teacherModel.phone,
       about: teacherModel.about,
       role: teacherModel.role,
       progress_account: teacherProgressAccount,
+    };
+  }
+
+  async uploadUserAvatar(id: string, file: File) {
+    let avatarImage = '';
+    if (file) {
+      const res = await uploadAvatar(file);
+      avatarImage = res.secure_url;
+    }
+
+    const response = await TeacherModel.findOneAndUpdate(
+      { _id: id },
+      {
+        avatar: avatarImage,
+      },
+      { new: true }
+    );
+
+    if (!response)
+      throw ApiError.BadRequestError('Teacher avatar did not update');
+
+    const progressData = await TeacherProgressAccountModel.findOne({
+      teacherId: id,
+    });
+
+    if (progressData && progressData.photo.value) {
+      if (!response.avatar) return;
+      await teacherProgressAccountService.addPhoto(id, response.avatar);
+    }
+
+    return {
+      message: 'Teacher avatar update successfull!',
     };
   }
 
@@ -90,7 +122,7 @@ class TeacherService {
         ...props,
       },
       { new: true }
-    ).select('_id name surname email phone about role');
+    ).select('phone about avatar');
 
     if (!response) throw ApiError.BadRequestError('Teacher did not update');
 
