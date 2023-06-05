@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 
 //redux
 import { useDispatch } from 'react-redux'
-import { useAppSelector, useActions } from '@/redux/hooks'
+import { useAppSelector } from '@/redux/hooks'
 import { fetchTeacherPersonalInfo } from '@/redux/slices/teacher-personal-info'
 
 // material ui components
@@ -34,6 +34,7 @@ import teacherCostPersonalLessonsService, {
   UseTrialLessonType,
 } from '@/services/teacher-cost-personal-lessons'
 import { ITeacherCostPersonalLesson } from '@/services/teacher-cost-personal-lessons'
+import { useLoadUserInfo } from '@/hooks/useLoadUserInfo'
 
 const defaultData: ITeacherCostPersonalLesson = {
   duration: '',
@@ -49,7 +50,7 @@ function TeacherCostPersonalLessons({
   onHandleClose,
 }: ITeacherCostPersonalLessonsFormProps) {
   const dispatch = useDispatch<any>()
-  const { setAuthState } = useActions()
+  const { loadUserInfo } = useLoadUserInfo()
 
   const teacherPersonalInfo = useAppSelector(
     (store) => store.teacherPersonalInfo
@@ -81,8 +82,7 @@ function TeacherCostPersonalLessons({
     try {
       await teacherCostPersonalLessonsService.updatePersonalLessonsInfo(data)
       dispatch(fetchTeacherPersonalInfo())
-      const teachernfoResponse = await teacherService.getUserInfo()
-      setAuthState(teachernfoResponse.data)
+      loadUserInfo('teacher')
       onHandleClose()
     } catch (e) {
       console.log(e)

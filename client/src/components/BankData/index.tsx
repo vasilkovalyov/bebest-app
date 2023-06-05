@@ -1,8 +1,8 @@
 // libs
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 //redux
-import { useAppSelector, useActions } from '@/redux/hooks'
+import { useAppSelector } from '@/redux/hooks'
 import { useDispatch } from 'react-redux'
 import { fetchPaymentCard } from '@/redux/slices/payment-card'
 
@@ -22,7 +22,7 @@ import WarningIcon from '@/components/Generic/WarningIcon'
 //other utils
 import paymentCardService from '@/services/payment-card'
 import colors from '@/constants/colors'
-import teacherService from '@/services/teacher'
+import { useLoadUserInfo } from '@/hooks/useLoadUserInfo'
 
 type PaymentModalType = 'add' | 'remove'
 
@@ -30,7 +30,7 @@ function BankData() {
   const user = useAppSelector((store) => store.user.user)
   const paymentCardStore = useAppSelector((store) => store.paymentCard)
   const dispatch = useDispatch<any>()
-  const { setAuthState } = useActions()
+  const { loadUserInfo } = useLoadUserInfo()
 
   const [modalOpen, setModalOpen] = useState<boolean>(false)
   const cardNumberLength = 16
@@ -58,8 +58,7 @@ function BankData() {
       user.role
     )
     dispatch(fetchPaymentCard(user.role))
-    const teachernfoResponse = await teacherService.getUserInfo()
-    setAuthState(teachernfoResponse.data)
+    loadUserInfo('teacher')
     handleCloseModal()
   }
 
@@ -68,8 +67,7 @@ function BankData() {
     setModalType('remove')
     await paymentCardService.removePaymentCard(user.role)
     dispatch(fetchPaymentCard(user.role))
-    const teachernfoResponse = await teacherService.getUserInfo()
-    setAuthState(teachernfoResponse.data)
+    loadUserInfo('teacher')
     handleCloseModal()
   }
 

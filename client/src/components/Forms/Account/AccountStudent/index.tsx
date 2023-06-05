@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 
 //redux
-import { useAppSelector, useActions } from '@/redux/hooks'
+import { useAppSelector } from '@/redux/hooks'
 
 // material ui components
 import Box from '@mui/material/Box'
@@ -51,7 +51,6 @@ const fields: Readonly<
 ]
 
 function AccountStudentForm({ onHandleClose }: { onHandleClose: () => void }) {
-  const { setAuthState } = useActions()
   const user = useAppSelector((state) => state.user.user)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const { loadUserInfo } = useLoadUserInfo()

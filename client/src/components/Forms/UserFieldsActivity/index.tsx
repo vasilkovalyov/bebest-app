@@ -4,7 +4,7 @@ import { useForm, useFieldArray } from 'react-hook-form'
 
 //redux
 import { useDispatch } from 'react-redux'
-import { useAppSelector, useActions } from '@/redux/hooks'
+import { useAppSelector } from '@/redux/hooks'
 import { fetchTeacherPersonalInfo } from '@/redux/slices/teacher-personal-info'
 
 // material ui components
@@ -39,11 +39,11 @@ import {
 } from './UserFieldsActivity.utils'
 
 // other utils
-import teacherService from '@/services/teacher'
 import colors from '@/constants/colors'
 import userFieldsActivityService, {
   IUserFieldActivity,
 } from '@/services/user-fields-activity'
+import { useLoadUserInfo } from '@/hooks/useLoadUserInfo'
 
 const defaultWorkExperience: IUserFieldActivity = {
   activity: '',
@@ -64,7 +64,7 @@ function UserFieldsActivityForm({
 
   const user = useAppSelector((store) => store.user)
   const subjects = useAppSelector((store) => store.subjects.subjects)
-  const { setAuthState } = useActions()
+  const { loadUserInfo } = useLoadUserInfo()
 
   const [checkedSkills, setCheckedSkills] = useState<ISkillsChecked[] | []>([])
   const [selectedSkills, setSelectedSkills] = useState<ISubjects[] | []>([])
@@ -105,9 +105,7 @@ function UserFieldsActivityForm({
       )
 
       dispatch(fetchTeacherPersonalInfo())
-      const teachernfoResponse = await teacherService.getUserInfo()
-      setAuthState(teachernfoResponse.data)
-
+      loadUserInfo('teacher')
       append(defaultWorkExperience)
       setSelectedSkills((prevState) => [...prevState, { subjects: [] }])
     } catch (e) {
@@ -135,11 +133,8 @@ function UserFieldsActivityForm({
         selectRemoveFieldActivity.id,
         user.user.role
       )
-
       dispatch(fetchTeacherPersonalInfo())
-      const teachernfoResponse = await teacherService.getUserInfo()
-      setAuthState(teachernfoResponse.data)
-
+      loadUserInfo('teacher')
       remove(selectRemoveFieldActivity.index)
       setSelectRemoveFieldActivity({
         id: '',
