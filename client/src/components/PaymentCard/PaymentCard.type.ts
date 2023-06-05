@@ -1,4 +1,6 @@
 export interface IPaymentCardProps {
   fullname: string
-  onChange: (value: string) => void
+  value?: string
+  editMode?: boolean
+  onChange?: (value: string) => void
 }

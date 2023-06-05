@@ -5,6 +5,7 @@ import { useEffect } from 'react'
 import { useAppSelector } from '@/redux/hooks'
 import { useDispatch } from 'react-redux'
 import { fetchTeacherPersonalInfo } from '@/redux/slices/teacher-personal-info'
+import { fetchPaymentCard } from '@/redux/slices/payment-card'
 
 // material ui components
 import Box from '@mui/material/Box'
@@ -26,6 +27,7 @@ function PageCabinet() {
   useEffect(() => {
     if (user.role === 'teacher') {
       dispatch(fetchTeacherPersonalInfo())
+      dispatch(fetchPaymentCard(user.role))
     }
   }, [dispatch])
 

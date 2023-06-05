@@ -10,22 +10,38 @@ import TextField from '@mui/material/TextField'
 //relate utils
 import { IPaymentCardProps } from './PaymentCard.type'
 
-const visaImage =
-  'https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/visa.png'
-const masterCardImage =
-  'https://res.cloudinary.com/jasuaje/image/upload/v1661353947/mastercard_v7vv3g.png'
+const cardTypeImage = {
+  visa: 'https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/visa.png',
+  masterCard:
+    'https://res.cloudinary.com/jasuaje/image/upload/v1661353947/mastercard_v7vv3g.png',
+}
 
-function PaymentCard({ fullname, onChange }: IPaymentCardProps) {
-  const [cardNumber, setCardNumber] = useState<string>('')
-  const [cardLogo, setCardLogo] = useState<string>('')
+type CardType = 'visa' | 'mastercard'
 
-  const getCardType = (number: string) => {
-    let re = new RegExp('^4')
-    if (number.match(re) != null) return 'visa'
-    re = new RegExp('^5[1-5]')
-    if (number.match(re) != null) return 'mastercard'
-    return 'visa'
-  }
+function getCardType(number: string): CardType {
+  let re = new RegExp('^4')
+  if (number.match(re) != null) return 'visa'
+  re = new RegExp('^5[1-5]')
+  if (number.match(re) != null) return 'mastercard'
+  return 'visa'
+}
+
+function getImageTypeOnValue(imageType: CardType | null): string {
+  if (imageType === 'visa') return cardTypeImage.visa
+  if (imageType === 'mastercard') return cardTypeImage.masterCard
+  return ''
+}
+
+function PaymentCard({
+  fullname,
+  value = '',
+  editMode = true,
+  onChange,
+}: IPaymentCardProps) {
+  const [cardNumber, setCardNumber] = useState<string>(value)
+  const [cardLogo, setCardLogo] = useState<string>(
+    getImageTypeOnValue(getCardType(value))
+  )
 
   function formatCardNumber(value: string) {
     let v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '')
@@ -42,14 +58,17 @@ function PaymentCard({ fullname, onChange }: IPaymentCardProps) {
     }
   }
 
+  function setImageCardTypeByValue(cardType: CardType) {
+    if (cardType === 'visa') setCardLogo(cardTypeImage.visa)
+    if (cardType === 'mastercard') setCardLogo(cardTypeImage.masterCard)
+  }
+
   function handleChange(value: string) {
     value = value.replace(/ /gi, '')
-    const cardType = getCardType(value)
-    if (cardType === 'visa') setCardLogo(visaImage)
-    if (cardType === 'mastercard') setCardLogo(masterCardImage)
+    setImageCardTypeByValue(getCardType(value))
 
     setCardNumber(value)
-    onChange(value)
+    onChange && onChange(value)
   }
 
   function getDisplayNumbers(): string[] {
@@ -108,18 +127,20 @@ function PaymentCard({ fullname, onChange }: IPaymentCardProps) {
             ))}
           </Stack>
         </Box>
-        <TextField
-          className="number-input"
-          size="small"
-          variant="standard"
-          value={formatCardNumber(cardNumber)}
-          onChange={(event) => handleChange(event.currentTarget.value)}
-          inputProps={{
-            pattern: '[0-9]*',
-            inputMode: 'numeric',
-            maxLength: 19,
-          }}
-        />
+        {editMode ? (
+          <TextField
+            className="number-input"
+            size="small"
+            variant="standard"
+            value={formatCardNumber(cardNumber)}
+            onChange={(event) => handleChange(event.currentTarget.value)}
+            inputProps={{
+              pattern: '[0-9]*',
+              inputMode: 'numeric',
+              maxLength: 19,
+            }}
+          />
+        ) : null}
         <Box className="payment-card__bottom">
           <Typography
             variant="body1"
