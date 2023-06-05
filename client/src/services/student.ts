@@ -7,7 +7,10 @@ import { IRegistrationResponse } from '@/interfaces/common'
 import { IRegistrationStudent } from '../components/Forms/Registration/RegistrationStudent/RegistrationStudent.type'
 import { IAuthUserInfo } from '@/redux/slices/auth'
 
-export type UserAccountInfoEditType = Omit<IAuthUserInfo, 'role' | '_id'>
+export type UserAccountInfoEditType = Omit<
+  IAuthUserInfo,
+  'role' | '_id' | 'avatar'
+>
 
 class StudentService {
   constructor() {}

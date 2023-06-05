@@ -8,7 +8,7 @@ export interface ITeacherProgressAccount {
     value: number
     title: string
   }
-  photo?: {
+  avatar?: {
     value: number
     title: string
   }
@@ -98,7 +98,7 @@ const defaultProgressAccountState: ITeacherProgressAccount = {
     value: 0,
     title: '',
   },
-  photo: {
+  avatar: {
     value: 0,
     title: '',
   },

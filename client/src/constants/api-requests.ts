@@ -18,4 +18,5 @@ export const PRIVATE_REQUESTS = {
   PERSONAL_LESSONS_TEACHER: 'personal-lessons/teacher',
   WORK_EXPERIENCE: 'work-experience',
   PAYMENT_CARD: 'payment-card',
+  UPLOAD_AVATAR: 'upload-avatar',
 }

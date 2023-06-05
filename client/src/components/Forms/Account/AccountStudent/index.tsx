@@ -23,6 +23,7 @@ import { AccountStudentFormValidationSchema } from './AccountStudent.validation'
 // other utils
 import studentService, { UserAccountInfoEditType } from '@/services/student'
 import { useLoadUserInfo } from '@/hooks/useLoadUserInfo'
+import uploadFileService from '@/services/upload-file'
 
 const fields: Readonly<
   {
@@ -56,14 +57,14 @@ const fields: Readonly<
 
 function AccountStudentForm({ onHandleClose }: { onHandleClose: () => void }) {
   const user = useAppSelector((state) => state.user.user)
-  const [isLoading, setIsLoading] = useState<boolean>(false)
   const { loadUserInfo } = useLoadUserInfo()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isLoadingUpload, setIsLoadingUpload] = useState<boolean>(false)
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
 
   const {
     handleSubmit,
     register,
-    setValue,
     formState: { errors },
   } = useForm<UserAccountInfoEditType>({
     mode: 'onSubmit',
@@ -73,7 +74,6 @@ function AccountStudentForm({ onHandleClose }: { onHandleClose: () => void }) {
       phone: user.phone,
       email: user.email,
       about: user.about,
-      avatar: user.avatar,
     },
     resolver: yupResolver(AccountStudentFormValidationSchema),
   })
@@ -96,7 +96,20 @@ function AccountStudentForm({ onHandleClose }: { onHandleClose: () => void }) {
 
   function onChangeUploadAvatar(imageStr: string) {
     setSelectedImage(imageStr)
-    setValue('avatar', imageStr)
+  }
+
+  async function uploadUserAvatar() {
+    if (!selectedImage) return
+    setIsLoadingUpload(true)
+    try {
+      await uploadFileService.uploadUserAvatar('student', selectedImage)
+      loadUserInfo('student')
+      onHandleClose()
+    } catch (e) {
+      console.log(e)
+    } finally {
+      setIsLoadingUpload(false)
+    }
   }
 
   return (
@@ -113,7 +126,19 @@ function AccountStudentForm({ onHandleClose }: { onHandleClose: () => void }) {
                 image={selectedImage || user.avatar}
                 onChange={onChangeUploadAvatar}
               />
-              <TextField hidden {...register('avatar')} />
+              {selectedImage ? (
+                <Box marginTop={2}>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    size="small"
+                    disabled={isLoadingUpload}
+                    onClick={uploadUserAvatar}
+                  >
+                    {isLoadingUpload ? 'Uploading...' : 'Save avatar'}
+                  </Button>
+                </Box>
+              ) : null}
             </Box>
           </Grid>
           <Grid item md={6}>

@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { AxiosError } from 'axios'
 
 //redux
 import { useAppSelector, useActions } from '@/redux/hooks'
@@ -10,14 +11,19 @@ import { useAppSelector, useActions } from '@/redux/hooks'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
+import Grid from '@mui/material/Grid'
 import CircularProgress from '@mui/material/CircularProgress'
+
+//custom components
+import UploadAvatar from '@/components/UploadAvatar'
 
 // relate utils
 import { AccountTeacherFormValidationSchema } from './AccountTeacher.validation'
 
 // other utils
+import { useLoadUserInfo } from '@/hooks/useLoadUserInfo'
 import teacherService, { UserAccountInfoEditType } from '@/services/teacher'
-import { AxiosError } from 'axios'
+import uploadFileService from '@/services/upload-file'
 
 const fields: Readonly<
   {
@@ -50,9 +56,11 @@ const fields: Readonly<
 ]
 
 function AccountTeacherForm({ onHandleClose }: { onHandleClose: () => void }) {
-  const { setAuthState } = useActions()
   const user = useAppSelector((state) => state.user.user)
+  const { loadUserInfo } = useLoadUserInfo()
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isLoadingUpload, setIsLoadingUpload] = useState<boolean>(false)
+  const [selectedImage, setSelectedImage] = useState<string | null>(null)
 
   const {
     handleSubmit,
@@ -72,11 +80,9 @@ function AccountTeacherForm({ onHandleClose }: { onHandleClose: () => void }) {
 
   async function onSubmit(props: UserAccountInfoEditType) {
     setIsLoading(true)
-
     try {
       await teacherService.updateUserAccountInfo(props)
-      const response = await teacherService.getUserInfo()
-      setAuthState(response.data)
+      loadUserInfo('teacher')
       onHandleClose()
     } catch (e) {
       if (e instanceof AxiosError) {
@@ -87,45 +93,87 @@ function AccountTeacherForm({ onHandleClose }: { onHandleClose: () => void }) {
     }
   }
 
+  function onChangeUploadAvatar(imageStr: string) {
+    setSelectedImage(imageStr)
+  }
+
+  async function uploadUserAvatar() {
+    if (!selectedImage) return
+    setIsLoadingUpload(true)
+    try {
+      await uploadFileService.uploadUserAvatar('teacher', selectedImage)
+      loadUserInfo('teacher')
+      onHandleClose()
+    } catch (e) {
+      console.log(e)
+    } finally {
+      setIsLoadingUpload(false)
+    }
+  }
+
   return (
     <Box>
-      <form
-        name="form-registration"
-        onSubmit={handleSubmit(onSubmit)}
-        className="form form-login"
-      >
-        {fields.map(({ name, label, textarea }) => (
-          <Box key={name} marginBottom={2}>
-            <TextField
-              {...register(name)}
-              id={name}
-              name={name}
-              type="text"
-              label={label}
-              variant="standard"
-              className="form-field"
-              fullWidth
-              {...(textarea && { multiline: true, minRows: 5 })}
-              InputLabelProps={{ shrink: true }}
-              error={!!errors[name]?.message}
-              helperText={errors[name]?.message}
-            />
-          </Box>
-        ))}
-        <Box display="flex" alignItems="center" marginBottom={3}>
-          <Button
-            type="submit"
-            variant="contained"
-            size="small"
-            disabled={isLoading}
-          >
-            Save
-          </Button>
-          <Box ml={2}>{isLoading ? <CircularProgress size={16} /> : null}</Box>
-          <Button variant="outlined" size="small" onClick={onHandleClose}>
-            Close
-          </Button>
-        </Box>
+      <form name="form-registration" className="form form-login">
+        <Grid container spacing={4}>
+          <Grid item md={3}>
+            <Box display="flex" flexDirection="column" alignItems="center">
+              <UploadAvatar
+                image={selectedImage || user.avatar}
+                onChange={onChangeUploadAvatar}
+              />
+              {selectedImage ? (
+                <Box marginTop={2}>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    size="small"
+                    disabled={isLoadingUpload}
+                    onClick={uploadUserAvatar}
+                  >
+                    {isLoadingUpload ? 'Uploading...' : 'Save avatar'}
+                  </Button>
+                </Box>
+              ) : null}
+            </Box>
+          </Grid>
+          <Grid item md={6}>
+            {fields.map(({ name, label, textarea }) => (
+              <Box key={name} marginBottom={2}>
+                <TextField
+                  {...register(name)}
+                  id={name}
+                  name={name}
+                  type="text"
+                  label={label}
+                  variant="standard"
+                  className="form-field"
+                  fullWidth
+                  {...(textarea && { multiline: true, minRows: 5 })}
+                  InputLabelProps={{ shrink: true }}
+                  error={!!errors[name]?.message}
+                  helperText={errors[name]?.message}
+                />
+              </Box>
+            ))}
+            <Box display="flex" alignItems="center" marginBottom={3}>
+              <Button
+                type="submit"
+                variant="contained"
+                size="small"
+                disabled={isLoading}
+                onClick={handleSubmit(onSubmit)}
+              >
+                Save
+              </Button>
+              <Box ml={2}>
+                {isLoading ? <CircularProgress size={16} /> : null}
+              </Box>
+              <Button variant="outlined" size="small" onClick={onHandleClose}>
+                Close
+              </Button>
+            </Box>
+          </Grid>
+        </Grid>
       </form>
     </Box>
   )

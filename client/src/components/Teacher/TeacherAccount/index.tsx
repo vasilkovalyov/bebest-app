@@ -95,7 +95,7 @@ function TeacherAccount() {
           ]}
         />
       ) : (
-        <Box maxWidth={400}>
+        <Box maxWidth={800}>
           <AccountTeacherForm onHandleClose={onHandleClose} />
         </Box>
       )}
