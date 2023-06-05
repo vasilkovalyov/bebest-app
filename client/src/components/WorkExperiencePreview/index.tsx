@@ -19,7 +19,7 @@ function WorkExperiencePreview({ items }: IWorkExperiencePreviewProps) {
       {items.length ? (
         <Box>
           {items.map((item, index) => (
-            <>
+            <Box key={item._id}>
               <Box
                 key={item._id}
                 marginBottom={items.length - 1 !== index ? 4 : 0}
@@ -73,7 +73,7 @@ function WorkExperiencePreview({ items }: IWorkExperiencePreviewProps) {
                   <Divider />
                 </Box>
               ) : null}
-            </>
+            </Box>
           ))}
         </Box>
       ) : (
