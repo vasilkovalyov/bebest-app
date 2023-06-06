@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import fileUpload from 'express-fileupload';
 
 import databaseConnect from './database';
 
@@ -23,6 +24,12 @@ import subjectRoute from './routes/subject.routes';
   server.use(compression());
   server.use(cookieParser());
   server.use(express.json());
+  server.use(
+    fileUpload({
+      useTempFiles: true,
+      limits: { fileSize: 50 * 1024 * 1024 },
+    })
+  );
 
   server.use('/api', authRoute);
   server.use('/api', studentRoute);
