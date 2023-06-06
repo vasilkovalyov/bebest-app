@@ -52,6 +52,17 @@ export interface ITeacherProgressAccount {
   total_checked_count: number
 }
 
+export interface IVideo {
+  width: number
+  height: number
+  format: string
+  resource_type: string
+  bytes: number
+  url: string
+  secure_url: string
+  playback_url: string
+}
+
 export interface IAuthUserInfo {
   _id: string
   name: string
@@ -61,6 +72,7 @@ export interface IAuthUserInfo {
   about?: string | null
   role: UserRole | null
   avatar?: string | null
+  video?: IVideo | null
   progress_account?: ITeacherProgressAccount
 }
 
@@ -127,6 +139,7 @@ const defaultAuthState: IAuthUserInfo = {
   about: null,
   role: null,
   avatar: null,
+  video: null,
   progress_account: defaultProgressAccountState,
 }
 

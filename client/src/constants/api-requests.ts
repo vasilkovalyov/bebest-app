@@ -19,4 +19,5 @@ export const PRIVATE_REQUESTS = {
   WORK_EXPERIENCE: 'work-experience',
   PAYMENT_CARD: 'payment-card',
   UPLOAD_AVATAR: 'upload-avatar',
+  UPLOAD_VIDEO: 'upload-video',
 }

@@ -26,6 +26,7 @@ function $api(token?: string | undefined | null) {
     method: 'get, post, put, delete',
     headers: {
       'X-Requested-With': 'XMLHttpRequest',
+      'Content-Type': 'multipart/form-data',
       Authorization: authToken || '',
     },
   })

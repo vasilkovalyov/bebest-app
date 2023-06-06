@@ -9,8 +9,10 @@ import { IAuthUserInfo } from '@/redux/slices/auth'
 
 export type UserAccountInfoEditType = Omit<
   IAuthUserInfo,
-  'role' | '_id' | 'progress_account'
->
+  'role' | '_id' | 'progress_account' | 'video'
+> & {
+  video?: FileList | null
+}
 
 class TeacherService {
   constructor() {}
@@ -52,6 +54,7 @@ class TeacherService {
       `/${PRIVATE_REQUESTS.USER_INFO}/teacher`,
       {
         ...props,
+        video: props.video ? props.video[0] : null,
       }
     )
 
