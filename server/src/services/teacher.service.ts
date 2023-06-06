@@ -1,6 +1,7 @@
 import { File } from 'buffer';
 import ApiError from '../utils/api-error';
 import TeacherModel, {
+  IVideo,
   TeacherAccountEditableModelType,
 } from '../models/teacher.model';
 import UserModel from '../models/user.model';
@@ -13,7 +14,7 @@ import TeacherProgressAccountModel from '../models/teacher-progress-account';
 
 import teacherProgressAccountService from '../services/teacher-progress-account';
 import bcrypt from 'bcrypt';
-import { uploadAvatar } from '../utils/upload-file';
+import { uploadAvatar, uploadVideo } from '../utils/upload-file';
 
 class TeacherService {
   async removeUser(id: string) {
@@ -60,7 +61,7 @@ class TeacherService {
 
   async getUserInfo(id: string) {
     const teacherModel = await TeacherModel.findOne({ _id: id }).select(
-      '_id name surname email role phone about avatar'
+      '_id name surname email role phone about avatar video'
     );
 
     if (!teacherModel) {
@@ -74,6 +75,7 @@ class TeacherService {
       _id: teacherModel._id,
       name: teacherModel.name,
       avatar: teacherModel.avatar,
+      video: teacherModel.video,
       surname: teacherModel.surname,
       email: teacherModel.email,
       phone: teacherModel.phone,
@@ -83,7 +85,7 @@ class TeacherService {
     };
   }
 
-  async uploadUserAvatar(id: string, file: File) {
+  async uploadUserAvatar(id: string, file: string) {
     let avatarImage = '';
     if (file) {
       const res = await uploadAvatar(file);
@@ -116,19 +118,34 @@ class TeacherService {
   }
 
   async updateUserInfo(id: string, props: TeacherAccountEditableModelType) {
+    const { video, ...baseProps } = props;
+    let videoUrl: IVideo | null = null;
+
+    if (video) {
+      const res = await uploadVideo(video.tempFilePath);
+      videoUrl = res as unknown as IVideo;
+    }
+
+    const r = await TeacherModel.findOneAndUpdate(
+      { _id: id },
+      { video: videoUrl },
+      { new: true }
+    );
+
     const response = await TeacherModel.findOneAndUpdate(
       { _id: id },
       {
-        ...props,
+        ...baseProps,
       },
       { new: true }
-    ).select('phone about avatar');
+    ).select('phone about avatar video');
 
     if (!response) throw ApiError.BadRequestError('Teacher did not update');
 
     await teacherProgressAccountService.updateAccountInfo(id, {
       phone: response.phone,
       about: response.about,
+      video: response.video,
     });
 
     return {

@@ -1,3 +1,4 @@
+import { File } from 'buffer';
 import { Request, Response } from 'express';
 import TeacherService from '../services/teacher.service';
 import tokenService from '../services/token.service';
@@ -81,15 +82,19 @@ class TeacherController {
     }
   }
 
-  async updateUserInfo(req: Request, res: Response) {
+  async updateUserInfo(
+    req: Request & { files?: { video: File } },
+    res: Response
+  ) {
     try {
       const userData = (await tokenService.validateAccessToken(
         req.headers.authorization
       )) as ITokenData;
-      const response = await TeacherService.updateUserInfo(
-        userData._id,
-        req.body
-      );
+
+      const response = await TeacherService.updateUserInfo(userData._id, {
+        ...req.body,
+        video: req.files?.video || null,
+      });
 
       return res.status(200).json(response);
     } catch (e) {

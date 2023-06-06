@@ -5,7 +5,10 @@ import TeacherProgressAccountModel, {
 } from '../models/teacher-progress-account';
 import { ITeacherCostPersonalLesson } from '../models/teacher-personal-info';
 
-export type TeacherProgressAccountInfoType = Pick<ITeacher, 'about' | 'phone'>;
+export type TeacherProgressAccountInfoType = Pick<
+  ITeacher,
+  'about' | 'phone' | 'video'
+>;
 
 function getPercentOnCountData(count: number) {
   return Math.round((count / totalStepCounts) * 100);
@@ -79,6 +82,14 @@ class TeacherProgressAccountService {
 
     let totalCountProgress = progressAccount.total_checked_count;
 
+    if (progressAccount.video.value === 0) {
+      totalCountProgress = this._getTotalProgressAfterUpdateValue(
+        progressAccount.video.value,
+        props.video,
+        totalCountProgress
+      );
+    }
+
     if (props.phone) {
       totalCountProgress = this._getTotalProgressAfterUpdateValue(
         progressAccount.phone.value,
@@ -95,9 +106,21 @@ class TeacherProgressAccountService {
       );
     }
 
+    let videoValue: number = 0;
+
+    if (props.video?.url && progressAccount.video.value === 0) {
+      videoValue = 1;
+    } else {
+      videoValue = progressAccount.video.value;
+    }
+
     await TeacherProgressAccountModel.findOneAndUpdate(
       { teacherId: id },
       {
+        video: {
+          ...progressAccount.video,
+          value: videoValue,
+        },
         phone: {
           ...progressAccount.phone,
           value: props.phone ? 1 : 0,
