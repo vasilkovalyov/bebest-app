@@ -1,6 +1,5 @@
 import $api from '@/utils/ajax'
 import { AxiosResponse } from 'axios'
-import { UserRole } from '@/types/role'
 import { PRIVATE_REQUESTS } from '@/constants/api-requests'
 import { PUBLIC_REQUESTS } from '@/constants/api-requests'
 import { IRegistrationResponse } from '@/interfaces/common'

@@ -1,4 +1,4 @@
-import { IAuthUserInfo } from '@/services/student'
+import { IAuthUserInfo } from '@/redux/slices/auth'
 import React, {
   createContext,
   useContext,
