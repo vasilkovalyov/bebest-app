@@ -63,7 +63,7 @@ class StudentService {
     return studentModel;
   }
 
-  async uploadUserAvatar(id: string, file: File) {
+  async uploadUserAvatar(id: string, file: string) {
     let avatarImage = '';
     if (file) {
       const res = await uploadAvatar(file);

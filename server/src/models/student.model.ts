@@ -17,10 +17,8 @@ export type StudentModelType = IStudent & Document;
 
 export type StudentAccountEditableModelType = Omit<
   IStudent,
-  'password' | 'userId' | 'role' | 'avatar'
-> & {
-  avatar?: File;
-};
+  'password' | 'userId' | 'role'
+>;
 
 const StudentSchema = new Schema<StudentModelType>({
   name: { type: String, required: true },
