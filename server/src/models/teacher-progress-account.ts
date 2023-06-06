@@ -1,6 +1,6 @@
 import { Schema, model, Document } from 'mongoose';
 
-export const totalStepCounts = 12;
+export const totalStepCounts = 11;
 
 export interface ITeacherProgressAccount {
   teacherId: string;

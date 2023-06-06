@@ -105,7 +105,7 @@ class TeacherService {
       teacherId: id,
     });
 
-    if (progressData && progressData.photo.value) {
+    if (progressData && progressData.photo.value === 0) {
       if (!response.avatar) return;
       await teacherProgressAccountService.addPhoto(id, response.avatar);
     }
