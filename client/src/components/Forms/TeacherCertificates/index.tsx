@@ -145,7 +145,7 @@ function TeacherCertificates({ onHandleClose }: ITeacherСertificatesFormProps) 
   return (
     <Box>
       <form className="form">
-        {fields.map(({ id, _id, image }, index) => (
+        {fields.map(({ id, _id }, index) => (
           <Box key={id}>
             <Box marginBottom={2}>
               <TextField
@@ -182,6 +182,7 @@ function TeacherCertificates({ onHandleClose }: ITeacherСertificatesFormProps) 
             </Box>
             <Box maxWidth={200} marginBottom={2}>
               <UploadImage
+                disabled={fields.length - 1 > index}
                 image={getValues().certificates[index].image || null}
                 onChange={(value) => onChangeUploadCertificate(value, index)}
               />

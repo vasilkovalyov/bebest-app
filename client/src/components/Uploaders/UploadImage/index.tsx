@@ -12,8 +12,8 @@ import Image from 'next/image'
 
 function UploadImage({
   image,
-  width = '200px',
-  height = 'auto',
+  width = 200,
+  disabled = false,
   onChange,
 }: IUploadImageProps) {
   const refFieldInputFile = useRef<HTMLInputElement>(null)
@@ -41,10 +41,20 @@ function UploadImage({
         //     height: height,
         //   }}
         // />
-        <img src={image || ''} alt="image" width={200} />
+        <Box
+          style={{
+            opacity: disabled ? '0.5' : 1,
+          }}
+        >
+          <img src={image || ''} alt="image" width={width} />
+        </Box>
       ) : null}
       <Box marginTop={2}>
-        <Button onClick={() => refFieldInputFile.current?.click()} size="small">
+        <Button
+          disabled={disabled}
+          onClick={() => refFieldInputFile.current?.click()}
+          size="small"
+        >
           <DownloadIcon />
           Upload
         </Button>
