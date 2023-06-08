@@ -19,6 +19,7 @@ import { IconEnum } from '@/components/Generic/Icon/Icon.type'
 import ContainerWithShadow from '@/components/Generic/ContainerWithShadow'
 import TeacherWorkExperience from '@/components/Forms/TeacherWorkExperience'
 import WorkExperiencePreview from '@/components/WorkExperiencePreview'
+import CertificatesPreview from '@/components/CertificatesPreview'
 import TeacherCertificates from '@/components/Forms/TeacherCertificates'
 
 //other utils
@@ -61,7 +62,7 @@ function TeacherСertificatesBlock() {
         ) : (
           <Box width={'70%'} maxWidth={500}>
             {!isEdit ? (
-              'Preview'
+              <CertificatesPreview items={teacherPersonalInfo.certificates} />
             ) : (
               <TeacherCertificates onHandleClose={onHandleClose} />
             )}

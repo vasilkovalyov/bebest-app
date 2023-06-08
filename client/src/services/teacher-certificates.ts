@@ -6,7 +6,7 @@ export interface IUserСertificate {
   _id?: string
   name: string
   date: string
-  image?: string | null
+  image: string | null
 }
 
 class TeacherСertificatesService {
