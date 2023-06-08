@@ -5,16 +5,21 @@ import TeacherModel, {
   TeacherAccountEditableModelType,
 } from '../models/teacher.model';
 import UserModel from '../models/user.model';
-import TeacherPersonalnfoModel, {
+import TeacherPersonalInfoModel, {
   ITeacherCostPersonalLesson,
   ITeacherMainFieldsActivity,
   ITeacherWorkExperience,
+  ITeacherCertificate,
 } from '../models/teacher-personal-info';
 import TeacherProgressAccountModel from '../models/teacher-progress-account';
 
 import teacherProgressAccountService from '../services/teacher-progress-account';
 import bcrypt from 'bcrypt';
-import { uploadAvatar, uploadVideo } from '../utils/upload-file';
+import {
+  uploadAvatar,
+  uploadVideo,
+  uploadCertificate,
+} from '../utils/upload-file';
 
 class TeacherService {
   async removeUser(id: string) {
@@ -28,7 +33,7 @@ class TeacherService {
     await TeacherModel.deleteOne({
       _id: id,
     });
-    await TeacherPersonalnfoModel.deleteOne({
+    await TeacherPersonalInfoModel.deleteOne({
       teacherId: id,
     });
     await TeacherProgressAccountModel.deleteOne({
@@ -126,7 +131,7 @@ class TeacherService {
       videoUrl = res as unknown as IVideo;
     }
 
-    const r = await TeacherModel.findOneAndUpdate(
+    await TeacherModel.findOneAndUpdate(
       { _id: id },
       { video: videoUrl },
       { new: true }
@@ -154,7 +159,7 @@ class TeacherService {
   }
 
   async addMainFieldsActivity(id: string, props: ITeacherMainFieldsActivity) {
-    const response = await TeacherPersonalnfoModel.findOneAndUpdate(
+    const response = await TeacherPersonalInfoModel.findOneAndUpdate(
       { teacherId: id },
       { $push: { fields_activity: props } },
       { new: true }
@@ -170,7 +175,7 @@ class TeacherService {
   }
 
   async removeMainFieldsActivity(id: string, activityId: string) {
-    const response = await TeacherPersonalnfoModel.findOneAndUpdate(
+    const response = await TeacherPersonalInfoModel.findOneAndUpdate(
       {
         teacherId: id,
       },
@@ -187,9 +192,9 @@ class TeacherService {
   }
 
   async updatePersonalLessons(id: string, props: ITeacherCostPersonalLesson) {
-    const response = await TeacherPersonalnfoModel.findOne({ teacherId: id });
+    const response = await TeacherPersonalInfoModel.findOne({ teacherId: id });
     if (response) {
-      await TeacherPersonalnfoModel.findOneAndUpdate(
+      await TeacherPersonalInfoModel.findOneAndUpdate(
         { teacherId: id },
         {
           personal_lessons: {
@@ -199,7 +204,7 @@ class TeacherService {
         { new: true }
       );
     } else {
-      const teacherPersonalInfoResponse = await new TeacherPersonalnfoModel({
+      const teacherPersonalInfoResponse = await new TeacherPersonalInfoModel({
         teacherId: id,
         personal_lessons: props,
       });
@@ -214,7 +219,7 @@ class TeacherService {
   }
 
   async addWorkExperience(id: string, props: ITeacherWorkExperience) {
-    const response = await TeacherPersonalnfoModel.findOneAndUpdate(
+    const response = await TeacherPersonalInfoModel.findOneAndUpdate(
       { teacherId: id },
       { $push: { work_experience: props } },
       { new: true }
@@ -230,7 +235,7 @@ class TeacherService {
   }
 
   async removeWorkExperience(id: string, workExperienceId: string) {
-    const response = await TeacherPersonalnfoModel.findOneAndUpdate(
+    const response = await TeacherPersonalInfoModel.findOneAndUpdate(
       { teacherId: id },
       { $pull: { work_experience: { _id: workExperienceId } } },
       { new: true }
@@ -246,15 +251,66 @@ class TeacherService {
   }
 
   async getPersonalnfo(id: string) {
-    const response = await TeacherPersonalnfoModel.findOne({
+    const response = await TeacherPersonalInfoModel.findOne({
       teacherId: id,
-    }).select('_id teacherId fields_activity personal_lessons work_experience');
+    }).select(
+      '_id teacherId fields_activity personal_lessons work_experience certificates'
+    );
 
     if (!response) {
       throw ApiError.BadRequestError(`Teacher with id ${id} not a found!`);
     }
 
     return response;
+  }
+
+  async uploadCertificate(id: string, props: ITeacherCertificate) {
+    let imageUrl = '';
+    if (props.image) {
+      const res = await uploadCertificate(props.image);
+      imageUrl = res.secure_url;
+    }
+
+    const response = await TeacherPersonalInfoModel.findOne({ teacherId: id });
+
+    if (!response)
+      throw ApiError.BadRequestError('Teacher certificate did not upload');
+
+    await TeacherPersonalInfoModel.findOneAndUpdate(
+      { teacherId: id },
+      { $push: { certificates: { ...props, image: imageUrl } } },
+      { new: true }
+    );
+
+    const progressData = await TeacherProgressAccountModel.findOne({
+      teacherId: id,
+    });
+
+    if (!response) return;
+
+    if (progressData && progressData.certificate.value === 0) {
+      await teacherProgressAccountService.addCertificate(id);
+    }
+
+    return {
+      message: 'Teacher avatar update successfull!',
+    };
+  }
+
+  async removeCertificate(id: string, certificateId: string) {
+    const response = await TeacherPersonalInfoModel.findOneAndUpdate(
+      { teacherId: id },
+      { $pull: { certificates: { _id: certificateId } } },
+      { new: true }
+    );
+
+    if (response && response.certificates.length === 0) {
+      await teacherProgressAccountService.removeCertificate(id);
+    }
+
+    return {
+      message: 'Teacher certificate remove successfull!',
+    };
   }
 }
 

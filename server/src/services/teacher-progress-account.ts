@@ -270,6 +270,50 @@ class TeacherProgressAccountService {
     );
   }
 
+  async addCertificate(id: string) {
+    const progressAccount = await TeacherProgressAccountModel.findOne({
+      teacherId: id,
+    });
+    if (!progressAccount) return;
+
+    await TeacherProgressAccountModel.findOneAndUpdate(
+      { teacherId: id },
+      {
+        certificate: {
+          ...progressAccount.certificate,
+          value: 1,
+        },
+        total_checked_count: progressAccount.total_checked_count + 1,
+        profile_progress: getPercentOnCountData(
+          progressAccount.total_checked_count + 1
+        ),
+      },
+      { new: true }
+    );
+  }
+
+  async removeCertificate(id: string) {
+    const progressAccount = await TeacherProgressAccountModel.findOne({
+      teacherId: id,
+    });
+    if (!progressAccount) return;
+
+    await TeacherProgressAccountModel.findOneAndUpdate(
+      { teacherId: id },
+      {
+        certificate: {
+          ...progressAccount.certificate,
+          value: 0,
+        },
+        total_checked_count: progressAccount.total_checked_count - 1,
+        profile_progress: getPercentOnCountData(
+          progressAccount.total_checked_count - 1
+        ),
+      },
+      { new: true }
+    );
+  }
+
   async addPaymentCard(id: string) {
     const progressAccount = await TeacherProgressAccountModel.findOne({
       teacherId: id,

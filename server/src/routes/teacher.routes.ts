@@ -85,4 +85,16 @@ router.delete(
 
 router.get('/payment-card/teacher', TeacherController.getPaymentCard);
 
+router.post(
+  '/upload-certificate/teacher',
+  authMiddleware,
+  TeacherController.uploadCertificate
+);
+
+router.delete(
+  '/upload-certificate/teacher/:id',
+  authMiddleware,
+  TeacherController.removeCertificate
+);
+
 export default router;

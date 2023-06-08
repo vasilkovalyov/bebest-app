@@ -1,4 +1,12 @@
+import { File } from 'buffer';
 import { Schema, model, Document } from 'mongoose';
+
+export interface ITeacherCertificate {
+  _id?: string;
+  name: string;
+  date: string;
+  image?: string | null;
+}
 
 export interface ITeacherMainFieldsActivity {
   activity: string;
@@ -34,6 +42,7 @@ export interface ITeacherPersonalInfoModel {
   fields_activity: ITeacherMainFieldsActivity[] | [];
   personal_lessons: ITeacherCostPersonalLesson;
   work_experience: ITeacherWorkExperience[] | [];
+  certificates: ITeacherCertificate[] | [];
 }
 
 const TeacherPersonalInfoSchema = new Schema<ITeacherPersonalInfoModel>({
@@ -89,6 +98,13 @@ const TeacherPersonalInfoSchema = new Schema<ITeacherPersonalInfoModel>({
       isStillWorking: {
         type: Boolean,
       },
+    },
+  ],
+  certificates: [
+    {
+      name: { type: String, required: true },
+      date: { type: String, required: true },
+      image: { type: String, required: true },
     },
   ],
 });

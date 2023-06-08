@@ -1,6 +1,6 @@
 import { File } from 'buffer';
 import { Request, Response } from 'express';
-import TeacherService from '../services/teacher.service';
+import teacherService from '../services/teacher.service';
 import tokenService from '../services/token.service';
 import teacherPaymentCardService from '../services/teacher-payment-card';
 import { ITokenData } from 'interfaces/token';
@@ -12,7 +12,7 @@ class TeacherController {
         req.headers.authorization
       )) as ITokenData;
 
-      const response = await TeacherService.removeUser(userData._id);
+      const response = await teacherService.removeUser(userData._id);
       return res.status(200).json({
         data: response,
       });
@@ -31,7 +31,7 @@ class TeacherController {
       )) as ITokenData;
 
       const { password } = req.body;
-      const response = await TeacherService.changePassword(
+      const response = await teacherService.changePassword(
         userData._id,
         password
       );
@@ -50,7 +50,7 @@ class TeacherController {
         req.headers.authorization
       )) as ITokenData;
 
-      const response = await TeacherService.getUserInfo(userData._id);
+      const response = await teacherService.getUserInfo(userData._id);
 
       return res.status(200).json(response);
     } catch (e) {
@@ -68,7 +68,7 @@ class TeacherController {
         req.headers.authorization
       )) as ITokenData;
 
-      const response = await TeacherService.uploadUserAvatar(
+      const response = await teacherService.uploadUserAvatar(
         userData._id,
         req.body.avatar
       );
@@ -91,7 +91,7 @@ class TeacherController {
         req.headers.authorization
       )) as ITokenData;
 
-      const response = await TeacherService.updateUserInfo(userData._id, {
+      const response = await teacherService.updateUserInfo(userData._id, {
         ...req.body,
         video: req.files?.video || null,
       });
@@ -110,7 +110,7 @@ class TeacherController {
       const userData = (await tokenService.validateAccessToken(
         req.headers.authorization
       )) as ITokenData;
-      const response = await TeacherService.addMainFieldsActivity(
+      const response = await teacherService.addMainFieldsActivity(
         userData._id,
         req.body
       );
@@ -130,7 +130,7 @@ class TeacherController {
       )) as ITokenData;
       const { id } = req.params;
 
-      const response = await TeacherService.removeMainFieldsActivity(
+      const response = await teacherService.removeMainFieldsActivity(
         userData._id,
         id
       );
@@ -148,7 +148,7 @@ class TeacherController {
       const userData = (await tokenService.validateAccessToken(
         req.headers.authorization
       )) as ITokenData;
-      const response = await TeacherService.updatePersonalLessons(
+      const response = await teacherService.updatePersonalLessons(
         userData._id,
         req.body
       );
@@ -166,7 +166,7 @@ class TeacherController {
       const userData = (await tokenService.validateAccessToken(
         req.headers.authorization
       )) as ITokenData;
-      const response = await TeacherService.addWorkExperience(
+      const response = await teacherService.addWorkExperience(
         userData._id,
         req.body
       );
@@ -186,7 +186,7 @@ class TeacherController {
       )) as ITokenData;
       const { id } = req.params;
 
-      const response = await TeacherService.removeWorkExperience(
+      const response = await teacherService.removeWorkExperience(
         userData._id,
         id
       );
@@ -204,7 +204,7 @@ class TeacherController {
       const userData = (await tokenService.validateAccessToken(
         req.headers.authorization
       )) as ITokenData;
-      const response = await TeacherService.getPersonalnfo(userData._id);
+      const response = await teacherService.getPersonalnfo(userData._id);
       return res.status(200).json(response);
     } catch (e) {
       if (!(e instanceof Error)) return;
@@ -236,7 +236,6 @@ class TeacherController {
       const userData = (await tokenService.validateAccessToken(
         req.headers.authorization
       )) as ITokenData;
-      const { id } = req.params;
       const response = await teacherPaymentCardService.removePaymentCard(
         userData._id
       );
@@ -258,6 +257,45 @@ class TeacherController {
       const response = await teacherPaymentCardService.getPaymentCard(
         userData._id
       );
+      return res.status(200).json(response);
+    } catch (e) {
+      if (!(e instanceof Error)) return;
+      return res.status(400).json({
+        message: e.message,
+      });
+    }
+  }
+
+  async uploadCertificate(
+    req: Request & { files?: { file: File } },
+    res: Response
+  ) {
+    try {
+      const userData = (await tokenService.validateAccessToken(
+        req.headers.authorization
+      )) as ITokenData;
+      const response = await teacherService.uploadCertificate(
+        userData._id,
+        req.body
+      );
+      return res.status(200).json(response);
+    } catch (e) {
+      if (!(e instanceof Error)) return;
+      return res.status(400).json({
+        message: e.message,
+      });
+    }
+  }
+
+  async removeCertificate(req: Request, res: Response) {
+    try {
+      const userData = (await tokenService.validateAccessToken(
+        req.headers.authorization
+      )) as ITokenData;
+
+      const { id } = req.params;
+
+      const response = await teacherService.removeCertificate(userData._id, id);
       return res.status(200).json(response);
     } catch (e) {
       if (!(e instanceof Error)) return;
