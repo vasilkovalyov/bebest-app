@@ -1,5 +1,5 @@
 // libs
-import { useRef, useState, ChangeEvent } from 'react'
+import { useRef, useState, ChangeEvent, useEffect } from 'react'
 
 // material ui components
 import Box from '@mui/material/Box'
@@ -14,13 +14,13 @@ function UploadVideo({ video, onChange }: IUploadVideoProps) {
   const [source, setSource] = useState<string | null>(video || null)
 
   function handleChangeVideoFile(e: ChangeEvent<HTMLInputElement>) {
-    setSource(null)
     if (e.currentTarget.files) {
       const url = URL.createObjectURL(e.currentTarget.files[0])
       setSource(url)
       onChange(e.currentTarget.files)
     }
   }
+
   return (
     <Box>
       {source ? (

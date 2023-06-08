@@ -8,7 +8,7 @@ class UploadFileService {
     userRole: UserRole,
     file: string
   ): Promise<AxiosResponse<{ message: string }>> {
-    const response = await $api().post(
+    const response = await $api('', 'multipart/form-data').post(
       `/${PRIVATE_REQUESTS.UPLOAD_AVATAR}/${userRole}`,
       {
         avatar: file,
@@ -22,7 +22,7 @@ class UploadFileService {
     userRole: UserRole,
     file: string
   ): Promise<AxiosResponse<{ message: string }>> {
-    const response = await $api().post(
+    const response = await $api('', 'multipart/form-data').post(
       `/${PRIVATE_REQUESTS.UPLOAD_VIDEO}/${userRole}`,
       {
         video: file,

@@ -15,7 +15,7 @@ import Grid from '@mui/material/Grid'
 import CircularProgress from '@mui/material/CircularProgress'
 
 //custom components
-import UploadAvatar from '@/components/UploadAvatar'
+import UploadAvatar from '@/components/Uploaders/UploadAvatar'
 
 // relate utils
 import { AccountStudentFormValidationSchema } from './AccountStudent.validation'

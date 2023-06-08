@@ -6,11 +6,13 @@ import { ITeacherCostPersonalLesson } from '@/services/teacher-cost-personal-les
 import $api from '@/utils/ajax'
 import { IUserFieldActivity } from '@/services/user-fields-activity'
 import { ITeacherWorkExperience } from '@/services/teacher-work-experience'
+import { IUserСertificate } from '@/services/teacher-certificates'
 
 export interface ITeacherPersonalInfo {
   fields_activity: IUserFieldActivity[]
   work_experience: ITeacherWorkExperience[]
   personal_lessons: ITeacherCostPersonalLesson | null
+  certificates: IUserСertificate[] | []
 }
 
 export interface ITeacherPersonalInfoState extends ITeacherPersonalInfo {
@@ -22,6 +24,7 @@ const defaultAuthState: ITeacherPersonalInfoState = {
   fields_activity: [],
   personal_lessons: null,
   work_experience: [],
+  certificates: [],
   loading: true,
   error: null,
 }
@@ -61,6 +64,7 @@ export const teacherPersonalInfoSlice = createSlice({
         state.fields_activity = action.payload.data.fields_activity
         state.personal_lessons = action.payload.data.personal_lessons
         state.work_experience = action.payload.data.work_experience
+        state.certificates = action.payload.data.certificates
         state.loading = false
         state.error = null
       })

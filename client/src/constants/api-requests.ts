@@ -20,4 +20,5 @@ export const PRIVATE_REQUESTS = {
   PAYMENT_CARD: 'payment-card',
   UPLOAD_AVATAR: 'upload-avatar',
   UPLOAD_VIDEO: 'upload-video',
+  UPLOAD_CERTIFICATE: 'upload-certificate',
 }

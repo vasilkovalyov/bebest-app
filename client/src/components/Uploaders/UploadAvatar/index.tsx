@@ -41,6 +41,7 @@ function UploadAvatar({ image, onChange }: IUploadAvatarProps) {
           ref={refFieldInputFile}
           hidden
           type="file"
+          accept=".jpg,.jpeg,.png,.svg"
           onChange={handleChangeImageFile}
         />
       </Box>

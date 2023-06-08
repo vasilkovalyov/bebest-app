@@ -1,5 +1,5 @@
 // libs
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AxiosError } from 'axios'
@@ -15,8 +15,8 @@ import Grid from '@mui/material/Grid'
 import CircularProgress from '@mui/material/CircularProgress'
 
 //custom components
-import UploadAvatar from '@/components/UploadAvatar'
-import UploadVideo from '@/components/UploadVideo'
+import UploadAvatar from '@/components/Uploaders/UploadAvatar'
+import UploadVideo from '@/components/Uploaders/UploadVideo'
 
 // relate utils
 import { AccountTeacherFormValidationSchema } from './AccountTeacher.validation'
@@ -67,6 +67,8 @@ function AccountTeacherForm({ onHandleClose }: { onHandleClose: () => void }) {
     handleSubmit,
     register,
     setValue,
+    getValues,
+    trigger,
     formState: { errors },
   } = useForm<UserAccountInfoEditType>({
     mode: 'onSubmit',
@@ -76,10 +78,17 @@ function AccountTeacherForm({ onHandleClose }: { onHandleClose: () => void }) {
       phone: user.phone,
       email: user.email,
       about: user.about,
-      video: null,
+      video: user.video?.url && null,
     },
     resolver: yupResolver(AccountTeacherFormValidationSchema),
   })
+
+  useEffect(() => {
+    if (user.video) {
+      setValue('video', user.video.url)
+      trigger(['video'])
+    }
+  }, [])
 
   async function onSubmit(props: UserAccountInfoEditType) {
     setIsLoading(true)
@@ -104,8 +113,8 @@ function AccountTeacherForm({ onHandleClose }: { onHandleClose: () => void }) {
   }
 
   function onChangeUploadVideo(videoFile: FileList) {
-    console.log('videoFile', videoFile)
-    setValue('video', videoFile)
+    setValue('video', videoFile[0])
+    trigger('video')
   }
 
   async function uploadUserAvatar() {
@@ -119,15 +128,6 @@ function AccountTeacherForm({ onHandleClose }: { onHandleClose: () => void }) {
       console.log(e)
     } finally {
       setIsLoadingUpload(false)
-    }
-  }
-
-  async function uploadVideo(e: ChangeEvent<HTMLInputElement>) {
-    const file: File | null = e.currentTarget.files && e.currentTarget.files[0]
-    const fileReader = new FileReader()
-    fileReader.readAsDataURL(file as File)
-    fileReader.onloadend = () => {
-      const imageString: string = fileReader.result as string
     }
   }
 
@@ -177,15 +177,10 @@ function AccountTeacherForm({ onHandleClose }: { onHandleClose: () => void }) {
             ))}
             <Box marginBottom={2}>
               <UploadVideo
-                video={user.video?.url}
+                video={user.video ? user.video.url : null}
                 onChange={onChangeUploadVideo}
               />
-              <input
-                {...register('video')}
-                type="file"
-                hidden
-                onChange={uploadVideo}
-              />
+              <input {...register('video')} type="file" hidden />
             </Box>
             <Box display="flex" alignItems="center" marginBottom={3}>
               <Button

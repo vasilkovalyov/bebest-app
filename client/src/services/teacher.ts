@@ -11,7 +11,7 @@ export type UserAccountInfoEditType = Omit<
   IAuthUserInfo,
   'role' | '_id' | 'progress_account' | 'video'
 > & {
-  video?: FileList | null
+  video?: File | string | null
 }
 
 class TeacherService {
@@ -50,11 +50,11 @@ class TeacherService {
   async updateUserAccountInfo(
     props: UserAccountInfoEditType
   ): Promise<AxiosResponse<IAuthUserInfo>> {
-    const response = await $api().post(
+    const response = await $api('', 'multipart/form-data').post(
       `/${PRIVATE_REQUESTS.USER_INFO}/teacher`,
       {
         ...props,
-        video: props.video ? props.video[0] : null,
+        video: props.video ? props.video : null,
       }
     )
 
