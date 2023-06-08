@@ -1,13 +1,14 @@
 import { Request, Response } from 'express';
 import LoginService from '../services/login.service';
 import tokenService from '../services/token.service';
+import status from '../constants/status';
 
 class LoginController {
   async login(req: Request, res: Response) {
     try {
       const { email, password } = req.query;
       if (typeof email !== 'string' || typeof password !== 'string') {
-        return res.status(200).json({
+        return res.status(status.SUCCESS).json({
           message: 'Error',
         });
       }
@@ -30,10 +31,10 @@ class LoginController {
           secure: false,
         });
       }
-      return res.status(200).json(response);
+      return res.status(status.SUCCESS).json(response);
     } catch (e) {
       if (!(e instanceof Error)) return;
-      return res.status(400).json({
+      return res.status(status.BAD_REQUEST).json({
         error: e.message,
       });
     }
@@ -45,13 +46,15 @@ class LoginController {
       const userData = await tokenService.validateAccessToken(token);
 
       if (!userData) {
-        return res.status(401).json({ message: 'Token has destroyed!' });
+        return res
+          .status(status.UNAUTHORIZED)
+          .json({ message: 'Token has destroyed!' });
       }
 
-      return res.status(200).json({ isAuth: true });
+      return res.status(status.SUCCESS).json({ isAuth: true });
     } catch (err) {
       return res
-        .status(401)
+        .status(status.UNAUTHORIZED)
         .json({ message: 'User is not authorized!', isAuth: false });
     }
   }

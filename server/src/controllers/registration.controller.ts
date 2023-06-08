@@ -4,6 +4,7 @@ import { UserRole } from 'types/role';
 import RegistrationStrategy from '../services/registration/registration';
 import StudentRegistration from '../services/registration/student.registration';
 import TeacherRegistration from '../services/registration/teacher.registration';
+import status from '../constants/status';
 
 class RegistrationController {
   async registration(req: Request, res: Response) {
@@ -23,17 +24,17 @@ class RegistrationController {
       }
 
       if (!strategy) {
-        return res.status(400).json({
+        return res.status(status.BAD_REQUEST).json({
           message: 'Error',
         });
       }
 
       const response = await strategy.registration();
 
-      return res.status(200).json(response);
+      return res.status(status.SUCCESS).json(response);
     } catch (e) {
       if (!(e instanceof Error)) return;
-      return res.status(400).json({
+      return res.status(status.BAD_REQUEST).json({
         message: e.message,
       });
     }

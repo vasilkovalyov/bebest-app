@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import teacherRegistrationSchema from '../validations/teacher-registration.validation';
+import status from '../constants/status';
 
 export default async function (
   req: Request,
@@ -10,7 +11,7 @@ export default async function (
     abortEarly: false,
   });
   if (error) {
-    return res.status(400).json({ error: error.message });
+    return res.status(status.BAD_REQUEST).json({ error: error.message });
   }
   return next();
 }

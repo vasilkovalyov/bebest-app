@@ -1,161 +1,166 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import StudentService from '../services/student.service';
-import tokenService from '../services/token.service';
-import { ITokenData } from 'interfaces/token';
+import { RequestWithAuthUser } from '../interfaces/token';
+import status from '../constants/status';
 
 class StudentController {
-  async removeUser(req: Request, res: Response) {
+  async removeUser(req: RequestWithAuthUser, res: Response) {
+    if (!req.user)
+      return res
+        .status(status.NOT_FOUND)
+        .json('Error, there is no user info from token');
     try {
-      const userData = (await tokenService.validateAccessToken(
-        req.headers.authorization
-      )) as ITokenData;
-
-      const response = await StudentService.removeUser(userData._id);
-      return res.status(200).json({
+      const response = await StudentService.removeUser(req.user?._id);
+      return res.status(status.SUCCESS).json({
         data: response,
       });
     } catch (e) {
       if (!(e instanceof Error)) return;
-      return res.status(400).json({
+      return res.status(status.BAD_REQUEST).json({
         data: e.message,
       });
     }
   }
 
-  async changePassword(req: Request, res: Response) {
+  async changePassword(req: RequestWithAuthUser, res: Response) {
+    if (!req.user)
+      return res
+        .status(status.NOT_FOUND)
+        .json('Error, there is no user info from token');
     try {
-      const userData = (await tokenService.validateAccessToken(
-        req.headers.authorization
-      )) as ITokenData;
-
       const { password } = req.body;
 
       const response = await StudentService.changePassword(
-        userData._id,
+        req.user?._id,
         password
       );
-      return res.status(200).json(response);
+      return res.status(status.SUCCESS).json(response);
     } catch (e) {
       if (!(e instanceof Error)) return;
-      return res.status(400).json({
+      return res.status(status.BAD_REQUEST).json({
         data: e.message,
       });
     }
   }
 
-  async getUserInfo(req: Request, res: Response) {
+  async getUserInfo(req: RequestWithAuthUser, res: Response) {
+    if (!req.user)
+      return res
+        .status(status.NOT_FOUND)
+        .json('Error, there is no user info from token');
     try {
-      const userData = (await tokenService.validateAccessToken(
-        req.headers.authorization
-      )) as ITokenData;
+      const response = await StudentService.getUserInfo(req.user._id);
 
-      const response = await StudentService.getUserInfo(userData._id);
-
-      return res.status(200).json(response);
+      return res.status(status.SUCCESS).json(response);
     } catch (e) {
       if (!(e instanceof Error)) return;
-      return res.status(400).json({
+      return res.status(status.BAD_REQUEST).json({
         message: e.message,
         isAuth: false,
       });
     }
   }
 
-  async uploadUserAvatar(req: Request, res: Response) {
-    try {
-      const userData = (await tokenService.validateAccessToken(
-        req.headers.authorization
-      )) as ITokenData;
+  async uploadUserAvatar(req: RequestWithAuthUser, res: Response) {
+    if (!req.user)
+      return res
+        .status(status.NOT_FOUND)
+        .json('Error, there is no user info from token');
 
+    try {
       const response = await StudentService.uploadUserAvatar(
-        userData._id,
+        req.user._id,
         req.body.avatar
       );
 
-      return res.status(200).json(response);
+      return res.status(status.SUCCESS).json(response);
     } catch (e) {
       if (!(e instanceof Error)) return;
-      return res.status(400).json({
+      return res.status(status.BAD_REQUEST).json({
         message: e.message,
       });
     }
   }
 
-  async updateUserInfo(req: Request, res: Response) {
-    try {
-      const userData = (await tokenService.validateAccessToken(
-        req.headers.authorization
-      )) as ITokenData;
+  async updateUserInfo(req: RequestWithAuthUser, res: Response) {
+    if (!req.user)
+      return res
+        .status(status.NOT_FOUND)
+        .json('Error, there is no user info from token');
 
+    try {
       const response = await StudentService.updateUserInfo(
-        userData._id,
+        req.user._id,
         req.body
       );
 
-      return res.status(200).json(response);
+      return res.status(status.SUCCESS).json(response);
     } catch (e) {
       if (!(e instanceof Error)) return;
-      return res.status(400).json({
+      return res.status(status.BAD_REQUEST).json({
         message: e.message,
       });
     }
   }
 
-  async addSubject(req: Request, res: Response) {
-    try {
-      const userData = (await tokenService.validateAccessToken(
-        req.headers.authorization
-      )) as ITokenData;
+  async addSubject(req: RequestWithAuthUser, res: Response) {
+    if (!req.user)
+      return res
+        .status(status.NOT_FOUND)
+        .json('Error, there is no user info from token');
 
+    try {
       const { subject_study, level_mastery_subject } = req.body;
 
-      const response = await StudentService.addSubjects(userData._id, {
+      const response = await StudentService.addSubjects(req.user._id, {
         subject_study,
         level_mastery_subject,
       });
 
-      return res.status(200).json(response);
+      return res.status(status.SUCCESS).json(response);
     } catch (e) {
       if (!(e instanceof Error)) return;
-      return res.status(400).json({
+      return res.status(status.BAD_REQUEST).json({
         message: e.message,
         isAuth: false,
       });
     }
   }
 
-  async removeSubject(req: Request, res: Response) {
-    try {
-      const userData = (await tokenService.validateAccessToken(
-        req.headers.authorization
-      )) as ITokenData;
+  async removeSubject(req: RequestWithAuthUser, res: Response) {
+    if (!req.user)
+      return res
+        .status(status.NOT_FOUND)
+        .json('Error, there is no user info from token');
 
+    try {
       const { id } = req.params;
 
-      const response = await StudentService.removeSubject(userData._id, id);
+      const response = await StudentService.removeSubject(req.user._id, id);
 
-      return res.status(200).json(response);
+      return res.status(status.SUCCESS).json(response);
     } catch (e) {
       if (!(e instanceof Error)) return;
-      return res.status(400).json({
+      return res.status(status.BAD_REQUEST).json({
         message: e.message,
         isAuth: false,
       });
     }
   }
 
-  async getSubject(req: Request, res: Response) {
+  async getSubject(req: RequestWithAuthUser, res: Response) {
+    if (!req.user)
+      return res
+        .status(status.NOT_FOUND)
+        .json('Error, there is no user info from token');
+
     try {
-      const userData = (await tokenService.validateAccessToken(
-        req.headers.authorization
-      )) as ITokenData;
+      const response = await StudentService.getSubjects(req.user._id);
 
-      const response = await StudentService.getSubjects(userData._id);
-
-      return res.status(200).json(response);
+      return res.status(status.SUCCESS).json(response);
     } catch (e) {
       if (!(e instanceof Error)) return;
-      return res.status(400).json({
+      return res.status(status.BAD_REQUEST).json({
         message: e.message,
         isAuth: false,
       });

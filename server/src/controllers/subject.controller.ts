@@ -1,15 +1,16 @@
 import { Request, Response } from 'express';
 import SubjectsService from '../services/subject.service';
+import status from '../constants/status';
 
 class SubjectController {
   async addSubjects(req: Request, res: Response) {
     try {
       const { subjects } = req.body;
       const response = await SubjectsService.addSubjects(subjects);
-      return res.status(200).json(response);
+      return res.status(status.SUCCESS).json(response);
     } catch (e) {
       if (!(e instanceof Error)) return;
-      return res.status(400).json({
+      return res.status(status.BAD_REQUEST).json({
         message: e.message,
       });
     }
@@ -18,10 +19,10 @@ class SubjectController {
   async getSubjects(req: Request, res: Response) {
     try {
       const response = await SubjectsService.getSubjects();
-      return res.status(200).json(response);
+      return res.status(status.SUCCESS).json(response);
     } catch (e) {
       if (!(e instanceof Error)) return;
-      return res.status(400).json({
+      return res.status(status.BAD_REQUEST).json({
         message: e.message,
       });
     }
