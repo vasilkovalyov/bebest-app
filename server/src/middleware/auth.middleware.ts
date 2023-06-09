@@ -2,6 +2,7 @@ import { Response, NextFunction } from 'express';
 import tokenService from '../services/token.service';
 import { ITokenData, RequestWithAuthUser } from '../interfaces/token';
 import status from '../constants/status';
+import responseMessages from '../constants/responseMessages';
 
 export default async function (
   req: RequestWithAuthUser,
@@ -14,7 +15,7 @@ export default async function (
     if (!token) {
       return res
         .status(status.UNAUTHORIZED)
-        .json({ message: 'User is not authorized!' });
+        .json({ message: responseMessages.unauthorized });
     }
 
     const userData = await tokenService.validateAccessToken(token);
@@ -22,7 +23,7 @@ export default async function (
     if (!userData) {
       return res
         .status(status.BAD_REQUEST)
-        .json({ message: 'Token has destroyed!' });
+        .json({ message: responseMessages.destroyedToken });
     }
     req.user = userData as ITokenData;
 
@@ -30,6 +31,6 @@ export default async function (
   } catch (err) {
     return res
       .status(status.UNAUTHORIZED)
-      .json({ message: 'User is not authorized!' });
+      .json({ message: responseMessages.unauthorized });
   }
 }

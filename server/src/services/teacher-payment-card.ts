@@ -3,6 +3,7 @@ import ApiError from '../utils/api-error';
 import teacherProgressAccountService from '../services/teacher-progress-account';
 
 import PaymentCardModel, { IPaymentCard } from '../models/teacher-payment-card';
+import responseMessages from '../constants/responseMessages';
 
 class TeacherPaymentCardService {
   async addPaymentCard(id: string, props: IPaymentCard) {
@@ -15,7 +16,7 @@ class TeacherPaymentCardService {
     await teacherProgressAccountService.addPaymentCard(id);
 
     return {
-      message: 'Teacher credit card add successfull!',
+      message: responseMessages.paymentCardAddSuccessful,
     };
   }
   async removePaymentCard(id: string) {
@@ -24,13 +25,13 @@ class TeacherPaymentCardService {
     });
 
     if (paymentCardResponse.deletedCount === 0) {
-      throw ApiError.BadRequestError(`Payment card  not a found!`);
+      throw ApiError.BadRequestError(responseMessages.paymentCardNotFound);
     }
 
     await teacherProgressAccountService.removePaymentCard(id);
 
     return {
-      message: 'Teacher credit card remove successfull!',
+      message: responseMessages.paymentCardRemoveSuccessful,
     };
   }
 

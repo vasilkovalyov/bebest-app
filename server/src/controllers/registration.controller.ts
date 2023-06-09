@@ -5,6 +5,8 @@ import RegistrationStrategy from '../services/registration/registration';
 import StudentRegistration from '../services/registration/student.registration';
 import TeacherRegistration from '../services/registration/teacher.registration';
 import status from '../constants/status';
+import responseStudentMessages from '../constants/responseStudentMessages';
+import responseTeacherMessages from '../constants/responseTeacherMessages';
 
 class RegistrationController {
   async registration(req: Request, res: Response) {
@@ -16,11 +18,11 @@ class RegistrationController {
 
       if (role === 'student') {
         strategy.setStrategy(new StudentRegistration(req.body));
-        strategy.successMessage = 'Student was created successfull';
+        strategy.successMessage = responseStudentMessages.createSuccessful;
       }
       if (role === 'teacher') {
         strategy.setStrategy(new TeacherRegistration(req.body));
-        strategy.successMessage = 'Teacher was created successfull';
+        strategy.successMessage = responseTeacherMessages.createSuccessful;
       }
 
       if (!strategy) {

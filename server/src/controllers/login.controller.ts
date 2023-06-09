@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import LoginService from '../services/login.service';
 import tokenService from '../services/token.service';
 import status from '../constants/status';
+import responseMessages from '../constants/responseMessages';
 
 class LoginController {
   async login(req: Request, res: Response) {
@@ -48,14 +49,14 @@ class LoginController {
       if (!userData) {
         return res
           .status(status.UNAUTHORIZED)
-          .json({ message: 'Token has destroyed!' });
+          .json({ message: responseMessages.destroyedToken });
       }
 
       return res.status(status.SUCCESS).json({ isAuth: true });
     } catch (err) {
       return res
         .status(status.UNAUTHORIZED)
-        .json({ message: 'User is not authorized!', isAuth: false });
+        .json({ message: responseMessages.unauthorized, isAuth: false });
     }
   }
 }

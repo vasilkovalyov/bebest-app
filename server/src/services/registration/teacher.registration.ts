@@ -6,8 +6,8 @@ import ApiError from '../../utils/api-error';
 import bcrypt from 'bcrypt';
 
 import TeacherPersonalnfoModel from '../../models/teacher-personal-info';
-
 import { IRegistrationResponse } from '../../interfaces/response';
+import { userWithEmailExist } from '../../constants/responseMessages';
 
 export interface ITeacherRegistrationProps {
   name: string;
@@ -29,9 +29,7 @@ class TeacherRegistration implements IRegistrationStrategy {
     const userExist = await TeacherModel.findOne({ email: email });
 
     if (userExist)
-      throw ApiError.BadRequestError(
-        `Teacher with email - ${email} alreary exist!`
-      );
+      throw ApiError.BadRequestError(userWithEmailExist('teacher', email));
 
     const hashedPassword = await bcrypt.hash(password, 10);
 

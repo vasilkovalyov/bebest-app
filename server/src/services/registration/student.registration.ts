@@ -8,6 +8,7 @@ import ApiError from '../../utils/api-error';
 import bcrypt from 'bcrypt';
 
 import { IRegistrationResponse } from '../../interfaces/response';
+import { userWithEmailExist } from '../../constants/responseMessages';
 
 type RegistrationStudentType = Omit<IStudent, 'userId'>;
 
@@ -27,9 +28,7 @@ class StudentRegistration implements IRegistrationStrategy {
     const { email, password } = this.props;
     const userExist = await StudentModel.findOne({ email: email });
     if (userExist)
-      throw ApiError.BadRequestError(
-        `Student with email - ${email} alreary exist!`
-      );
+      throw ApiError.BadRequestError(userWithEmailExist('student', email));
 
     const hashedPassword = await bcrypt.hash(password, 10);
 

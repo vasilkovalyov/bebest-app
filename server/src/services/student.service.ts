@@ -1,4 +1,3 @@
-import { File } from 'buffer';
 import ApiError from '../utils/api-error';
 import StudentModel, {
   StudentAccountEditableModelType,
@@ -10,6 +9,10 @@ import StudentSubjectsModel, {
 import UserModel from '../models/user.model';
 import bcrypt from 'bcrypt';
 import { uploadAvatar } from '../utils/upload-file';
+import responseMessages, {
+  userWithIdNotFound,
+} from '../constants/responseMessages';
+import responseStudentMessages from '../constants/responseStudentMessages';
 
 class StudentService {
   async removeUser(id: string) {
@@ -17,15 +20,14 @@ class StudentService {
       userId: id,
     });
 
-    if (!user)
-      throw ApiError.BadRequestError(`User with id ${id} not a found!`);
+    if (!user) throw ApiError.BadRequestError(userWithIdNotFound('user', id));
 
     const studentUser = await StudentModel.deleteOne({
       _id: id,
     });
 
     if (!studentUser)
-      throw ApiError.BadRequestError(`Student with id ${id} not a found!`);
+      throw ApiError.BadRequestError(userWithIdNotFound('student', id));
 
     return true;
   }
@@ -44,10 +46,10 @@ class StudentService {
     );
 
     if (!studentModel)
-      throw ApiError.BadRequestError(`Student with id ${id} not a found!`);
+      throw ApiError.BadRequestError(userWithIdNotFound('student', id));
 
     return {
-      message: 'Password has updated successfull!',
+      message: responseMessages.passwordUpdateSuccessful,
     };
   }
 
@@ -57,7 +59,7 @@ class StudentService {
     );
 
     if (!studentModel) {
-      throw ApiError.BadRequestError(`Student with id ${id} not a found!`);
+      throw ApiError.BadRequestError(userWithIdNotFound('student', id));
     }
 
     return studentModel;
@@ -79,10 +81,10 @@ class StudentService {
     );
 
     if (!response)
-      throw ApiError.BadRequestError('Student avatar did not update');
+      throw ApiError.BadRequestError(responseMessages.avatarDidNotUpdate);
 
     return {
-      message: 'Student avatar update successfull!',
+      message: responseMessages.avatarUpdateSuccessful,
     };
   }
 
@@ -105,7 +107,7 @@ class StudentService {
     if (!response) throw ApiError.BadRequestError('Student did not update');
 
     return {
-      message: 'Student info update successfull',
+      message: responseMessages.userInfoUpdateSuccessful,
     };
   }
 
@@ -131,12 +133,12 @@ class StudentService {
     }
 
     return {
-      message: 'Subject add successfull!',
+      message: responseStudentMessages.subjectAddSuccessful,
     };
   }
 
   async removeSubject(userId: string, subjectId: string) {
-    const response = await StudentSubjectsModel.findOneAndUpdate(
+    await StudentSubjectsModel.findOneAndUpdate(
       {
         studentId: userId,
       },
@@ -144,7 +146,7 @@ class StudentService {
       { new: true }
     );
     return {
-      message: 'Subject removed successfull!',
+      message: responseStudentMessages.subjectRemoveSuccessful,
     };
   }
 

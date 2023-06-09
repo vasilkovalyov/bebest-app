@@ -5,6 +5,8 @@ import UserModel from '../models/user.model';
 import bcrypt from 'bcrypt';
 import { ILoginResponse } from '../interfaces/response';
 import TokenService from './token.service';
+import responseMessages from '../constants/responseMessages';
+import { userWithEmailNotFound } from '../constants/responseMessages';
 
 class LoginService {
   static async login(
@@ -16,7 +18,7 @@ class LoginService {
     });
 
     if (!user)
-      throw ApiError.BadRequestError(`User with email ${email} not a found!`);
+      throw ApiError.BadRequestError(userWithEmailNotFound('User', email));
 
     if (user.role === 'student') {
       const studentModel = await StudentModel.findOne({
@@ -24,12 +26,11 @@ class LoginService {
       });
 
       if (!studentModel)
-        throw ApiError.BadRequestError(
-          `Student with email ${email} not a found!`
-        );
+        throw ApiError.BadRequestError(userWithEmailNotFound('student', email));
 
       const validPass = await bcrypt.compare(password, studentModel.password);
-      if (!validPass) throw ApiError.BadRequestError(`Wrong password!`);
+      if (!validPass)
+        throw ApiError.BadRequestError(responseMessages.wrongPassword);
 
       const token = await TokenService.generateTokens({
         _id: studentModel._id,
@@ -48,12 +49,11 @@ class LoginService {
       });
 
       if (!teacherModel)
-        throw ApiError.BadRequestError(
-          `Teacher with email ${email} not a found!`
-        );
+        throw ApiError.BadRequestError(userWithEmailNotFound('teacher', email));
 
       const validPass = await bcrypt.compare(password, teacherModel.password);
-      if (!validPass) throw ApiError.BadRequestError(`Wrong password!`);
+      if (!validPass)
+        throw ApiError.BadRequestError(responseMessages.wrongPassword);
 
       const token = await TokenService.generateTokens({
         _id: teacherModel._id,

@@ -4,13 +4,14 @@ import teacherService from '../services/teacher.service';
 import teacherPaymentCardService from '../services/teacher-payment-card';
 import { RequestWithAuthUser } from '../interfaces/token';
 import status from '../constants/status';
+import responseTeacherMessages from '../constants/responseTeacherMessages';
 
 class TeacherController {
   async removeUser(req: RequestWithAuthUser, res: Response) {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
-        .json('Error, there is no user info from token');
+        .json(responseTeacherMessages.notUserByToken);
 
     try {
       const response = await teacherService.removeUser(req.user._id);
@@ -29,7 +30,7 @@ class TeacherController {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
-        .json('Error, there is no user info from token');
+        .json(responseTeacherMessages.notUserByToken);
 
     try {
       const response = await teacherService.changePassword(
@@ -49,7 +50,7 @@ class TeacherController {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
-        .json('Error, there is no user info from token');
+        .json(responseTeacherMessages.notUserByToken);
 
     try {
       const response = await teacherService.getUserInfo(req.user._id);
@@ -68,7 +69,7 @@ class TeacherController {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
-        .json('Error, there is no user info from token');
+        .json(responseTeacherMessages.notUserByToken);
 
     try {
       const response = await teacherService.uploadUserAvatar(
@@ -92,7 +93,7 @@ class TeacherController {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
-        .json('Error, there is no user info from token');
+        .json(responseTeacherMessages.notUserByToken);
 
     try {
       const response = await teacherService.updateUserInfo(req.user._id, {
@@ -113,7 +114,7 @@ class TeacherController {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
-        .json('Error, there is no user info from token');
+        .json(responseTeacherMessages.notUserByToken);
 
     try {
       const response = await teacherService.addMainFieldsActivity(
@@ -133,7 +134,7 @@ class TeacherController {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
-        .json('Error, there is no user info from token');
+        .json(responseTeacherMessages.notUserByToken);
 
     try {
       const { id } = req.params;
@@ -155,7 +156,7 @@ class TeacherController {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
-        .json('Error, there is no user info from token');
+        .json(responseTeacherMessages.notUserByToken);
 
     try {
       const response = await teacherService.updatePersonalLessons(
@@ -175,7 +176,7 @@ class TeacherController {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
-        .json('Error, there is no user info from token');
+        .json(responseTeacherMessages.notUserByToken);
 
     try {
       const response = await teacherService.addWorkExperience(
@@ -195,7 +196,7 @@ class TeacherController {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
-        .json('Error, there is no user info from token');
+        .json(responseTeacherMessages.notUserByToken);
 
     try {
       const { id } = req.params;
@@ -217,7 +218,7 @@ class TeacherController {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
-        .json('Error, there is no user info from token');
+        .json(responseTeacherMessages.notUserByToken);
 
     try {
       const response = await teacherService.getPersonalnfo(req.user._id);
@@ -234,7 +235,7 @@ class TeacherController {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
-        .json('Error, there is no user info from token');
+        .json(responseTeacherMessages.notUserByToken);
 
     try {
       const response = await teacherPaymentCardService.addPaymentCard(
@@ -253,7 +254,7 @@ class TeacherController {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
-        .json('Error, there is no user info from token');
+        .json(responseTeacherMessages.notUserByToken);
 
     try {
       const response = await teacherPaymentCardService.removePaymentCard(
@@ -272,7 +273,7 @@ class TeacherController {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
-        .json('Error, there is no user info from token');
+        .json(responseTeacherMessages.notUserByToken);
 
     try {
       const response = await teacherPaymentCardService.getPaymentCard(
@@ -294,7 +295,7 @@ class TeacherController {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
-        .json('Error, there is no user info from token');
+        .json(responseTeacherMessages.notUserByToken);
 
     try {
       const response = await teacherService.uploadCertificate(
@@ -314,7 +315,7 @@ class TeacherController {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
-        .json('Error, there is no user info from token');
+        .json(responseTeacherMessages.notUserByToken);
 
     try {
       const { id } = req.params;

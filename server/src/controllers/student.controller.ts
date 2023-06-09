@@ -2,13 +2,14 @@ import { Response } from 'express';
 import StudentService from '../services/student.service';
 import { RequestWithAuthUser } from '../interfaces/token';
 import status from '../constants/status';
+import responseStudentMessages from '../constants/responseStudentMessages';
 
 class StudentController {
   async removeUser(req: RequestWithAuthUser, res: Response) {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
-        .json('Error, there is no user info from token');
+        .json(responseStudentMessages.notUserByToken);
     try {
       const response = await StudentService.removeUser(req.user?._id);
       return res.status(status.SUCCESS).json({
@@ -26,7 +27,7 @@ class StudentController {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
-        .json('Error, there is no user info from token');
+        .json(responseStudentMessages.notUserByToken);
     try {
       const { password } = req.body;
 
@@ -47,7 +48,7 @@ class StudentController {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
-        .json('Error, there is no user info from token');
+        .json(responseStudentMessages.notUserByToken);
     try {
       const response = await StudentService.getUserInfo(req.user._id);
 
@@ -65,7 +66,7 @@ class StudentController {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
-        .json('Error, there is no user info from token');
+        .json(responseStudentMessages.notUserByToken);
 
     try {
       const response = await StudentService.uploadUserAvatar(
@@ -86,7 +87,7 @@ class StudentController {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
-        .json('Error, there is no user info from token');
+        .json(responseStudentMessages.notUserByToken);
 
     try {
       const response = await StudentService.updateUserInfo(
@@ -107,7 +108,7 @@ class StudentController {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
-        .json('Error, there is no user info from token');
+        .json(responseStudentMessages.notUserByToken);
 
     try {
       const { subject_study, level_mastery_subject } = req.body;
@@ -131,7 +132,7 @@ class StudentController {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
-        .json('Error, there is no user info from token');
+        .json(responseStudentMessages.notUserByToken);
 
     try {
       const { id } = req.params;
@@ -152,7 +153,7 @@ class StudentController {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
-        .json('Error, there is no user info from token');
+        .json(responseStudentMessages.notUserByToken);
 
     try {
       const response = await StudentService.getSubjects(req.user._id);

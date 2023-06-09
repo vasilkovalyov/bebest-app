@@ -1,4 +1,3 @@
-import { File } from 'buffer';
 import ApiError from '../utils/api-error';
 import TeacherModel, {
   IVideo,
@@ -20,6 +19,10 @@ import {
   uploadVideo,
   uploadCertificate,
 } from '../utils/upload-file';
+import responseMessages, {
+  userWithIdNotFound,
+} from '../constants/responseMessages';
+import responseTeacherMessages from '../constants/responseTeacherMessages';
 
 class TeacherService {
   async removeUser(id: string) {
@@ -28,7 +31,7 @@ class TeacherService {
     });
 
     if (!user.deletedCount)
-      throw ApiError.BadRequestError(`User with id ${id} not a found!`);
+      throw ApiError.BadRequestError(userWithIdNotFound('user', id));
 
     await TeacherModel.deleteOne({
       _id: id,
@@ -57,10 +60,10 @@ class TeacherService {
     );
 
     if (!teacherModel)
-      throw ApiError.BadRequestError(`Teacher with id ${id} not a found!`);
+      throw ApiError.BadRequestError(userWithIdNotFound('teacher', id));
 
     return {
-      message: 'Password has updated successfull!',
+      message: responseMessages.passwordUpdateSuccessful,
     };
   }
 
@@ -70,7 +73,7 @@ class TeacherService {
     );
 
     if (!teacherModel) {
-      throw ApiError.BadRequestError(`Teacher with id ${id} not a found!`);
+      throw ApiError.BadRequestError(userWithIdNotFound('teacher', id));
     }
 
     const teacherProgressAccount =
@@ -106,7 +109,7 @@ class TeacherService {
     );
 
     if (!response)
-      throw ApiError.BadRequestError('Teacher avatar did not update');
+      throw ApiError.BadRequestError(responseMessages.avatarDidNotUpdate);
 
     const progressData = await TeacherProgressAccountModel.findOne({
       teacherId: id,
@@ -118,7 +121,7 @@ class TeacherService {
     }
 
     return {
-      message: 'Teacher avatar update successfull!',
+      message: responseMessages.avatarUpdateSuccessful,
     };
   }
 
@@ -145,7 +148,8 @@ class TeacherService {
       { new: true }
     ).select('phone about avatar video');
 
-    if (!response) throw ApiError.BadRequestError('Teacher did not update');
+    if (!response)
+      throw ApiError.BadRequestError(responseMessages.userInfoDidNotUpdate);
 
     await teacherProgressAccountService.updateAccountInfo(id, {
       phone: response.phone,
@@ -154,7 +158,7 @@ class TeacherService {
     });
 
     return {
-      message: 'Teacher info update successfull!',
+      message: responseMessages.userInfoUpdateSuccessful,
     };
   }
 
@@ -170,7 +174,7 @@ class TeacherService {
     }
 
     return {
-      message: 'Teacher main fields activity add successfull!',
+      message: responseTeacherMessages.mainActivityAddSuccessful,
     };
   }
 
@@ -187,7 +191,7 @@ class TeacherService {
       await teacherProgressAccountService.removeMainActivity(id);
     }
     return {
-      message: 'Teacher main fields activity remove successfull!',
+      message: responseTeacherMessages.mainActivityRemoveSuccessful,
     };
   }
 
@@ -214,7 +218,7 @@ class TeacherService {
     await teacherProgressAccountService.updatePriceLessons(id, props);
 
     return {
-      message: 'Teacher personal lessons updated successfull!',
+      message: responseTeacherMessages.personalLessonsUpdateSuccessful,
     };
   }
 
@@ -230,7 +234,7 @@ class TeacherService {
     }
 
     return {
-      message: 'Teacher work experience add successfull!',
+      message: responseTeacherMessages.workExperienceAddSuccessful,
     };
   }
 
@@ -246,7 +250,7 @@ class TeacherService {
     }
 
     return {
-      message: 'Teacher work experience remove successfull!',
+      message: responseTeacherMessages.workExperienceRemoveSuccessful,
     };
   }
 
@@ -258,7 +262,7 @@ class TeacherService {
     );
 
     if (!response) {
-      throw ApiError.BadRequestError(`Teacher with id ${id} not a found!`);
+      throw ApiError.BadRequestError(userWithIdNotFound('teacher', id));
     }
 
     return response;
@@ -274,7 +278,7 @@ class TeacherService {
     const response = await TeacherPersonalInfoModel.findOne({ teacherId: id });
 
     if (!response)
-      throw ApiError.BadRequestError('Teacher certificate did not upload');
+      throw ApiError.BadRequestError(responseMessages.certificateDidNotUpload);
 
     await TeacherPersonalInfoModel.findOneAndUpdate(
       { teacherId: id },
@@ -293,7 +297,7 @@ class TeacherService {
     }
 
     return {
-      message: 'Teacher avatar update successfull!',
+      message: responseMessages.certificateUploadSuccessful,
     };
   }
 
@@ -309,7 +313,7 @@ class TeacherService {
     }
 
     return {
-      message: 'Teacher certificate remove successfull!',
+      message: responseMessages.certificateRemoveSuccessful,
     };
   }
 }
