@@ -1,9 +1,11 @@
-import ApiError from '../utils/api-error';
+import ApiError from '../../utils/api-error';
 
-import teacherProgressAccountService from '../services/teacher-progress-account';
+import teacherProgressAccountService from './teacher-progress-account';
 
-import PaymentCardModel, { IPaymentCard } from '../models/teacher-payment-card';
-import responseMessages from '../constants/responseMessages';
+import PaymentCardModel, {
+  IPaymentCard,
+} from '../../models/teacher/teacher-payment-card';
+import responseMessages from '../../constants/responseMessages';
 
 class TeacherPaymentCardService {
   async addPaymentCard(id: string, props: IPaymentCard) {

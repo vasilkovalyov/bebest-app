@@ -1,6 +1,6 @@
 import express from 'express';
-import RegistrationController from '../controllers/registration.controller';
-import TeacherController from '../controllers/teacher.controller';
+import registrationController from '../controllers/registration.controller';
+import teacherController from '../controllers/teacher.controller';
 import teacherRegistrationMiddleware from '../middleware/teacher-registration.middleware';
 import userChangePasswordMiddleware from '../middleware/user-change-password.middleware';
 import authMiddleware from '../middleware/auth.middleware';
@@ -10,91 +10,91 @@ const router = express.Router();
 router.post(
   '/registration/teacher',
   teacherRegistrationMiddleware,
-  RegistrationController.registration
+  registrationController.registration
 );
 
-router.delete('/delete/teacher', authMiddleware, TeacherController.removeUser);
+router.delete('/delete/teacher', authMiddleware, teacherController.removeUser);
 
 router.post(
   '/update-password/teacher',
   authMiddleware,
   userChangePasswordMiddleware,
-  TeacherController.changePassword
+  teacherController.changePassword
 );
 
-router.get('/user-info/teacher', authMiddleware, TeacherController.getUserInfo);
+router.get('/user-info/teacher', authMiddleware, teacherController.getUserInfo);
 
 router.post(
   '/upload-avatar/teacher',
   authMiddleware,
-  TeacherController.uploadUserAvatar
+  teacherController.uploadUserAvatar
 );
 
 router.post(
   '/user-info/teacher',
   authMiddleware,
-  TeacherController.updateUserInfo
+  teacherController.updateUserInfo
 );
 
 router.post(
   '/main-fields-activity/teacher',
   authMiddleware,
-  TeacherController.addMainFieldsActivity
+  teacherController.addMainFieldsActivity
 );
 
 router.delete(
   '/main-fields-activity/teacher/:id',
   authMiddleware,
-  TeacherController.removeMainFieldsActivity
+  teacherController.removeMainFieldsActivity
 );
 
 router.post(
   '/personal-lessons/teacher',
   authMiddleware,
-  TeacherController.updatePersonalLessons
+  teacherController.updatePersonalLessons
 );
 
 router.post(
   '/work-experience/teacher',
   authMiddleware,
-  TeacherController.addWorkExperience
+  teacherController.addWorkExperience
 );
 
 router.delete(
   '/work-experience/teacher/:id',
   authMiddleware,
-  TeacherController.removeWorkExperience
+  teacherController.removeWorkExperience
 );
 
 router.get(
   '/personal-info/teacher',
   authMiddleware,
-  TeacherController.getPersonalnfo
+  teacherController.getPersonalnfo
 );
 
 router.post(
   '/payment-card/teacher',
   authMiddleware,
-  TeacherController.addPaymentCard
+  teacherController.addPaymentCard
 );
 router.delete(
   '/payment-card/teacher',
   authMiddleware,
-  TeacherController.removePaymentCard
+  teacherController.removePaymentCard
 );
 
-router.get('/payment-card/teacher', TeacherController.getPaymentCard);
+router.get('/payment-card/teacher', teacherController.getPaymentCard);
 
 router.post(
   '/upload-certificate/teacher',
   authMiddleware,
-  TeacherController.uploadCertificate
+  teacherController.uploadCertificate
 );
 
 router.delete(
   '/upload-certificate/teacher/:id',
   authMiddleware,
-  TeacherController.removeCertificate
+  teacherController.removeCertificate
 );
 
 export default router;

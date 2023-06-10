@@ -1,16 +1,16 @@
 import { IRegistrationStrategy } from './registration';
 import StudentModel, {
   IStudent,
-  StudentModelType,
-} from '../../models/student.model';
-import UserModel, { UserModelType } from '../../models/user.model';
+  IStudentSchemaType,
+} from '../../models/student/student.model';
+import UserModel, { IUserSchemaType } from '../../models/user.model';
 import ApiError from '../../utils/api-error';
 import bcrypt from 'bcrypt';
 
 import { IRegistrationResponse } from '../../interfaces/response';
 import { userWithEmailExist } from '../../constants/responseMessages';
 
-type RegistrationStudentType = Omit<IStudent, 'userId'>;
+export type IRegistrationStudentProps = Omit<IStudent, 'userId'>;
 
 export interface IStudentRegistrationProps
   extends Omit<IStudent, 'phone' | 'about' | 'userId'> {
@@ -18,9 +18,9 @@ export interface IStudentRegistrationProps
 }
 
 class StudentRegistration implements IRegistrationStrategy {
-  private props: RegistrationStudentType;
+  private props: IRegistrationStudentProps;
 
-  constructor(props: RegistrationStudentType) {
+  constructor(props: IRegistrationStudentProps) {
     this.props = props;
   }
 
@@ -32,7 +32,7 @@ class StudentRegistration implements IRegistrationStrategy {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const student: StudentModelType = await new StudentModel({
+    const student: IStudentSchemaType = await new StudentModel({
       name: this.props.name,
       surname: this.props.surname,
       email: email,
@@ -41,7 +41,7 @@ class StudentRegistration implements IRegistrationStrategy {
     });
     const savedStudent = await student.save();
 
-    const user: UserModelType = await new UserModel({
+    const user: IUserSchemaType = await new UserModel({
       userId: savedStudent._id,
       email: savedStudent.email,
       role: savedStudent.role,

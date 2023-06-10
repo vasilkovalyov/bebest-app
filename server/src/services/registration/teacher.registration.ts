@@ -1,11 +1,11 @@
 import { IRegistrationStrategy } from './registration';
-import TeacherModel from '../../models/teacher.model';
-import teacherProgressAccountService from '../../services/teacher-progress-account';
+import TeacherModel from '../../models/teacher/teacher.model';
+import teacherProgressAccountService from '../teacher/teacher-progress-account';
 import UserModel from '../../models/user.model';
 import ApiError from '../../utils/api-error';
 import bcrypt from 'bcrypt';
 
-import TeacherPersonalnfoModel from '../../models/teacher-personal-info';
+import TeacherPersonalnfoModel from '../../models/teacher/teacher-personal-info';
 import { IRegistrationResponse } from '../../interfaces/response';
 import { userWithEmailExist } from '../../constants/responseMessages';
 

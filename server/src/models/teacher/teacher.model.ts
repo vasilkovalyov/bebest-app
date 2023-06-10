@@ -1,17 +1,7 @@
 import { File } from 'buffer';
 import { Schema, model, Document } from 'mongoose';
-import { IUser } from './user.model';
-
-export interface IVideo {
-  width: number;
-  height: number;
-  format: string;
-  resource_type: string;
-  bytes: number;
-  url: string;
-  secure_url: string;
-  playback_url: string;
-}
+import { IUser } from '../user.model';
+import { IVideo } from '../../interfaces/common';
 
 export interface ITeacher extends IUser {
   name: string;
@@ -23,16 +13,16 @@ export interface ITeacher extends IUser {
   video?: IVideo | null;
 }
 
-export type TeacherModelType = ITeacher & Document;
+export type ITeacherSchemaType = ITeacher & Document;
 
-export type TeacherAccountEditableModelType = Omit<
+export type ITeacherAccountEditableProps = Omit<
   ITeacher,
   'password' | 'userId' | 'role' | 'video'
 > & {
   video?: (File & { tempFilePath: string }) | null;
 };
 
-const TeacherSchema = new Schema<TeacherModelType>({
+const TeacherSchema = new Schema<ITeacherSchemaType>({
   name: { type: String, required: true },
   surname: { type: String, required: true },
   email: { type: String, required: true, unique: true },

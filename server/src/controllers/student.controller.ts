@@ -1,5 +1,5 @@
 import { Response } from 'express';
-import StudentService from '../services/student.service';
+import StudentService from '../services/student/student.service';
 import { RequestWithAuthUser } from '../interfaces/token';
 import status from '../constants/status';
 import responseStudentMessages from '../constants/responseStudentMessages';

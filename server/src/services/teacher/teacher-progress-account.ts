@@ -1,9 +1,9 @@
 import { File } from 'buffer';
-import { ITeacher } from '../models/teacher.model';
+import { ITeacher } from '../../models/teacher/teacher.model';
 import TeacherProgressAccountModel, {
   totalStepCounts,
-} from '../models/teacher-progress-account';
-import { ITeacherCostPersonalLesson } from '../models/teacher-personal-info';
+} from '../../models/teacher/teacher-progress-account';
+import { ITeacherCostPersonalLesson } from '../../models/teacher/teacher-personal-info';
 
 export type TeacherProgressAccountInfoType = Pick<
   ITeacher,

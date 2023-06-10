@@ -1,6 +1,5 @@
-import { File } from 'buffer';
 import { Schema, model, Document } from 'mongoose';
-import { IUser } from './user.model';
+import { IUser } from '../user.model';
 import { IStudentSubject } from './student-subjects';
 
 export interface IStudent extends IUser {
@@ -13,14 +12,14 @@ export interface IStudent extends IUser {
   subjects?: IStudentSubject[] | [];
 }
 
-export type StudentModelType = IStudent & Document;
+export type IStudentSchemaType = IStudent & Document;
 
-export type StudentAccountEditableModelType = Omit<
+export type IStudentAccountEditableProps = Omit<
   IStudent,
   'password' | 'userId' | 'role'
 >;
 
-const StudentSchema = new Schema<StudentModelType>({
+const StudentSchema = new Schema<IStudentSchemaType>({
   name: { type: String, required: true },
   surname: { type: String, required: true },
   email: { type: String, required: true, unique: true },

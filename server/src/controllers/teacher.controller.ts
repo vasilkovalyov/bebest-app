@@ -1,7 +1,7 @@
 import { File } from 'buffer';
 import { Response } from 'express';
-import teacherService from '../services/teacher.service';
-import teacherPaymentCardService from '../services/teacher-payment-card';
+import teacherService from '../services/teacher/teacher.service';
+import teacherPaymentCardService from '../services/teacher/teacher-payment-card';
 import { RequestWithAuthUser } from '../interfaces/token';
 import status from '../constants/status';
 import responseTeacherMessages from '../constants/responseTeacherMessages';

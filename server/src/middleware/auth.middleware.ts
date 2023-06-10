@@ -11,7 +11,6 @@ export default async function (
 ) {
   try {
     const token = req.headers.authorization;
-    console.log(token);
     if (!token) {
       return res
         .status(status.UNAUTHORIZED)

@@ -1,9 +1,9 @@
 import express from 'express';
-import SubjectController from '../controllers/subject.controller';
+import subjectController from '../controllers/subject.controller';
 
 const router = express.Router();
 
-router.post('/subjects', SubjectController.addSubjects);
-router.get('/subjects', SubjectController.getSubjects);
+router.post('/subjects', subjectController.addSubjects);
+router.get('/subjects', subjectController.getSubjects);
 
 export default router;

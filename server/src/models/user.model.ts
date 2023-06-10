@@ -7,9 +7,9 @@ export interface IUser {
   role: UserRole;
 }
 
-export type UserModelType = IUser & Document;
+export type IUserSchemaType = IUser & Document;
 
-export const UserSchema = new Schema<UserModelType>({
+export const UserSchema = new Schema<IUserSchemaType>({
   email: { type: String, required: true, unique: true },
   userId: { type: String, required: true },
   role: {

@@ -1,28 +1,28 @@
-import ApiError from '../utils/api-error';
+import ApiError from '../../utils/api-error';
 import TeacherModel, {
-  IVideo,
-  TeacherAccountEditableModelType,
-} from '../models/teacher.model';
-import UserModel from '../models/user.model';
+  ITeacherAccountEditableProps,
+} from '../../models/teacher/teacher.model';
+import UserModel from '../../models/user.model';
 import TeacherPersonalInfoModel, {
   ITeacherCostPersonalLesson,
   ITeacherMainFieldsActivity,
   ITeacherWorkExperience,
   ITeacherCertificate,
-} from '../models/teacher-personal-info';
-import TeacherProgressAccountModel from '../models/teacher-progress-account';
+} from '../../models/teacher/teacher-personal-info';
+import TeacherProgressAccountModel from '../../models/teacher/teacher-progress-account';
 
-import teacherProgressAccountService from '../services/teacher-progress-account';
+import teacherProgressAccountService from './teacher-progress-account';
 import bcrypt from 'bcrypt';
 import {
   uploadAvatar,
   uploadVideo,
   uploadCertificate,
-} from '../utils/upload-file';
+} from '../../utils/upload-file';
 import responseMessages, {
   userWithIdNotFound,
-} from '../constants/responseMessages';
-import responseTeacherMessages from '../constants/responseTeacherMessages';
+} from '../../constants/responseMessages';
+import responseTeacherMessages from '../../constants/responseTeacherMessages';
+import { IVideo } from '../../interfaces/common';
 
 class TeacherService {
   async removeUser(id: string) {
@@ -125,7 +125,7 @@ class TeacherService {
     };
   }
 
-  async updateUserInfo(id: string, props: TeacherAccountEditableModelType) {
+  async updateUserInfo(id: string, props: ITeacherAccountEditableProps) {
     const { video, ...baseProps } = props;
     let videoUrl: IVideo | null = null;
 

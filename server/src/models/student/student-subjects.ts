@@ -9,12 +9,12 @@ export interface IStudentSubjects {
   subjects: IStudentSubject[];
 }
 
-export type StudentSubjectsModelType = IStudentSubjects &
+export type IStudentSubjectsSchemaType = IStudentSubjects &
   Document & {
     studentId: string;
   };
 
-const StudentSubjectsSchema = new Schema<StudentSubjectsModelType>({
+const StudentSubjectsSchema = new Schema<IStudentSubjectsSchemaType>({
   studentId: {
     type: String,
     required: true,
@@ -23,7 +23,7 @@ const StudentSubjectsSchema = new Schema<StudentSubjectsModelType>({
   subjects: [
     {
       subject_study: { type: String, required: true },
-      level_mastery_subject: { type: String, required: true },
+      level_mastery_subject: { type: String },
     },
   ],
 });

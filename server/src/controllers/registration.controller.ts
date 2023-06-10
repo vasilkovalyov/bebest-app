@@ -2,26 +2,34 @@ import { Request, Response } from 'express';
 import { UserRole } from 'types/role';
 
 import RegistrationStrategy from '../services/registration/registration';
-import StudentRegistration from '../services/registration/student.registration';
-import TeacherRegistration from '../services/registration/teacher.registration';
-import status from '../constants/status';
+import StudentRegistration, {
+  IRegistrationStudentProps,
+} from '../services/registration/student.registration';
+import TeacherRegistration, {
+  ITeacherRegistrationProps,
+} from '../services/registration/teacher.registration';
 import responseStudentMessages from '../constants/responseStudentMessages';
 import responseTeacherMessages from '../constants/responseTeacherMessages';
+import status from '../constants/status';
 
 class RegistrationController {
   async registration(req: Request, res: Response) {
     try {
       const role: UserRole = req.route.path.split('/')[2];
       const strategy = new RegistrationStrategy(
-        new StudentRegistration(req.body)
+        new StudentRegistration(req.body as IRegistrationStudentProps)
       );
 
       if (role === 'student') {
-        strategy.setStrategy(new StudentRegistration(req.body));
+        strategy.setStrategy(
+          new StudentRegistration(req.body as IRegistrationStudentProps)
+        );
         strategy.successMessage = responseStudentMessages.createSuccessful;
       }
       if (role === 'teacher') {
-        strategy.setStrategy(new TeacherRegistration(req.body));
+        strategy.setStrategy(
+          new TeacherRegistration(req.body as ITeacherRegistrationProps)
+        );
         strategy.successMessage = responseTeacherMessages.createSuccessful;
       }
 

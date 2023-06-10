@@ -1,11 +1,11 @@
 import express from 'express';
-import LoginController from '../controllers/login.controller';
+import loginController from '../controllers/login.controller';
 import userLoginMiddleware from '../middleware/user-login.middleware';
 import authMiddleware from '../middleware/auth.middleware';
 
 const router = express.Router();
 
-router.get('/login', userLoginMiddleware, LoginController.login);
-router.get('/is-auth', authMiddleware, LoginController.isAuth);
+router.get('/login', userLoginMiddleware, loginController.login);
+router.get('/is-auth', authMiddleware, loginController.isAuth);
 // authMiddleware
 export default router;

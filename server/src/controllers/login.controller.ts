@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import LoginService from '../services/login.service';
+import LoginService, { ILoginProps } from '../services/login.service';
 import tokenService from '../services/token.service';
 import status from '../constants/status';
 import responseMessages from '../constants/responseMessages';
@@ -14,7 +14,7 @@ class LoginController {
         });
       }
 
-      const response = await LoginService.login(email, password);
+      const response = await LoginService.login({ email, password });
       if (response) {
         res.cookie('token', response.token, {
           domain: process.env.DOMAIN,

@@ -1,18 +1,18 @@
-import ApiError from '../utils/api-error';
+import ApiError from '../../utils/api-error';
 import StudentModel, {
-  StudentAccountEditableModelType,
-} from '../models/student.model';
+  IStudentAccountEditableProps,
+} from '../../models/student/student.model';
 import StudentSubjectsModel, {
   IStudentSubject,
-  StudentSubjectsModelType,
-} from '../models/student-subjects';
-import UserModel from '../models/user.model';
+  IStudentSubjectsSchemaType,
+} from '../../models/student/student-subjects';
+import UserModel from '../../models/user.model';
 import bcrypt from 'bcrypt';
-import { uploadAvatar } from '../utils/upload-file';
+import { uploadAvatar } from '../../utils/upload-file';
 import responseMessages, {
   userWithIdNotFound,
-} from '../constants/responseMessages';
-import responseStudentMessages from '../constants/responseStudentMessages';
+} from '../../constants/responseMessages';
+import responseStudentMessages from '../../constants/responseStudentMessages';
 
 class StudentService {
   async removeUser(id: string) {
@@ -88,7 +88,7 @@ class StudentService {
     };
   }
 
-  async updateUserInfo(id: string, props: StudentAccountEditableModelType) {
+  async updateUserInfo(id: string, props: IStudentAccountEditableProps) {
     let avatarImage = '';
     if (props.avatar || props.avatar === null) {
       const res = await uploadAvatar(props.avatar);
@@ -104,7 +104,8 @@ class StudentService {
       { new: true }
     );
 
-    if (!response) throw ApiError.BadRequestError('Student did not update');
+    if (!response)
+      throw ApiError.BadRequestError(responseMessages.userInfoDidNotUpdate);
 
     return {
       message: responseMessages.userInfoUpdateSuccessful,
@@ -113,7 +114,7 @@ class StudentService {
 
   async addSubjects(_id: string, props: IStudentSubject) {
     const response =
-      await StudentSubjectsModel.findOne<StudentSubjectsModelType>({
+      await StudentSubjectsModel.findOne<IStudentSubjectsSchemaType>({
         studentId: _id,
       });
 

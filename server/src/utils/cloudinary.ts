@@ -3,7 +3,6 @@ const CLOUDINARY_KEY = '971891743274228';
 const CLOUDINARY_SECRET = 'ubFMeThpfbgowAlso2dBfzMEILc';
 
 import { v2 as cloudinary, VideoFormat } from 'cloudinary';
-import { boolean } from 'joi';
 
 export interface ICloudinaryVideo {
   asset_id: string;
