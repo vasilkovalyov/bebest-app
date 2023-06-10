@@ -1,5 +1,6 @@
 import { Response } from 'express';
-import StudentService from '../services/student/student.service';
+import studentService from '../services/student/student.service';
+import studentSubjectService from '../services/student/student-subject';
 import { RequestWithAuthUser } from '../interfaces/token';
 import status from '../constants/status';
 import responseStudentMessages from '../constants/responseStudentMessages';
@@ -11,7 +12,7 @@ class StudentController {
         .status(status.NOT_FOUND)
         .json(responseStudentMessages.notUserByToken);
     try {
-      const response = await StudentService.removeUser(req.user?._id);
+      const response = await studentService.removeUser(req.user?._id);
       return res.status(status.SUCCESS).json({
         data: response,
       });
@@ -31,7 +32,7 @@ class StudentController {
     try {
       const { password } = req.body;
 
-      const response = await StudentService.changePassword(
+      const response = await studentService.changePassword(
         req.user?._id,
         password
       );
@@ -50,7 +51,7 @@ class StudentController {
         .status(status.NOT_FOUND)
         .json(responseStudentMessages.notUserByToken);
     try {
-      const response = await StudentService.getUserInfo(req.user._id);
+      const response = await studentService.getUserInfo(req.user._id);
 
       return res.status(status.SUCCESS).json(response);
     } catch (e) {
@@ -69,7 +70,7 @@ class StudentController {
         .json(responseStudentMessages.notUserByToken);
 
     try {
-      const response = await StudentService.uploadUserAvatar(
+      const response = await studentService.uploadUserAvatar(
         req.user._id,
         req.body.avatar
       );
@@ -90,7 +91,7 @@ class StudentController {
         .json(responseStudentMessages.notUserByToken);
 
     try {
-      const response = await StudentService.updateUserInfo(
+      const response = await studentService.updateUserInfo(
         req.user._id,
         req.body
       );
@@ -113,7 +114,7 @@ class StudentController {
     try {
       const { subject_study, level_mastery_subject } = req.body;
 
-      const response = await StudentService.addSubjects(req.user._id, {
+      const response = await studentSubjectService.addSubjects(req.user._id, {
         subject_study,
         level_mastery_subject,
       });
@@ -137,7 +138,10 @@ class StudentController {
     try {
       const { id } = req.params;
 
-      const response = await StudentService.removeSubject(req.user._id, id);
+      const response = await studentSubjectService.removeSubject(
+        req.user._id,
+        id
+      );
 
       return res.status(status.SUCCESS).json(response);
     } catch (e) {
@@ -156,7 +160,7 @@ class StudentController {
         .json(responseStudentMessages.notUserByToken);
 
     try {
-      const response = await StudentService.getSubjects(req.user._id);
+      const response = await studentSubjectService.getSubjects(req.user._id);
 
       return res.status(status.SUCCESS).json(response);
     } catch (e) {
