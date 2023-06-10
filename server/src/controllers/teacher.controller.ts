@@ -1,6 +1,7 @@
 import { File } from 'buffer';
 import { Response } from 'express';
 import teacherService from '../services/teacher/teacher.service';
+import teacherPersonalInfoService from '../services/teacher/teacher-personal-info';
 import teacherPaymentCardService from '../services/teacher/teacher-payment-card';
 import { RequestWithAuthUser } from '../interfaces/token';
 import status from '../constants/status';
@@ -117,7 +118,7 @@ class TeacherController {
         .json(responseTeacherMessages.notUserByToken);
 
     try {
-      const response = await teacherService.addMainFieldsActivity(
+      const response = await teacherPersonalInfoService.addMainFieldsActivity(
         req.user._id,
         req.body
       );
@@ -139,10 +140,11 @@ class TeacherController {
     try {
       const { id } = req.params;
 
-      const response = await teacherService.removeMainFieldsActivity(
-        req.user._id,
-        id
-      );
+      const response =
+        await teacherPersonalInfoService.removeMainFieldsActivity(
+          req.user._id,
+          id
+        );
       return res.status(status.SUCCESS).json(response);
     } catch (e) {
       if (!(e instanceof Error)) return;
@@ -159,7 +161,7 @@ class TeacherController {
         .json(responseTeacherMessages.notUserByToken);
 
     try {
-      const response = await teacherService.updatePersonalLessons(
+      const response = await teacherPersonalInfoService.updatePersonalLessons(
         req.user._id,
         req.body
       );
@@ -179,7 +181,7 @@ class TeacherController {
         .json(responseTeacherMessages.notUserByToken);
 
     try {
-      const response = await teacherService.addWorkExperience(
+      const response = await teacherPersonalInfoService.addWorkExperience(
         req.user._id,
         req.body
       );
@@ -201,7 +203,7 @@ class TeacherController {
     try {
       const { id } = req.params;
 
-      const response = await teacherService.removeWorkExperience(
+      const response = await teacherPersonalInfoService.removeWorkExperience(
         req.user._id,
         id
       );
@@ -221,7 +223,9 @@ class TeacherController {
         .json(responseTeacherMessages.notUserByToken);
 
     try {
-      const response = await teacherService.getPersonalnfo(req.user._id);
+      const response = await teacherPersonalInfoService.getPersonalnfo(
+        req.user._id
+      );
       return res.status(status.SUCCESS).json(response);
     } catch (e) {
       if (!(e instanceof Error)) return;
@@ -298,7 +302,7 @@ class TeacherController {
         .json(responseTeacherMessages.notUserByToken);
 
     try {
-      const response = await teacherService.uploadCertificate(
+      const response = await teacherPersonalInfoService.uploadCertificate(
         req.user._id,
         req.body
       );
@@ -320,7 +324,10 @@ class TeacherController {
     try {
       const { id } = req.params;
 
-      const response = await teacherService.removeCertificate(req.user._id, id);
+      const response = await teacherPersonalInfoService.removeCertificate(
+        req.user._id,
+        id
+      );
       return res.status(status.SUCCESS).json(response);
     } catch (e) {
       if (!(e instanceof Error)) return;
