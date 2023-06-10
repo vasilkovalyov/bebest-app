@@ -10,7 +10,7 @@ import MenuItem from '@mui/material/MenuItem'
 import Icon from '@/components/Generic/Icon'
 
 // other utils
-import cabinetPages from '@/models/cabinetPages'
+import cabinetPages from './CabinetNavigationMenuPages.model'
 
 //redux
 import { useAppSelector } from '@/redux/hooks'

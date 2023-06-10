@@ -1,12 +1,6 @@
 import profilePages from '@/constants/profile-pages'
+import { ICabinetPageMenu } from './CabinetNavigationMenuPages.type'
 
-export interface ICabinetPageMenu {
-  id: number
-  path: string
-  title: string
-  icon?: string
-  role: string[]
-}
 const cabinetPages: ICabinetPageMenu[] = [
   {
     id: 1,
