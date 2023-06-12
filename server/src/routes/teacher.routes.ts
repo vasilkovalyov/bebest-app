@@ -83,7 +83,11 @@ router.delete(
   teacherController.removePaymentCard
 );
 
-router.get('/payment-card/teacher', teacherController.getPaymentCard);
+router.get(
+  '/payment-card/teacher',
+  authMiddleware,
+  teacherController.getPaymentCard
+);
 
 router.post(
   '/upload-certificate/teacher',
