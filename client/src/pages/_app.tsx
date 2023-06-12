@@ -56,7 +56,9 @@ App.getInitialProps = wrapper.getInitialAppProps(
         const subjectResponse = await subjectsService.getSubjects()
         store.dispatch(setSubjects(subjectResponse.data))
       } catch (e) {
-        console.log(e)
+        if (e instanceof Error) {
+          console.log(e.message)
+        }
       }
 
       try {
