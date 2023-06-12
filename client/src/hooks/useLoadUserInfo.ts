@@ -1,6 +1,4 @@
-//redux
 import { useActions } from '@/redux/hooks'
-
 import teacherService from '@/services/teacher'
 import studentService from '@/services/student'
 import { UserRole } from '@/types/role'

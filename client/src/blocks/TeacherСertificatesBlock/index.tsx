@@ -17,10 +17,8 @@ import CircularProgress from '@mui/material/CircularProgress'
 import Icon from '@/components/Generic/Icon'
 import { IconEnum } from '@/components/Generic/Icon/Icon.type'
 import ContainerWithShadow from '@/components/Generic/ContainerWithShadow'
-import TeacherWorkExperience from '@/components/Forms/TeacherWorkExperience'
-import WorkExperiencePreview from '@/components/WorkExperiencePreview'
-import CertificatesPreview from '@/components/CertificatesPreview'
 import TeacherCertificates from '@/components/Forms/TeacherCertificates'
+import PreviewCertificates from '@/components/Previews/PreviewCertificates'
 
 //other utils
 
@@ -62,7 +60,7 @@ function TeacherСertificatesBlock() {
         ) : (
           <Box width={'70%'} maxWidth={500}>
             {!isEdit ? (
-              <CertificatesPreview items={teacherPersonalInfo.certificates} />
+              <PreviewCertificates items={teacherPersonalInfo.certificates} />
             ) : (
               <TeacherCertificates onHandleClose={onHandleClose} />
             )}

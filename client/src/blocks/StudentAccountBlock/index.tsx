@@ -12,20 +12,20 @@ import Modal from '@mui/material/Modal'
 import Typography from '@mui/material/Typography'
 
 //custom components
-import AccountTeacherForm from '@/components/Forms/Account/AccountTeacher'
-import AccountInfo from '@/components/AccountInfo'
+import AccountStudentForm from '@/components/Forms/Account/AccountStudent'
 import Icon from '@/components/Generic/Icon'
 import { IconEnum } from '@/components/Generic/Icon/Icon.type'
 import WarningIcon from '@/components/Generic/WarningIcon'
+import PreviewUserAccount from '@/components/Previews/PreviewUserAccount'
 
 //hooks
 import { useLogout } from '@/hooks/useLogout'
 
 //other utils
 import { AxiosError } from 'axios'
-import teacherService from '@/services/teacher'
+import studentService from '@/services/student'
 
-function TeacherAccount() {
+function StudentAccountBlock() {
   const { logOut } = useLogout()
   const user = useAppSelector((store) => store.user.user)
   const [isEdit, seIsEdit] = useState<boolean>(false)
@@ -43,7 +43,7 @@ function TeacherAccount() {
     try {
       let response: unknown | any
 
-      response = await teacherService.deleteUser()
+      response = await studentService.deleteUser()
 
       if (response.data.data) {
         logOut()
@@ -70,7 +70,7 @@ function TeacherAccount() {
         </Button>
       </Stack>
       {!isEdit ? (
-        <AccountInfo
+        <PreviewUserAccount
           items={[
             {
               title: 'Name',
@@ -96,7 +96,7 @@ function TeacherAccount() {
         />
       ) : (
         <Box maxWidth={800}>
-          <AccountTeacherForm onHandleClose={onHandleClose} />
+          <AccountStudentForm onHandleClose={onHandleClose} />
         </Box>
       )}
       <Modal open={modalOpen} onClose={handleCloseModal}>
@@ -139,4 +139,4 @@ function TeacherAccount() {
     </Box>
   )
 }
-export default TeacherAccount
+export default StudentAccountBlock

@@ -8,12 +8,12 @@ import Stack from '@mui/material/Stack'
 import Divider from '@mui/material/Divider'
 
 //custom components
-import PreviewInfo from '@/components/PreviewInfo'
+import PreviewInfo from '@/components/Previews/PreviewInfo'
 
 //relate util
-import { ICertificatesPreviewProps } from './CertificatesPreview.type'
+import { IPreviewCertificatesProps } from './PreviewCertificates.type'
 
-function CertificatesPreview({ items }: ICertificatesPreviewProps) {
+function PreviewCertificates({ items }: IPreviewCertificatesProps) {
   return (
     <>
       {items.length ? (
@@ -57,4 +57,4 @@ function CertificatesPreview({ items }: ICertificatesPreviewProps) {
   )
 }
 
-export default CertificatesPreview
+export default PreviewCertificates

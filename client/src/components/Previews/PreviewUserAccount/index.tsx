@@ -1,20 +1,17 @@
-// libs
-import { Fragment } from 'react'
-
 // material ui components
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 
 // relate utils
-import { IAccountInfoProps } from './AccountInfo.type'
+import { IPreviewUserAccountProps } from './PreviewUserAccount.type'
 
-function AccountInfo({
+function PreviewUserAccount({
   items,
   directionItems = 'row',
   gap = 2,
   marginBottom = 2,
-}: IAccountInfoProps) {
+}: IPreviewUserAccountProps) {
   return (
     <Box>
       {items.map((item, index) => {
@@ -47,4 +44,4 @@ function AccountInfo({
   )
 }
 
-export default AccountInfo
+export default PreviewUserAccount

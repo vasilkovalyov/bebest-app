@@ -15,13 +15,13 @@ import Divider from '@mui/material/Divider'
 import ChangePasswordForm from '@/components/Forms/ChangePassword'
 import ContainerWithShadow from '@/components/Generic/ContainerWithShadow'
 import TabPanel from '@/components/Generic/TabPanel'
-import StudentAccount from '@/components/Student/StudentAccount'
-import TeacherAccount from '@/components/Teacher/TeacherAccount'
 import Icon from '@/components/Generic/Icon'
 import { IconEnum } from '@/components/Generic/Icon/Icon.type'
-import BankData from '@/components/BankData'
+import StudentAccountBlock from '../StudentAccountBlock'
+import TeacherAccountBlock from '../TeacherAccountBlock'
+import PaymentBlock from '../PaymentBlock'
 
-function StudentAccountBlock() {
+function AccountBlock() {
   const user = useAppSelector((store) => store.user.user)
 
   const [tabValue, setTabValue] = useState<number>(0)
@@ -83,19 +83,19 @@ function StudentAccountBlock() {
         ) : null}
       </Tabs>
       <TabPanel value={tabValue} index={0}>
-        {user.role === 'student' ? <StudentAccount /> : null}
-        {user.role === 'teacher' ? <TeacherAccount /> : null}
+        {user.role === 'student' ? <StudentAccountBlock /> : null}
+        {user.role === 'teacher' ? <TeacherAccountBlock /> : null}
       </TabPanel>
       <TabPanel value={tabValue} index={1}>
         <ChangePasswordForm />
       </TabPanel>
       {user.role === 'teacher' || user.role === 'company' ? (
         <TabPanel value={tabValue} index={2}>
-          <BankData />
+          <PaymentBlock />
         </TabPanel>
       ) : null}
     </ContainerWithShadow>
   )
 }
 
-export default StudentAccountBlock
+export default AccountBlock

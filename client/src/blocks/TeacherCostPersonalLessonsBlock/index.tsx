@@ -18,10 +18,7 @@ import Icon from '@/components/Generic/Icon'
 import { IconEnum } from '@/components/Generic/Icon/Icon.type'
 import ContainerWithShadow from '@/components/Generic/ContainerWithShadow'
 import TeacherCostPersonalLessons from '@/components/Forms/TeacherCostPersonalLessons'
-import PreviewInfo from '@/components/PreviewInfo'
-
-//other utils
-import { getTrialLessonResult } from './TeacherCostPersonalLessonsBlock.utils'
+import PreviewTeacherCostPersonalLessons from '@/components/Previews/PreviewTeacherCostPersonalLessons'
 
 function TeacherCostPersonalLessonsBlock() {
   const [isEdit, seIsEdit] = useState<boolean>(false)
@@ -56,52 +53,9 @@ function TeacherCostPersonalLessonsBlock() {
         ) : (
           <>
             {!isEdit ? (
-              <>
-                {teacherPersonalInfo.personal_lessons ? (
-                  <Box>
-                    <PreviewInfo
-                      category="Private lessons"
-                      heading={
-                        teacherPersonalInfo.personal_lessons.duration +
-                        ' ' +
-                        'hour'
-                      }
-                      values={[
-                        teacherPersonalInfo.personal_lessons.is_free
-                          ? 'Free'
-                          : teacherPersonalInfo.personal_lessons.price +
-                            ' ' +
-                            '$',
-                      ]}
-                      marginBottom={4}
-                    />
-                    {teacherPersonalInfo.personal_lessons.use_trial ? (
-                      <PreviewInfo
-                        category="Trial lessons"
-                        heading={
-                          teacherPersonalInfo.personal_lessons.trial_duration +
-                          ' ' +
-                          'hour'
-                        }
-                        values={[
-                          getTrialLessonResult(
-                            teacherPersonalInfo.personal_lessons.use_trial,
-                            teacherPersonalInfo.personal_lessons.is_trial_free,
-                            teacherPersonalInfo.personal_lessons.trial_price +
-                              ' ' +
-                              '$'
-                          ),
-                        ]}
-                        marginBottom={0}
-                      />
-                    ) : null}
-                  </Box>
-                ) : (
-                  <Typography variant="body1">
-                    No data. Click on Edit button to add information.
-                  </Typography>
-                )}
-              </>
+              <PreviewTeacherCostPersonalLessons
+                data={teacherPersonalInfo.personal_lessons}
+              />
             ) : (
               <TeacherCostPersonalLessons onHandleClose={onHandleClose} />
             )}

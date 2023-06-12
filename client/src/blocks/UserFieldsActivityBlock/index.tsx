@@ -18,7 +18,7 @@ import Icon from '@/components/Generic/Icon'
 import { IconEnum } from '@/components/Generic/Icon/Icon.type'
 import ContainerWithShadow from '@/components/Generic/ContainerWithShadow'
 import UserFieldsActivity from '../../components/Forms/UserFieldsActivity'
-import PreviewInfo from '@/components/PreviewInfo'
+import PreviewSubjectActivities from '@/components/Previews/PreviewSubjectActivities'
 
 function UserFieldsActivityBlock() {
   const teacherPersonalInfo = useAppSelector(
@@ -54,32 +54,9 @@ function UserFieldsActivityBlock() {
         ) : (
           <>
             {!isEdit ? (
-              <>
-                {teacherPersonalInfo.fields_activity.length ? (
-                  <>
-                    {teacherPersonalInfo.fields_activity.map((field, index) => (
-                      <Box key={field._id} marginBottom={2}>
-                        <PreviewInfo
-                          heading="Activity"
-                          values={[field.activity]}
-                        />
-                        <PreviewInfo heading="Skills" values={field.skills} />
-                        {teacherPersonalInfo.fields_activity.length !== 1 &&
-                        teacherPersonalInfo.fields_activity.length - 1 !==
-                          index ? (
-                          <Box marginTop={3} marginBottom={3}>
-                            <Divider />
-                          </Box>
-                        ) : null}
-                      </Box>
-                    ))}
-                  </>
-                ) : (
-                  <Typography variant="body1">
-                    No data. Click on Edit button to add information.
-                  </Typography>
-                )}
-              </>
+              <PreviewSubjectActivities
+                items={teacherPersonalInfo.fields_activity}
+              />
             ) : (
               <UserFieldsActivity onHandleClose={onHandleClose} />
             )}

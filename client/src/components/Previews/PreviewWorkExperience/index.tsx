@@ -8,12 +8,12 @@ import Stack from '@mui/material/Stack'
 import Divider from '@mui/material/Divider'
 
 //custom components
-import PreviewInfo from '@/components/PreviewInfo'
+import PreviewInfo from '@/components/Previews/PreviewInfo'
 
 //relate util
-import { IWorkExperiencePreviewProps } from './WorkExperiencePreview.type'
+import { IPreviewWorkExperienceProps } from './PreviewWorkExperience.type'
 
-function WorkExperiencePreview({ items }: IWorkExperiencePreviewProps) {
+function PreviewWorkExperience({ items }: IPreviewWorkExperienceProps) {
   return (
     <>
       {items.length ? (
@@ -85,4 +85,4 @@ function WorkExperiencePreview({ items }: IWorkExperiencePreviewProps) {
   )
 }
 
-export default WorkExperiencePreview
+export default PreviewWorkExperience

@@ -1,5 +1,5 @@
 import { IUserСertificate } from '@/services/teacher-certificates'
 
-export interface ICertificatesPreviewProps {
+export interface IPreviewCertificatesProps {
   items: IUserСertificate[] | []
 }

@@ -18,7 +18,7 @@ import Icon from '@/components/Generic/Icon'
 import { IconEnum } from '@/components/Generic/Icon/Icon.type'
 import ContainerWithShadow from '@/components/Generic/ContainerWithShadow'
 import TeacherWorkExperience from '@/components/Forms/TeacherWorkExperience'
-import WorkExperiencePreview from '@/components/WorkExperiencePreview'
+import PreviewWorkExperience from '@/components/Previews/PreviewWorkExperience'
 
 //other utils
 
@@ -60,7 +60,7 @@ function TeacherWorkExperienceBlock() {
         ) : (
           <Box>
             {!isEdit ? (
-              <WorkExperiencePreview
+              <PreviewWorkExperience
                 items={teacherPersonalInfo.work_experience}
               />
             ) : (

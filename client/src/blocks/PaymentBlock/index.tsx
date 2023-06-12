@@ -26,7 +26,7 @@ import { useLoadUserInfo } from '@/hooks/useLoadUserInfo'
 
 type PaymentModalType = 'add' | 'remove'
 
-function BankData() {
+function PaymentBlock() {
   const user = useAppSelector((store) => store.user.user)
   const paymentCardStore = useAppSelector((store) => store.paymentCard)
   const dispatch = useDispatch<any>()
@@ -216,4 +216,4 @@ function BankData() {
   )
 }
 
-export default BankData
+export default PaymentBlock
