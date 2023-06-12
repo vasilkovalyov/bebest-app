@@ -25,17 +25,17 @@ class UploadAvatar {
     };
   }
 
-  async uploadFile() {
-    try {
-      const response = await cloudinary.uploader.upload(
-        this._filePath,
-        this._options
-      );
-      return response;
-    } catch (e) {
-      console.log(e);
-    }
-  }
+  // async uploadFile() {
+  //   try {
+  //     const response = await cloudinary.uploader.upload(
+  //       this._filePath,
+  //       this._options
+  //     );
+  //     return response;
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // }
 }
 
 // class UploadAvatar extends Uploader<UploadApiResponse> {
