@@ -2,11 +2,9 @@ import { AxiosResponse } from 'axios'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { PRIVATE_REQUESTS } from '@/constants/api-requests'
-import { ITeacherCostPersonalLesson } from '@/services/teacher-cost-personal-lessons'
 import $api from '@/utils/ajax'
-import { IUserFieldActivity } from '@/services/user-fields-activity'
-import { ITeacherWorkExperience } from '@/services/teacher-work-experience'
 import { UserRole } from '@/types/role'
+import { defaultPaymentCardState } from '../default-state/payment-card'
 
 export interface IPaymentCard {
   username: string
@@ -16,13 +14,6 @@ export interface IPaymentCard {
 export interface IPaymentCardState extends IPaymentCard {
   loading: boolean
   error: string | null
-}
-
-const defaultAuthState: IPaymentCardState = {
-  card_number: '',
-  username: '',
-  loading: true,
-  error: null,
 }
 
 export const fetchPaymentCard = createAsyncThunk<
@@ -41,7 +32,7 @@ export const fetchPaymentCard = createAsyncThunk<
 
 export const paymentCardSlice = createSlice({
   name: 'paymentCard',
-  initialState: defaultAuthState,
+  initialState: defaultPaymentCardState,
   reducers: {
     setPaymentCard(state: IPaymentCard, action: PayloadAction<IPaymentCard>) {
       state = action.payload
@@ -58,8 +49,8 @@ export const paymentCardSlice = createSlice({
           state.card_number = action.payload.data.card_number
           state.username = action.payload.data.username
         } else {
-          state.card_number = defaultAuthState.card_number
-          state.username = defaultAuthState.username
+          state.card_number = defaultPaymentCardState.card_number
+          state.username = defaultPaymentCardState.username
         }
         state.loading = false
         state.error = null

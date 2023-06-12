@@ -7,6 +7,7 @@ import $api from '@/utils/ajax'
 import { IUserFieldActivity } from '@/services/user-fields-activity'
 import { ITeacherWorkExperience } from '@/services/teacher-work-experience'
 import { IUserСertificate } from '@/services/teacher-certificates'
+import { defaultTeacherPersonalInfoState } from '../default-state/teacher-personal-info'
 
 export interface ITeacherPersonalInfo {
   fields_activity: IUserFieldActivity[]
@@ -18,15 +19,6 @@ export interface ITeacherPersonalInfo {
 export interface ITeacherPersonalInfoState extends ITeacherPersonalInfo {
   loading: boolean
   error: string | null
-}
-
-const defaultAuthState: ITeacherPersonalInfoState = {
-  fields_activity: [],
-  personal_lessons: null,
-  work_experience: [],
-  certificates: [],
-  loading: true,
-  error: null,
 }
 
 export const fetchTeacherPersonalInfo = createAsyncThunk<
@@ -45,7 +37,7 @@ export const fetchTeacherPersonalInfo = createAsyncThunk<
 
 export const teacherPersonalInfoSlice = createSlice({
   name: 'teacherPersonalInfo',
-  initialState: defaultAuthState,
+  initialState: defaultTeacherPersonalInfoState,
   reducers: {
     setDataInfo(
       state: ITeacherPersonalInfo,
