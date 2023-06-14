@@ -3,25 +3,16 @@ import TeacherModel, {
   ITeacherAccountEditableProps,
 } from '../../models/teacher/teacher.model';
 import UserModel from '../../models/user.model';
-import TeacherPersonalInfoModel, {
-  ITeacherCostPersonalLesson,
-  ITeacherMainFieldsActivity,
-  ITeacherWorkExperience,
-  ITeacherCertificate,
-} from '../../models/teacher/teacher-personal-info';
+import TeacherPersonalInfoModel from '../../models/teacher/teacher-personal-info';
 import TeacherProgressAccountModel from '../../models/teacher/teacher-progress-account';
+import TeacherPaymentCardModel from '../../models/teacher/teacher-payment-card';
 
 import teacherProgressAccountService from './teacher-progress-account';
 import bcrypt from 'bcrypt';
-import {
-  uploadAvatar,
-  uploadVideo,
-  uploadCertificate,
-} from '../../utils/upload-file';
+import { uploadAvatar, uploadVideo } from '../../utils/upload-file';
 import responseMessages, {
   userWithIdNotFound,
 } from '../../constants/responseMessages';
-import responseTeacherMessages from '../../constants/responseTeacherMessages';
 import { IVideo } from '../../interfaces/common';
 
 class TeacherService {
@@ -40,6 +31,9 @@ class TeacherService {
       teacherId: id,
     });
     await TeacherProgressAccountModel.deleteOne({
+      teacherId: id,
+    });
+    await TeacherPaymentCardModel.deleteOne({
       teacherId: id,
     });
 
