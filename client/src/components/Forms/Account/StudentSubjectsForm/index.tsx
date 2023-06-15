@@ -3,6 +3,11 @@ import { useState } from 'react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, useFieldArray } from 'react-hook-form'
 
+//redux
+import { useDispatch } from 'react-redux'
+import { useAppSelector } from '@/redux/hooks'
+import { setSubjects } from '@/redux/slices/subjects'
+
 // material ui components
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -10,6 +15,7 @@ import TextField from '@mui/material/TextField'
 import Divider from '@mui/material/Divider'
 import Modal from '@mui/material/Modal'
 import Typography from '@mui/material/Typography'
+import Stack from '@mui/material/Stack'
 
 //custom components
 import { IconEnum } from '@/components/Generic/Icon/Icon.type'
@@ -18,30 +24,30 @@ import WarningIcon from '@/components/Generic/WarningIcon'
 
 // relate utils
 import {
-  IStudentEducationInfo,
-  IAccountStudentFormProps,
-} from './StudentEducationInfoForm.type'
-import { StudentEducationInfoFormValidationSchema } from './StudentEducationInfoForm.validation'
+  IStudentSubjectsFormProps,
+  IStudentSubjects,
+} from './StudentSubjectsForm.type'
+import { StudentSubjectsFormValidationSchema } from './StudentSubjectsForm.validation'
 
 // other utils
 import colors from '@/constants/colors'
-import { Stack } from '@mui/material'
-import studentSubjectsService from '@/services/student-subjects'
+import studentSubjectsService, {
+  IStudentSubject,
+} from '@/services/student-subjects'
 
-const defaultInitialData: IStudentEducationInfo = {
-  subjects: [
-    {
-      subject_study: '',
-      level_mastery_subject: '',
-    },
-  ],
+const defaultEducationInfo: IStudentSubject = {
+  subject_study: '',
+  level_mastery_subject: '',
 }
 
-function AccountStudentForm({
-  initialData,
-  onHandleClose,
-  onHandleUpdate,
-}: IAccountStudentFormProps) {
+const defaultInitialData: IStudentSubjects = {
+  subjects: [defaultEducationInfo],
+}
+
+function AccountStudentForm({ onHandleClose }: IStudentSubjectsFormProps) {
+  const dispatch = useDispatch<any>()
+  const subjectsStore = useAppSelector((store) => store.subjects.subjects)
+
   const [modalOpen, setModalOpen] = useState<boolean>(false)
   const [selectRemoveSubjectId, setSelectRemoveSubjectId] = useState<{
     id: string
@@ -56,15 +62,12 @@ function AccountStudentForm({
     register,
     control,
     formState: { errors },
-  } = useForm<IStudentEducationInfo>({
+  } = useForm<IStudentSubjects>({
     mode: 'onSubmit',
     defaultValues: {
-      subjects: [
-        ...(initialData?.subjects || []),
-        ...defaultInitialData.subjects,
-      ],
+      subjects: [...(subjectsStore || []), ...defaultInitialData.subjects],
     },
-    resolver: yupResolver(StudentEducationInfoFormValidationSchema),
+    resolver: yupResolver(StudentSubjectsFormValidationSchema),
   })
 
   const { fields, remove, append } = useFieldArray({
@@ -72,7 +75,7 @@ function AccountStudentForm({
     name: 'subjects',
   })
 
-  async function handleAddSubject(data: IStudentEducationInfo) {
+  async function handleAddSubject(data: IStudentSubjects) {
     try {
       const subject = { ...data.subjects[data.subjects.length - 1] }
       await studentSubjectsService.addSubject(subject)
@@ -82,7 +85,8 @@ function AccountStudentForm({
         level_mastery_subject: '',
       })
 
-      onHandleUpdate()
+      // const subjectResponse = await subjectsService.getSubjects()
+      // dispatch(setSubjects(subjectResponse.data))
     } catch (e) {
       console.log(e)
     }
@@ -100,7 +104,6 @@ function AccountStudentForm({
     try {
       await studentSubjectsService.removeSubject(selectRemoveSubjectId.id)
       remove(selectRemoveSubjectId.index)
-      onHandleUpdate()
       setSelectRemoveSubjectId({
         id: '',
         index: -1,

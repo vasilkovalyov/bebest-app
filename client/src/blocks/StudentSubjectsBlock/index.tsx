@@ -13,16 +13,16 @@ import CircularProgress from '@mui/material/CircularProgress'
 //custom components
 import Icon from '@/components/Generic/Icon'
 import { IconEnum } from '@/components/Generic/Icon/Icon.type'
-import StudentEducationInfoForm from '@/components/Forms/Account/StudentEducationInfoForm'
+import StudentSubjectsForm from '@/components/Forms/Account/StudentSubjectsForm'
 import ContainerWithShadow from '@/components/Generic/ContainerWithShadow'
-import PreviewStudentEducation from '@/components/Previews/PreviewStudentEducation'
+import PreviewStudentSubjects from '@/components/Previews/PreviewStudentSubjects'
 
 //other utils
 import studentSubjectsService, {
   IStudentSubject,
 } from '@/services/student-subjects'
 
-function StudentEducationInfoBlock() {
+function StudentSubjectsBlock() {
   const [isEdit, seIsEdit] = useState<boolean>(false)
   const [subjects, setSubjects] = useState<IStudentSubject[] | []>([])
   const [loading, setLoading] = useState<boolean>(true)
@@ -44,10 +44,6 @@ function StudentEducationInfoBlock() {
 
   function onHandleClose() {
     seIsEdit(!isEdit)
-  }
-
-  async function onHandleUpdate() {
-    await loadSubjects()
   }
 
   return (
@@ -77,15 +73,9 @@ function StudentEducationInfoBlock() {
         ) : (
           <Box>
             {!isEdit ? (
-              <PreviewStudentEducation items={subjects} />
+              <PreviewStudentSubjects items={subjects} />
             ) : (
-              <StudentEducationInfoForm
-                initialData={{
-                  subjects: subjects,
-                }}
-                onHandleUpdate={onHandleUpdate}
-                onHandleClose={onHandleClose}
-              />
+              <StudentSubjectsForm onHandleClose={onHandleClose} />
             )}
           </Box>
         )}
@@ -94,4 +84,4 @@ function StudentEducationInfoBlock() {
   )
 }
 
-export default StudentEducationInfoBlock
+export default StudentSubjectsBlock

@@ -13,6 +13,6 @@ export interface ISkillsChecked {
   subjects: string[]
 }
 
-export interface ISubjects {
+export interface ISubjectsActivities {
   subjects: ISubjectSkill[]
 }

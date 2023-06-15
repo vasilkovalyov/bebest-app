@@ -15,7 +15,7 @@ import CabinetLayout from '@/layouts/CabinetLayout'
 
 // blocks
 import AccountBlock from '@/blocks/AccountBlock'
-import StudentEducationInfoBlock from '@/blocks/StudentEducationInfoBlock'
+import StudentSubjectsBlock from '@/blocks/StudentSubjectsBlock'
 import TeacherWorkExperienceBlock from '@/blocks/TeacherWorkExperienceBlock'
 import TeacherСertificatesBlock from '@/blocks/TeacherСertificatesBlock'
 import TeacherCostPersonalLessonsBlock from '@/blocks/TeacherCostPersonalLessonsBlock'
@@ -39,7 +39,7 @@ function PageCabinet() {
       </Box>
       {userStore.role === 'student' ? (
         <Box marginBottom={4}>
-          <StudentEducationInfoBlock />
+          <StudentSubjectsBlock />
         </Box>
       ) : null}
       {userStore.role === 'teacher' || userStore.role === 'company' ? (

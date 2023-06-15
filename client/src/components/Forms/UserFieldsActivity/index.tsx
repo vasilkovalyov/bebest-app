@@ -31,7 +31,7 @@ import {
   IUserFieldsActivityInfo,
   IUserFieldsActivityFormProps,
   ISkillsChecked,
-  ISubjects,
+  ISubjectsActivities,
 } from './UserFieldsActivity.type'
 import {
   getFieldsAndSubjectsData,
@@ -67,7 +67,9 @@ function UserFieldsActivityForm({
   const { loadUserInfo } = useLoadUserInfo()
 
   const [checkedSkills, setCheckedSkills] = useState<ISkillsChecked[] | []>([])
-  const [selectedSkills, setSelectedSkills] = useState<ISubjects[] | []>([])
+  const [selectedSkills, setSelectedSkills] = useState<
+    ISubjectsActivities[] | []
+  >([])
   const [modalOpen, setModalOpen] = useState<boolean>(false)
   const [selectRemoveFieldActivity, setSelectRemoveFieldActivity] = useState<{
     id: string

@@ -7,9 +7,9 @@ import Divider from '@mui/material/Divider'
 import PreviewInfo from '@/components/Previews/PreviewInfo'
 
 //relate util
-import { IPreviewStudentEducationProps } from './PreviewStudentEducation.type'
+import { IPreviewStudentSubjectsProps } from './PreviewStudentSubjects.type'
 
-function PreviewStudentEducation({ items }: IPreviewStudentEducationProps) {
+function PreviewStudentSubjects({ items }: IPreviewStudentSubjectsProps) {
   return (
     <>
       {items.length ? (
@@ -42,4 +42,4 @@ function PreviewStudentEducation({ items }: IPreviewStudentEducationProps) {
   )
 }
 
-export default PreviewStudentEducation
+export default PreviewStudentSubjects

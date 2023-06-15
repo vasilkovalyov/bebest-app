@@ -1,5 +1,5 @@
 import { IStudentSubject } from '@/services/student-subjects'
 
-export interface IPreviewStudentEducationProps {
+export interface IPreviewStudentSubjectsProps {
   items: IStudentSubject[]
 }
