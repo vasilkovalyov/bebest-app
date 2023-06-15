@@ -35,7 +35,6 @@ import colors from '@/constants/colors'
 import { Stack } from '@mui/material'
 import { ITeacherWorkExperience } from '@/services/teacher-work-experience'
 import teacherWorkExperienceService from '@/services/teacher-work-experience'
-import teacherService from '@/services/teacher'
 import { useLoadUserInfo } from '@/hooks/useLoadUserInfo'
 
 const defaultWorkExperience: ITeacherWorkExperience = {
@@ -71,6 +70,10 @@ function TeacherWorkExperienceForm({
       index: -1,
     })
 
+  const defaultFields = workExperienceStore.length
+    ? defaultInitialData.work_experience
+    : []
+
   const {
     handleSubmit,
     register,
@@ -82,10 +85,7 @@ function TeacherWorkExperienceForm({
   } = useForm<ITeacherWorkExperienceInfo>({
     mode: 'onSubmit',
     defaultValues: {
-      work_experience: [
-        ...(workExperienceStore || []),
-        ...defaultInitialData.work_experience,
-      ],
+      work_experience: [...(workExperienceStore || []), ...defaultFields],
     },
     resolver: yupResolver(TeacherWorkExperienceFormValidationSchema),
   })
@@ -161,115 +161,170 @@ function TeacherWorkExperienceForm({
     )
   }
 
+  function handleAddFormWorkExperience() {
+    setValue('work_experience', [defaultWorkExperience])
+  }
+
   return (
     <Box>
       <form className="form">
-        {fields.map(({ id, _id }, index) => (
-          <Box key={id}>
-            <Box maxWidth={500}>
-              <Box marginBottom={2}>
-                <TextField
-                  {...register(`work_experience.${index}.company_name`)}
-                  id={`work_experience-${index}-company_name`}
-                  type="text"
-                  label="Company name"
-                  variant="standard"
-                  className="form-field"
-                  placeholder="Company name"
-                  fullWidth
-                  disabled={fields.length - 1 > index}
-                  InputLabelProps={{ shrink: true }}
-                  error={
-                    !!errors.work_experience?.[index]?.company_name?.message
-                  }
-                  helperText={
-                    errors.work_experience?.[index]?.company_name?.message
-                  }
-                />
-              </Box>
-              <Box marginBottom={2}>
-                <TextField
-                  {...register(`work_experience.${index}.description`)}
-                  id={`work_experience-${index}-description`}
-                  type="text"
-                  label="Description"
-                  variant="standard"
-                  className="form-field"
-                  placeholder="Description"
-                  fullWidth
-                  multiline
-                  minRows={4}
-                  disabled={fields.length - 1 > index}
-                  InputLabelProps={{ shrink: true }}
-                  error={
-                    !!errors.work_experience?.[index]?.description?.message
-                  }
-                  helperText={
-                    errors.work_experience?.[index]?.description?.message
-                  }
-                />
-              </Box>
-              <Stack
-                marginBottom={2}
-                direction="row"
-                gap={2}
-                alignItems="flex-end"
-              >
-                <TextField
-                  {...register(`work_experience.${index}.startDate`)}
-                  id={`work_experience-${index}-startDate`}
-                  type="date"
-                  label="Date start"
-                  variant="standard"
-                  className="form-field"
-                  disabled={fields.length - 1 > index}
-                  InputLabelProps={{ shrink: true }}
-                  error={!!errors.work_experience?.[index]?.startDate?.message}
-                  helperText={
-                    errors.work_experience?.[index]?.startDate?.message
-                  }
-                />
-                <TextField
-                  {...register(`work_experience.${index}.endDate`)}
-                  id={`work_experience-${index}-endDate`}
-                  type="date"
-                  label="Date end"
-                  variant="standard"
-                  className="form-field"
-                  disabled={
-                    fields.length - 1 > index ||
-                    getValues().work_experience[index].isStillWorking
-                  }
-                  InputLabelProps={{ shrink: true }}
-                  error={
-                    !getValues().work_experience[index].isStillWorking &&
-                    !!errors.work_experience?.[index]?.endDate?.message
-                  }
-                  helperText={
-                    !getValues().work_experience[index].isStillWorking &&
-                    errors.work_experience?.[index]?.endDate?.message
-                  }
-                />
-                <FormControlLabel
-                  label="Still working"
-                  disabled={fields.length - 1 > index}
-                  control={
-                    <Checkbox
-                      {...register(`work_experience.${index}.isStillWorking`)}
-                      onChange={() => onChangeStillWorkingCheckbox(index)}
-                      checked={checkboxArr[index] ? true : false}
-                      inputProps={{ 'aria-label': 'controlled' }}
+        {getValues().work_experience.length ? (
+          <Box>
+            {fields.map(({ id, _id }, index) => (
+              <Box key={id}>
+                <Box maxWidth={500}>
+                  <Box marginBottom={2}>
+                    <TextField
+                      {...register(`work_experience.${index}.company_name`)}
+                      id={`work_experience-${index}-company_name`}
+                      type="text"
+                      label="Company name"
+                      variant="standard"
+                      className="form-field"
+                      placeholder="Company name"
+                      fullWidth
+                      disabled={fields.length - 1 > index}
+                      InputLabelProps={{ shrink: true }}
+                      error={
+                        !!errors.work_experience?.[index]?.company_name?.message
+                      }
+                      helperText={
+                        errors.work_experience?.[index]?.company_name?.message
+                      }
                     />
-                  }
-                />
-              </Stack>
-            </Box>
-            {fields.length - 1 > index ? (
-              <>
+                  </Box>
+                  <Box marginBottom={2}>
+                    <TextField
+                      {...register(`work_experience.${index}.description`)}
+                      id={`work_experience-${index}-description`}
+                      type="text"
+                      label="Description"
+                      variant="standard"
+                      className="form-field"
+                      placeholder="Description"
+                      fullWidth
+                      multiline
+                      minRows={4}
+                      disabled={fields.length - 1 > index}
+                      InputLabelProps={{ shrink: true }}
+                      error={
+                        !!errors.work_experience?.[index]?.description?.message
+                      }
+                      helperText={
+                        errors.work_experience?.[index]?.description?.message
+                      }
+                    />
+                  </Box>
+                  <Stack
+                    marginBottom={2}
+                    direction="row"
+                    gap={2}
+                    alignItems="flex-end"
+                  >
+                    <TextField
+                      {...register(`work_experience.${index}.startDate`)}
+                      id={`work_experience-${index}-startDate`}
+                      type="date"
+                      label="Date start"
+                      variant="standard"
+                      className="form-field"
+                      disabled={fields.length - 1 > index}
+                      InputLabelProps={{ shrink: true }}
+                      error={
+                        !!errors.work_experience?.[index]?.startDate?.message
+                      }
+                      helperText={
+                        errors.work_experience?.[index]?.startDate?.message
+                      }
+                    />
+                    <TextField
+                      {...register(`work_experience.${index}.endDate`)}
+                      id={`work_experience-${index}-endDate`}
+                      type="date"
+                      label="Date end"
+                      variant="standard"
+                      className="form-field"
+                      disabled={
+                        fields.length - 1 > index ||
+                        getValues().work_experience[index].isStillWorking
+                      }
+                      InputLabelProps={{ shrink: true }}
+                      error={
+                        !getValues().work_experience[index].isStillWorking &&
+                        !!errors.work_experience?.[index]?.endDate?.message
+                      }
+                      helperText={
+                        !getValues().work_experience[index].isStillWorking &&
+                        errors.work_experience?.[index]?.endDate?.message
+                      }
+                    />
+                    <FormControlLabel
+                      label="Still working"
+                      disabled={fields.length - 1 > index}
+                      control={
+                        <Checkbox
+                          {...register(
+                            `work_experience.${index}.isStillWorking`
+                          )}
+                          onChange={() => onChangeStillWorkingCheckbox(index)}
+                          checked={checkboxArr[index] ? true : false}
+                          inputProps={{ 'aria-label': 'controlled' }}
+                        />
+                      }
+                    />
+                  </Stack>
+                </Box>
+                {fields.length - 1 > index ? (
+                  <>
+                    <Button
+                      type="button"
+                      size="small"
+                      onClick={() => handleOpenModal(_id || '', index)}
+                    >
+                      <Box
+                        component="span"
+                        marginRight={1}
+                        display="inline-block"
+                        style={{
+                          verticalAlign: 'middle',
+                        }}
+                      >
+                        <Icon
+                          icon={IconEnum.BIN}
+                          color={colors.primary}
+                          size={16}
+                        />
+                      </Box>
+                      <Box
+                        component="span"
+                        display="inline-block"
+                        style={{
+                          verticalAlign: 'middle',
+                          paddingTop: 4,
+                        }}
+                      >
+                        Remove
+                      </Box>
+                    </Button>
+                    <Box marginTop={1} marginBottom={4}>
+                      <Divider />
+                    </Box>
+                  </>
+                ) : null}
+              </Box>
+            ))}
+            <Box
+              display="flex"
+              alignItems="center"
+              marginBottom={3}
+              maxWidth={400}
+            >
+              <Stack direction="row" gap={2}>
                 <Button
-                  type="button"
+                  type="submit"
+                  variant="outlined"
                   size="small"
-                  onClick={() => handleOpenModal(_id || '', index)}
+                  onClick={handleSubmit(handleAddWorkExperience)}
                 >
                   <Box
                     component="span"
@@ -280,7 +335,7 @@ function TeacherWorkExperienceForm({
                     }}
                   >
                     <Icon
-                      icon={IconEnum.BIN}
+                      icon={IconEnum.PLUS}
                       color={colors.primary}
                       size={16}
                     />
@@ -290,53 +345,47 @@ function TeacherWorkExperienceForm({
                     display="inline-block"
                     style={{
                       verticalAlign: 'middle',
-                      paddingTop: 4,
+                      paddingTop: 2,
                     }}
                   >
-                    Remove
+                    Add work experience
                   </Box>
                 </Button>
-                <Box marginTop={1} marginBottom={4}>
-                  <Divider />
-                </Box>
-              </>
-            ) : null}
+                <Button variant="outlined" size="small" onClick={onHandleClose}>
+                  Close
+                </Button>
+              </Stack>
+            </Box>
           </Box>
-        ))}
-        <Box display="flex" alignItems="center" marginBottom={3} maxWidth={400}>
-          <Stack direction="row" gap={2}>
-            <Button
-              type="submit"
-              variant="outlined"
-              size="small"
-              onClick={handleSubmit(handleAddWorkExperience)}
+        ) : (
+          <Button
+            type="submit"
+            variant="contained"
+            size="small"
+            onClick={handleAddFormWorkExperience}
+          >
+            <Box
+              component="span"
+              marginRight={1}
+              display="inline-block"
+              style={{
+                verticalAlign: 'middle',
+              }}
             >
-              <Box
-                component="span"
-                marginRight={1}
-                display="inline-block"
-                style={{
-                  verticalAlign: 'middle',
-                }}
-              >
-                <Icon icon={IconEnum.PLUS} color={colors.primary} size={16} />
-              </Box>
-              <Box
-                component="span"
-                display="inline-block"
-                style={{
-                  verticalAlign: 'middle',
-                  paddingTop: 2,
-                }}
-              >
-                Add work experience
-              </Box>
-            </Button>
-            <Button variant="outlined" size="small" onClick={onHandleClose}>
-              Close
-            </Button>
-          </Stack>
-        </Box>
+              <Icon icon={IconEnum.PLUS} color={colors.white} size={16} />
+            </Box>
+            <Box
+              component="span"
+              display="inline-block"
+              style={{
+                verticalAlign: 'middle',
+                paddingTop: 2,
+              }}
+            >
+              Add work experience
+            </Box>
+          </Button>
+        )}
       </form>
       <Modal open={modalOpen} onClose={handleCloseModal}>
         <Box className="modal-box">
