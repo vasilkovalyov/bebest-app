@@ -65,6 +65,10 @@ function TeacherCertificates({ onHandleClose }: ITeacherСertificatesFormProps) 
     index: -1,
   })
 
+  const defaultFields = certificatesStore.length
+    ? defaultInitialData.certificates
+    : []
+
   const {
     handleSubmit,
     register,
@@ -76,10 +80,7 @@ function TeacherCertificates({ onHandleClose }: ITeacherСertificatesFormProps) 
   } = useForm<ITeacherСertificates>({
     mode: 'onSubmit',
     defaultValues: {
-      certificates: [
-        ...(certificatesStore || []),
-        ...defaultInitialData.certificates,
-      ],
+      certificates: [...(certificatesStore || []), ...defaultFields],
     },
     resolver: yupResolver(TeacherCertificatesFormValidationSchema),
   })
@@ -142,71 +143,125 @@ function TeacherCertificates({ onHandleClose }: ITeacherСertificatesFormProps) 
     setModalOpen(true)
   }
 
+  function handleAddFormCertificate() {
+    setValue('certificates', [defaultCertificate])
+  }
+
   return (
     <Box>
       <form className="form">
-        {fields.map(({ id, _id }, index) => (
-          <Box key={id}>
-            <Box marginBottom={2}>
-              <TextField
-                {...register(`certificates.${index}.name`)}
-                id={`certificates-${index}-company_name`}
-                type="text"
-                label="Name of the certificate"
-                variant="standard"
-                className="form-field"
-                placeholder="Name of the certificate"
-                fullWidth
-                disabled={fields.length - 1 > index}
-                InputLabelProps={{ shrink: true }}
-                error={!!errors.certificates?.[index]?.name?.message}
-                helperText={errors.certificates?.[index]?.name?.message}
-              />
-            </Box>
-            <Box marginBottom={2}>
-              <TextField
-                {...register(`certificates.${index}.date`)}
-                id={`certificates-${index}-date`}
-                type="date"
-                label="Date of receiving"
-                variant="standard"
-                className="form-field"
-                placeholder="Date of receiving"
-                fullWidth
-                minRows={4}
-                disabled={fields.length - 1 > index}
-                InputLabelProps={{ shrink: true }}
-                error={!!errors.certificates?.[index]?.date?.message}
-                helperText={errors.certificates?.[index]?.date?.message}
-              />
-            </Box>
-            <Box maxWidth={200} marginBottom={2}>
-              <UploadImage
-                disabled={fields.length - 1 > index}
-                image={getValues().certificates[index].image || null}
-                onChange={(value) => onChangeUploadCertificate(value, index)}
-              />
-              {errors.certificates?.[index]?.image ? (
-                <Typography
-                  variant="caption"
-                  style={{ color: '#d32f2f', fontSize: '13px' }}
-                >
-                  {errors.certificates?.[index]?.image?.message}
-                </Typography>
-              ) : null}
-              <input
-                {...register(`certificates.${index}.image`)}
-                type="file"
-                hidden
-              />
-            </Box>
+        {getValues().certificates.length ? (
+          <Box>
+            {fields.map(({ id, _id }, index) => (
+              <Box key={id}>
+                <Box marginBottom={2}>
+                  <TextField
+                    {...register(`certificates.${index}.name`)}
+                    id={`certificates-${index}-company_name`}
+                    type="text"
+                    label="Name of the certificate"
+                    variant="standard"
+                    className="form-field"
+                    placeholder="Name of the certificate"
+                    fullWidth
+                    disabled={fields.length - 1 > index}
+                    InputLabelProps={{ shrink: true }}
+                    error={!!errors.certificates?.[index]?.name?.message}
+                    helperText={errors.certificates?.[index]?.name?.message}
+                  />
+                </Box>
+                <Box marginBottom={2}>
+                  <TextField
+                    {...register(`certificates.${index}.date`)}
+                    id={`certificates-${index}-date`}
+                    type="date"
+                    label="Date of receiving"
+                    variant="standard"
+                    className="form-field"
+                    placeholder="Date of receiving"
+                    fullWidth
+                    minRows={4}
+                    disabled={fields.length - 1 > index}
+                    InputLabelProps={{ shrink: true }}
+                    error={!!errors.certificates?.[index]?.date?.message}
+                    helperText={errors.certificates?.[index]?.date?.message}
+                  />
+                </Box>
+                <Box maxWidth={200} marginBottom={2}>
+                  <UploadImage
+                    disabled={fields.length - 1 > index}
+                    image={getValues().certificates[index].image || null}
+                    onChange={(value) =>
+                      onChangeUploadCertificate(value, index)
+                    }
+                  />
+                  {errors.certificates?.[index]?.image ? (
+                    <Typography
+                      variant="caption"
+                      style={{ color: '#d32f2f', fontSize: '13px' }}
+                    >
+                      {errors.certificates?.[index]?.image?.message}
+                    </Typography>
+                  ) : null}
+                  <input
+                    {...register(`certificates.${index}.image`)}
+                    type="file"
+                    hidden
+                  />
+                </Box>
 
-            {fields.length - 1 > index ? (
-              <>
+                {fields.length - 1 > index ? (
+                  <>
+                    <Button
+                      type="button"
+                      size="small"
+                      onClick={() => handleOpenModal(_id || '', index)}
+                    >
+                      <Box
+                        component="span"
+                        marginRight={1}
+                        display="inline-block"
+                        style={{
+                          verticalAlign: 'middle',
+                        }}
+                      >
+                        <Icon
+                          icon={IconEnum.BIN}
+                          color={colors.primary}
+                          size={16}
+                        />
+                      </Box>
+                      <Box
+                        component="span"
+                        display="inline-block"
+                        style={{
+                          verticalAlign: 'middle',
+                          paddingTop: 4,
+                        }}
+                      >
+                        Remove
+                      </Box>
+                    </Button>
+                    <Box marginTop={1} marginBottom={4}>
+                      <Divider />
+                    </Box>
+                  </>
+                ) : null}
+              </Box>
+            ))}
+            <Box
+              display="flex"
+              alignItems="center"
+              marginBottom={3}
+              maxWidth={400}
+            >
+              <Stack direction="row" gap={2}>
                 <Button
-                  type="button"
+                  type="submit"
+                  variant="outlined"
                   size="small"
-                  onClick={() => handleOpenModal(_id || '', index)}
+                  disabled={isLoading}
+                  onClick={handleSubmit(handleAddCertificate)}
                 >
                   <Box
                     component="span"
@@ -217,7 +272,7 @@ function TeacherCertificates({ onHandleClose }: ITeacherСertificatesFormProps) 
                     }}
                   >
                     <Icon
-                      icon={IconEnum.BIN}
+                      icon={IconEnum.PLUS}
                       color={colors.primary}
                       size={16}
                     />
@@ -227,57 +282,50 @@ function TeacherCertificates({ onHandleClose }: ITeacherСertificatesFormProps) 
                     display="inline-block"
                     style={{
                       verticalAlign: 'middle',
-                      paddingTop: 4,
+                      paddingTop: 2,
                     }}
                   >
-                    Remove
+                    Add certificate
+                  </Box>
+                  <Box ml={2}>
+                    {isLoading ? <CircularProgress size={16} /> : null}
                   </Box>
                 </Button>
-                <Box marginTop={1} marginBottom={4}>
-                  <Divider />
-                </Box>
-              </>
-            ) : null}
+                <Button variant="outlined" size="small" onClick={onHandleClose}>
+                  Close
+                </Button>
+              </Stack>
+            </Box>
           </Box>
-        ))}
-        <Box display="flex" alignItems="center" marginBottom={3} maxWidth={400}>
-          <Stack direction="row" gap={2}>
-            <Button
-              type="submit"
-              variant="outlined"
-              size="small"
-              disabled={isLoading}
-              onClick={handleSubmit(handleAddCertificate)}
+        ) : (
+          <Button
+            type="submit"
+            variant="contained"
+            size="small"
+            onClick={handleAddFormCertificate}
+          >
+            <Box
+              component="span"
+              marginRight={1}
+              display="inline-block"
+              style={{
+                verticalAlign: 'middle',
+              }}
             >
-              <Box
-                component="span"
-                marginRight={1}
-                display="inline-block"
-                style={{
-                  verticalAlign: 'middle',
-                }}
-              >
-                <Icon icon={IconEnum.PLUS} color={colors.primary} size={16} />
-              </Box>
-              <Box
-                component="span"
-                display="inline-block"
-                style={{
-                  verticalAlign: 'middle',
-                  paddingTop: 2,
-                }}
-              >
-                Add certificate
-              </Box>
-              <Box ml={2}>
-                {isLoading ? <CircularProgress size={16} /> : null}
-              </Box>
-            </Button>
-            <Button variant="outlined" size="small" onClick={onHandleClose}>
-              Close
-            </Button>
-          </Stack>
-        </Box>
+              <Icon icon={IconEnum.PLUS} color={colors.white} size={16} />
+            </Box>
+            <Box
+              component="span"
+              display="inline-block"
+              style={{
+                verticalAlign: 'middle',
+                paddingTop: 2,
+              }}
+            >
+              Add activity
+            </Box>
+          </Button>
+        )}
       </form>
       <Modal open={modalOpen} onClose={handleCloseModal}>
         <Box className="modal-box">
