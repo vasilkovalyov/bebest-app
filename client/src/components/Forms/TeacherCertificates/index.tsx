@@ -322,7 +322,7 @@ function TeacherCertificates({ onHandleClose }: ITeacherСertificatesFormProps) 
                 paddingTop: 2,
               }}
             >
-              Add activity
+              Add certificate
             </Box>
           </Button>
         )}

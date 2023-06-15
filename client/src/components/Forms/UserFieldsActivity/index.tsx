@@ -50,7 +50,7 @@ const defaultWorkExperience: IUserFieldActivity = {
   skills: [],
 }
 
-const defaultfieldsActivity: IUserFieldsActivityInfo = {
+const defaultInitialData: IUserFieldsActivityInfo = {
   fields_activity: [defaultWorkExperience],
 }
 
@@ -78,7 +78,7 @@ function UserFieldsActivityForm({
   })
 
   const defaultFields = fieldsActivityStore.length
-    ? defaultfieldsActivity.fields_activity
+    ? defaultInitialData.fields_activity
     : []
 
   const { handleSubmit, register, setValue, getValues, control } =
