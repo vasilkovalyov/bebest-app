@@ -153,7 +153,7 @@ class StudentController {
     }
   }
 
-  async getSubject(req: RequestWithAuthUser, res: Response) {
+  async getSubjects(req: RequestWithAuthUser, res: Response) {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)

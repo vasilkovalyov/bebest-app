@@ -49,9 +49,9 @@ router.delete(
 );
 
 router.get(
-  '/get-subject/student',
+  '/get-subjects/student',
   authMiddleware,
-  studentController.getSubject
+  studentController.getSubjects
 );
 
 export default router;
