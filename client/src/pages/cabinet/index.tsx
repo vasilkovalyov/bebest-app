@@ -35,7 +35,7 @@ function PageCabinet() {
       dispatch(fetchTeacherPersonalInfo())
       dispatch(fetchPaymentCard(userStore.role))
     }
-  }, [dispatch])
+  }, [userStore])
 
   return (
     <CabinetLayout>
