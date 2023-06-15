@@ -1,5 +1,8 @@
 // libs
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+
+//redux
+import { useAppSelector } from '@/redux/hooks'
 
 // material ui components
 import Typography from '@mui/material/Typography'
@@ -17,30 +20,10 @@ import StudentSubjectsForm from '@/components/Forms/Account/StudentSubjectsForm'
 import ContainerWithShadow from '@/components/Generic/ContainerWithShadow'
 import PreviewStudentSubjects from '@/components/Previews/PreviewStudentSubjects'
 
-//other utils
-import studentSubjectsService, {
-  IStudentSubject,
-} from '@/services/student-subjects'
-
 function StudentSubjectsBlock() {
   const [isEdit, seIsEdit] = useState<boolean>(false)
-  const [subjects, setSubjects] = useState<IStudentSubject[] | []>([])
-  const [loading, setLoading] = useState<boolean>(true)
 
-  async function loadSubjects() {
-    try {
-      const response = await studentSubjectsService.getSubjects()
-      setSubjects(response.data.subjects)
-    } catch (e) {
-      console.log(e)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  useEffect(() => {
-    loadSubjects()
-  }, [])
+  const studentSubjectsStore = useAppSelector((store) => store.studentSubjects)
 
   function onHandleClose() {
     seIsEdit(!isEdit)
@@ -64,7 +47,7 @@ function StudentSubjectsBlock() {
             {!isEdit ? <Icon icon={IconEnum.EDIT} size={18} /> : 'Close'}
           </Button>
         </Stack>
-        {loading ? (
+        {studentSubjectsStore.loading ? (
           <Box textAlign="center">
             <Fade in={true} unmountOnExit>
               <CircularProgress />
@@ -73,7 +56,7 @@ function StudentSubjectsBlock() {
         ) : (
           <Box>
             {!isEdit ? (
-              <PreviewStudentSubjects items={subjects} />
+              <PreviewStudentSubjects items={studentSubjectsStore.subjects} />
             ) : (
               <StudentSubjectsForm onHandleClose={onHandleClose} />
             )}

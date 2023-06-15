@@ -1,11 +1,13 @@
+import { createWrapper } from 'next-redux-wrapper'
+import { combineReducers } from 'redux'
 import thunk from 'redux-thunk'
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
 import { authSlice } from '../slices/auth'
 import { subjectsSlice } from '../slices/subjects'
 import { teacherPersonalInfoSlice } from '../slices/teacher-personal-info'
 import { paymentCardSlice } from '../slices/payment-card'
-import { createWrapper } from 'next-redux-wrapper'
-import { combineReducers } from 'redux'
+import { studentSubjectsSlice } from '../slices/student-subjects'
+
 import { serviceApi } from '../apiService'
 // import { userApi } from '../services/student'
 // import { authApi } from '../services/auth'
@@ -15,6 +17,7 @@ const rootReducer = combineReducers({
   [subjectsSlice.name]: subjectsSlice.reducer,
   [teacherPersonalInfoSlice.name]: teacherPersonalInfoSlice.reducer,
   [paymentCardSlice.name]: paymentCardSlice.reducer,
+  [studentSubjectsSlice.name]: studentSubjectsSlice.reducer,
   // [serviceApi.reducerPath]: serviceApi.reducer,
 })
 

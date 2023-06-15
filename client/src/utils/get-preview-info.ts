@@ -1,5 +1,5 @@
 import { IPreviewUserAccountItem } from '@/components/Previews/PreviewUserAccount/PreviewUserAccount.type'
-import { IStudentSubject } from '@/services/student-subjects'
+import { IStudentSubject } from '@/redux/slices/student-subjects'
 
 export function getPreviewInfo(
   subjects: IStudentSubject[]

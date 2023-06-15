@@ -6,12 +6,14 @@ import { authSlice } from '../slices/auth'
 import { subjectsSlice } from '../slices/subjects'
 import { teacherPersonalInfoSlice } from '../slices/teacher-personal-info'
 import { paymentCardSlice } from '../slices/payment-card'
+import { studentSubjectsSlice } from '../slices/student-subjects'
 
 const actions = {
   ...authSlice.actions,
   ...subjectsSlice.actions,
   ...teacherPersonalInfoSlice.actions,
   ...paymentCardSlice.actions,
+  ...studentSubjectsSlice.actions,
 }
 
 export const useActions = () => {

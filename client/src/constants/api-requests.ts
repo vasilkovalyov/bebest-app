@@ -12,7 +12,7 @@ export const PRIVATE_REQUESTS = {
   UPDATE_PASSWORD: 'update-password',
   ADD_SUBJECT_STUDENT: 'add-subject/student',
   REMOVE_SUBJECT_STUDENT: 'remove-subject/student',
-  GET_SUBJECTS_STUDENT: 'get-subject/student',
+  GET_SUBJECTS_STUDENT: 'get-subjects/student',
   MAIN_FIELDS_ACTIVITY: 'main-fields-activity',
   PERSONAL_INFO: 'personal-info',
   PERSONAL_LESSONS_TEACHER: 'personal-lessons/teacher',

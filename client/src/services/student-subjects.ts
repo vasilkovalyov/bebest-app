@@ -1,26 +1,9 @@
 import { PRIVATE_REQUESTS } from '@/constants/api-requests'
+import { IStudentSubject } from '@/redux/slices/student-subjects'
 import $api from '@/utils/ajax'
 import { AxiosResponse } from 'axios'
 
-export interface IStudentSubject {
-  _id?: string
-  subject_study: string
-  level_mastery_subject: string
-}
-
-export interface IStudentSubjectsResponse {
-  subjects: IStudentSubject[] | []
-  _id: string
-}
-
 class StudentSubjectsService {
-  async getSubjects(): Promise<AxiosResponse<IStudentSubjectsResponse>> {
-    const response = await $api().get(
-      `/${PRIVATE_REQUESTS.GET_SUBJECTS_STUDENT}`
-    )
-    return response
-  }
-
   async addSubject(
     subject: IStudentSubject
   ): Promise<AxiosResponse<{ message: string }>> {
