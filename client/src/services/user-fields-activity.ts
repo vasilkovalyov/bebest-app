@@ -2,16 +2,22 @@ import { PRIVATE_REQUESTS } from '@/constants/api-requests'
 import $api from '@/utils/ajax'
 import { AxiosResponse } from 'axios'
 import { UserRole } from '@/types/role'
+import { ISubjectSkill } from './subjects'
 
 export interface IUserFieldActivity {
   _id?: string
   activity: string
-  skills: string[] | []
+  skills: ISubjectSkill[] | []
+}
+
+export interface IUserFieldActivityRequestProps {
+  categoryId: string
+  skills: string[]
 }
 
 class UserFieldsActivityService {
   async addMainFieldsActivity(
-    props: IUserFieldActivity,
+    props: IUserFieldActivityRequestProps,
     role: UserRole
   ): Promise<AxiosResponse<{ message: string }>> {
     const response = await $api().post(

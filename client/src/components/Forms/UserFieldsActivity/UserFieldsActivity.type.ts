@@ -10,7 +10,7 @@ export interface IUserFieldsActivityFormProps {
 }
 
 export interface ISkillsChecked {
-  subjects: string[]
+  subjects: ISubjectSkill[]
 }
 
 export interface ISubjectsActivities {

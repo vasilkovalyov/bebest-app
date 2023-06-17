@@ -1,4 +1,4 @@
-import { ISubject } from '@/services/subjects'
+import { ISubject, ISubjectSkill } from '@/services/subjects'
 import { IUserFieldActivity } from '@/services/user-fields-activity'
 import { ISkillsChecked, ISubjectsActivities } from './UserFieldsActivity.type'
 
@@ -37,10 +37,10 @@ export function getFieldsAndSubjectsData(
 
 export function getUpdatedCheckedSkills(
   data: ISkillsChecked[],
-  skills: string[],
+  skills: ISubjectSkill[],
   index: number
 ): ISkillsChecked[] {
-  const updatedSkillsArr = skills.filter((item: string) => item !== '')
+  const updatedSkillsArr = skills.filter((item) => item.subject !== '')
   const dataCopy: ISkillsChecked[] = [...data]
 
   if (dataCopy.length > 0 || dataCopy.length === index) {
@@ -59,3 +59,5 @@ export function getUpdatedCheckedSkills(
 
   return dataCopy
 }
+
+export function getIdsFromFieldsActivity() {}

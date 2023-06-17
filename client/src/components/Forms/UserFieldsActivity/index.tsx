@@ -42,8 +42,10 @@ import {
 import colors from '@/constants/colors'
 import userFieldsActivityService, {
   IUserFieldActivity,
+  IUserFieldActivityRequestProps,
 } from '@/services/user-fields-activity'
 import { useLoadUserInfo } from '@/hooks/useLoadUserInfo'
+import { ISubjectSkill } from '@/services/subjects'
 
 const defaultWorkExperience: IUserFieldActivity = {
   activity: '',
@@ -98,12 +100,19 @@ function UserFieldsActivityForm({
 
   async function handleAdd(data: IUserFieldsActivityInfo) {
     if (!user.user.role) return
+
     try {
       const fieldsActivity = {
         ...data.fields_activity[data.fields_activity.length - 1],
       }
+
+      const props: IUserFieldActivityRequestProps = {
+        categoryId: fieldsActivity._id || '',
+        skills: checkedSkills[0].subjects.map((item) => item._id),
+      }
+
       await userFieldsActivityService.addMainFieldsActivity(
-        fieldsActivity,
+        props,
         user.user.role
       )
 
@@ -122,6 +131,7 @@ function UserFieldsActivityForm({
     })
     setCheckedSkills(checkedArr)
   }
+
   function removeSelectedSkill() {
     const selectedSkillsArr = selectedSkills.filter((item, key) => {
       if (key !== selectRemoveFieldActivity.index) return item
@@ -186,6 +196,8 @@ function UserFieldsActivityForm({
         return item
       })
     }
+
+    setValue(`fields_activity.${index}._id`, activitySubjects[0]._id)
     setValue(`fields_activity.${index}.activity`, activitySubjects[0].category)
     setSelectedSkills(tempArr)
     setCheckedSkills(checkedSkillsArr)
@@ -196,11 +208,29 @@ function UserFieldsActivityForm({
     index: number
   ) {
     const values = event.target.value as string[]
+    const skills: ISubjectSkill[] = []
+
+    values.forEach((item) => {
+      if (!item) return
+      const subject = selectedSkills[0].subjects.find(
+        (skill) => skill.subject === item
+      )
+      if (subject) {
+        skills.push(subject)
+      }
+    })
+
     const updatedCheckedSkills = getUpdatedCheckedSkills(
       checkedSkills,
-      values,
+      skills,
       index
     )
+
+    setValue(
+      `fields_activity.${index}.skills`,
+      updatedCheckedSkills[index].subjects
+    )
+
     setCheckedSkills(updatedCheckedSkills)
   }
 
@@ -276,14 +306,16 @@ function UserFieldsActivityForm({
                       checkedSkills.length &&
                       checkedSkills[index] &&
                       checkedSkills[index].subjects.length
-                        ? checkedSkills[index].subjects
+                        ? checkedSkills[index].subjects.map(
+                            (item) => item.subject
+                          )
                         : ['']
                     }
                     defaultValue={['']}
                     disabled={fields.length - 1 > index}
-                    onChange={(e: SelectChangeEvent<string[]>) =>
+                    onChange={(e: SelectChangeEvent<string[]>) => {
                       onHandleChangeSkills(e, index)
-                    }
+                    }}
                     renderValue={(selected) => {
                       const updatedSelected = selected.filter(
                         (item) => item !== ''
@@ -297,15 +329,19 @@ function UserFieldsActivityForm({
 
                     {selectedSkills.length && selectedSkills[index]
                       ? selectedSkills[index].subjects.map((item) => (
-                          <MenuItem key={item._id} value={item.subject}>
+                          <MenuItem
+                            key={item._id}
+                            id={item._id}
+                            value={item.subject}
+                          >
                             <Checkbox
                               checked={
                                 checkedSkills.length &&
                                 checkedSkills[index] &&
                                 checkedSkills[index].subjects
-                                  ? checkedSkills[index].subjects.indexOf(
-                                      item.subject
-                                    ) > -1
+                                  ? checkedSkills[index].subjects
+                                      .map((item) => item.subject)
+                                      .indexOf(item.subject) > -1
                                   : false
                               }
                             />
