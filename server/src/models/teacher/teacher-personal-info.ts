@@ -1,5 +1,4 @@
-import { File } from 'buffer';
-import { Schema, model, Document } from 'mongoose';
+import { Schema, model, Document, ObjectId } from 'mongoose';
 
 export interface ITeacherCertificate {
   _id?: string;
@@ -9,7 +8,15 @@ export interface ITeacherCertificate {
 }
 
 export interface ITeacherMainFieldsActivity {
-  activity: string;
+  categoryId: string;
+  skills: {
+    _id: string;
+    subject: string;
+  }[];
+}
+
+export interface ITeacherMainFieldsActivityRequest
+  extends Pick<ITeacherMainFieldsActivity, 'categoryId'> {
   skills: string[];
 }
 
@@ -53,8 +60,12 @@ const TeacherPersonalInfoSchema = new Schema<ITeacherPersonalInfoModel>({
   },
   fields_activity: [
     {
-      activity: { type: String, required: true },
-      skills: [{ type: String }],
+      categoryId: {
+        type: Schema.Types.ObjectId,
+        required: true,
+        ref: 'Subject',
+      },
+      skills: [{ type: Schema.Types.ObjectId }],
     },
   ],
   personal_lessons: {

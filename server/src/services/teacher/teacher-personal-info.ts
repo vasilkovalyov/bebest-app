@@ -1,11 +1,14 @@
 import ApiError from '../../utils/api-error';
+
 import TeacherPersonalInfoModel, {
   ITeacherCostPersonalLesson,
-  ITeacherMainFieldsActivity,
+  ITeacherMainFieldsActivityRequest,
   ITeacherWorkExperience,
   ITeacherCertificate,
 } from '../../models/teacher/teacher-personal-info';
 import TeacherProgressAccountModel from '../../models/teacher/teacher-progress-account';
+
+import SubjectModel from '../../models/subject.model';
 
 import teacherProgressAccountService from './teacher-progress-account';
 import { uploadCertificate } from '../../utils/upload-file';
@@ -15,10 +18,26 @@ import responseMessages, {
 import responseTeacherMessages from '../../constants/responseTeacherMessages';
 
 class TeacherPersonalInfoService {
-  async addMainFieldsActivity(id: string, props: ITeacherMainFieldsActivity) {
+  async addMainFieldsActivity(
+    id: string,
+    props: ITeacherMainFieldsActivityRequest
+  ) {
+    const { categoryId, skills } = props;
+
+    const subjects = await SubjectModel.findOne({
+      _id: categoryId,
+    });
+
     const response = await TeacherPersonalInfoModel.findOneAndUpdate(
       { teacherId: id },
-      { $push: { fields_activity: props } },
+      {
+        $push: {
+          fields_activity: {
+            categoryId: subjects?._id,
+            skills: skills,
+          },
+        },
+      },
       { new: true }
     ).select('fields_activity');
 
@@ -31,12 +50,12 @@ class TeacherPersonalInfoService {
     };
   }
 
-  async removeMainFieldsActivity(id: string, activityId: string) {
+  async removeMainFieldsActivity(id: string, categoryId: string) {
     const response = await TeacherPersonalInfoModel.findOneAndUpdate(
       {
         teacherId: id,
       },
-      { $pull: { fields_activity: { _id: activityId } } },
+      { $pull: { fields_activity: { categoryId: categoryId } } },
       { new: true }
     );
 
@@ -118,7 +137,43 @@ class TeacherPersonalInfoService {
       throw ApiError.BadRequestError(userWithIdNotFound('teacher', id));
     }
 
-    return response;
+    // console.log('response', response);
+
+    const activities = await TeacherPersonalInfoModel.find()
+      .select('fields_activity')
+      .populate('fields_activity.categoryId', 'children')
+      .exec()
+      .then((res) => {
+        console.log('res', res[0].fields_activity);
+        return res[0].fields_activity;
+      });
+    // .exec()
+    // .then((res) => {
+    //   console.log('res', res);
+    //   return res;
+    // });
+
+    // .populate('_id', 'category')
+    // .exec()
+    // .then((posts) => {
+    //   console.log('posts', posts);
+    //   return posts;
+    // });
+
+    // const activities = await SubjectModel.find({
+    //   _id: {
+    //     $in: response.fields_activity.map((item) => item.categoryId),
+    //   },
+    // }).populate('categoryId');
+
+    console.log('activities', activities);
+
+    return {
+      _id: response._id,
+      fields_activity: [],
+      work_experience: response.work_experience,
+      certificates: response.certificates,
+    };
   }
 
   async uploadCertificate(id: string, props: ITeacherCertificate) {
