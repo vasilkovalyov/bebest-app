@@ -1,6 +1,7 @@
 import ApiError from '../utils/api-error';
 import StudentModel from '../models/student/student.model';
 import TeacherModel from '../models/teacher/teacher.model';
+import CompanyModel from '../models/company/company.model';
 import UserModel from '../models/user.model';
 import bcrypt from 'bcrypt';
 import { ILoginResponse } from '../interfaces/response';
@@ -68,6 +69,30 @@ class LoginService {
       return {
         userId: teacherModel._id,
         role: teacherModel.role,
+        token: token.accessToken,
+      };
+    }
+
+    if (user.role === 'company') {
+      const companyModel = await CompanyModel.findOne({
+        _id: user.userId,
+      });
+
+      if (!companyModel)
+        throw ApiError.BadRequestError(userWithEmailNotFound('company', email));
+
+      const validPass = await bcrypt.compare(password, companyModel.password);
+      if (!validPass)
+        throw ApiError.BadRequestError(responseMessages.wrongPassword);
+
+      const token = await tokenService.generateTokens({
+        _id: companyModel._id,
+        role: companyModel.role,
+      });
+
+      return {
+        userId: companyModel._id,
+        role: companyModel.role,
         token: token.accessToken,
       };
     }

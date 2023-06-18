@@ -8,8 +8,10 @@ import StudentRegistration, {
 import TeacherRegistration, {
   ITeacherRegistrationProps,
 } from '../services/registration/teacher.registration';
-import responseStudentMessages from '../constants/responseStudentMessages';
-import responseTeacherMessages from '../constants/responseTeacherMessages';
+import CompanyRegistration, {
+  ICompanyRegistrationProps,
+} from '../services/registration/company.registration';
+import { userCreateSuccessfull } from '../constants/responseMessages';
 import status from '../constants/status';
 
 class RegistrationController {
@@ -24,13 +26,19 @@ class RegistrationController {
         strategy.setStrategy(
           new StudentRegistration(req.body as IRegistrationStudentProps)
         );
-        strategy.successMessage = responseStudentMessages.createSuccessful;
+        strategy.successMessage = userCreateSuccessfull('student');
       }
       if (role === 'teacher') {
         strategy.setStrategy(
           new TeacherRegistration(req.body as ITeacherRegistrationProps)
         );
-        strategy.successMessage = responseTeacherMessages.createSuccessful;
+        strategy.successMessage = userCreateSuccessfull('teacher');
+      }
+      if (role === 'company') {
+        strategy.setStrategy(
+          new CompanyRegistration(req.body as ICompanyRegistrationProps)
+        );
+        strategy.successMessage = userCreateSuccessfull('company');
       }
 
       if (!strategy) {

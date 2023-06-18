@@ -28,3 +28,7 @@ export function userWithEmailNotFound(userRole: string, email: string) {
 export function userWithIdNotFound(userRole: string, id: string) {
   return `${userRole} with id - ${id} not found!`;
 }
+
+export function userCreateSuccessfull(userRole: string) {
+  return `${userRole} created successfull`;
+}

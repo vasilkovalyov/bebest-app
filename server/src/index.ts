@@ -10,6 +10,7 @@ import databaseConnect from './database';
 
 import studentRoute from './routes/student.routes';
 import teacherRoute from './routes/teacher.routes';
+import companyRoute from './routes/company.routes';
 import authRoute from './routes/auth.routes';
 import subjectRoute from './routes/subject.routes';
 
@@ -34,6 +35,7 @@ import subjectRoute from './routes/subject.routes';
   server.use('/api', authRoute);
   server.use('/api', studentRoute);
   server.use('/api', teacherRoute);
+  server.use('/api', companyRoute);
   server.use('/api', subjectRoute);
 
   try {
