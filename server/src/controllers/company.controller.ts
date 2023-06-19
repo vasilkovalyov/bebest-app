@@ -1,7 +1,6 @@
 import { File } from 'buffer';
 import { Response } from 'express';
-import teacherService from '../services/teacher/teacher.service';
-import teacherPaymentCardService from '../services/teacher/teacher-payment-card';
+import companyService from '../services/company/company.service';
 import { RequestWithAuthUser } from '../interfaces/token';
 import status from '../constants/status';
 import responseTeacherMessages from '../constants/responseTeacherMessages';
@@ -14,7 +13,7 @@ class CompanyController {
         .json(responseTeacherMessages.notUserByToken);
 
     try {
-      const response = await teacherService.removeUser(req.user._id);
+      const response = await companyService.removeUser(req.user._id);
       return res.status(status.SUCCESS).json({
         data: response,
       });
@@ -33,7 +32,7 @@ class CompanyController {
         .json(responseTeacherMessages.notUserByToken);
 
     try {
-      const response = await teacherService.changePassword(
+      const response = await companyService.changePassword(
         req.user._id,
         req.body.password
       );
@@ -53,7 +52,7 @@ class CompanyController {
         .json(responseTeacherMessages.notUserByToken);
 
     try {
-      const response = await teacherService.getUserInfo(req.user._id);
+      const response = await companyService.getUserInfo(req.user._id);
 
       return res.status(status.SUCCESS).json(response);
     } catch (e) {
@@ -72,7 +71,7 @@ class CompanyController {
         .json(responseTeacherMessages.notUserByToken);
 
     try {
-      const response = await teacherService.uploadUserAvatar(
+      const response = await companyService.uploadUserAvatar(
         req.user._id,
         req.body.avatar
       );
@@ -96,7 +95,7 @@ class CompanyController {
         .json(responseTeacherMessages.notUserByToken);
 
     try {
-      const response = await teacherService.updateUserInfo(req.user._id, {
+      const response = await companyService.updateUserInfo(req.user._id, {
         ...req.body,
         video: req.files?.video || null,
       });

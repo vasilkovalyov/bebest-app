@@ -48,7 +48,7 @@ class CompanyService {
 
   async getUserInfo(id: string) {
     const companyModel = await CompanyModel.findOne({ _id: id }).select(
-      '_id name surname email role phone about avatar'
+      '_id company_name admin_name admin_surname email role phone about avatar'
     );
 
     if (!companyModel) {
