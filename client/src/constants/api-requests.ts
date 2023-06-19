@@ -2,6 +2,7 @@ export const PUBLIC_REQUESTS = {
   LOGIN: 'login',
   REGISTRATION_STUDENT: 'registration/student',
   REGISTRATION_TEACHER: 'registration/teacher',
+  REGISTRATION_COMPANY: 'registration/company',
   IS_AUTH: 'is-auth',
   GET_SUBJECTS: 'subjects',
 }

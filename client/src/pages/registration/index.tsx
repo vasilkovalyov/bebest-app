@@ -20,11 +20,14 @@ import RegistrationStudentForm from '@/components/Forms/Registration/Registratio
 import { IRegistrationStudent } from '../../components/Forms/Registration/RegistrationStudent/RegistrationStudent.type'
 import RegistrationTeacherForm from '@/components/Forms/Registration/RegistrationTeacher'
 import { IRegistrationTeacher } from '../../components/Forms/Registration/RegistrationTeacher/RegistrationTeacher.type'
+import RegistrationCompanyForm from '@/components/Forms/Registration/RegistrationCompany'
+import { IRegistrationCompany } from '../../components/Forms/Registration/RegistrationCompany/RegistrationCompany.type'
 
 // other utils
 import { UserRole } from '@/types/role'
 import studentService from '@/services/student'
 import teacherService from '@/services/teacher'
+import companyService from '@/services/company'
 import { AxiosError } from 'axios'
 
 export default function Registration() {
@@ -35,8 +38,9 @@ export default function Registration() {
 
   async function handleRegistration<
     S extends IRegistrationStudent,
-    T extends IRegistrationTeacher
-  >(role: UserRole, data: S | T) {
+    T extends IRegistrationTeacher,
+    C extends IRegistrationCompany
+  >(role: UserRole, data: S | T | C) {
     try {
       setIsLoading(true)
       if (role === 'student') {
@@ -45,6 +49,10 @@ export default function Registration() {
       }
       if (role === 'teacher') {
         const response = await teacherService.registration(data as T)
+        setSuccessMessage(response.data.message)
+      }
+      if (role === 'company') {
+        const response = await companyService.registration(data as C)
         setSuccessMessage(response.data.message)
       }
     } catch (e) {
@@ -152,6 +160,11 @@ export default function Registration() {
                     The company has opportunities to create courses, register,
                     appoint mentors and conduct courses on a paid and free basis
                   </Typography>
+                  <RegistrationCompanyForm
+                    onSubmit={(props) => handleRegistration('company', props)}
+                    isLoading={isLoading}
+                    validationMessage={errorMessage}
+                  />
                 </TabPanel>
               </Box>
             </ContainerWithShadow>
