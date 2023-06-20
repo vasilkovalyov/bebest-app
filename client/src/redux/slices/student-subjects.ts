@@ -4,16 +4,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { PRIVATE_REQUESTS } from '@/constants/api-requests'
 import $api from '@/utils/ajax'
 import { defaultStudentSubjects } from '../default-state/studentSubjects'
-
-export interface IStudentSubject {
-  _id?: string
-  subject_study: string
-  level_mastery_subject: string
-}
-
-export interface IStudentSubjects {
-  subjects: IStudentSubject[] | []
-}
+import { IStudentSubjects } from '@/types/student/student-subject'
 
 export interface IStudentSubjectsState extends IStudentSubjects {
   loading: boolean

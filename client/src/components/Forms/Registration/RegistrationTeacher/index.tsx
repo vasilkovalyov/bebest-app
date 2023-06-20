@@ -10,11 +10,9 @@ import Typography from '@mui/material/Typography'
 import CircularProgress from '@mui/material/CircularProgress'
 
 // relate utils
-import {
-  IRegistrationTeacherFormProps,
-  IRegistrationTeacher,
-} from './RegistrationTeacher.type'
+import { IRegistrationTeacherFormProps } from './RegistrationTeacher.type'
 import { RegistrationFormValidationSchema } from './RegistrationTeacher.validation'
+import { ITeacherRegistration } from '@/types/teacher/teacher'
 
 function RegistrartionTeacherForm({
   onSubmit,
@@ -25,7 +23,7 @@ function RegistrartionTeacherForm({
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm<IRegistrationTeacher>({
+  } = useForm<ITeacherRegistration>({
     mode: 'onSubmit',
     resolver: yupResolver(RegistrationFormValidationSchema),
   })

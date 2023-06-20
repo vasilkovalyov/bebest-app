@@ -5,7 +5,12 @@ import { useActions } from '@/redux/hooks'
 
 export function useLogout() {
   const router = useRouter()
-  const { removeAuthState } = useActions()
+  const {
+    removeAuthState,
+    removeTeacherState,
+    removeCompanyState,
+    removeStudentState,
+  } = useActions()
 
   function logOut() {
     router.push('/').then(() => {
@@ -13,6 +18,9 @@ export function useLogout() {
       destroyCookie(null, 'userId')
       destroyCookie(null, 'token')
       removeAuthState()
+      removeStudentState()
+      removeTeacherState()
+      removeCompanyState()
     })
   }
 

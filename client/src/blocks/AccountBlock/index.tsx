@@ -16,10 +16,11 @@ import ChangePasswordForm from '@/components/Forms/ChangePassword'
 import ContainerWithShadow from '@/components/Generic/ContainerWithShadow'
 import TabPanel from '@/components/Generic/TabPanel'
 import Icon from '@/components/Generic/Icon'
-import { IconEnum } from '@/components/Generic/Icon/Icon.type'
+import PaymentBlock from '../PaymentBlock'
 import StudentAccountBlock from '../StudentAccountBlock'
 import TeacherAccountBlock from '../TeacherAccountBlock'
-import PaymentBlock from '../PaymentBlock'
+import CompanyAccountBlock from '../CompanyAccountBlock'
+import { IconEnum } from '@/types/icons'
 
 function AccountBlock() {
   const user = useAppSelector((store) => store.user.user)
@@ -85,6 +86,7 @@ function AccountBlock() {
       <TabPanel value={tabValue} index={0}>
         {user.role === 'student' ? <StudentAccountBlock /> : null}
         {user.role === 'teacher' ? <TeacherAccountBlock /> : null}
+        {user.role === 'company' ? <CompanyAccountBlock /> : null}
       </TabPanel>
       <TabPanel value={tabValue} index={1}>
         <ChangePasswordForm />

@@ -16,7 +16,7 @@ import Stack from '@mui/material/Stack'
 //custom components
 import PaymentCard from '@/components/PaymentCard'
 import Icon from '@/components/Generic/Icon'
-import { IconEnum } from '@/components/Generic/Icon/Icon.type'
+import { IconEnum } from '@/types/icons'
 import WarningIcon from '@/components/Generic/WarningIcon'
 
 //other utils

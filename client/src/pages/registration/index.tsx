@@ -17,11 +17,11 @@ import Layout from '@/layouts/Layout'
 import TabPanel from '@/components/Generic/TabPanel'
 import ContainerWithShadow from '@/components/Generic/ContainerWithShadow'
 import RegistrationStudentForm from '@/components/Forms/Registration/RegistrationStudent'
-import { IRegistrationStudent } from '../../components/Forms/Registration/RegistrationStudent/RegistrationStudent.type'
 import RegistrationTeacherForm from '@/components/Forms/Registration/RegistrationTeacher'
-import { IRegistrationTeacher } from '../../components/Forms/Registration/RegistrationTeacher/RegistrationTeacher.type'
 import RegistrationCompanyForm from '@/components/Forms/Registration/RegistrationCompany'
-import { IRegistrationCompany } from '../../components/Forms/Registration/RegistrationCompany/RegistrationCompany.type'
+import { IStudentRegistration } from '@/types/student/student'
+import { ITeacherRegistration } from '@/types/teacher/teacher'
+import { ICompanyRegistration } from '@/types/company/company'
 
 // other utils
 import { UserRole } from '@/types/role'
@@ -37,9 +37,9 @@ export default function Registration() {
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
 
   async function handleRegistration<
-    S extends IRegistrationStudent,
-    T extends IRegistrationTeacher,
-    C extends IRegistrationCompany
+    S extends IStudentRegistration,
+    T extends ITeacherRegistration,
+    C extends ICompanyRegistration
   >(role: UserRole, data: S | T | C) {
     try {
       setIsLoading(true)

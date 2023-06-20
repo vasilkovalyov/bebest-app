@@ -19,7 +19,7 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import Typography from '@mui/material/Typography'
 
 //custom components
-import { IconEnum } from '@/components/Generic/Icon/Icon.type'
+import { IconEnum } from '@/types/icons'
 import Icon from '@/components/Generic/Icon'
 import WarningIcon from '@/components/Generic/WarningIcon'
 
@@ -33,11 +33,11 @@ import { TeacherWorkExperienceFormValidationSchema } from './TeacherWorkExperien
 // other utils
 import colors from '@/constants/colors'
 import { Stack } from '@mui/material'
-import { ITeacherWorkExperience } from '@/services/teacher-work-experience'
 import teacherWorkExperienceService from '@/services/teacher-work-experience'
 import { useLoadUserInfo } from '@/hooks/useLoadUserInfo'
+import { IWorkExperience } from '@/types/common'
 
-const defaultWorkExperience: ITeacherWorkExperience = {
+const defaultWorkExperience: IWorkExperience = {
   company_name: '',
   description: '',
   startDate: '',
@@ -115,7 +115,6 @@ function TeacherWorkExperienceForm({
   }
 
   function handleOpenModal(id: string, index: number) {
-    console.log(id, index)
     setSelectRemoveWorkExperienceId({
       id,
       index,

@@ -10,7 +10,7 @@ import Badge from '@mui/material/Badge'
 
 //custom components
 import Icon from '@/components/Generic/Icon'
-import { IconEnum } from '@/components/Generic/Icon/Icon.type'
+import { IconEnum } from '@/types/icons'
 
 // other utils
 import profilePages from '@/constants/profile-pages'

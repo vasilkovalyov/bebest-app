@@ -22,7 +22,7 @@ import Stack from '@mui/material/Stack'
 
 //custom components
 import Icon from '@/components/Generic/Icon'
-import { IconEnum } from '@/components/Generic/Icon/Icon.type'
+import { IconEnum } from '@/types/icons'
 import InfoIcon from '@/components/Generic/InfoIcon'
 
 // relate utils
@@ -33,10 +33,10 @@ import teacherService from '@/services/teacher'
 import teacherCostPersonalLessonsService, {
   UseTrialLessonType,
 } from '@/services/teacher-cost-personal-lessons'
-import { ITeacherCostPersonalLesson } from '@/services/teacher-cost-personal-lessons'
 import { useLoadUserInfo } from '@/hooks/useLoadUserInfo'
+import { ICostPersonalLesson } from '@/types/common'
 
-const defaultData: ITeacherCostPersonalLesson = {
+const defaultData: ICostPersonalLesson = {
   duration: '',
   price: '',
   is_free: false,
@@ -72,13 +72,12 @@ function TeacherCostPersonalLessons({
     setModalOpen(false)
   }
 
-  const { handleSubmit, register, setValue } =
-    useForm<ITeacherCostPersonalLesson>({
-      mode: 'onSubmit',
-      defaultValues: teacherPersonalInfo.personal_lessons || defaultData,
-    })
+  const { handleSubmit, register, setValue } = useForm<ICostPersonalLesson>({
+    mode: 'onSubmit',
+    defaultValues: teacherPersonalInfo.personal_lessons || defaultData,
+  })
 
-  async function onHandleSave(data: ITeacherCostPersonalLesson) {
+  async function onHandleSave(data: ICostPersonalLesson) {
     try {
       await teacherCostPersonalLessonsService.updatePersonalLessonsInfo(data)
       dispatch(fetchTeacherPersonalInfo())

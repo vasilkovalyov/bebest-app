@@ -1,11 +1,5 @@
 // libs
-import { useState } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { AxiosError } from 'axios'
-
-//redux
-import { useActions } from '@/redux/hooks'
 
 // material ui components
 import Layout from '@/layouts/Layout'
@@ -15,51 +9,7 @@ import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
 
-// custom components
-import { loginUser, ILogin } from '@/components/Forms/Login/Login.service'
-
-// other utils
-import studentService from '@/services/student'
-import teacherService from '@/services/teacher'
-import pages from '@/constants/pages'
-
 function PageLogin() {
-  const router = useRouter()
-  const { setAuthState } = useActions()
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [errorMessage, setErrorMessage] = useState<string | null>(null)
-
-  async function onSubmit({ email, password }: ILogin) {
-    try {
-      setIsLoading(true)
-      const loginResponse = await loginUser(email, password)
-      if (loginResponse.status === 200) {
-        setErrorMessage(null)
-      }
-
-      const { role, token, userId } = loginResponse.data
-
-      router.push(pages.cabinet).then(() => {
-        if (role === 'student') {
-          studentService.getUserInfo().then((userResponse) => {
-            setAuthState(userResponse.data)
-          })
-        }
-        if (role === 'teacher') {
-          teacherService.getUserInfo().then((userResponse) => {
-            setAuthState(userResponse.data)
-          })
-        }
-        setIsLoading(false)
-      })
-    } catch (e) {
-      if (e instanceof AxiosError) {
-        setErrorMessage(e.response?.data.error)
-      }
-      setIsLoading(false)
-    }
-  }
-
   return (
     <Layout className="page-login">
       <Container>
@@ -85,11 +35,7 @@ function PageLogin() {
             marginRight: 'auto',
           }}
         >
-          <LoginForm
-            onSubmit={onSubmit}
-            isLoading={isLoading}
-            validationMessage={errorMessage}
-          />
+          <LoginForm />
         </Box>
       </Container>
     </Layout>

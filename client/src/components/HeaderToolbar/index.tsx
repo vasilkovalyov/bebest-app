@@ -4,6 +4,7 @@ import cn from 'classnames'
 
 //redux
 import { useAppSelector } from '@/redux/hooks'
+import { useActions } from '@/redux/hooks'
 
 // custom hooks
 import { useLogout } from '@/hooks/useLogout'

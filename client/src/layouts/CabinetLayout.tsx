@@ -28,7 +28,7 @@ function CabinetLayout({
   currentPageTitle?: string
   children?: React.ReactNode
 }) {
-  const userStore = useAppSelector((store) => store.user.user)
+  const teacherStore = useAppSelector((store) => store.teacher.user)
 
   return (
     <>
@@ -77,9 +77,9 @@ function CabinetLayout({
               className="section-cabinet__aside"
             >
               <CabinetSidebarUserInfo />
-              {userStore.role === 'teacher' &&
-              userStore.progress_account &&
-              userStore.progress_account.profile_progress ? (
+              {teacherStore.role === 'teacher' &&
+              teacherStore.progress_account &&
+              teacherStore.progress_account.profile_progress ? (
                 <Box paddingTop={2} paddingX={3} marginBottom={2}>
                   <ProgressAccount />
                   <Divider />

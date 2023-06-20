@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AppState } from '../store'
 import { HYDRATE } from 'next-redux-wrapper'
-import { ISubject } from '@/services/subjects'
 import { defaultSubjectsState } from '../default-state/subjects'
+import { ISubject } from '@/types/subjects'
 
 export interface ISubjectsState {
   subjects: ISubject[]

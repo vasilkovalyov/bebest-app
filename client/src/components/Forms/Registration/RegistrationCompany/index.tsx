@@ -10,11 +10,9 @@ import Typography from '@mui/material/Typography'
 import CircularProgress from '@mui/material/CircularProgress'
 
 // relate utils
-import {
-  IRegistrationCompanyFormProps,
-  IRegistrationCompany,
-} from './RegistrationCompany.type'
+import { IRegistrationCompanyFormProps } from './RegistrationCompany.type'
 import { RegistrationFormValidationSchema } from './RegistrationCompany.validation'
+import { ICompanyRegistration } from '@/types/company/company'
 
 function RegistrartionCompanyForm({
   onSubmit,
@@ -25,7 +23,7 @@ function RegistrartionCompanyForm({
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm<IRegistrationCompany>({
+  } = useForm<ICompanyRegistration>({
     mode: 'onSubmit',
     resolver: yupResolver(RegistrationFormValidationSchema),
   })

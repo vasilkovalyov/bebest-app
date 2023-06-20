@@ -15,7 +15,7 @@ import CircularProgress from '@mui/material/CircularProgress'
 
 //custom components
 import Icon from '@/components/Generic/Icon'
-import { IconEnum } from '@/components/Generic/Icon/Icon.type'
+import { IconEnum } from '@/types/icons'
 import ContainerWithShadow from '@/components/Generic/ContainerWithShadow'
 import TeacherCertificates from '@/components/Forms/TeacherCertificates'
 import PreviewCertificates from '@/components/Previews/PreviewCertificates'

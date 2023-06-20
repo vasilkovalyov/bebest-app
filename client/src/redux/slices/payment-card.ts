@@ -5,11 +5,7 @@ import { PRIVATE_REQUESTS } from '@/constants/api-requests'
 import $api from '@/utils/ajax'
 import { UserRole } from '@/types/role'
 import { defaultPaymentCardState } from '../default-state/payment-card'
-
-export interface IPaymentCard {
-  username: string
-  card_number: string
-}
+import { IPaymentCard } from '@/types/payment-card'
 
 export interface IPaymentCardState extends IPaymentCard {
   loading: boolean

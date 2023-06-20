@@ -1,9 +1,9 @@
-import { ISubject, ISubjectSkill } from '@/services/subjects'
-import { IUserFieldActivity } from '@/services/user-fields-activity'
+import { ISubject, ISubjectSkill } from '@/types/subjects'
 import { ISkillsChecked, ISubjectsActivities } from './UserFieldsActivity.type'
+import { IFieldActivity } from '@/types/common'
 
 export function getFieldsAndSubjectsData(
-  fields: IUserFieldActivity[],
+  fields: IFieldActivity[],
   subjects: ISubject[]
 ): { subjectArr: ISubjectsActivities[]; checkedSubjectArr: ISkillsChecked[] } {
   const subjectArr: ISubjectsActivities[] = []

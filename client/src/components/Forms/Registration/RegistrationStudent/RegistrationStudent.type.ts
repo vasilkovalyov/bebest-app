@@ -1,13 +1,7 @@
-export interface IRegistrationStudent {
-  name: string
-  surname: string
-  email: string
-  password: string
-  confirm_password: string
-}
+import { IStudentRegistration } from '@/types/student/student'
 
 export interface IRegistrationStudentFormProps {
-  onSubmit: (props: IRegistrationStudent) => void
+  onSubmit: (props: IStudentRegistration) => void
   isLoading: boolean
   validationMessage?: string | null
 }

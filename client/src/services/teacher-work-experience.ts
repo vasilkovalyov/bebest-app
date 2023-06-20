@@ -1,19 +1,11 @@
 import { PRIVATE_REQUESTS } from '@/constants/api-requests'
+import { IWorkExperience } from '@/types/common'
 import $api from '@/utils/ajax'
 import { AxiosResponse } from 'axios'
 
-export interface ITeacherWorkExperience {
-  _id?: string
-  company_name: string
-  description: string | null
-  startDate: string
-  endDate: string | null
-  isStillWorking: boolean
-}
-
 class TeacherWorkExperienceService {
   async addWorkExperience(
-    props: ITeacherWorkExperience
+    props: IWorkExperience
   ): Promise<AxiosResponse<{ message: string }>> {
     const response = await $api().post(
       `/${PRIVATE_REQUESTS.WORK_EXPERIENCE}/teacher`,

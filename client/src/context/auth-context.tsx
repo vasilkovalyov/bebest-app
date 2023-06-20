@@ -1,4 +1,4 @@
-import { IAuthUserInfo } from '@/redux/slices/auth'
+import { IUser } from '../types/user'
 import React, {
   createContext,
   useContext,
@@ -8,13 +8,13 @@ import React, {
 } from 'react'
 
 interface IAuthContextProps {
-  user: IAuthUserInfo | null
-  setUser: Dispatch<SetStateAction<IAuthUserInfo | null>>
+  user: IUser | null
+  setUser: Dispatch<SetStateAction<IUser | null>>
 }
 
 interface IAuthProviderProps {
   children: React.ReactNode
-  user: IAuthUserInfo | null
+  user: IUser | null
 }
 
 export const AuthContext = createContext<IAuthContextProps>({
@@ -23,7 +23,7 @@ export const AuthContext = createContext<IAuthContextProps>({
 })
 
 export function AuthProvider({ children, user: userData }: IAuthProviderProps) {
-  const [user, setUser] = useState<IAuthUserInfo | null>(userData)
+  const [user, setUser] = useState<IUser | null>(userData)
 
   return (
     <AuthContext.Provider value={{ user, setUser }}>

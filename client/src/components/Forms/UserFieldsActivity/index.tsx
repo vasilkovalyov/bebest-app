@@ -22,7 +22,7 @@ import ListItemText from '@mui/material/ListItemText'
 import Stack from '@mui/material/Stack'
 
 //custom components
-import { IconEnum } from '@/components/Generic/Icon/Icon.type'
+import { IconEnum } from '@/types/icons'
 import Icon from '@/components/Generic/Icon'
 import WarningIcon from '@/components/Generic/WarningIcon'
 
@@ -40,14 +40,12 @@ import {
 
 // other utils
 import colors from '@/constants/colors'
-import userFieldsActivityService, {
-  IUserFieldActivity,
-  IUserFieldActivityRequestProps,
-} from '@/services/user-fields-activity'
+import userFieldsActivityService from '@/services/user-fields-activity'
 import { useLoadUserInfo } from '@/hooks/useLoadUserInfo'
-import { ISubjectSkill } from '@/services/subjects'
+import { IFieldActivity, IFieldActivityRequest } from '@/types/common'
+import { ISubjectSkill } from '@/types/subjects'
 
-const defaultWorkExperience: IUserFieldActivity = {
+const defaultWorkExperience: IFieldActivity = {
   activity: '',
   skills: [],
 }
@@ -106,7 +104,7 @@ function UserFieldsActivityForm({
         ...data.fields_activity[data.fields_activity.length - 1],
       }
 
-      const props: IUserFieldActivityRequestProps = {
+      const props: IFieldActivityRequest = {
         categoryId: fieldsActivity._id || '',
         skills: checkedSkills[0].subjects.map((item) => item._id),
       }

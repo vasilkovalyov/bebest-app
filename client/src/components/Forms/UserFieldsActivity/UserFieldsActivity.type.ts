@@ -1,8 +1,8 @@
-import { ISubjectSkill } from '@/services/subjects'
-import { IUserFieldActivity } from '@/services/user-fields-activity'
+import { IFieldActivity } from '@/types/common'
+import { ISubjectSkill } from '@/types/subjects'
 
 export interface IUserFieldsActivityInfo {
-  fields_activity: IUserFieldActivity[] | []
+  fields_activity: IFieldActivity[] | []
 }
 
 export interface IUserFieldsActivityFormProps {

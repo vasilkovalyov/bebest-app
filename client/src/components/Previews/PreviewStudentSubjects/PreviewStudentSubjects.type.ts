@@ -1,4 +1,4 @@
-import { IStudentSubject } from '@/redux/slices/student-subjects'
+import { IStudentSubject } from '@/types/student/student-subject'
 
 export interface IPreviewStudentSubjectsProps {
   items: IStudentSubject[]

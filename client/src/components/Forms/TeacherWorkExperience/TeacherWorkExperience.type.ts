@@ -1,7 +1,7 @@
-import { ITeacherWorkExperience } from '@/services/teacher-work-experience'
+import { IWorkExperience } from '@/types/common'
 
 export interface ITeacherWorkExperienceInfo {
-  work_experience: ITeacherWorkExperience[] | []
+  work_experience: IWorkExperience[] | []
 }
 
 export interface ITeacherWorkExperienceFormProps {

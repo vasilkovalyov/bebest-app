@@ -1,17 +1,11 @@
 import { PRIVATE_REQUESTS } from '@/constants/api-requests'
+import { IСertificate } from '@/types/common'
 import $api from '@/utils/ajax'
 import { AxiosResponse } from 'axios'
 
-export interface IUserСertificate {
-  _id?: string
-  name: string
-  date: string
-  image: string | null
-}
-
 class TeacherСertificatesService {
   async addCertificate(
-    props: IUserСertificate
+    props: IСertificate
   ): Promise<AxiosResponse<{ message: string }>> {
     const response = await $api('', 'multipart/form-data').post(
       `/${PRIVATE_REQUESTS.UPLOAD_CERTIFICATE}/teacher`,

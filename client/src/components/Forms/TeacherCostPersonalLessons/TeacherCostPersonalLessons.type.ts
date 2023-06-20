@@ -1,6 +1,6 @@
-import { ITeacherCostPersonalLesson } from '@/services/teacher-cost-personal-lessons'
+import { ICostPersonalLesson } from '@/types/common'
 
 export interface ITeacherCostPersonalLessonsFormProps {
-  initialData?: ITeacherCostPersonalLesson
+  initialData?: ICostPersonalLesson
   onHandleClose: () => void
 }

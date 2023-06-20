@@ -1,25 +1,18 @@
 import $api from '@/utils/ajax'
 import { AxiosResponse } from 'axios'
-import { UserRole } from '@/types/role'
 import { PRIVATE_REQUESTS } from '@/constants/api-requests'
 import { PUBLIC_REQUESTS } from '@/constants/api-requests'
 import { IRegistrationResponse } from '@/interfaces/common'
-import { IRegistrationTeacher } from '../components/Forms/Registration/RegistrationTeacher/RegistrationTeacher.type'
-import { IAuthUserInfo } from '@/redux/slices/auth'
-
-export type UserAccountInfoEditType = Omit<
-  IAuthUserInfo,
-  'role' | '_id' | 'progress_account' | 'video'
-> & {
-  video?: File | string | null
-}
+import {
+  ITeacherRegistration,
+  ITeacherAccountFormFields,
+  ITeacher,
+} from '@/types/teacher/teacher'
 
 class TeacherService {
-  constructor() {}
-
   async getUserInfo(
     token?: string | undefined
-  ): Promise<AxiosResponse<IAuthUserInfo>> {
+  ): Promise<AxiosResponse<ITeacher>> {
     const response = await $api(token).get(
       `/${PRIVATE_REQUESTS.USER_INFO}/teacher`
     )
@@ -27,7 +20,7 @@ class TeacherService {
   }
 
   async registration(
-    props: IRegistrationTeacher
+    props: ITeacherRegistration
   ): Promise<AxiosResponse<IRegistrationResponse>> {
     const response = await $api().post(
       `/${PUBLIC_REQUESTS.REGISTRATION_TEACHER}`,
@@ -48,8 +41,8 @@ class TeacherService {
   }
 
   async updateUserAccountInfo(
-    props: UserAccountInfoEditType
-  ): Promise<AxiosResponse<IAuthUserInfo>> {
+    props: ITeacherAccountFormFields
+  ): Promise<AxiosResponse<ITeacher>> {
     const response = await $api('', 'multipart/form-data').post(
       `/${PRIVATE_REQUESTS.USER_INFO}/teacher`,
       {

@@ -14,7 +14,7 @@ import Typography from '@mui/material/Typography'
 //custom components
 import AccountStudentForm from '@/components/Forms/Account/AccountStudent'
 import Icon from '@/components/Generic/Icon'
-import { IconEnum } from '@/components/Generic/Icon/Icon.type'
+import { IconEnum } from '@/types/icons'
 import WarningIcon from '@/components/Generic/WarningIcon'
 import PreviewUserAccount from '@/components/Previews/PreviewUserAccount'
 
@@ -27,7 +27,7 @@ import studentService from '@/services/student'
 
 function StudentAccountBlock() {
   const { logOut } = useLogout()
-  const user = useAppSelector((store) => store.user.user)
+  const user = useAppSelector((store) => store.student.user)
   const [isEdit, seIsEdit] = useState<boolean>(false)
   const [modalOpen, setModalOpen] = useState<boolean>(false)
 

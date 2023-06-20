@@ -19,44 +19,16 @@ import UploadAvatar from '@/components/Uploaders/UploadAvatar'
 
 // relate utils
 import { AccountStudentFormValidationSchema } from './AccountStudent.validation'
+import { fields } from './AccountStudent.utils'
 
 // other utils
-import studentService, { UserAccountInfoEditType } from '@/services/student'
+import studentService from '@/services/student'
 import { useLoadUserInfo } from '@/hooks/useLoadUserInfo'
 import uploadFileService from '@/services/upload-file'
-
-const fields: Readonly<
-  {
-    name: keyof UserAccountInfoEditType
-    label: string
-    textarea?: boolean
-  }[]
-> = [
-  {
-    name: 'name',
-    label: 'Name',
-  },
-  {
-    name: 'surname',
-    label: 'Surname',
-  },
-  {
-    name: 'email',
-    label: 'Email',
-  },
-  {
-    name: 'phone',
-    label: 'Phone',
-  },
-  {
-    name: 'about',
-    label: 'About',
-    textarea: true,
-  },
-]
+import { IStudentAccountFormFields } from '@/types/student/student'
 
 function AccountStudentForm({ onHandleClose }: { onHandleClose: () => void }) {
-  const user = useAppSelector((state) => state.user.user)
+  const user = useAppSelector((state) => state.student.user)
   const { loadUserInfo } = useLoadUserInfo()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isLoadingUpload, setIsLoadingUpload] = useState<boolean>(false)
@@ -66,7 +38,7 @@ function AccountStudentForm({ onHandleClose }: { onHandleClose: () => void }) {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm<UserAccountInfoEditType>({
+  } = useForm<IStudentAccountFormFields>({
     mode: 'onSubmit',
     defaultValues: {
       name: user.name,
@@ -78,7 +50,7 @@ function AccountStudentForm({ onHandleClose }: { onHandleClose: () => void }) {
     resolver: yupResolver(AccountStudentFormValidationSchema),
   })
 
-  async function onSubmit(props: UserAccountInfoEditType) {
+  async function onSubmit(props: IStudentAccountFormFields) {
     setIsLoading(true)
 
     try {
@@ -142,7 +114,7 @@ function AccountStudentForm({ onHandleClose }: { onHandleClose: () => void }) {
             </Box>
           </Grid>
           <Grid item md={6}>
-            {fields.map(({ name, label, textarea }) => (
+            {fields.map(({ name, label, disabled, textarea }) => (
               <Box key={name} marginBottom={2}>
                 <TextField
                   {...register(name)}
@@ -154,6 +126,7 @@ function AccountStudentForm({ onHandleClose }: { onHandleClose: () => void }) {
                   className="form-field"
                   fullWidth
                   {...(textarea && { multiline: true, minRows: 5 })}
+                  disabled={disabled}
                   InputLabelProps={{ shrink: true }}
                   error={!!errors[name]?.message}
                   helperText={errors[name]?.message}

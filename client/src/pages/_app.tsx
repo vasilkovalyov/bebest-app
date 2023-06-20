@@ -6,7 +6,10 @@ import { parseCookies } from 'nookies'
 //redux
 import { Provider } from 'react-redux'
 import { wrapper } from '@/redux/store'
-import { setAuthState } from '@/redux/slices/auth'
+import { setAuthState } from '@/redux/slices/users/auth'
+import { setStudentState } from '@/redux/slices/users/student'
+import { setTeacherState } from '@/redux/slices/users/teacher'
+import { setCompanyState } from '@/redux/slices/users/company'
 import { setSubjects } from '@/redux/slices/subjects'
 
 //material ui
@@ -79,20 +82,46 @@ App.getInitialProps = wrapper.getInitialAppProps(
         }
 
         let user: unknown | any
+
         if (role === ('student' as UserRole)) {
           user = await studentService.getUserInfo(token)
+          store.dispatch(
+            setAuthState({
+              _id: user.data._id,
+              role: user.data.role,
+              name: user.data.name,
+              surname: user.data.surname,
+              avatar: user.data.avatar || '',
+            })
+          )
+          store.dispatch(setStudentState(user.data))
         }
         if (role === ('teacher' as UserRole)) {
           user = await teacherService.getUserInfo(token)
+          store.dispatch(
+            setAuthState({
+              _id: user.data._id,
+              role: user.data.role,
+              name: user.data.name,
+              surname: user.data.surname,
+              avatar: user.data.avatar || '',
+            })
+          )
+          store.dispatch(setTeacherState(user.data))
         }
         if (role === ('company' as UserRole)) {
           user = await companyService.getUserInfo(token)
-          console.log(user)
+          store.dispatch(
+            setAuthState({
+              _id: user.data._id,
+              role: user.data.role,
+              name: user.data.admin_name,
+              surname: user.data.admin_surname,
+              avatar: user.data.avatar || '',
+            })
+          )
+          store.dispatch(setCompanyState(user.data))
         }
-
-        const userData = await user.data
-        console.log('userData', userData)
-        store.dispatch(setAuthState(userData))
       } catch (e) {
         if (e instanceof Error) {
           console.log('e', e.message)

@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography'
 
 // custom components
 import Icon from '@/components/Generic/Icon'
-import { IconEnum } from '@/components/Generic/Icon/Icon.type'
+import { IconEnum } from '@/types/icons'
 
 // other utils
 import pages from '@/constants/pages'

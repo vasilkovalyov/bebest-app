@@ -2,6 +2,11 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useRouter } from 'next/router'
+import { AxiosError } from 'axios'
+
+//redux
+import { useActions } from '@/redux/hooks'
 
 // material ui components
 import Box from '@mui/material/Box'
@@ -16,18 +21,24 @@ import Icon from '@/components/Generic/Icon'
 import ContainerWithShadow from '@/components/Generic/ContainerWithShadow'
 
 // other utils
-import { IconEnum } from '@/components/Generic/Icon/Icon.type'
+import { IconEnum } from '@/types/icons'
+import studentService from '@/services/student'
+import teacherService from '@/services/teacher'
+import companyService from '@/services/company'
+import pages from '@/constants/pages'
+import { loginUser } from '@/components/Forms/Login/Login.service'
 
 // relate utils
-import { ILogin } from './Login.service'
-import { ILoginFormProps } from './Login.type'
+import { ILogin } from './Login.type'
 import { LoginFormValidationSchema } from './Login.validation'
 
-function LoginForm({
-  onSubmit,
-  isLoading,
-  validationMessage,
-}: ILoginFormProps) {
+function LoginForm() {
+  const router = useRouter()
+  const { setAuthState, setStudentState, setTeacherState, setCompanyState } =
+    useActions()
+
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [showPassword, setShowPassword] = useState<boolean>(false)
 
   const {
@@ -38,6 +49,64 @@ function LoginForm({
     mode: 'onSubmit',
     resolver: yupResolver(LoginFormValidationSchema),
   })
+
+  async function onSubmit({ email, password }: ILogin) {
+    try {
+      setIsLoading(true)
+      const loginResponse = await loginUser(email, password)
+      if (loginResponse.status === 200) {
+        setErrorMessage(null)
+      }
+
+      const { role, token, userId } = loginResponse.data
+
+      router.push(pages.cabinet).then(() => {
+        if (role === 'student') {
+          studentService.getUserInfo().then((userResponse) => {
+            setAuthState({
+              _id: userResponse.data._id,
+              name: userResponse.data.name,
+              surname: userResponse.data.surname,
+              avatar: userResponse.data.avatar,
+              role: userResponse.data.role,
+            })
+            setStudentState(userResponse.data)
+          })
+        }
+        if (role === 'teacher') {
+          teacherService.getUserInfo().then((userResponse) => {
+            setAuthState({
+              _id: userResponse.data._id,
+              name: userResponse.data.name,
+              surname: userResponse.data.surname,
+              avatar: userResponse.data.avatar,
+              role: userResponse.data.role,
+            })
+            setTeacherState(userResponse.data)
+          })
+        }
+        if (role === 'company') {
+          companyService.getUserInfo().then((userResponse) => {
+            setAuthState({
+              _id: userResponse.data._id,
+              name: userResponse.data.admin_name,
+              surname: userResponse.data.admin_surname,
+              avatar: userResponse.data.avatar,
+              role: userResponse.data.role,
+            })
+            setCompanyState(userResponse.data)
+          })
+        }
+
+        setIsLoading(false)
+      })
+    } catch (e) {
+      if (e instanceof AxiosError) {
+        setErrorMessage(e.response?.data.error)
+      }
+      setIsLoading(false)
+    }
+  }
 
   return (
     <ContainerWithShadow className="container--login">
@@ -91,10 +160,10 @@ function LoginForm({
             helperText={errors.password?.message}
           />
         </Box>
-        {validationMessage && (
+        {errorMessage && (
           <Box marginBottom={2}>
             <Typography variant="body2" color="danger" textAlign="center">
-              {validationMessage}
+              {errorMessage}
             </Typography>
           </Box>
         )}

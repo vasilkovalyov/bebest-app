@@ -1,5 +1,5 @@
 import { PRIVATE_REQUESTS } from '@/constants/api-requests'
-import { IPaymentCard } from '@/redux/slices/payment-card'
+import { IPaymentCard } from '@/types/payment-card'
 import { UserRole } from '@/types/role'
 import $api from '@/utils/ajax'
 import { AxiosResponse } from 'axios'

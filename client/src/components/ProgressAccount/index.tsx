@@ -25,7 +25,7 @@ function ProgressAccount() {
   const [progressInfo, setProgressInfo] = useState<ProgressInfoType[]>([])
   const [toggleContent, setToggleContent] = useState<boolean>(false)
   const progressAccountStore = useAppSelector(
-    (store) => store.user.user.progress_account
+    (store) => store.teacher.user.progress_account
   )
 
   function getGeneratedProgressInfo() {

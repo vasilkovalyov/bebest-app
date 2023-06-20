@@ -2,19 +2,10 @@ import { AxiosResponse } from 'axios'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { PRIVATE_REQUESTS } from '@/constants/api-requests'
-import { ITeacherCostPersonalLesson } from '@/services/teacher-cost-personal-lessons'
 import $api from '@/utils/ajax'
-import { IUserFieldActivity } from '@/services/user-fields-activity'
-import { ITeacherWorkExperience } from '@/services/teacher-work-experience'
-import { IUserСertificate } from '@/services/teacher-certificates'
-import { defaultTeacherPersonalInfoState } from '../default-state/teacher-personal-info'
 
-export interface ITeacherPersonalInfo {
-  fields_activity: IUserFieldActivity[]
-  work_experience: ITeacherWorkExperience[]
-  personal_lessons: ITeacherCostPersonalLesson | null
-  certificates: IUserСertificate[] | []
-}
+import { defaultTeacherPersonalInfoState } from '../default-state/teacher-personal-info'
+import { ITeacherPersonalInfo } from '@/types/teacher/teacher-personal-info'
 
 export interface ITeacherPersonalInfoState extends ITeacherPersonalInfo {
   loading: boolean

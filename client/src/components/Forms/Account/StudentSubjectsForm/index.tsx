@@ -6,11 +6,7 @@ import { useForm, useFieldArray } from 'react-hook-form'
 //redux
 import { useDispatch } from 'react-redux'
 import { useAppSelector } from '@/redux/hooks'
-import {
-  IStudentSubject,
-  IStudentSubjects,
-  fetchStudentSubjects,
-} from '@/redux/slices/student-subjects'
+import { fetchStudentSubjects } from '@/redux/slices/student-subjects'
 
 // material ui components
 import Box from '@mui/material/Box'
@@ -22,7 +18,7 @@ import Typography from '@mui/material/Typography'
 import Stack from '@mui/material/Stack'
 
 //custom components
-import { IconEnum } from '@/components/Generic/Icon/Icon.type'
+import { IconEnum } from '@/types/icons'
 import Icon from '@/components/Generic/Icon'
 import WarningIcon from '@/components/Generic/WarningIcon'
 
@@ -33,6 +29,10 @@ import { StudentSubjectsFormValidationSchema } from './StudentSubjectsForm.valid
 // other utils
 import colors from '@/constants/colors'
 import studentSubjectsService from '@/services/student-subjects'
+import {
+  IStudentSubject,
+  IStudentSubjects,
+} from '@/types/student/student-subject'
 
 const defaultStudentSubjects: IStudentSubject = {
   subject_study: '',

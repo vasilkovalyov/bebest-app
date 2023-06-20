@@ -1,5 +1,5 @@
-import { ITeacherCostPersonalLesson } from '@/services/teacher-cost-personal-lessons'
+import { ICostPersonalLesson } from '@/types/common'
 
 export interface IPreviewTeacherCostPersonalLessonsProps {
-  data?: ITeacherCostPersonalLesson | null
+  data?: ICostPersonalLesson | null
 }

@@ -1,5 +1,5 @@
-import { ITeacherWorkExperience } from '@/services/teacher-work-experience'
+import { IWorkExperience } from '@/types/common'
 
 export interface IPreviewWorkExperienceProps {
-  items: ITeacherWorkExperience[] | []
+  items: IWorkExperience[] | []
 }

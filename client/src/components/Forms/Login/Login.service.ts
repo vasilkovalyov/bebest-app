@@ -3,11 +3,6 @@ import { AxiosResponse } from 'axios'
 import { PUBLIC_REQUESTS } from '@/constants/api-requests'
 import { UserRole } from '@/types/role'
 
-export interface ILogin {
-  email: string
-  password: string
-}
-
 export interface AuthenticationUserResponse {
   userId: string
   role: UserRole

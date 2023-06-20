@@ -3,20 +3,16 @@ import { AxiosResponse } from 'axios'
 import { PRIVATE_REQUESTS } from '@/constants/api-requests'
 import { PUBLIC_REQUESTS } from '@/constants/api-requests'
 import { IRegistrationResponse } from '@/interfaces/common'
-import { IRegistrationStudent } from '../components/Forms/Registration/RegistrationStudent/RegistrationStudent.type'
-import { IAuthUserInfo } from '@/redux/slices/auth'
-
-export type UserAccountInfoEditType = Omit<
-  IAuthUserInfo,
-  'role' | '_id' | 'avatar'
->
+import {
+  IStudent,
+  IStudentAccountFormFields,
+  IStudentRegistration,
+} from '@/types/student/student'
 
 class StudentService {
-  constructor() {}
-
   async getUserInfo(
     token?: string | undefined
-  ): Promise<AxiosResponse<IAuthUserInfo>> {
+  ): Promise<AxiosResponse<IStudent>> {
     const response = await $api(token).get(
       `/${PRIVATE_REQUESTS.USER_INFO}/student`
     )
@@ -24,7 +20,7 @@ class StudentService {
   }
 
   async registrationStudent(
-    props: IRegistrationStudent
+    props: IStudentRegistration
   ): Promise<AxiosResponse<IRegistrationResponse>> {
     const response = await $api().post(
       `/${PUBLIC_REQUESTS.REGISTRATION_STUDENT}`,
@@ -46,8 +42,8 @@ class StudentService {
   }
 
   async updateUserAccountInfo(
-    props: UserAccountInfoEditType
-  ): Promise<AxiosResponse<IAuthUserInfo>> {
+    props: IStudentAccountFormFields
+  ): Promise<AxiosResponse<IStudent>> {
     const response = await $api().post(
       `/${PRIVATE_REQUESTS.USER_INFO}/student`,
       {

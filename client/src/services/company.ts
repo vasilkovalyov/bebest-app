@@ -3,20 +3,16 @@ import { AxiosResponse } from 'axios'
 import { PRIVATE_REQUESTS } from '@/constants/api-requests'
 import { PUBLIC_REQUESTS } from '@/constants/api-requests'
 import { IRegistrationResponse } from '@/interfaces/common'
-import { IRegistrationCompany } from '../components/Forms/Registration/RegistrationCompany/RegistrationCompany.type'
-import { IAuthUserInfo } from '@/redux/slices/auth'
-
-export type UserAccountInfoEditType = Omit<
-  IAuthUserInfo,
-  'role' | '_id' | 'progress_account' | 'video'
->
+import {
+  ICompany,
+  ICompanyAccountFormFields,
+  ICompanyRegistration,
+} from '@/types/company/company'
 
 class CompanyService {
-  constructor() {}
-
   async getUserInfo(
     token?: string | undefined
-  ): Promise<AxiosResponse<IAuthUserInfo>> {
+  ): Promise<AxiosResponse<ICompany>> {
     const response = await $api(token).get(
       `/${PRIVATE_REQUESTS.USER_INFO}/company`
     )
@@ -24,7 +20,7 @@ class CompanyService {
   }
 
   async registration(
-    props: IRegistrationCompany
+    props: ICompanyRegistration
   ): Promise<AxiosResponse<IRegistrationResponse>> {
     const response = await $api().post(
       `/${PUBLIC_REQUESTS.REGISTRATION_COMPANY}`,
@@ -45,8 +41,8 @@ class CompanyService {
   }
 
   async updateUserAccountInfo(
-    props: UserAccountInfoEditType
-  ): Promise<AxiosResponse<IAuthUserInfo>> {
+    props: ICompanyAccountFormFields
+  ): Promise<AxiosResponse<ICompany>> {
     const response = await $api().post(
       `/${PRIVATE_REQUESTS.USER_INFO}/company`,
       {

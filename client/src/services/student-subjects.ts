@@ -1,5 +1,5 @@
 import { PRIVATE_REQUESTS } from '@/constants/api-requests'
-import { IStudentSubject } from '@/redux/slices/student-subjects'
+import { IStudentSubject } from '@/types/student/student-subject'
 import $api from '@/utils/ajax'
 import { AxiosResponse } from 'axios'
 

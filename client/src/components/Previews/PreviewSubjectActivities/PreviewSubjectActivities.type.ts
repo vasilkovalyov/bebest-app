@@ -1,5 +1,5 @@
-import { IUserFieldActivity } from '@/services/user-fields-activity'
+import { IFieldActivity } from '@/types/common'
 
 export interface IPreviewSubjectActivitiesProps {
-  items: IUserFieldActivity[]
+  items: IFieldActivity[]
 }

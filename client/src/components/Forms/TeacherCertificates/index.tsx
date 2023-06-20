@@ -19,7 +19,7 @@ import Stack from '@mui/material/Stack'
 import CircularProgress from '@mui/material/CircularProgress'
 
 //custom components
-import { IconEnum } from '@/components/Generic/Icon/Icon.type'
+import { IconEnum } from '@/types/icons'
 import Icon from '@/components/Generic/Icon'
 import WarningIcon from '@/components/Generic/WarningIcon'
 import UploadImage from '@/components/Uploaders/UploadImage'
@@ -34,11 +34,11 @@ import { TeacherCertificatesFormValidationSchema } from './TeacherCertificates.t
 // other utils
 import colors from '@/constants/colors'
 
-import { IUserСertificate } from '@/services/teacher-certificates'
 import teacherСertificatesService from '@/services/teacher-certificates'
 import { useLoadUserInfo } from '@/hooks/useLoadUserInfo'
+import { IСertificate } from '@/types/common'
 
-const defaultCertificate: IUserСertificate = {
+const defaultCertificate: IСertificate = {
   name: '',
   date: '',
   image: null,

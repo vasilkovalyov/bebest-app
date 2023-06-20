@@ -1,11 +1,11 @@
 // libs
-import { ChangeEvent, useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AxiosError } from 'axios'
 
 //redux
-import { useAppSelector, useActions } from '@/redux/hooks'
+import { useAppSelector } from '@/redux/hooks'
 
 // material ui components
 import Box from '@mui/material/Box'
@@ -20,44 +20,16 @@ import UploadVideo from '@/components/Uploaders/UploadVideo'
 
 // relate utils
 import { AccountTeacherFormValidationSchema } from './AccountTeacher.validation'
+import { fields } from './AccountTeacher.utils'
 
 // other utils
 import { useLoadUserInfo } from '@/hooks/useLoadUserInfo'
-import teacherService, { UserAccountInfoEditType } from '@/services/teacher'
+import teacherService from '@/services/teacher'
 import uploadFileService from '@/services/upload-file'
-
-const fields: Readonly<
-  {
-    name: keyof UserAccountInfoEditType
-    label: string
-    textarea?: boolean
-  }[]
-> = [
-  {
-    name: 'name',
-    label: 'Name',
-  },
-  {
-    name: 'surname',
-    label: 'Surname',
-  },
-  {
-    name: 'email',
-    label: 'Email',
-  },
-  {
-    name: 'phone',
-    label: 'Phone',
-  },
-  {
-    name: 'about',
-    label: 'About',
-    textarea: true,
-  },
-]
+import { ITeacherAccountFormFields } from '@/types/teacher/teacher'
 
 function AccountTeacherForm({ onHandleClose }: { onHandleClose: () => void }) {
-  const user = useAppSelector((state) => state.user.user)
+  const user = useAppSelector((state) => state.teacher.user)
   const { loadUserInfo } = useLoadUserInfo()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isLoadingUpload, setIsLoadingUpload] = useState<boolean>(false)
@@ -67,10 +39,9 @@ function AccountTeacherForm({ onHandleClose }: { onHandleClose: () => void }) {
     handleSubmit,
     register,
     setValue,
-    getValues,
     trigger,
     formState: { errors },
-  } = useForm<UserAccountInfoEditType>({
+  } = useForm<ITeacherAccountFormFields>({
     mode: 'onSubmit',
     defaultValues: {
       name: user.name,
@@ -90,7 +61,7 @@ function AccountTeacherForm({ onHandleClose }: { onHandleClose: () => void }) {
     }
   }, [])
 
-  async function onSubmit(props: UserAccountInfoEditType) {
+  async function onSubmit(props: ITeacherAccountFormFields) {
     setIsLoading(true)
     try {
       await teacherService.updateUserAccountInfo({
@@ -157,7 +128,7 @@ function AccountTeacherForm({ onHandleClose }: { onHandleClose: () => void }) {
             </Box>
           </Grid>
           <Grid item md={6}>
-            {fields.map(({ name, label, textarea }) => (
+            {fields.map(({ name, label, disabled, textarea }) => (
               <Box key={name} marginBottom={2}>
                 <TextField
                   {...register(name)}
@@ -167,6 +138,7 @@ function AccountTeacherForm({ onHandleClose }: { onHandleClose: () => void }) {
                   label={label}
                   variant="standard"
                   className="form-field"
+                  disabled={disabled}
                   fullWidth
                   {...(textarea && { multiline: true, minRows: 5 })}
                   InputLabelProps={{ shrink: true }}
