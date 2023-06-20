@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import LoginService, { ILoginProps } from '../services/login.service';
+import LoginService from '../services/login.service';
 import tokenService from '../services/token.service';
 import status from '../constants/status';
 import responseMessages from '../constants/responseMessages';

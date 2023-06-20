@@ -166,8 +166,6 @@ class TeacherPersonalInfoService {
     //   },
     // }).populate('categoryId');
 
-    console.log('activities', activities);
-
     return {
       _id: response._id,
       fields_activity: [],
