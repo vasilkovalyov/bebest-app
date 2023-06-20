@@ -82,7 +82,7 @@ class TeacherProgressAccountService {
 
     let totalCountProgress = progressAccount.total_checked_count;
 
-    if (progressAccount.video.value === 0) {
+    if (props.video?.url) {
       totalCountProgress = this._getTotalProgressAfterUpdateValue(
         progressAccount.video.value,
         props.video,

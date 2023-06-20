@@ -137,8 +137,6 @@ class TeacherPersonalInfoService {
       throw ApiError.BadRequestError(userWithIdNotFound('teacher', id));
     }
 
-    // console.log('response', response);
-
     const activities = await TeacherPersonalInfoModel.find()
       .select('fields_activity')
       .populate('fields_activity.categoryId', 'children')
@@ -169,6 +167,7 @@ class TeacherPersonalInfoService {
     return {
       _id: response._id,
       fields_activity: [],
+      personal_lessons: response.personal_lessons,
       work_experience: response.work_experience,
       certificates: response.certificates,
     };

@@ -47,7 +47,7 @@ export type TeacherWorkExperienceModelType = ITeacherWorkExperience & Document;
 export interface ITeacherPersonalInfoModel {
   teacherId: string;
   fields_activity: ITeacherMainFieldsActivity[] | [];
-  personal_lessons: ITeacherCostPersonalLesson;
+  personal_lessons: ITeacherCostPersonalLesson | null;
   work_experience: ITeacherWorkExperience[] | [];
   certificates: ITeacherCertificate[] | [];
 }
