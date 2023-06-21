@@ -98,6 +98,7 @@ function TeacherCertificates({ onHandleClose }: ITeacherСertificatesFormProps) 
       }
       await teacherСertificatesService.addCertificate(certificates)
       dispatch(fetchTeacherPersonalInfo())
+      loadUserInfo('teacher')
       append(defaultCertificate)
     } catch (e) {
       console.log(e)
