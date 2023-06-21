@@ -148,7 +148,6 @@ class TeacherPersonalInfoService {
       .populate('fields_activity.categoryId', 'children')
       .exec()
       .then((res) => {
-        console.log('res', res[0].fields_activity);
         return res[0].fields_activity;
       });
     // .exec()

@@ -166,15 +166,13 @@ class TeacherService {
     const isActivated = await teacherProgressAccountService.isFillForActivate(
       id
     );
-    if (isActivated) {
-      await TeacherModel.findByIdAndUpdate(
-        { _id: id },
-        {
-          activated: isActivated,
-        },
-        { new: true }
-      );
-    }
+    await TeacherModel.findByIdAndUpdate(
+      { _id: id },
+      {
+        activated: isActivated,
+      },
+      { new: true }
+    );
   }
 }
 
