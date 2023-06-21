@@ -15,8 +15,11 @@ export const authSlice = createSlice({
     isAuth: false,
   },
   reducers: {
-    setAuthState(state: IAuthState, action: PayloadAction<IUser>) {
-      state.user = action.payload
+    setAuthState(state: IAuthState, action: PayloadAction<Partial<IUser>>) {
+      state.user = {
+        ...state.user,
+        ...action.payload,
+      }
       state.isAuth = true
     },
     removeAuthState(state: IAuthState) {
