@@ -29,12 +29,12 @@ import InfoIcon from '@/components/Generic/InfoIcon'
 import { ITeacherCostPersonalLessonsFormProps } from './TeacherCostPersonalLessons.type'
 
 // other utils
-import teacherService from '@/services/teacher'
 import teacherCostPersonalLessonsService, {
   UseTrialLessonType,
 } from '@/services/teacher-cost-personal-lessons'
 import { useLoadUserInfo } from '@/hooks/useLoadUserInfo'
 import { ICostPersonalLesson } from '@/types/common'
+import colors from '@/constants/colors'
 
 const defaultData: ICostPersonalLesson = {
   duration: '',
@@ -172,7 +172,7 @@ function TeacherCostPersonalLessons({
               <Icon
                 icon={IconEnum.INFO_CIRCULAR_OUTLINE}
                 size={18}
-                color="#55ABFA"
+                color={colors.blue}
               />
             </Box>
           </Typography>
@@ -276,7 +276,7 @@ function TeacherCostPersonalLessons({
             <Icon
               icon={IconEnum.CROSS_OUTLINE}
               size={20}
-              color="#000000"
+              color={colors.black}
               className="modal-box__button-close-icon"
             />
           </Button>

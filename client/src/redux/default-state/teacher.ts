@@ -12,4 +12,5 @@ export const defaultTeacherState: ITeacher = {
   avatar: null,
   video: null,
   progress_account: defaultProgressAccountState,
+  activated: false,
 }

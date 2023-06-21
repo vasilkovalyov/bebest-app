@@ -19,6 +19,7 @@ export interface ITeacher
   about?: string | null
   video?: IVideo | null
   progress_account: ITeacherProgressAccount
+  activated: boolean
 }
 
 export type IStudentAccountEditProps = Pick<
