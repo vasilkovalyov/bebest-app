@@ -11,6 +11,7 @@ export interface ITeacher extends IUser {
   about?: string | null;
   avatar?: string | null;
   video?: IVideo | null;
+  activated: boolean;
 }
 
 export type ITeacherSchemaType = ITeacher & Document;
@@ -63,6 +64,10 @@ const TeacherSchema = new Schema<ITeacherSchemaType>({
     type: String,
     enum: ['student', 'teacher', 'company'],
     required: true,
+  },
+  activated: {
+    type: Boolean,
+    default: false,
   },
 });
 

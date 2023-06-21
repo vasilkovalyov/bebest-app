@@ -1,6 +1,7 @@
 import { File } from 'buffer';
 import { ITeacher } from '../../models/teacher/teacher.model';
 import TeacherProgressAccountModel, {
+  ITeacherProgressAccount,
   totalStepCounts,
 } from '../../models/teacher/teacher-progress-account';
 import { ITeacherCostPersonalLesson } from '../../models/teacher/teacher-personal-info';
@@ -143,6 +144,13 @@ class TeacherProgressAccountService {
       'about photo phone payment_card certificate experience trial_lessons personal_lessons fullname subjects video profile_progress total_checked_count'
     );
     return account;
+  }
+
+  async getAccountProgressPercentAndPaymentCard(id: string) {
+    const profile_progress = await TeacherProgressAccountModel.findOne({
+      teacherId: id,
+    }).select('profile_progress payment_card');
+    return profile_progress;
   }
 
   async addMainActivity(id: string) {
@@ -335,6 +343,7 @@ class TeacherProgressAccountService {
       { new: true }
     );
   }
+
   async removePaymentCard(id: string) {
     const progressAccount = await TeacherProgressAccountModel.findOne({
       teacherId: id,
@@ -355,6 +364,37 @@ class TeacherProgressAccountService {
       },
       { new: true }
     );
+  }
+
+  async isFillForActivate(id: string) {
+    const fieldObjects = await this.getRequiredObjectWithFields(id);
+    let isFill = true;
+    console.log('fieldObjects', fieldObjects);
+    for (let key in fieldObjects) {
+      const item = fieldObjects[key];
+      if (item.value === 0) {
+        isFill = false;
+        break;
+      }
+    }
+    console.log('isFill', isFill);
+
+    return isFill;
+  }
+
+  async getRequiredObjectWithFields(id: string) {
+    const accountProgress = await this.getAccountProgress(id);
+
+    const fieldObjects: Partial<ITeacherProgressAccount> = {
+      fullname: accountProgress?.fullname,
+      payment_card: accountProgress?.payment_card,
+      photo: accountProgress?.photo,
+      experience: accountProgress?.experience,
+      personal_lessons: accountProgress?.personal_lessons,
+      // subjects: accountProgress?.subjects,
+    };
+
+    return fieldObjects;
   }
 }
 

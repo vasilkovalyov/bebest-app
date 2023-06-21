@@ -16,6 +16,7 @@ import responseMessages, {
   userWithIdNotFound,
 } from '../../constants/responseMessages';
 import responseTeacherMessages from '../../constants/responseTeacherMessages';
+import teacherService from './teacher.service';
 
 class TeacherPersonalInfoService {
   async addMainFieldsActivity(
@@ -88,6 +89,7 @@ class TeacherPersonalInfoService {
     }
 
     await teacherProgressAccountService.updatePriceLessons(id, props);
+    await teacherService.activateUser(id);
 
     return {
       message: responseTeacherMessages.personalLessonsUpdateSuccessful,
@@ -105,6 +107,8 @@ class TeacherPersonalInfoService {
       await teacherProgressAccountService.addWorkExperience(id);
     }
 
+    await teacherService.activateUser(id);
+
     return {
       message: responseTeacherMessages.workExperienceAddSuccessful,
     };
@@ -120,6 +124,8 @@ class TeacherPersonalInfoService {
     if (response && response.work_experience.length === 0) {
       await teacherProgressAccountService.removeWorkExperience(id);
     }
+
+    await teacherService.activateUser(id);
 
     return {
       message: responseTeacherMessages.workExperienceRemoveSuccessful,
@@ -200,6 +206,8 @@ class TeacherPersonalInfoService {
     if (progressData && progressData.certificate.value === 0) {
       await teacherProgressAccountService.addCertificate(id);
     }
+
+    await teacherService.activateUser(id);
 
     return {
       message: responseMessages.certificateUploadSuccessful,

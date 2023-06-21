@@ -1,5 +1,6 @@
 import ApiError from '../../utils/api-error';
 import TeacherModel, {
+  ITeacher,
   ITeacherAccountEditableProps,
 } from '../../models/teacher/teacher.model';
 import UserModel from '../../models/user.model';
@@ -63,7 +64,7 @@ class TeacherService {
 
   async getUserInfo(id: string) {
     const teacherModel = await TeacherModel.findOne({ _id: id }).select(
-      '_id name surname email role phone about avatar video'
+      '_id name surname email role phone about avatar video activated'
     );
 
     if (!teacherModel) {
@@ -84,6 +85,7 @@ class TeacherService {
       about: teacherModel.about,
       role: teacherModel.role,
       progress_account: teacherProgressAccount,
+      activated: teacherModel.activated,
     };
   }
 
@@ -114,6 +116,8 @@ class TeacherService {
       await teacherProgressAccountService.addPhoto(id, response.avatar);
     }
 
+    await this.activateUser(id);
+
     return {
       message: responseMessages.avatarUpdateSuccessful,
     };
@@ -142,6 +146,8 @@ class TeacherService {
       { new: true }
     ).select('phone about avatar video');
 
+    await this.activateUser(id);
+
     if (!response)
       throw ApiError.BadRequestError(responseMessages.userInfoDidNotUpdate);
 
@@ -154,6 +160,21 @@ class TeacherService {
     return {
       message: responseMessages.userInfoUpdateSuccessful,
     };
+  }
+
+  async activateUser(id: string) {
+    const isActivated = await teacherProgressAccountService.isFillForActivate(
+      id
+    );
+    if (isActivated) {
+      await TeacherModel.findByIdAndUpdate(
+        { _id: id },
+        {
+          activated: isActivated,
+        },
+        { new: true }
+      );
+    }
   }
 }
 

@@ -1,6 +1,7 @@
 import ApiError from '../../utils/api-error';
 
 import teacherProgressAccountService from './teacher-progress-account';
+import teacherService from '../../services/teacher/teacher.service';
 
 import PaymentCardModel, {
   IPaymentCard,
@@ -16,6 +17,7 @@ class TeacherPaymentCardService {
     });
     await paymentCardResponse.save();
     await teacherProgressAccountService.addPaymentCard(id);
+    await teacherService.activateUser(id);
 
     return {
       message: responseMessages.paymentCardAddSuccessful,
@@ -31,6 +33,7 @@ class TeacherPaymentCardService {
     }
 
     await teacherProgressAccountService.removePaymentCard(id);
+    await teacherService.activateUser(id);
 
     return {
       message: responseMessages.paymentCardRemoveSuccessful,
