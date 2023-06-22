@@ -1,5 +1,6 @@
-import { IVideo } from '../common'
+import { ICostPersonalLesson, IFieldActivity, IVideo } from '../common'
 import { UserRole } from '../role'
+import { ITeacherPersonalInfo } from './teacher-personal-info'
 import { ITeacherProgressAccount } from './teacher-progress-account'
 
 export interface ITeacherRegistration {
@@ -32,4 +33,19 @@ export type ITeacherAccountFormFields = Pick<
   'name' | 'surname' | 'phone' | 'about' | 'email'
 > & {
   video?: File | string | null
+}
+
+export interface ITeacherPreviewInfo
+  extends Pick<
+    ITeacher,
+    '_id' | 'about' | 'name' | 'surname' | 'avatar' | 'video'
+  > {
+  personalInfoId: {
+    fields_activity: IFieldActivity[]
+    personal_lessons: ICostPersonalLesson
+  }
+}
+
+export interface ITeacherFullInfo extends ITeacher {
+  personalInfoId: ITeacherPersonalInfo
 }

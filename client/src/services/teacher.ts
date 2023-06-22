@@ -7,6 +7,8 @@ import {
   ITeacherRegistration,
   ITeacherAccountFormFields,
   ITeacher,
+  ITeacherPreviewInfo,
+  ITeacherFullInfo,
 } from '@/types/teacher/teacher'
 
 class TeacherService {
@@ -64,6 +66,18 @@ class TeacherService {
       }
     )
 
+    return response
+  }
+
+  async getUsers(): Promise<AxiosResponse<ITeacherPreviewInfo[]>> {
+    const response = await $api().get(PUBLIC_REQUESTS.GET_TEACHERS)
+    return response
+  }
+
+  async getUserProfile(id: string): Promise<AxiosResponse<ITeacherFullInfo>> {
+    const response = await $api(null).get(
+      `${PUBLIC_REQUESTS.GET_TEACHER_PROFILE}/${id}`
+    )
     return response
   }
 }

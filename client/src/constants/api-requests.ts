@@ -5,6 +5,8 @@ export const PUBLIC_REQUESTS = {
   REGISTRATION_COMPANY: 'registration/company',
   IS_AUTH: 'is-auth',
   GET_SUBJECTS: 'subjects',
+  GET_TEACHERS: 'teachers',
+  GET_TEACHER_PROFILE: 'teacher-profile',
 }
 
 export const PRIVATE_REQUESTS = {
