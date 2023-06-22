@@ -47,7 +47,7 @@ class StudentRegistration implements IRegistrationStrategy {
       role: savedStudent.role,
     });
 
-    const savedUser = await user.save();
+    await user.save();
 
     return {
       message: successMessage,

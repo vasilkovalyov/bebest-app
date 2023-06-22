@@ -31,8 +31,8 @@ const StudentSchema = new Schema<IStudentSchemaType>({
     default: null,
   },
   subjects: {
-    ref: 'StudentSubjects',
     type: Schema.Types.ObjectId,
+    ref: 'StudentSubjects',
   },
   role: {
     type: String,

@@ -7,12 +7,12 @@ export interface IPaymentCard {
 
 export type IPaymentCardModelType = IPaymentCard &
   Document & {
-    teacherId: string;
+    teacherId: Schema.Types.ObjectId | string;
   };
 
 const TeacherPaymentCardSchema = new Schema<IPaymentCardModelType>({
   teacherId: {
-    type: String,
+    type: Schema.Types.ObjectId,
     required: true,
     ref: 'Teacher',
   },

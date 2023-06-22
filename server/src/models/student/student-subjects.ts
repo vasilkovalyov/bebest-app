@@ -11,12 +11,12 @@ export interface IStudentSubjects {
 
 export type IStudentSubjectsSchemaType = IStudentSubjects &
   Document & {
-    studentId: string;
+    studentId: Schema.Types.ObjectId;
   };
 
 const StudentSubjectsSchema = new Schema<IStudentSubjectsSchemaType>({
   studentId: {
-    type: String,
+    type: Schema.Types.ObjectId,
     required: true,
     ref: 'Student',
   },

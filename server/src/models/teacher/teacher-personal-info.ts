@@ -52,9 +52,17 @@ export interface ITeacherPersonalInfoModel {
   certificates: ITeacherCertificate[] | [];
 }
 
-const TeacherPersonalInfoSchema = new Schema<ITeacherPersonalInfoModel>({
+export type TeacherPersonalInfoModelType = Omit<
+  ITeacherPersonalInfoModel,
+  'teacherId'
+> &
+  Document & {
+    teacherId: Schema.Types.ObjectId;
+  };
+
+const TeacherPersonalInfoSchema = new Schema<TeacherPersonalInfoModelType>({
   teacherId: {
-    type: String,
+    type: Schema.Types.ObjectId,
     required: true,
     ref: 'Teacher',
   },
@@ -65,7 +73,7 @@ const TeacherPersonalInfoSchema = new Schema<ITeacherPersonalInfoModel>({
         required: true,
         ref: 'Subject',
       },
-      skills: [{ type: Schema.Types.ObjectId }],
+      skills: [{ type: Schema.Types.ObjectId, ref: 'Subject' }],
     },
   ],
   personal_lessons: {

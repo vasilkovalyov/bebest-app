@@ -19,9 +19,10 @@ export type ITeacherSchemaType = ITeacher & Document;
 
 export type ITeacherAccountEditableProps = Omit<
   ITeacher,
-  'password' | 'userId' | 'role' | 'video'
+  'password' | 'userId' | 'role' | 'video' | 'personalInfoId'
 > & {
   video?: (File & { tempFilePath: string }) | null;
+  personalInfoId?: Schema.Types.ObjectId;
 };
 
 const TeacherSchema = new Schema<ITeacherSchemaType>({

@@ -8,7 +8,7 @@ import TeacherPersonalInfoModel, {
 } from '../../models/teacher/teacher-personal-info';
 import TeacherProgressAccountModel from '../../models/teacher/teacher-progress-account';
 
-import SubjectModel from '../../models/subject.model';
+import { SubjectsModel } from '../../models/subject.model';
 
 import teacherProgressAccountService from './teacher-progress-account';
 import { uploadCertificate } from '../../utils/upload-file';
@@ -25,7 +25,7 @@ class TeacherPersonalInfoService {
   ) {
     const { categoryId, skills } = props;
 
-    const subjects = await SubjectModel.findOne({
+    const subjects = await SubjectsModel.findOne({
       _id: categoryId,
     });
 
@@ -145,33 +145,19 @@ class TeacherPersonalInfoService {
 
     const activities = await TeacherPersonalInfoModel.find()
       .select('fields_activity')
-      .populate('fields_activity.categoryId', 'children')
+      .populate({
+        path: 'fields_activity.categoryId',
+      })
       .exec()
-      .then((res) => {
-        return res[0].fields_activity;
+      .then((posts) => {
+        return posts;
       });
-    // .exec()
-    // .then((res) => {
-    //   console.log('res', res);
-    //   return res;
-    // });
 
-    // .populate('_id', 'category')
-    // .exec()
-    // .then((posts) => {
-    //   console.log('posts', posts);
-    //   return posts;
-    // });
-
-    // const activities = await SubjectModel.find({
-    //   _id: {
-    //     $in: response.fields_activity.map((item) => item.categoryId),
-    //   },
-    // }).populate('categoryId');
+    console.log('activities', activities);
 
     return {
       _id: response._id,
-      fields_activity: [],
+      fields_activity: activities[0].fields_activity || [],
       personal_lessons: response.personal_lessons,
       work_experience: response.work_experience,
       certificates: response.certificates,
