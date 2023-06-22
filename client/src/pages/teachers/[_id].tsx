@@ -22,7 +22,6 @@ export default function Teacher({ name, surname, ...props }: ITeacherFullInfo) {
         description={`Techer page ${name} ${surname}`}
       >
         <Container maxWidth="xl">
-          {JSON.stringify(props)}
           <Breadcrumbs aria-label="breadcrumb" className="breadcrumbs">
             <Link href="/" className="breadcrumbs__link">
               Home
@@ -47,9 +46,9 @@ export default function Teacher({ name, surname, ...props }: ITeacherFullInfo) {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
-    const teacherId = req.url?.split('teachers/')[1]
+    const teacherId = context.query._id
     const profile = await teacherService.getUserProfile(teacherId as string)
     return {
       props: profile.data,
