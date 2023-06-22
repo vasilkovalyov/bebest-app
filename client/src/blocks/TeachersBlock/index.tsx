@@ -13,11 +13,11 @@ import ContainerWithShadow from '@/components/Generic/ContainerWithShadow'
 
 //other utils
 import teacherService from '@/services/teacher'
-import { ITeacher } from '@/types/teacher/teacher'
+import { ITeacherPreviewInfo } from '@/types/teacher/teacher'
 import TeacherPreviewCard from '@/components/TeacherPreviewCard'
 
 export default function TeachersBlock() {
-  const [teachers, setTeachers] = useState<ITeacher[]>([])
+  const [teachers, setTeachers] = useState<ITeacherPreviewInfo[]>([])
   const [loading, setLoading] = useState<boolean>(false)
 
   async function loadTeachers() {
