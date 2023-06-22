@@ -20,7 +20,7 @@ import StudentSubjectsBlock from '@/blocks/StudentSubjectsBlock'
 import TeacherWorkExperienceBlock from '@/blocks/TeacherWorkExperienceBlock'
 import TeacherСertificatesBlock from '@/blocks/TeacherСertificatesBlock'
 import TeacherCostPersonalLessonsBlock from '@/blocks/TeacherCostPersonalLessonsBlock'
-import MainFieldsActivityBlock from '@/blocks/UserFieldsActivityBlock'
+import UserFieldsActivityBlock from '@/blocks/UserFieldsActivityBlock'
 
 function PageCabinet() {
   const userStore = useAppSelector((store) => store.user.user)
@@ -47,9 +47,9 @@ function PageCabinet() {
           <StudentSubjectsBlock />
         </Box>
       ) : null}
-      {userStore.role === 'teacher' || userStore.role === 'company' ? (
+      {userStore.role === 'teacher' ? (
         <Box marginBottom={4}>
-          <MainFieldsActivityBlock />
+          <UserFieldsActivityBlock />
         </Box>
       ) : null}
       {userStore.role === 'teacher' ? (

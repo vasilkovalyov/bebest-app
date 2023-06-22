@@ -12,7 +12,7 @@ import Modal from '@mui/material/Modal'
 import Typography from '@mui/material/Typography'
 
 //custom components
-import AccountTeacherForm from '@/components/Forms/Account/AccountTeacher'
+import AccountCompany from '@/components/Forms/Account/AccountCompany'
 import PreviewUserAccount from '@/components/Previews/PreviewUserAccount'
 import Icon from '@/components/Generic/Icon'
 import { IconEnum } from '@/types/icons'
@@ -100,7 +100,7 @@ function CompanyAccount() {
         />
       ) : (
         <Box maxWidth={800}>
-          {/* <AccountTeacherForm onHandleClose={onHandleClose} /> */}
+          <AccountCompany onHandleClose={onHandleClose} />
         </Box>
       )}
       <Modal open={modalOpen} onClose={handleCloseModal}>

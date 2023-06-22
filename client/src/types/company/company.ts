@@ -25,5 +25,5 @@ export type IStudentAccountEditProps = Pick<
 
 export type ICompanyAccountFormFields = Pick<
   ICompany,
-  'company_name' | 'admin_name' | 'admin_surname' | 'about' | 'phone'
+  'company_name' | 'admin_name' | 'admin_surname' | 'about' | 'phone' | 'email'
 >
