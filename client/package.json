@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build_analizer": "ANALYZE=true next build",
     "start": "next start",
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
@@ -16,6 +17,7 @@
     "@hookform/resolvers": "^3.1.0",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.12.3",
+    "@next/bundle-analyzer": "^13.4.7",
     "@reduxjs/toolkit": "1.8.6",
     "@types/node": "20.0.0",
     "@types/react": "18.2.5",

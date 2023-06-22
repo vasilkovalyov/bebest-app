@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const path = require('path')
 
-module.exports = {
+const nextConfig = {
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles/scss')],
   },
@@ -16,3 +16,8 @@ module.exports = {
     apiUrl: process.env.API_URL,
   },
 }
+
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+})
+module.exports = withBundleAnalyzer(nextConfig)
