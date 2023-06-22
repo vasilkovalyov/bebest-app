@@ -1,5 +1,5 @@
 import { File } from 'buffer';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import teacherService from '../services/teacher/teacher.service';
 import teacherPersonalInfoService from '../services/teacher/teacher-personal-info';
 import teacherPaymentCardService from '../services/teacher/teacher-payment-card';
@@ -254,6 +254,7 @@ class TeacherController {
       });
     }
   }
+
   async removePaymentCard(req: RequestWithAuthUser, res: Response) {
     if (!req.user)
       return res
@@ -328,6 +329,30 @@ class TeacherController {
         req.user._id,
         id
       );
+      return res.status(status.SUCCESS).json(response);
+    } catch (e) {
+      if (!(e instanceof Error)) return;
+      return res.status(status.BAD_REQUEST).json({
+        message: e.message,
+      });
+    }
+  }
+
+  async getUsers(req: Request, res: Response) {
+    try {
+      const response = await teacherService.getUsers();
+      return res.status(status.SUCCESS).json(response);
+    } catch (e) {
+      if (!(e instanceof Error)) return;
+      return res.status(status.BAD_REQUEST).json({
+        message: e.message,
+      });
+    }
+  }
+
+  async getTeacherProfile(req: Request, res: Response) {
+    try {
+      const response = await teacherService.getUserProfile(req.params.id);
       return res.status(status.SUCCESS).json(response);
     } catch (e) {
       if (!(e instanceof Error)) return;

@@ -101,4 +101,7 @@ router.delete(
   teacherController.removeCertificate
 );
 
+router.get('/teachers', teacherController.getUsers);
+router.get('/teacher-profile/:id', teacherController.getTeacherProfile);
+
 export default router;

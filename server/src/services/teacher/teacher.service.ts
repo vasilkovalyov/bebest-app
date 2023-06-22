@@ -174,6 +174,20 @@ class TeacherService {
       { new: true }
     );
   }
+
+  async getUsers() {
+    const teachers = await TeacherModel.find({ activated: true }).populate(
+      'personalInfoId'
+    );
+    return teachers;
+  }
+
+  async getUserProfile(id: string) {
+    const teachers = await TeacherModel.findOne({ _id: id }).populate(
+      'personalInfoId'
+    );
+    return teachers;
+  }
 }
 
 export default new TeacherService();

@@ -12,6 +12,7 @@ export interface ITeacher extends IUser {
   avatar?: string | null;
   video?: IVideo | null;
   activated: boolean;
+  personalInfoId: string;
 }
 
 export type ITeacherSchemaType = ITeacher & Document;
@@ -68,6 +69,10 @@ const TeacherSchema = new Schema<ITeacherSchemaType>({
   activated: {
     type: Boolean,
     default: false,
+  },
+  personalInfoId: {
+    type: String,
+    ref: 'TeacherPersonalInfo',
   },
 });
 

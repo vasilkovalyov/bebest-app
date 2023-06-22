@@ -58,6 +58,18 @@ class TeacherRegistration implements IRegistrationStrategy {
     });
     await teacherPersonalnfo.save();
 
+    await TeacherModel.findOneAndUpdate(
+      {
+        _id: teacher._id,
+      },
+      {
+        personalInfoId: teacherPersonalnfo._id,
+      },
+      {
+        new: true,
+      }
+    );
+
     return {
       message: successMessage,
     };
