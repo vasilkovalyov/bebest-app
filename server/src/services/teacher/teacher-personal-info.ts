@@ -143,21 +143,21 @@ class TeacherPersonalInfoService {
       throw ApiError.BadRequestError(userWithIdNotFound('teacher', id));
     }
 
-    const activities = await TeacherPersonalInfoModel.find()
-      .select('fields_activity')
-      .populate({
-        path: 'fields_activity.categoryId',
-      })
-      .exec()
-      .then((posts) => {
-        return posts;
-      });
+    // const activities = await TeacherPersonalInfoModel.find()
+    //   .select('fields_activity')
+    //   .populate({
+    //     path: 'fields_activity.categoryId',
+    //   })
+    //   .exec()
+    //   .then((posts) => {
+    //     return posts;
+    //   });
 
-    console.log('activities', activities);
+    // console.log('activities', activities);
 
     return {
       _id: response._id,
-      fields_activity: activities[0].fields_activity || [],
+      fields_activity: [],
       personal_lessons: response.personal_lessons,
       work_experience: response.work_experience,
       certificates: response.certificates,

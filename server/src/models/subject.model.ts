@@ -5,14 +5,16 @@ export interface ISubjectCategoryModel {
   category: string;
 }
 
-// export interface ISubjectCategoriesModel {
-//   category: ISubjectCategoryModel[];
-// }
+export interface ISubjectCategoriesModel {
+  categories: ISubjectCategoryModel[];
+}
 
-const SubjectCategorySchema = new Schema<ISubjectCategoryModel>({
-  category: {
-    type: String,
-  },
+const SubjectCategorySchema = new Schema<ISubjectCategoriesModel>({
+  categories: [
+    {
+      type: String,
+    },
+  ],
 });
 
 export const SubjectCategoryModel = model(

@@ -18,23 +18,19 @@ import { IVideo } from '../../interfaces/common';
 
 class TeacherService {
   async removeUser(id: string) {
-    const user = await UserModel.deleteOne({
+    await UserModel.findOneAndDelete({
       userId: id,
     });
-
-    if (!user.deletedCount)
-      throw ApiError.BadRequestError(userWithIdNotFound('user', id));
-
-    await TeacherModel.deleteOne({
+    await TeacherModel.findOneAndDelete({
       _id: id,
     });
-    await TeacherPersonalInfoModel.deleteOne({
+    await TeacherPersonalInfoModel.findOneAndDelete({
       teacherId: id,
     });
-    await TeacherProgressAccountModel.deleteOne({
+    await TeacherProgressAccountModel.findOneAndDelete({
       teacherId: id,
     });
-    await TeacherPaymentCardModel.deleteOne({
+    await TeacherPaymentCardModel.findOneAndDelete({
       teacherId: id,
     });
 

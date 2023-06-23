@@ -1,20 +1,17 @@
 import { Schema, model, Document } from 'mongoose';
 
 export interface IPaymentCard {
+  teacherId?: string;
   username: string;
   card_number: string;
 }
 
-export type IPaymentCardModelType = IPaymentCard &
-  Document & {
-    teacherId: Schema.Types.ObjectId | string;
-  };
+export type IPaymentCardModelType = IPaymentCard;
 
 const TeacherPaymentCardSchema = new Schema<IPaymentCardModelType>({
   teacherId: {
-    type: Schema.Types.ObjectId,
+    type: String,
     required: true,
-    ref: 'Teacher',
   },
   username: {
     type: String,

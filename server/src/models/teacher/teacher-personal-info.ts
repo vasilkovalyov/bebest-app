@@ -52,19 +52,12 @@ export interface ITeacherPersonalInfoModel {
   certificates: ITeacherCertificate[] | [];
 }
 
-export type TeacherPersonalInfoModelType = Omit<
-  ITeacherPersonalInfoModel,
-  'teacherId'
-> &
-  Document & {
-    teacherId: Schema.Types.ObjectId;
-  };
+export type TeacherPersonalInfoModelType = ITeacherPersonalInfoModel;
 
 const TeacherPersonalInfoSchema = new Schema<TeacherPersonalInfoModelType>({
   teacherId: {
-    type: Schema.Types.ObjectId,
+    type: String,
     required: true,
-    ref: 'Teacher',
   },
   fields_activity: [
     {

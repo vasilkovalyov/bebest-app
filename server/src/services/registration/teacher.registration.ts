@@ -49,9 +49,11 @@ class TeacherRegistration implements IRegistrationStrategy {
     });
 
     await user.save();
-    await teacherProgressAccountService.createBaseAccountProgress(
-      savedTeacher._id
-    );
+
+    const teacherProgressAccount =
+      await teacherProgressAccountService.createBaseAccountProgress(
+        savedTeacher._id
+      );
 
     const teacherPersonalnfo = await new TeacherPersonalnfoModel({
       teacherId: savedTeacher._id,
@@ -64,6 +66,7 @@ class TeacherRegistration implements IRegistrationStrategy {
       },
       {
         personalInfoId: teacherPersonalnfo._id,
+        progressAccount: teacherProgressAccount?._id,
       },
       {
         new: true,

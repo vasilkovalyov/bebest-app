@@ -3,6 +3,8 @@ import ApiError from '../../utils/api-error';
 import teacherProgressAccountService from './teacher-progress-account';
 import teacherService from '../../services/teacher/teacher.service';
 
+import TeacherModel from '../../models/teacher/teacher.model';
+
 import PaymentCardModel, {
   IPaymentCard,
 } from '../../models/teacher/teacher-payment-card';
@@ -16,6 +18,10 @@ class TeacherPaymentCardService {
       username: props.username,
     });
     await paymentCardResponse.save();
+    await TeacherModel.findOneAndUpdate(
+      { _id: id },
+      { paymentCard: paymentCardResponse._id }
+    );
     await teacherProgressAccountService.addPaymentCard(id);
     await teacherService.activateUser(id);
 

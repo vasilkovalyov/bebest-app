@@ -12,17 +12,25 @@ export interface ITeacher extends IUser {
   avatar?: string | null;
   video?: IVideo | null;
   activated: boolean;
-  personalInfoId: string;
+  personalInfoId?: string;
+  progressAccount: string;
+  paymentCard?: string;
 }
 
-export type ITeacherSchemaType = ITeacher & Document;
+export type ITeacherSchemaType = Omit<
+  ITeacher,
+  'personalInfoId' | 'progressAccount'
+> &
+  Document & {
+    personalInfoId: Schema.Types.ObjectId;
+    progressAccount: Schema.Types.ObjectId;
+  };
 
 export type ITeacherAccountEditableProps = Omit<
   ITeacher,
-  'password' | 'userId' | 'role' | 'video' | 'personalInfoId'
+  'password' | 'userId' | 'role' | 'video'
 > & {
   video?: (File & { tempFilePath: string }) | null;
-  personalInfoId?: Schema.Types.ObjectId;
 };
 
 const TeacherSchema = new Schema<ITeacherSchemaType>({
@@ -72,8 +80,16 @@ const TeacherSchema = new Schema<ITeacherSchemaType>({
     default: false,
   },
   personalInfoId: {
-    type: String,
+    type: Schema.Types.ObjectId,
     ref: 'TeacherPersonalInfo',
+  },
+  progressAccount: {
+    type: Schema.Types.ObjectId,
+    ref: 'TeacherProgressAccount',
+  },
+  paymentCard: {
+    type: Schema.Types.ObjectId,
+    ref: 'TeacherPaymentCard',
   },
 });
 

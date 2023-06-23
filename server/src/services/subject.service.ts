@@ -8,17 +8,14 @@ import {
 
 class SubjectService {
   async addSubjects(subjects: ISubjectsModel[]) {
-    const response = SubjectsModel.insertMany(subjects);
-    return response;
+    await SubjectsModel.insertMany(subjects);
+    return 'Subject add success';
   }
 
   async getSubjects() {
     const response = SubjectsModel.find({})
       .populate({
         path: 'categories',
-        populate: {
-          path: 'category',
-        },
       })
       .exec();
     return response;
@@ -28,9 +25,9 @@ class SubjectService {
     subjectId: string,
     categories: ISubjectCategoryModel[]
   ) {
-    const subjectCategories = await new SubjectCategoryModel.insertMany(
-      categories
-    );
+    const subjectCategories = await new SubjectCategoryModel({
+      categories: categories,
+    });
 
     const subjectCategoriesResponse = await subjectCategories.save();
 
@@ -45,9 +42,7 @@ class SubjectService {
         new: true,
       }
     );
-    return {
-      message: 1,
-    };
+    return 'Subject category add success';
   }
 }
 

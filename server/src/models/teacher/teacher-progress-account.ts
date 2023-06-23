@@ -52,20 +52,13 @@ export interface ITeacherProgressAccount {
   total_checked_count: number;
 }
 
-export type TeacherProgressAccountModelType = Omit<
-  ITeacherProgressAccount,
-  'teacherId'
-> &
-  Document & {
-    teacherId: Schema.Types.ObjectId;
-  };
+export type TeacherProgressAccountModelType = ITeacherProgressAccount;
 
 const TeacherProgressAccountSchema =
   new Schema<TeacherProgressAccountModelType>({
     teacherId: {
-      type: Schema.Types.ObjectId,
+      type: String,
       required: true,
-      ref: 'Teacher',
     },
     photo: {
       title: {
