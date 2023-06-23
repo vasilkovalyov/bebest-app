@@ -5,6 +5,9 @@ import TeacherPersonalInfoModel, {
   ITeacherMainFieldsActivityRequest,
   ITeacherWorkExperience,
   ITeacherCertificate,
+  TeacherPersonalInfoModelType,
+  ITeacherPersonalInfoModel,
+  ITeacherMainFieldsActivity,
 } from '../../models/teacher/teacher-personal-info';
 import TeacherProgressAccountModel from '../../models/teacher/teacher-progress-account';
 
@@ -23,10 +26,10 @@ class TeacherPersonalInfoService {
     id: string,
     props: ITeacherMainFieldsActivityRequest
   ) {
-    const { categoryId, skills } = props;
+    const { subject, categories } = props;
 
     const subjects = await SubjectsModel.findOne({
-      _id: categoryId,
+      _id: subject,
     });
 
     const response = await TeacherPersonalInfoModel.findOneAndUpdate(
@@ -34,8 +37,8 @@ class TeacherPersonalInfoService {
       {
         $push: {
           fields_activity: {
-            categoryId: subjects?._id,
-            skills: skills,
+            subject: subjects?._id,
+            categories: categories,
           },
         },
       },
@@ -51,12 +54,12 @@ class TeacherPersonalInfoService {
     };
   }
 
-  async removeMainFieldsActivity(id: string, categoryId: string) {
+  async removeMainFieldsActivity(id: string, subjectId: string) {
     const response = await TeacherPersonalInfoModel.findOneAndUpdate(
       {
         teacherId: id,
       },
-      { $pull: { fields_activity: { categoryId: categoryId } } },
+      { $pull: { fields_activity: { subject: subjectId } } },
       { new: true }
     );
 
@@ -143,21 +146,42 @@ class TeacherPersonalInfoService {
       throw ApiError.BadRequestError(userWithIdNotFound('teacher', id));
     }
 
-    // const activities = await TeacherPersonalInfoModel.find()
-    //   .select('fields_activity')
-    //   .populate({
-    //     path: 'fields_activity.categoryId',
-    //   })
-    //   .exec()
-    //   .then((posts) => {
-    //     return posts;
-    //   });
+    const personalInfo = await TeacherPersonalInfoModel.findOne({
+      teacherId: id,
+    })
 
-    // console.log('activities', activities);
+      .populate([
+        {
+          path: 'fields_activity.subject',
+          select: 'subject',
+        },
+        {
+          path: 'fields_activity.categories',
+          select: '_id category',
+        },
+      ])
+      .lean()
+      .exec()
+      .then((posts) => {
+        const postsArr = posts?.fields_activity.map<ITeacherMainFieldsActivity>(
+          (post) => {
+            const props: ITeacherMainFieldsActivity = {
+              _id: post.subject._id,
+              subject: post.subject.subject,
+              categories: post.categories,
+            };
+            return props;
+          }
+        );
+        return {
+          ...posts,
+          fields_activity: postsArr,
+        };
+      });
 
     return {
       _id: response._id,
-      fields_activity: [],
+      fields_activity: personalInfo?.fields_activity,
       personal_lessons: response.personal_lessons,
       work_experience: response.work_experience,
       certificates: response.certificates,

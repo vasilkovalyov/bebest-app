@@ -23,25 +23,19 @@ class SubjectService {
 
   async addSubjectsCategories(
     subjectId: string,
-    categories: ISubjectCategoryModel[]
+    subjects_categories: ISubjectCategoryModel[]
   ) {
-    const subjectCategories = await new SubjectCategoryModel({
-      categories: categories,
+    subjects_categories.forEach(async (category) => {
+      const subjectCategories = await new SubjectCategoryModel({
+        category: category,
+      });
+      await subjectCategories.save();
+      await SubjectsModel.findOneAndUpdate<ISubjectsModel>(
+        { _id: subjectId },
+        { $push: { categories: subjectCategories._id } }
+      );
     });
 
-    const subjectCategoriesResponse = await subjectCategories.save();
-
-    await SubjectsModel.findOneAndUpdate<ISubjectsModel>(
-      { _id: subjectId },
-      {
-        categories: subjectCategoriesResponse.categories.map(
-          (item) => item._id
-        ),
-      },
-      {
-        new: true,
-      }
-    );
     return 'Subject category add success';
   }
 }

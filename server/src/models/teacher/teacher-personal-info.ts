@@ -8,16 +8,17 @@ export interface ITeacherCertificate {
 }
 
 export interface ITeacherMainFieldsActivity {
-  categoryId: string;
-  skills: {
+  _id?: string;
+  subject: string;
+  categories: {
     _id: string;
     subject: string;
   }[];
 }
 
 export interface ITeacherMainFieldsActivityRequest
-  extends Pick<ITeacherMainFieldsActivity, 'categoryId'> {
-  skills: string[];
+  extends Pick<ITeacherMainFieldsActivity, 'subject'> {
+  categories: string[];
 }
 
 export interface ITeacherCostPersonalLesson {
@@ -61,12 +62,12 @@ const TeacherPersonalInfoSchema = new Schema<TeacherPersonalInfoModelType>({
   },
   fields_activity: [
     {
-      categoryId: {
+      subject: {
         type: Schema.Types.ObjectId,
         required: true,
-        ref: 'Subject',
+        ref: 'Subjects',
       },
-      skills: [{ type: Schema.Types.ObjectId, ref: 'Subject' }],
+      categories: [{ type: Schema.Types.ObjectId, ref: 'SubjectCategory' }],
     },
   ],
   personal_lessons: {
