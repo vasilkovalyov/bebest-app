@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { AxiosError } from 'axios'
 
 // material ui components
+import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Breadcrumbs from '@mui/material/Breadcrumbs'
 import Typography from '@mui/material/Typography'
@@ -40,6 +41,10 @@ export default function Teacher({ name, surname, ...props }: ITeacherFullInfo) {
           <Typography marginBottom={3} variant="h3">
             Teacher
           </Typography>
+          <Box className="teacher-page-content">
+            <Box className="teacher-page-body"></Box>
+            <Box className="teacher-page-aside"></Box>
+          </Box>
         </Container>
       </Layout>
     </>
