@@ -36,6 +36,7 @@ function getTeacherRequiredFields() {
     'avatar',
     'experience',
     'personal_lessons',
+    'subjects',
   ]
 
   return (

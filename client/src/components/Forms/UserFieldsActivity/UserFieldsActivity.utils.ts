@@ -13,11 +13,11 @@ export function getFieldsAndSubjectsData(
     const formItem = fields[key]
 
     checkedSubjectArr[key] = {
-      subjects: formItem.skills,
+      subjects: formItem.categories,
     }
 
     for (let subjectKey in subjects) {
-      if (subjects[subjectKey].subject === formItem.activity) {
+      if (subjects[subjectKey].subject === formItem.subject) {
         subjectArr.push({
           subjects: subjects[subjectKey].categories,
         })
@@ -37,10 +37,10 @@ export function getFieldsAndSubjectsData(
 
 export function getUpdatedCheckedSkills(
   data: ISkillsChecked[],
-  skills: ISubjectCategory[],
+  categories: ISubjectCategory[],
   index: number
 ): ISkillsChecked[] {
-  const updatedSkillsArr = skills.filter((item) => item.category !== '')
+  const updatedSkillsArr = categories.filter((item) => item.category !== '')
   const dataCopy: ISkillsChecked[] = [...data]
 
   if (dataCopy.length > 0 || dataCopy.length === index) {

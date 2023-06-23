@@ -46,8 +46,8 @@ import { IFieldActivity, IFieldActivityRequest } from '@/types/common'
 import { ISubjectCategory } from '@/types/subjects'
 
 const defaultWorkExperience: IFieldActivity = {
-  activity: '',
-  skills: [],
+  subject: '',
+  categories: [],
 }
 
 const defaultInitialData: IUserFieldsActivityInfo = {
@@ -105,8 +105,8 @@ function UserFieldsActivityForm({
       }
 
       const props: IFieldActivityRequest = {
-        categoryId: fieldsActivity._id || '',
-        skills: checkedSkills[0].subjects.map((item) => item._id),
+        subject: fieldsActivity._id || '',
+        categories: checkedSkills[0].subjects.map((item) => item._id),
       }
 
       await userFieldsActivityService.addMainFieldsActivity(
@@ -196,7 +196,7 @@ function UserFieldsActivityForm({
     }
 
     setValue(`fields_activity.${index}._id`, activitySubjects[0]._id)
-    setValue(`fields_activity.${index}.activity`, activitySubjects[0].subject)
+    setValue(`fields_activity.${index}.subject`, activitySubjects[0].subject)
     setSelectedSkills(tempArr)
     setCheckedSkills(checkedSkillsArr)
   }
@@ -206,7 +206,7 @@ function UserFieldsActivityForm({
     index: number
   ) {
     const values = event.target.value as string[]
-    const skills: ISubjectCategory[] = []
+    const categories: ISubjectCategory[] = []
 
     values.forEach((item) => {
       if (!item) return
@@ -214,18 +214,18 @@ function UserFieldsActivityForm({
         (skill) => skill.category === item
       )
       if (subject) {
-        skills.push(subject)
+        categories.push(subject)
       }
     })
 
     const updatedCheckedSkills = getUpdatedCheckedSkills(
       checkedSkills,
-      skills,
+      categories,
       index
     )
 
     setValue(
-      `fields_activity.${index}.skills`,
+      `fields_activity.${index}.categories`,
       updatedCheckedSkills[index].subjects
     )
 
@@ -259,8 +259,8 @@ function UserFieldsActivityForm({
               <Box key={id}>
                 <Box marginBottom={2}>
                   <TextField
-                    {...register(`fields_activity.${index}.activity`)}
-                    id={`fields_activity.${index}.activity`}
+                    {...register(`fields_activity.${index}.subject`)}
+                    id={`fields_activity.${index}.subject`}
                     select
                     type="text"
                     label="Activity"
@@ -274,10 +274,10 @@ function UserFieldsActivityForm({
                       onHandleChangeActivity(e.target.value, index)
                     }}
                     InputLabelProps={{ shrink: true }}
-                    value={getValues().fields_activity[index].activity || ' '}
+                    value={getValues().fields_activity[index].subject || ' '}
                     defaultValue={
                       fields.length - 1 !== index
-                        ? getValues().fields_activity[index].activity
+                        ? getValues().fields_activity[index].subject
                         : [' ']
                     }
                     disabled={fields.length - 1 > index}
@@ -297,7 +297,7 @@ function UserFieldsActivityForm({
                 <Box marginBottom={2}>
                   <InputLabel>Skills</InputLabel>
                   <Select
-                    {...register(`fields_activity.${index}.skills`)}
+                    {...register(`fields_activity.${index}.categories`)}
                     id={`fields_activity-${index}-skills`}
                     multiple
                     value={

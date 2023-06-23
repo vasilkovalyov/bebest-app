@@ -41,11 +41,11 @@ export interface IWorkExperience {
 
 export interface IFieldActivity {
   _id?: string
-  activity: string
-  skills: ISubjectCategory[]
+  subject: string
+  categories: ISubjectCategory[]
 }
 
 export interface IFieldActivityRequest {
-  categoryId: string
-  skills: string[]
+  subject: string
+  categories: string[]
 }

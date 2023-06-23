@@ -16,7 +16,7 @@ function PreviewSubjectActivities({ items }: IPreviewSubjectActivitiesProps) {
         <>
           {items.map((field, index) => (
             <Box key={field._id} marginBottom={2}>
-              <PreviewInfo heading="Activity" values={[field.activity]} />
+              <PreviewInfo heading="Activity" values={[field.subject]} />
               {/* <PreviewInfo heading="Skills" values={field.skills} /> */}
               {items.length !== 1 && items.length - 1 !== index ? (
                 <Box marginTop={3} marginBottom={3}>
