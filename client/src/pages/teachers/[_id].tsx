@@ -14,6 +14,7 @@ import Typography from '@mui/material/Typography'
 import Layout from '@/layouts/Layout'
 import teacherService from '@/services/teacher'
 import { ITeacherFullInfo } from '@/types/teacher/teacher'
+import TeacherSidebarBlock from '@/blocks/TeacherSidebarBlock'
 
 export default function Teacher({ name, surname, ...props }: ITeacherFullInfo) {
   return (
@@ -43,7 +44,9 @@ export default function Teacher({ name, surname, ...props }: ITeacherFullInfo) {
           </Typography>
           <Box className="teacher-page-content">
             <Box className="teacher-page-body"></Box>
-            <Box className="teacher-page-aside"></Box>
+            <Box component="aside" className="teacher-page-aside">
+              <TeacherSidebarBlock />
+            </Box>
           </Box>
         </Container>
       </Layout>
