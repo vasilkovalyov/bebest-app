@@ -43,7 +43,7 @@ import colors from '@/constants/colors'
 import userFieldsActivityService from '@/services/user-fields-activity'
 import { useLoadUserInfo } from '@/hooks/useLoadUserInfo'
 import { IFieldActivity, IFieldActivityRequest } from '@/types/common'
-import { ISubjectSkill } from '@/types/subjects'
+import { ISubjectCategory } from '@/types/subjects'
 
 const defaultWorkExperience: IFieldActivity = {
   activity: '',
@@ -177,15 +177,15 @@ function UserFieldsActivityForm({
     let checkedSkillsArr = [...checkedSkills]
 
     const activitySubjects = subjects.filter((item) => {
-      if (item.category === activity) return item
+      if (item.subject === activity) return item
     })
 
     if (tempArr.length === 0 && checkedSkillsArr.length === 0) {
-      tempArr.push({ subjects: activitySubjects[0].children })
+      tempArr.push({ subjects: activitySubjects[0].categories })
     } else {
       tempArr = tempArr.map((item, key) => {
         if (index !== key) return item
-        return { subjects: activitySubjects[0].children }
+        return { subjects: activitySubjects[0].categories }
       })
 
       checkedSkillsArr = checkedSkillsArr.map((item, key) => {
@@ -196,7 +196,7 @@ function UserFieldsActivityForm({
     }
 
     setValue(`fields_activity.${index}._id`, activitySubjects[0]._id)
-    setValue(`fields_activity.${index}.activity`, activitySubjects[0].category)
+    setValue(`fields_activity.${index}.activity`, activitySubjects[0].subject)
     setSelectedSkills(tempArr)
     setCheckedSkills(checkedSkillsArr)
   }
@@ -206,12 +206,12 @@ function UserFieldsActivityForm({
     index: number
   ) {
     const values = event.target.value as string[]
-    const skills: ISubjectSkill[] = []
+    const skills: ISubjectCategory[] = []
 
     values.forEach((item) => {
       if (!item) return
       const subject = selectedSkills[0].subjects.find(
-        (skill) => skill.subject === item
+        (skill) => skill.category === item
       )
       if (subject) {
         skills.push(subject)
@@ -286,9 +286,9 @@ function UserFieldsActivityForm({
                       Select activity
                     </MenuItem>
                     {subjects.length
-                      ? subjects.map(({ _id, category }) => (
-                          <MenuItem key={_id} value={category}>
-                            {category}
+                      ? subjects.map(({ _id, subject }) => (
+                          <MenuItem key={_id} value={subject}>
+                            {subject}
                           </MenuItem>
                         ))
                       : null}
@@ -305,7 +305,7 @@ function UserFieldsActivityForm({
                       checkedSkills[index] &&
                       checkedSkills[index].subjects.length
                         ? checkedSkills[index].subjects.map(
-                            (item) => item.subject
+                            (item) => item.category
                           )
                         : ['']
                     }
@@ -330,7 +330,7 @@ function UserFieldsActivityForm({
                           <MenuItem
                             key={item._id}
                             id={item._id}
-                            value={item.subject}
+                            value={item.category}
                           >
                             <Checkbox
                               checked={
@@ -338,12 +338,12 @@ function UserFieldsActivityForm({
                                 checkedSkills[index] &&
                                 checkedSkills[index].subjects
                                   ? checkedSkills[index].subjects
-                                      .map((item) => item.subject)
-                                      .indexOf(item.subject) > -1
+                                      .map((item) => item.category)
+                                      .indexOf(item.category) > -1
                                   : false
                               }
                             />
-                            <ListItemText primary={item.subject} />
+                            <ListItemText primary={item.category} />
                           </MenuItem>
                         ))
                       : null}

@@ -1,5 +1,5 @@
 import { IFieldActivity } from '@/types/common'
-import { ISubjectSkill } from '@/types/subjects'
+import { ISubjectCategory } from '@/types/subjects'
 
 export interface IUserFieldsActivityInfo {
   fields_activity: IFieldActivity[] | []
@@ -10,9 +10,9 @@ export interface IUserFieldsActivityFormProps {
 }
 
 export interface ISkillsChecked {
-  subjects: ISubjectSkill[]
+  subjects: ISubjectCategory[]
 }
 
 export interface ISubjectsActivities {
-  subjects: ISubjectSkill[]
+  subjects: ISubjectCategory[]
 }

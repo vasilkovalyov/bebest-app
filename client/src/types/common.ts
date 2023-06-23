@@ -1,4 +1,4 @@
-import { ISubjectSkill } from './subjects'
+import { ISubjectCategory } from './subjects'
 
 export interface IVideo {
   width: number
@@ -42,7 +42,7 @@ export interface IWorkExperience {
 export interface IFieldActivity {
   _id?: string
   activity: string
-  skills: ISubjectSkill[]
+  skills: ISubjectCategory[]
 }
 
 export interface IFieldActivityRequest {

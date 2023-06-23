@@ -1,10 +1,10 @@
-export interface ISubjectSkill {
+export interface ISubjectCategory {
   _id: string
-  subject: string
+  category: string
 }
 
 export interface ISubject {
   _id: string
-  category: string
-  children: ISubjectSkill[] | []
+  subject: string
+  categories: ISubjectCategory[] | []
 }

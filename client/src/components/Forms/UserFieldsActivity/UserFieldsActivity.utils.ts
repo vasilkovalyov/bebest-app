@@ -1,4 +1,4 @@
-import { ISubject, ISubjectSkill } from '@/types/subjects'
+import { ISubject, ISubjectCategory } from '@/types/subjects'
 import { ISkillsChecked, ISubjectsActivities } from './UserFieldsActivity.type'
 import { IFieldActivity } from '@/types/common'
 
@@ -17,9 +17,9 @@ export function getFieldsAndSubjectsData(
     }
 
     for (let subjectKey in subjects) {
-      if (subjects[subjectKey].category === formItem.activity) {
+      if (subjects[subjectKey].subject === formItem.activity) {
         subjectArr.push({
-          subjects: subjects[subjectKey].children,
+          subjects: subjects[subjectKey].categories,
         })
       }
     }
@@ -37,10 +37,10 @@ export function getFieldsAndSubjectsData(
 
 export function getUpdatedCheckedSkills(
   data: ISkillsChecked[],
-  skills: ISubjectSkill[],
+  skills: ISubjectCategory[],
   index: number
 ): ISkillsChecked[] {
-  const updatedSkillsArr = skills.filter((item) => item.subject !== '')
+  const updatedSkillsArr = skills.filter((item) => item.category !== '')
   const dataCopy: ISkillsChecked[] = [...data]
 
   if (dataCopy.length > 0 || dataCopy.length === index) {
