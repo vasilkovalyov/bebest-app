@@ -1,0 +1,41 @@
+@import '../settings/settings.colors';
+@import '../settings/settings.radius';
+@import '../settings/settings.spacing';
+
+.lesson-type-box {
+  display: flex;
+  border: 2px solid transparent;
+  border-radius: $radius-sm;
+  max-width: 214px;
+  width: 100%;
+  cursor: pointer;
+
+  &.active {
+    border: 2px solid $primary-color;
+
+    &:hover {
+      border: 2px solid $primary-color;
+    }
+  }
+
+  &:hover {
+    border: 2px solid $black;
+  }
+
+  &__icon {
+    width: 24px;
+    margin-right: 12px;
+
+    path {
+      fill: inherit;
+    }
+  }
+
+  &__content {
+    flex: 1;
+  }
+
+  &__title {
+    margin-bottom: 8px;
+  }
+}

@@ -1,0 +1,10 @@
+.create-lesson-page {
+  display: flex;
+  &__body {
+    width: 60%;
+  }
+
+  &__aside {
+    width: 40%;
+  }
+}

@@ -1,5 +1,4 @@
 //libs
-import { useEffect, useState } from 'react'
 import { GetServerSideProps } from 'next/types'
 import Link from 'next/link'
 import { AxiosError } from 'axios'
@@ -16,6 +15,9 @@ import teacherService from '@/services/teacher'
 import { ITeacherFullInfo } from '@/types/teacher/teacher'
 import TeacherSidebarBlock from '@/blocks/TeacherSidebarBlock'
 
+//other utils
+import { pageRoutesPublic } from '@/constants/page-routes'
+
 export default function Teacher({ name, surname, ...props }: ITeacherFullInfo) {
   return (
     <>
@@ -28,7 +30,10 @@ export default function Teacher({ name, surname, ...props }: ITeacherFullInfo) {
             <Link href="/" className="breadcrumbs__link">
               Home
             </Link>
-            <Link href="/teachers" className="breadcrumbs__link">
+            <Link
+              href={`/${pageRoutesPublic.teachers}`}
+              className="breadcrumbs__link"
+            >
               Teachers
             </Link>
             <Typography
