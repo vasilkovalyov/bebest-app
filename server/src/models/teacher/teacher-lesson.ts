@@ -1,17 +1,21 @@
 import { Schema, model, Document } from 'mongoose';
 import { ITeacher } from './teacher.model';
 
+export type LessonType = 'single' | 'multiple';
+
 export interface ITeacherLesson {
   topic: string;
   subject: string;
   description: string;
   start_date: string;
   time_start: string;
-  duration_months: number | string;
+  duration_months?: number | string;
+  duration_time?: string;
   max_users: number | string;
   price?: number | string;
   is_free?: boolean;
   teacher?: string;
+  type: LessonType;
 }
 
 export type TeacherLessonModelType = ITeacherLesson;
@@ -32,10 +36,16 @@ const TeacherLessonSchema = new Schema<ITeacherLessonSchemaType>({
   description: { type: String, required: true },
   start_date: { type: String, required: true },
   time_start: { type: String, required: true },
-  duration_months: { type: Number, required: true },
+  duration_months: { type: Number },
+  duration_time: { type: String },
   max_users: { type: Number, required: true },
   price: { type: String, required: true },
   is_free: { type: String, required: false, default: false },
+  type: {
+    type: String,
+    enum: ['single', 'multiple'],
+    required: true,
+  },
 });
 
 const TeacherLessonModel = model('TeacherLesson', TeacherLessonSchema);
