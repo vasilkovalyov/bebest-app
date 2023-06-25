@@ -1,4 +1,5 @@
 export enum IconEnum {
+  STACK = 'stack',
   COMPANY = 'company',
   INFO_CIRCULAR_OUTLINE = 'info-circular-outline',
   BELL = 'bell',

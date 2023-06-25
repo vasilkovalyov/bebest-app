@@ -24,4 +24,8 @@ export const PRIVATE_REQUESTS = {
   UPLOAD_AVATAR: 'upload-avatar',
   UPLOAD_VIDEO: 'upload-video',
   UPLOAD_CERTIFICATE: 'upload-certificate',
+  CREATE_LESSON: 'create-lesson',
+  UPDATE_LESSON: 'update-lesson',
+  DELETE_LESSON: 'delete-lesson',
+  GET_LESSON: 'get-lesson',
 }
