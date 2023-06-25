@@ -199,7 +199,7 @@ function TeacherCertificates({ onHandleClose }: ITeacherСertificatesFormProps) 
                   {errors.certificates?.[index]?.image ? (
                     <Typography
                       variant="caption"
-                      style={{ color: '#d32f2f', fontSize: '13px' }}
+                      style={{ color: colors.primary, fontSize: '13px' }}
                     >
                       {errors.certificates?.[index]?.image?.message}
                     </Typography>
