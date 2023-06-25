@@ -1,6 +1,7 @@
 import { File } from 'buffer';
 import { Request, Response } from 'express';
 import teacherService from '../services/teacher/teacher.service';
+import teacherLessonService from '../services/teacher/teacher-lesson';
 import teacherPersonalInfoService from '../services/teacher/teacher-personal-info';
 import teacherPaymentCardService from '../services/teacher/teacher-payment-card';
 import { RequestWithAuthUser } from '../interfaces/token';
@@ -353,6 +354,83 @@ class TeacherController {
   async getTeacherProfile(req: Request, res: Response) {
     try {
       const response = await teacherService.getUserProfile(req.params.id);
+      return res.status(status.SUCCESS).json(response);
+    } catch (e) {
+      if (!(e instanceof Error)) return;
+      return res.status(status.BAD_REQUEST).json({
+        message: e.message,
+      });
+    }
+  }
+
+  async createLesson(req: RequestWithAuthUser, res: Response) {
+    if (!req.user)
+      return res
+        .status(status.NOT_FOUND)
+        .json(responseTeacherMessages.notUserByToken);
+
+    try {
+      const response = await teacherLessonService.createLesson(
+        req.user._id,
+        req.body
+      );
+      return res.status(status.SUCCESS).json(response);
+    } catch (e) {
+      if (!(e instanceof Error)) return;
+      return res.status(status.BAD_REQUEST).json({
+        message: e.message,
+      });
+    }
+  }
+
+  async updateLesson(req: RequestWithAuthUser, res: Response) {
+    if (!req.user)
+      return res
+        .status(status.NOT_FOUND)
+        .json(responseTeacherMessages.notUserByToken);
+
+    try {
+      const response = await teacherLessonService.updateLesson(
+        req.user._id,
+        req.body
+      );
+      return res.status(status.SUCCESS).json(response);
+    } catch (e) {
+      if (!(e instanceof Error)) return;
+      return res.status(status.BAD_REQUEST).json({
+        message: e.message,
+      });
+    }
+  }
+
+  async deleteLesson(req: RequestWithAuthUser, res: Response) {
+    if (!req.user)
+      return res
+        .status(status.NOT_FOUND)
+        .json(responseTeacherMessages.notUserByToken);
+
+    try {
+      const response = await teacherLessonService.deleteLesson(
+        req.user._id,
+        req.params.id
+      );
+      return res.status(status.SUCCESS).json(response);
+    } catch (e) {
+      if (!(e instanceof Error)) return;
+      return res.status(status.BAD_REQUEST).json({
+        message: e.message,
+      });
+    }
+  }
+
+  async getLesson(req: RequestWithAuthUser, res: Response) {
+    if (!req.user)
+      return res
+        .status(status.NOT_FOUND)
+        .json(responseTeacherMessages.notUserByToken);
+
+    try {
+      const response = await teacherLessonService.getLesson(req.params.id);
       return res.status(status.SUCCESS).json(response);
     } catch (e) {
       if (!(e instanceof Error)) return;

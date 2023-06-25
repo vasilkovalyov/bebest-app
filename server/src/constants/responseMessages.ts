@@ -1,4 +1,4 @@
-import { UserRole } from '../types/role';
+import { CrudMethod, UserRole } from '../types/role';
 
 export default {
   unauthorized: 'User is not authorized',
@@ -31,4 +31,8 @@ export function userWithIdNotFound(userRole: string, id: string) {
 
 export function userCreateSuccessfull(userRole: string) {
   return `${userRole} created successfull`;
+}
+
+export function lessonResponse(method: CrudMethod): string {
+  return `lesson ${method} successfull`;
 }

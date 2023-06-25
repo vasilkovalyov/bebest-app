@@ -104,4 +104,28 @@ router.delete(
 router.get('/teachers', teacherController.getUsers);
 router.get('/teacher-profile/:id', teacherController.getTeacherProfile);
 
+router.post(
+  '/create-lesson/teacher',
+  authMiddleware,
+  teacherController.createLesson
+);
+
+router.post(
+  '/update-lesson/teacher',
+  authMiddleware,
+  teacherController.updateLesson
+);
+
+router.delete(
+  '/delete-lesson/teacher/:id',
+  authMiddleware,
+  teacherController.deleteLesson
+);
+
+router.get(
+  '/get-lesson/teacher/:id',
+  authMiddleware,
+  teacherController.getLesson
+);
+
 export default router;

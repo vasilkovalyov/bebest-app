@@ -15,15 +15,17 @@ export interface ITeacher extends IUser {
   personalInfoId?: string;
   progressAccount: string;
   paymentCard?: string;
+  lessons?: string[];
 }
 
 export type ITeacherSchemaType = Omit<
   ITeacher,
-  'personalInfoId' | 'progressAccount'
+  'personalInfoId' | 'progressAccount' | 'lessons'
 > &
   Document & {
     personalInfoId: Schema.Types.ObjectId;
     progressAccount: Schema.Types.ObjectId;
+    lessons: Schema.Types.ObjectId;
   };
 
 export type ITeacherAccountEditableProps = Omit<
@@ -91,6 +93,12 @@ const TeacherSchema = new Schema<ITeacherSchemaType>({
     type: Schema.Types.ObjectId,
     ref: 'TeacherPaymentCard',
   },
+  lessons: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'TeacherLesson',
+    },
+  ],
 });
 
 const Teacher = model('Teacher', TeacherSchema);
