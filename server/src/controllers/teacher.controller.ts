@@ -439,6 +439,23 @@ class TeacherController {
       });
     }
   }
+
+  async getUserLessons(req: RequestWithAuthUser, res: Response) {
+    if (!req.user)
+      return res
+        .status(status.NOT_FOUND)
+        .json(responseTeacherMessages.notUserByToken);
+
+    try {
+      const response = await teacherLessonService.getUserLessons(req.user._id);
+      return res.status(status.SUCCESS).json(response);
+    } catch (e) {
+      if (!(e instanceof Error)) return;
+      return res.status(status.BAD_REQUEST).json({
+        message: e.message,
+      });
+    }
+  }
 }
 
 export default new TeacherController();

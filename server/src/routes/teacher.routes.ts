@@ -128,4 +128,10 @@ router.get(
   teacherController.getLesson
 );
 
+router.get(
+  '/get-lessons/teacher',
+  authMiddleware,
+  teacherController.getUserLessons
+);
+
 export default router;

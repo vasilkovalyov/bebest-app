@@ -40,7 +40,7 @@ const TeacherLessonSchema = new Schema<ITeacherLessonSchemaType>({
   duration_time: { type: String },
   max_users: { type: Number, required: true },
   price: { type: String, required: true },
-  is_free: { type: String, required: false, default: false },
+  is_free: { type: Boolean, required: false, default: false },
   type: {
     type: String,
     enum: ['single', 'multiple'],

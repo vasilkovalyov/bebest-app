@@ -80,6 +80,17 @@ class TeacherLessonService {
 
     return teacherLesson;
   }
+
+  async getUserLessons(teacherId: string) {
+    const teacherLesson = await TeacherLessonModel.find({
+      teacher: teacherId,
+    }).populate({
+      path: 'subject',
+      select: '_id subject',
+    });
+
+    return teacherLesson;
+  }
 }
 
 export default new TeacherLessonService();
