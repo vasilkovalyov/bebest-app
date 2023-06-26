@@ -7,20 +7,16 @@ import { AxiosError } from 'axios'
 
 // material ui components
 import Box from '@mui/material/Box'
+import Grid from '@mui/material/Grid'
 import Container from '@mui/material/Container'
 import Breadcrumbs from '@mui/material/Breadcrumbs'
 import Typography from '@mui/material/Typography'
 
 // custom components
 import Layout from '@/layouts/Layout'
-import teacherService from '@/services/teacher'
-import { ITeacherFullInfo } from '@/types/teacher/teacher'
-import TeacherSidebarBlock from '@/blocks/TeacherSidebarBlock'
 import { pageRoutesPrivate } from '@/constants/page-routes'
-import CreateLessonBlock from '@/blocks/CreateLessonBlock'
-import ContainerWithShadow from '@/components/Generic/ContainerWithShadow'
-import { LessonType } from '@/types/lessons'
 import UpdateLessonBlock from '@/blocks/UpdateLessonBlock'
+import TeacherTrainingPlanBlock from '@/blocks/TeacherTrainingPlanBlock'
 
 //other utils
 import teacherLessonService from '@/services/teacher-lesson'
@@ -59,11 +55,18 @@ export default function UpdateLesson() {
         <Typography marginBottom={3} variant="h3">
           Update lesson
         </Typography>
-        <Box className="create-lesson-page">
-          <Box className="create-lesson-page__body">
-            <UpdateLessonBlock />
-          </Box>
-          <Box className="create-lesson-page__aside"></Box>
+        <Box className="lesson-page">
+          <Grid container gap={1} justifyContent="space-between">
+            <Grid item xs={12} md={7}>
+              <UpdateLessonBlock />
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Box className="lesson-page__aside" marginBottom={4}></Box>
+            </Grid>
+            <Grid item xs={12}>
+              <TeacherTrainingPlanBlock editType={true} />
+            </Grid>
+          </Grid>
         </Box>
       </Container>
     </Layout>
