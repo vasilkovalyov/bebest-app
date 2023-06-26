@@ -19,7 +19,9 @@ class TeacherLessonService {
     return response
   }
 
-  async updateLesson(props: ITeacherLesson) {
+  async updateLesson(
+    props: ITeacherLesson
+  ): Promise<AxiosResponse<{ message: string }>> {
     const response = await $api().post(
       `/${PRIVATE_REQUESTS.UPDATE_LESSON}/teacher`,
       {
@@ -42,6 +44,11 @@ class TeacherLessonService {
     const response = await $api().get(
       `${PRIVATE_REQUESTS.GET_LESSON}/teacher/${id}`
     )
+    return response
+  }
+
+  async getUserLessons(): Promise<AxiosResponse<ITeacherLessonExtended[]>> {
+    const response = await $api().get(`${PRIVATE_REQUESTS.GET_LESSONS}/teacher`)
     return response
   }
 }

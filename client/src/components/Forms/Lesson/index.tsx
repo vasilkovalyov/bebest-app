@@ -1,5 +1,5 @@
 // libs
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import dayjs from 'dayjs'
@@ -22,7 +22,6 @@ import ContainerWithShadow from '@/components/Generic/ContainerWithShadow'
 
 // relate utils
 import { ILessonFormProps } from './Lesson.type'
-import { defaultInitialDate } from './Lesson.utils'
 import { LessonFormValidationSchema } from './Lesson.validation'
 
 // other utils
@@ -35,6 +34,7 @@ function LessonForm({
   initialData,
   lessonType,
   isLoading,
+  mode,
   onSubmit,
 }: ILessonFormProps) {
   const subjects = useAppSelector((store) => store.subjects.subjects)
@@ -44,12 +44,30 @@ function LessonForm({
     handleSubmit,
     register,
     setValue,
+    getValues,
     formState: { errors },
   } = useForm<ITeacherLessonEditableProps>({
     mode: 'onSubmit',
-    defaultValues: initialData || defaultInitialDate,
+    defaultValues: initialData,
     resolver: yupResolver(LessonFormValidationSchema),
   })
+
+  function setInitialData() {
+    if (!initialData) return
+    const time = initialData.time_start
+      ? initialData.time_start.split('T')[1].split('.')[0]
+      : ''
+    setValue(
+      'start_date',
+      dayjs(initialData.start_date).format(dateFormat.base)
+    )
+    setValue('time_start', time)
+    setIsFree(initialData.is_free ? true : false)
+  }
+
+  useEffect(() => {
+    setInitialData()
+  }, [])
 
   function onHandleSubmit(props: ITeacherLessonEditableProps) {
     let formatDate: string = ''
@@ -72,7 +90,7 @@ function LessonForm({
   function onChangeFreeLessons() {
     setIsFree(!isFree)
     setValue('is_free', !isFree)
-    setValue('price', 0)
+    setValue('price', '')
   }
 
   return (
@@ -109,7 +127,7 @@ function LessonForm({
               className="form-field"
               placeholder="Subject"
               fullWidth
-              defaultValue={' '}
+              defaultValue={getValues().subject || ' '}
               InputLabelProps={{ shrink: true }}
               error={!!errors.subject?.message}
               helperText={errors.subject?.message}
@@ -198,7 +216,7 @@ function LessonForm({
                 className="form-field"
                 placeholder="Duration"
                 fullWidth
-                defaultValue={' '}
+                defaultValue={getValues().duration_months || ' '}
                 InputLabelProps={{ shrink: true }}
                 error={!!errors.duration_months?.message}
                 helperText={errors.duration_months?.message}
@@ -269,7 +287,8 @@ function LessonForm({
             size="small"
             disabled={isLoading}
           >
-            Create lesson
+            {mode === 'create' ? 'Create ' : null}
+            {mode === 'update' ? 'Update ' : null} lesson
           </Button>
           <Box ml={2}>{isLoading ? <CircularProgress size={16} /> : null}</Box>
         </Box>

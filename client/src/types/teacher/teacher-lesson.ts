@@ -21,5 +21,6 @@ export interface ITeacherLessonEditableProps
 
 export interface ITeacherLessonExtended
   extends Omit<ITeacherLesson, 'subject'> {
-  subject: Omit<ISubject, 'children'>
+  registeredCount?: number
+  subject: Omit<ISubject, 'categories'>
 }

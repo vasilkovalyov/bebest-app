@@ -49,3 +49,5 @@ export interface IFieldActivityRequest {
   subject: string
   categories: string[]
 }
+
+export type FormMode = 'create' | 'update'

@@ -38,6 +38,7 @@ function CreateLessonBlock({ lessonType }: { lessonType: LessonType }) {
       <LessonForm
         isLoading={isLoading}
         lessonType={lessonType}
+        mode="create"
         onSubmit={onHandleSubmit}
       />
     </Box>
