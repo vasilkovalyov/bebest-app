@@ -1,0 +1,27 @@
+@import '../settings/settings.colors';
+@import '../settings/settings.spacing';
+@import '../tools/tools.mixins';
+
+.teacher-lesson-card {
+  border: 1px solid $grey-light;
+  background-color: $blue-light;
+  padding: $spacing-2-s;
+
+  &__heading {
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+  }
+
+  &__edit {
+    svg {
+      @include animate(color);
+    }
+    &:hover {
+      svg {
+        color: $primary-color;
+      }
+    }
+  }
+}

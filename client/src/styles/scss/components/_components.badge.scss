@@ -1,0 +1,27 @@
+@import '../settings/settings.colors';
+@import '../settings/settings.spacing';
+@import '../settings/settings.radius';
+@import '../settings/settings.sizes';
+
+.badge {
+  border-radius: $radius-xxl;
+  padding: $spacing-0-s $spacing-1-s$spacing-0-s $spacing-1-m;
+  font-size: $size-1-m;
+  display: inline-flex;
+
+  svg {
+    vertical-align: middle;
+    margin-bottom: 2px;
+    margin-right: 6px;
+  }
+
+  &__text {
+    margin: 0;
+    font-size: $size-1-m;
+
+    > span {
+      display: inline-block;
+      margin-left: 6px;
+    }
+  }
+}
