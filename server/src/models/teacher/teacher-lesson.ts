@@ -39,7 +39,10 @@ const TeacherLessonSchema = new Schema<ITeacherLessonSchemaType>({
   duration_months: { type: Number },
   duration_time: { type: String },
   max_users: { type: Number, required: true },
-  price: { type: String, required: true },
+  price: {
+    type: String,
+    required: false,
+  },
   is_free: { type: Boolean, required: false, default: false },
   type: {
     type: String,

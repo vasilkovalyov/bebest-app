@@ -72,10 +72,14 @@ class TeacherLessonService {
   async getLesson(lessonId: string) {
     const teacherLesson = await TeacherLessonModel.findOne({
       _id: lessonId,
-    }).populate({
-      path: 'subject',
-      select: '_id subject',
-    });
+    })
+      .populate({
+        path: 'subject',
+        select: '_id subject',
+      })
+      .select(
+        'topic subject description start_date time_start duration_months duration_time max_users price is_free teacher type'
+      );
 
     return teacherLesson;
   }
