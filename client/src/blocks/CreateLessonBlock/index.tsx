@@ -1,17 +1,9 @@
 // libs
 import { useState } from 'react'
-
-//redux
-import { useAppSelector } from '@/redux/hooks'
-import { useDispatch } from 'react-redux'
-import { fetchPaymentCard } from '@/redux/slices/payment-card'
+import { useRouter } from 'next/router'
 
 // material ui components
 import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
-import Button from '@mui/material/Button'
-import Modal from '@mui/material/Modal'
-import Stack from '@mui/material/Stack'
 
 //custom components
 import LessonForm from '@/components/Forms/Lesson'
@@ -20,17 +12,22 @@ import { ITeacherLessonEditableProps } from '@/types/teacher/teacher-lesson'
 //other utils
 import teacherLessonService from '@/services/teacher-lesson'
 import { LessonType } from '@/types/lessons'
+import { pageRoutesPrivate } from '@/constants/page-routes'
 
 function CreateLessonBlock({ lessonType }: { lessonType: LessonType }) {
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const router = useRouter()
 
   async function onHandleSubmit(props: ITeacherLessonEditableProps) {
     setIsLoading(true)
-    await teacherLessonService.createLesson({
+    const response = await teacherLessonService.createLesson({
       ...props,
       type: lessonType,
     })
     setIsLoading(false)
+    router.push(
+      `/${pageRoutesPrivate.cabinetUpdateLesson}/${response.data._id}`
+    )
   }
 
   return (
