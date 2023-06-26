@@ -31,14 +31,12 @@ function CreateLessonBlock({ lessonType }: { lessonType: LessonType }) {
   }
 
   return (
-    <Box>
-      <LessonForm
-        isLoading={isLoading}
-        lessonType={lessonType}
-        mode="create"
-        onSubmit={onHandleSubmit}
-      />
-    </Box>
+    <LessonForm
+      isLoading={isLoading}
+      lessonType={lessonType}
+      mode="create"
+      onSubmit={onHandleSubmit}
+    />
   )
 }
 

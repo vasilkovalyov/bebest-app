@@ -58,7 +58,7 @@ function TeacherLessons({ className }: ITeacherLessonsProps) {
               ))}
             </Grid>
           ) : (
-            <Typography variant="body1">No data.</Typography>
+            <Typography variant="body1">No lessons</Typography>
           )}
         </>
       )}

@@ -34,7 +34,8 @@ function UpdateLessonBlock() {
     const response = await teacherLessonService.getLessonById(
       query._id as string
     )
-    setLesson(response.data)
+    const { _id, ...formData } = response.data
+    setLesson(formData)
   }
 
   async function onHandleSubmit(props: ITeacherLessonEditableProps) {

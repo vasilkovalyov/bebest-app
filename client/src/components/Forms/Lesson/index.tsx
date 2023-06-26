@@ -17,7 +17,7 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import CircularProgress from '@mui/material/CircularProgress'
 import MenuItem from '@mui/material/MenuItem'
 
-// custom components
+//custom components
 import ContainerWithShadow from '@/components/Generic/ContainerWithShadow'
 
 // relate utils
@@ -74,8 +74,11 @@ function LessonForm({
 
     if (props.start_date) {
       const convertedDate = dayjs(props.start_date).format(dateFormat.base)
+      const timeWithCurrentTimeZone = getTimeWithCurrentTimeZone(
+        props.time_start
+      )
       formatDate = new Date(
-        `${convertedDate}T${getTimeWithCurrentTimeZone(props.time_start)}`
+        `${convertedDate}T${timeWithCurrentTimeZone}`
       ).toISOString()
     }
 
@@ -83,7 +86,7 @@ function LessonForm({
       ...props,
       max_users: +props.max_users,
       start_date: formatDate,
-      time_start: formatDate,
+      time_start: getTimeWithCurrentTimeZone(props.time_start),
     })
   }
 
@@ -94,206 +97,214 @@ function LessonForm({
   }
 
   return (
-    <ContainerWithShadow className="container--lesson">
-      <form
-        name="form-login"
-        className="form form-lesson"
-        onSubmit={handleSubmit(onHandleSubmit)}
-      >
-        <Grid container gap={0.5} justifyContent="space-between">
-          <Grid item xs={12} md={7.8} marginBottom={2}>
-            <TextField
-              {...register('topic')}
-              id="topic"
-              name="topic"
-              type="text"
-              label="Topic"
-              variant="standard"
-              className="form-field"
-              fullWidth
-              InputLabelProps={{ shrink: true }}
-              error={!!errors.topic?.message}
-              helperText={errors.topic?.message}
-            />
-          </Grid>
-          <Grid item xs={12} md={3.8} marginBottom={2}>
-            <TextField
-              {...register('subject')}
-              id={'subject'}
-              select
-              type="text"
-              label="Subject"
-              variant="standard"
-              className="form-field"
-              placeholder="Subject"
-              fullWidth
-              defaultValue={getValues().subject || ' '}
-              InputLabelProps={{ shrink: true }}
-              error={!!errors.subject?.message}
-              helperText={errors.subject?.message}
-            >
-              <MenuItem disabled value=" ">
-                Select subject
-              </MenuItem>
-              {subjects.length
-                ? subjects.map(({ _id, subject }) => (
-                    <MenuItem key={_id} value={_id}>
-                      {subject}
-                    </MenuItem>
-                  ))
-                : null}
-            </TextField>
-          </Grid>
-          <Grid item xs={12} marginBottom={2}>
-            <TextField
-              {...register('description')}
-              id="description"
-              name="description"
-              type="text"
-              label="Description"
-              variant="standard"
-              className="form-field"
-              fullWidth
-              multiline
-              minRows={5}
-              InputLabelProps={{ shrink: true }}
-              error={!!errors.description?.message}
-              helperText={errors.description?.message}
-            />
-          </Grid>
-          <Grid item xs={12} md={3.8} marginBottom={2}>
-            <TextField
-              {...register('start_date')}
-              id={'start_date'}
-              type="date"
-              label="Start date"
-              variant="standard"
-              className="form-field"
-              fullWidth
-              InputLabelProps={{ shrink: true }}
-              error={!!errors.start_date?.message}
-              helperText={errors.start_date?.message}
-            />
-          </Grid>
-          <Grid item xs={12} md={3.8} marginBottom={2}>
-            <TextField
-              {...register('time_start')}
-              id="time_start"
-              type="time"
-              label="Time start"
-              variant="standard"
-              className="form-field"
-              fullWidth
-              InputLabelProps={{ shrink: true }}
-              error={!!errors.time_start?.message}
-              helperText={errors.time_start?.message}
-            />
-          </Grid>
-          <Grid item xs={12} md={3.8} marginBottom={2}>
-            {lessonType === 'single' ? (
+    <Box marginBottom={4}>
+      <ContainerWithShadow paddingSize="sm">
+        <form
+          name="form-login"
+          className="form form-lesson"
+          onSubmit={handleSubmit(onHandleSubmit)}
+        >
+          <Grid container gap={0.5} justifyContent="space-between">
+            <Grid item xs={12} md={7.8} marginBottom={2}>
               <TextField
-                {...register('duration_time')}
-                id="duration_time"
-                type="time"
-                label="Duration time"
+                {...register('topic')}
+                id="topic"
+                name="topic"
+                type="text"
+                label="Topic"
                 variant="standard"
                 className="form-field"
                 fullWidth
                 InputLabelProps={{ shrink: true }}
-                error={!!errors.duration_time?.message}
-                helperText={errors.duration_time?.message}
+                error={!!errors.topic?.message}
+                helperText={errors.topic?.message}
               />
-            ) : null}
-
-            {lessonType === 'multiple' ? (
+            </Grid>
+            <Grid item xs={12} md={3.8} marginBottom={2}>
               <TextField
-                {...register('duration_months')}
-                id={'duration_months'}
+                {...register('subject')}
+                id={'subject'}
                 select
                 type="text"
-                label="Duration months"
+                label="Subject"
                 variant="standard"
                 className="form-field"
-                placeholder="Duration"
+                placeholder="Subject"
                 fullWidth
-                defaultValue={getValues().duration_months || ' '}
+                defaultValue={getValues().subject || ' '}
                 InputLabelProps={{ shrink: true }}
-                error={!!errors.duration_months?.message}
-                helperText={errors.duration_months?.message}
+                error={!!errors.subject?.message}
+                helperText={errors.subject?.message}
               >
                 <MenuItem disabled value=" ">
-                  Select duration
+                  Select subject
                 </MenuItem>
-                {getMonthsNumbers().map(({ count, title }) => (
-                  <MenuItem key={count} value={count}>
-                    {title}
-                  </MenuItem>
-                ))}
+                {subjects.length
+                  ? subjects.map(({ _id, subject }) => (
+                      <MenuItem key={_id} value={_id}>
+                        {subject}
+                      </MenuItem>
+                    ))
+                  : null}
               </TextField>
-            ) : null}
-          </Grid>
-        </Grid>
-        <Grid container alignItems="flex-start" justifyContent="space-between">
-          <Grid item xs={12} md={3.8} marginBottom={2}>
-            <TextField
-              {...register('max_users')}
-              id="max_users"
-              type="number"
-              label="Max num of people"
-              variant="standard"
-              className="form-field"
-              fullWidth
-              InputLabelProps={{ shrink: true }}
-              error={!!errors.max_users?.message}
-              helperText={errors.max_users?.message}
-            />
-          </Grid>
-          <Grid item xs={12} md={3.8} marginBottom={2}>
-            <TextField
-              {...register('price')}
-              id="price"
-              type="number"
-              label="Price"
-              variant="standard"
-              className="form-field"
-              fullWidth
-              disabled={isFree}
-              InputLabelProps={{ shrink: true }}
-              error={!!errors.price?.message}
-              helperText={errors.price?.message}
-            />
-          </Grid>
-          <Grid item xs={12} md={3.8} marginBottom={2}>
-            <Box paddingTop={3}>
-              <FormControlLabel
-                {...register('is_free')}
-                label="Free"
-                onChange={onChangeFreeLessons}
-                control={
-                  <Checkbox
-                    {...register('is_free')}
-                    onChange={() => onChangeFreeLessons()}
-                    checked={isFree}
-                  />
-                }
+            </Grid>
+            <Grid item xs={12} marginBottom={2}>
+              <TextField
+                {...register('description')}
+                id="description"
+                name="description"
+                type="text"
+                label="Description"
+                variant="standard"
+                className="form-field"
+                fullWidth
+                multiline
+                minRows={5}
+                InputLabelProps={{ shrink: true }}
+                error={!!errors.description?.message}
+                helperText={errors.description?.message}
               />
-            </Box>
+            </Grid>
+            <Grid item xs={12} md={3.8} marginBottom={2}>
+              <TextField
+                {...register('start_date')}
+                id={'start_date'}
+                type="date"
+                label="Start date"
+                variant="standard"
+                className="form-field"
+                fullWidth
+                InputLabelProps={{ shrink: true }}
+                error={!!errors.start_date?.message}
+                helperText={errors.start_date?.message}
+              />
+            </Grid>
+            <Grid item xs={12} md={3.8} marginBottom={2}>
+              <TextField
+                {...register('time_start')}
+                id="time_start"
+                type="time"
+                label="Time start"
+                variant="standard"
+                className="form-field"
+                fullWidth
+                InputLabelProps={{ shrink: true }}
+                error={!!errors.time_start?.message}
+                helperText={errors.time_start?.message}
+              />
+            </Grid>
+            <Grid item xs={12} md={3.8} marginBottom={2}>
+              {lessonType === 'single' ? (
+                <TextField
+                  {...register('duration_time')}
+                  id="duration_time"
+                  type="time"
+                  label="Duration time"
+                  variant="standard"
+                  className="form-field"
+                  fullWidth
+                  InputLabelProps={{ shrink: true }}
+                  error={!!errors.duration_time?.message}
+                  helperText={errors.duration_time?.message}
+                />
+              ) : null}
+
+              {lessonType === 'multiple' ? (
+                <TextField
+                  {...register('duration_months')}
+                  id={'duration_months'}
+                  select
+                  type="text"
+                  label="Duration months"
+                  variant="standard"
+                  className="form-field"
+                  placeholder="Duration"
+                  fullWidth
+                  defaultValue={getValues().duration_months || ' '}
+                  InputLabelProps={{ shrink: true }}
+                  error={!!errors.duration_months?.message}
+                  helperText={errors.duration_months?.message}
+                >
+                  <MenuItem disabled value=" ">
+                    Select duration
+                  </MenuItem>
+                  {getMonthsNumbers().map(({ count, title }) => (
+                    <MenuItem key={count} value={count}>
+                      {title}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              ) : null}
+            </Grid>
           </Grid>
-        </Grid>
-        <Box display="flex" alignItems="center" marginBottom={3}>
-          <Button
-            type="submit"
-            variant="contained"
-            size="small"
-            disabled={isLoading}
+          <Grid
+            container
+            alignItems="flex-start"
+            justifyContent="space-between"
           >
-            {mode === 'create' ? 'Create ' : null}
-            {mode === 'update' ? 'Update ' : null} lesson
-          </Button>
-          <Box ml={2}>{isLoading ? <CircularProgress size={16} /> : null}</Box>
-        </Box>
-      </form>
-    </ContainerWithShadow>
+            <Grid item xs={12} md={3.8} marginBottom={2}>
+              <TextField
+                {...register('max_users')}
+                id="max_users"
+                type="number"
+                label="Max num of people"
+                variant="standard"
+                className="form-field"
+                fullWidth
+                InputLabelProps={{ shrink: true }}
+                error={!!errors.max_users?.message}
+                helperText={errors.max_users?.message}
+              />
+            </Grid>
+            <Grid item xs={12} md={3.8} marginBottom={2}>
+              <TextField
+                {...register('price')}
+                id="price"
+                type="number"
+                label="Price"
+                variant="standard"
+                className="form-field"
+                fullWidth
+                disabled={isFree}
+                InputLabelProps={{ shrink: true }}
+                error={!!errors.price?.message}
+                helperText={errors.price?.message}
+              />
+            </Grid>
+            <Grid item xs={12} md={3.8} marginBottom={2}>
+              <Box paddingTop={3}>
+                <FormControlLabel
+                  {...register('is_free')}
+                  label="Free"
+                  onChange={onChangeFreeLessons}
+                  control={
+                    <Checkbox
+                      {...register('is_free')}
+                      onChange={() => onChangeFreeLessons()}
+                      checked={isFree}
+                    />
+                  }
+                />
+              </Box>
+            </Grid>
+          </Grid>
+          <Box display="flex" alignItems="center">
+            <Button
+              type="submit"
+              variant="contained"
+              size="small"
+              disabled={isLoading}
+            >
+              {mode === 'create' ? 'Create ' : null}
+              {mode === 'update' ? 'Update ' : null} lesson
+            </Button>
+            <Box ml={2}>
+              {isLoading ? <CircularProgress size={16} /> : null}
+            </Box>
+          </Box>
+        </form>
+      </ContainerWithShadow>
+    </Box>
   )
 }
 
