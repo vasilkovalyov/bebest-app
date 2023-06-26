@@ -9,7 +9,12 @@ import {
 } from '@/types/teacher/teacher-lesson'
 
 class TeacherLessonService {
-  async createLesson(props: ITeacherLesson) {
+  async createLesson(props: ITeacherLesson): Promise<
+    AxiosResponse<{
+      message: string
+      _id: string
+    }>
+  > {
     const response = await $api().post(
       `/${PRIVATE_REQUESTS.CREATE_LESSON}/teacher`,
       {

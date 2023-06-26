@@ -47,7 +47,7 @@ function TeacherLessonCard({
         className="teacher-lesson-card__heading"
         marginBottom={1}
       >
-        <Link href={`/${pageRoutesPrivate.cabinetUpdateLessonMultiple}/${_id}`}>
+        <Link href={`/${pageRoutesPrivate.cabinetUpdateLesson}/${_id}`}>
           {topic}
         </Link>
       </Typography>
@@ -119,7 +119,7 @@ function TeacherLessonCard({
       </Stack>
       <Box position="absolute" top={20} right={20}>
         <Link
-          href={`/${pageRoutesPrivate.cabinetUpdateLessonMultiple}/${_id}`}
+          href={`/${pageRoutesPrivate.cabinetUpdateLesson}/${_id}`}
           className="teacher-lesson-card__edit"
         >
           <Icon icon={IconEnum.EDIT} size={18} color={colors.black_color} />
