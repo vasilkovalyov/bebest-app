@@ -12,9 +12,7 @@ import TeacherLessonModel, {
   ITeacherLesson,
 } from '../../models/teacher/teacher-lesson';
 
-import responseMessages, {
-  lessonResponse,
-} from '../../constants/responseMessages';
+import { lessonResponse } from '../../constants/responseMessages';
 
 class TeacherLessonService {
   async createLesson(teacherId: string, props: ITeacherLesson) {
@@ -32,6 +30,7 @@ class TeacherLessonService {
     );
 
     return {
+      _id: teacherLesson._id,
       message: lessonResponse('create'),
     };
   }
