@@ -47,9 +47,7 @@ function TeacherLessonCard({
         className="teacher-lesson-card__heading"
         marginBottom={1}
       >
-        <Link href={`/${pageRoutesPrivate.cabinetUpdateLesson}/${_id}`}>
-          {topic}
-        </Link>
+        {topic}
       </Typography>
       <Typography
         marginBottom={2}
@@ -58,6 +56,7 @@ function TeacherLessonCard({
       >
         {subject.subject}
       </Typography>
+      <Typography variant="subtitle2">Type lesson - {type}</Typography>
       <Stack
         direction="row"
         spacing={2}
@@ -78,7 +77,8 @@ function TeacherLessonCard({
             <Typography variant="subtitle2">
               {dayjs(start_date).format('DD MMM YYYY')}
               {' | '}
-              {time_start && new Date(time_start).toLocaleTimeString()}
+              {time_start &&
+                new Date(time_start).toLocaleTimeString().slice(0, 5)}
             </Typography>
           </Box>
         </Stack>
@@ -113,8 +113,14 @@ function TeacherLessonCard({
           color={colors.blue}
         />
         <Typography>
-          {registeredCount} more participant{registeredCount > 1 ? 's' : ''} out
-          of {max_users} are expected
+          <Typography component="strong" variant="body2">
+            {registeredCount}
+          </Typography>{' '}
+          more participant{registeredCount > 1 ? 's' : ''} out of{' '}
+          <Typography component="strong" variant="body2">
+            {max_users}
+          </Typography>{' '}
+          are expected
         </Typography>
       </Stack>
       <Box position="absolute" top={20} right={20}>
