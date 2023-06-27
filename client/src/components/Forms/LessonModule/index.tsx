@@ -69,15 +69,11 @@ function LessonModuleForm({
 
   function onHandleSubmit(props: ITeacherLessonModuleEditableProps) {
     const convertedDate = dayjs(props.start_date).format(dateFormat.base)
-    const timeWithCurrentTimeZone = getTimeWithCurrentTimeZone(props.time_start)
-    const formatDate = new Date(
-      `${convertedDate}T${timeWithCurrentTimeZone}`
-    ).toISOString()
 
     onSubmit({
       ...props,
-      start_date: formatDate,
-      time_start: timeWithCurrentTimeZone,
+      start_date: `${convertedDate}T${props.time_start}`,
+      time_start: props.time_start,
     })
   }
 

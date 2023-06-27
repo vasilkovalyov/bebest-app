@@ -1,5 +1,5 @@
 // libs
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/router'
 
 // material ui components
@@ -16,29 +16,20 @@ import {
   ITeacherLessonExtended,
 } from '@/types/teacher/teacher-lesson'
 
-//relate utils
-
 //other utils
 import teacherLessonService from '@/services/teacher-lesson'
 import { LessonType } from '@/types/lessons'
 import AlertTitle from '@mui/material/AlertTitle'
-import { defaultInitialDate } from '@/components/Forms/Lesson/Lesson.utils'
 
-function UpdateLessonBlock() {
+//relate utils
+import { IUpdateLessonBlockProps } from './UpdateLessonBlock.type'
+
+function UpdateLessonBlock({ initialData }: IUpdateLessonBlockProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [showNotification, setShowNotification] = useState(false)
   const { query } = useRouter()
-  const [lesson, setLesson] =
-    useState<ITeacherLessonExtended>(defaultInitialDate)
+  const [lesson, setLesson] = useState<ITeacherLessonExtended>(initialData)
   const [responseMessage, setResponseMessage] = useState<string | null>(null)
-
-  async function loadLesson() {
-    const response = await teacherLessonService.getLessonById(
-      query._id as string
-    )
-    const { _id, ...formData } = response.data
-    setLesson(formData)
-  }
 
   async function onHandleSubmit(props: ITeacherLessonEditableProps) {
     setIsLoading(true)
@@ -52,7 +43,8 @@ function UpdateLessonBlock() {
       setResponseMessage(response.data.message)
     }
     const updateLessonResponse = await teacherLessonService.getLessonById(
-      query._id as string
+      query._id as string,
+      null
     )
     setLesson(updateLessonResponse.data)
     setIsLoading(false)
@@ -61,10 +53,6 @@ function UpdateLessonBlock() {
   function closeNotification() {
     setShowNotification(false)
   }
-
-  useEffect(() => {
-    loadLesson()
-  }, [])
 
   return (
     <Box>

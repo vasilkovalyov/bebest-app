@@ -20,8 +20,10 @@ import TeacherTrainingPlanBlock from '@/blocks/TeacherTrainingPlanBlock'
 
 //other utils
 import teacherLessonService from '@/services/teacher-lesson'
+import { ITeacherLessonExtended } from '@/types/teacher/teacher-lesson'
+import { parseCookies } from 'nookies'
 
-export default function UpdateLesson() {
+export default function UpdateLesson(props: ITeacherLessonExtended) {
   return (
     <Layout
       title="Create teacher course"
@@ -58,17 +60,41 @@ export default function UpdateLesson() {
         <Box className="lesson-page">
           <Grid container gap={1} justifyContent="space-between">
             <Grid item xs={12} md={7}>
-              <UpdateLessonBlock />
+              <UpdateLessonBlock initialData={props} />
             </Grid>
             <Grid item xs={12} md={4}>
               <Box className="lesson-page__aside" marginBottom={4}></Box>
             </Grid>
-            <Grid item xs={12}>
-              <TeacherTrainingPlanBlock editType={true} />
-            </Grid>
+            {props.type === 'multiple' ? (
+              <Grid item xs={12}>
+                <TeacherTrainingPlanBlock editType={true} />
+              </Grid>
+            ) : null}
           </Grid>
         </Box>
       </Container>
     </Layout>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  try {
+    const { token } = parseCookies(context)
+    const lessonId = context.query._id
+    const lessonResponse = await teacherLessonService.getLessonById(
+      lessonId as string,
+      token
+    )
+    return {
+      props: lessonResponse.data,
+    }
+  } catch (e) {
+    console.log('e', e)
+    if (e instanceof AxiosError) {
+      console.log(e.message)
+    }
+    return {
+      props: {},
+    }
+  }
 }

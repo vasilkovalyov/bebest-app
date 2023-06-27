@@ -44,9 +44,10 @@ class TeacherLessonService {
   }
 
   async getLessonById(
-    id: string
+    id: string,
+    token: string | null
   ): Promise<AxiosResponse<ITeacherLessonExtended>> {
-    const response = await $api().get(
+    const response = await $api(token || '').get(
       `${PRIVATE_REQUESTS.GET_LESSON}/teacher/${id}`
     )
     return response
