@@ -1,5 +1,5 @@
 // libs
-import { useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import dayjs from 'dayjs'
@@ -29,6 +29,7 @@ import { ITeacherLessonEditableProps } from '@/types/teacher/teacher-lesson'
 import { getMonthsNumbers } from '@/utils/getMonthsNumbers'
 import { getTimeWithCurrentTimeZone } from '@/utils/date'
 import dateFormat from '@/constants/date-forma'
+import { SelectChangeEvent } from '@mui/material'
 
 function LessonForm({
   initialData,
@@ -39,6 +40,7 @@ function LessonForm({
 }: ILessonFormProps) {
   const subjects = useAppSelector((store) => store.subjects.subjects)
   const [isFree, setIsFree] = useState<boolean>(false)
+  const [subjectValue, setSubjectValue] = useState<string>('')
 
   const {
     handleSubmit,
@@ -48,26 +50,33 @@ function LessonForm({
     formState: { errors },
   } = useForm<ITeacherLessonEditableProps>({
     mode: 'onSubmit',
-    defaultValues: initialData,
     resolver: yupResolver(LessonFormValidationSchema),
   })
 
   function setInitialData() {
     if (!initialData) return
-    const time = initialData.time_start
-      ? initialData.time_start.split('T')[1].split('.')[0]
-      : ''
-    setValue(
-      'start_date',
-      dayjs(initialData.start_date).format(dateFormat.base)
-    )
-    setValue('time_start', time)
+    setValue('topic', initialData.topic)
+    setValue('description', initialData.description)
+    setValue('subject', initialData.subject)
+    if (initialData.subject.length) {
+      setSubjectValue(initialData.subject)
+    }
+    setValue('time_start', initialData.time_start)
+    setValue('max_users', initialData.max_users)
+    setValue('price', initialData.price)
+    setValue('start_date', initialData.start_date.split('T')[0])
     setIsFree(initialData.is_free ? true : false)
+
+    if (initialData.duration_months)
+      setValue('duration_months', initialData.duration_months)
+    if (initialData.duration_time)
+      setValue('duration_time', initialData.duration_time)
   }
 
   useEffect(() => {
     setInitialData()
-  }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialData])
 
   function onHandleSubmit(props: ITeacherLessonEditableProps) {
     let formatDate: string = ''
@@ -77,9 +86,7 @@ function LessonForm({
       const timeWithCurrentTimeZone = getTimeWithCurrentTimeZone(
         props.time_start
       )
-      formatDate = new Date(
-        `${convertedDate}T${timeWithCurrentTimeZone}`
-      ).toISOString()
+      formatDate = `${convertedDate}T${timeWithCurrentTimeZone}`
     }
 
     onSubmit({
@@ -94,6 +101,11 @@ function LessonForm({
     setIsFree(!isFree)
     setValue('is_free', !isFree)
     setValue('price', '')
+  }
+
+  function onChangeSubject(e: ChangeEvent<HTMLInputElement>) {
+    const value = e.target.value
+    setSubjectValue(value)
   }
 
   return (
@@ -131,7 +143,9 @@ function LessonForm({
                 className="form-field"
                 placeholder="Subject"
                 fullWidth
-                defaultValue={getValues().subject || ' '}
+                onChange={onChangeSubject}
+                value={subjectValue}
+                defaultValue={subjectValue}
                 InputLabelProps={{ shrink: true }}
                 error={!!errors.subject?.message}
                 helperText={errors.subject?.message}
@@ -220,7 +234,7 @@ function LessonForm({
                   className="form-field"
                   placeholder="Duration"
                   fullWidth
-                  defaultValue={getValues().duration_months || ' '}
+                  defaultValue={' '}
                   InputLabelProps={{ shrink: true }}
                   error={!!errors.duration_months?.message}
                   helperText={errors.duration_months?.message}

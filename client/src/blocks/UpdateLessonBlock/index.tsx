@@ -22,12 +22,14 @@ import {
 import teacherLessonService from '@/services/teacher-lesson'
 import { LessonType } from '@/types/lessons'
 import AlertTitle from '@mui/material/AlertTitle'
+import { defaultInitialDate } from '@/components/Forms/Lesson/Lesson.utils'
 
 function UpdateLessonBlock() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [showNotification, setShowNotification] = useState(false)
   const { query } = useRouter()
-  const [lesson, setLesson] = useState<ITeacherLessonExtended | null>()
+  const [lesson, setLesson] =
+    useState<ITeacherLessonExtended>(defaultInitialDate)
   const [responseMessage, setResponseMessage] = useState<string | null>(null)
 
   async function loadLesson() {
@@ -61,18 +63,16 @@ function UpdateLessonBlock() {
 
   return (
     <Box>
-      {lesson ? (
-        <LessonForm
-          isLoading={isLoading}
-          lessonType={lesson?.type}
-          mode="update"
-          initialData={{
-            ...lesson,
-            subject: lesson.subject._id,
-          }}
-          onSubmit={onHandleSubmit}
-        />
-      ) : null}
+      <LessonForm
+        isLoading={isLoading}
+        lessonType={lesson?.type}
+        mode="update"
+        initialData={{
+          ...lesson,
+          subject: lesson.subject._id,
+        }}
+        onSubmit={onHandleSubmit}
+      />
       <Snackbar
         open={showNotification}
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}

@@ -1,8 +1,10 @@
-import { ITeacherLessonEditableProps } from '@/types/teacher/teacher-lesson'
+import {
+  ITeacherLessonEditableProps,
+  ITeacherLessonExtended,
+} from '@/types/teacher/teacher-lesson'
 
-export const defaultInitialDate: ITeacherLessonEditableProps = {
+export const defaultInitialDate: ITeacherLessonExtended = {
   topic: '',
-  subject: '',
   description: '',
   start_date: '',
   time_start: '',
@@ -11,4 +13,9 @@ export const defaultInitialDate: ITeacherLessonEditableProps = {
   max_users: '',
   price: '',
   is_free: false,
+  subject: {
+    _id: '',
+    subject: '',
+  },
+  type: 'multiple',
 }
