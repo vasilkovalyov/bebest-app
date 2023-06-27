@@ -41,6 +41,9 @@ function LessonForm({
   const subjects = useAppSelector((store) => store.subjects.subjects)
   const [isFree, setIsFree] = useState<boolean>(false)
   const [subjectValue, setSubjectValue] = useState<string>('')
+  const [durationMonthsValue, setDurationMonthsValue] = useState<
+    number | string
+  >('')
 
   const {
     handleSubmit,
@@ -67,8 +70,11 @@ function LessonForm({
     setValue('start_date', initialData.start_date.split('T')[0])
     setIsFree(initialData.is_free ? true : false)
 
-    if (initialData.duration_months)
+    if (initialData.duration_months) {
       setValue('duration_months', initialData.duration_months)
+      console.log(initialData.duration_months)
+      setDurationMonthsValue(initialData.duration_months.toString())
+    }
     if (initialData.duration_time)
       setValue('duration_time', initialData.duration_time)
   }
@@ -83,17 +89,14 @@ function LessonForm({
 
     if (props.start_date) {
       const convertedDate = dayjs(props.start_date).format(dateFormat.base)
-      const timeWithCurrentTimeZone = getTimeWithCurrentTimeZone(
-        props.time_start
-      )
-      formatDate = `${convertedDate}T${timeWithCurrentTimeZone}`
+      formatDate = `${convertedDate}T${props.time_start}`
     }
 
     onSubmit({
       ...props,
       max_users: +props.max_users,
       start_date: formatDate,
-      time_start: getTimeWithCurrentTimeZone(props.time_start),
+      time_start: props.time_start,
     })
   }
 
@@ -101,11 +104,6 @@ function LessonForm({
     setIsFree(!isFree)
     setValue('is_free', !isFree)
     setValue('price', '')
-  }
-
-  function onChangeSubject(e: ChangeEvent<HTMLInputElement>) {
-    const value = e.target.value
-    setSubjectValue(value)
   }
 
   return (
@@ -143,7 +141,7 @@ function LessonForm({
                 className="form-field"
                 placeholder="Subject"
                 fullWidth
-                onChange={onChangeSubject}
+                onChange={(e) => setSubjectValue(e.target.value)}
                 value={subjectValue}
                 defaultValue={subjectValue}
                 InputLabelProps={{ shrink: true }}
@@ -234,8 +232,10 @@ function LessonForm({
                   className="form-field"
                   placeholder="Duration"
                   fullWidth
-                  defaultValue={' '}
+                  value={durationMonthsValue}
+                  defaultValue={durationMonthsValue}
                   InputLabelProps={{ shrink: true }}
+                  onChange={(e) => setDurationMonthsValue(e.target.value)}
                   error={!!errors.duration_months?.message}
                   helperText={errors.duration_months?.message}
                 >
@@ -265,6 +265,7 @@ function LessonForm({
                 variant="standard"
                 className="form-field"
                 fullWidth
+                onChange={(e) => setDurationMonthsValue(e.target.value)}
                 InputLabelProps={{ shrink: true }}
                 error={!!errors.max_users?.message}
                 helperText={errors.max_users?.message}

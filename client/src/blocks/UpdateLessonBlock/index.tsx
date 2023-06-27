@@ -44,12 +44,17 @@ function UpdateLessonBlock() {
     setIsLoading(true)
     const response = await teacherLessonService.updateLesson({
       ...props,
+      _id: query._id as string,
       type: lesson?.type as LessonType,
     })
     if (response.status === 200) {
       setShowNotification(true)
       setResponseMessage(response.data.message)
     }
+    const updateLessonResponse = await teacherLessonService.getLessonById(
+      query._id as string
+    )
+    setLesson(updateLessonResponse.data)
     setIsLoading(false)
   }
 
@@ -76,7 +81,7 @@ function UpdateLessonBlock() {
       <Snackbar
         open={showNotification}
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        autoHideDuration={4000}
+        autoHideDuration={3000}
         onClose={closeNotification}
       >
         <Alert

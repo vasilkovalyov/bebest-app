@@ -77,8 +77,7 @@ function TeacherLessonCard({
             <Typography variant="subtitle2">
               {dayjs(start_date).format('DD MMM YYYY')}
               {' | '}
-              {time_start &&
-                new Date(time_start).toLocaleTimeString().slice(0, 5)}
+              {time_start && time_start.slice(0, 5)}
             </Typography>
           </Box>
         </Stack>
