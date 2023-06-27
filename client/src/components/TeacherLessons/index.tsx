@@ -10,6 +10,9 @@ import Fade from '@mui/material/Fade'
 import CircularProgress from '@mui/material/CircularProgress'
 
 //custom components
+import Icon from '@/components/Generic/Icon'
+import { IconEnum } from '@/types/icons'
+
 import TeacherLessonCard from '@/components/TeacherLessonCard'
 import {
   ITeacherLesson,
@@ -22,6 +25,7 @@ import { ITeacherLessonsProps } from './TeacherLessons.type'
 
 //other utils
 import teacherLessonService from '@/services/teacher-lesson'
+import colors from '@/constants/colors'
 
 function TeacherLessons({ className }: ITeacherLessonsProps) {
   const [loading, setLoading] = useState<boolean>(false)
@@ -58,7 +62,16 @@ function TeacherLessons({ className }: ITeacherLessonsProps) {
               ))}
             </Grid>
           ) : (
-            <Typography variant="body1">No lessons</Typography>
+            <Box textAlign="center">
+              <Box marginBottom={2}>
+                <Icon
+                  icon={IconEnum.LESSONS}
+                  size={40}
+                  color={colors.dark_blue}
+                />
+              </Box>
+              <Typography variant="h5">No lessons</Typography>
+            </Box>
           )}
         </>
       )}
