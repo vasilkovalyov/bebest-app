@@ -1,25 +1,18 @@
 //libs
-import { useState } from 'react'
-
-//redux
-import { useAppSelector } from '@/redux/hooks'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 
 // material ui components
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
-import Divider from '@mui/material/Divider'
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
-import Fade from '@mui/material/Fade'
-import CircularProgress from '@mui/material/CircularProgress'
 import Modal from '@mui/material/Modal'
 
 //custom components
 import Icon from '@/components/Generic/Icon'
 import { IconEnum } from '@/types/icons'
 import ContainerWithShadow from '@/components/Generic/ContainerWithShadow'
-import TeacherWorkExperience from '@/components/Forms/TeacherWorkExperience'
-import PreviewWorkExperience from '@/components/Previews/PreviewWorkExperience'
 import LessonModuleForm from '@/components/Forms/LessonModule'
 
 //relate utils
@@ -27,7 +20,9 @@ import { ITeacherTrainingPlanBlockProps } from './TeacherTrainingPlanBlock.type'
 
 //other utils
 import colors from '@/constants/colors'
-import { ITeacherLessonModuleEditableProps } from '@/types/teacher/teacher-lesson-module'
+import { ITeacherLessonModule } from '@/types/teacher/teacher-lesson-module'
+import teacherLessonModuleService from '@/services/teacher-lesson-module'
+import LessonModules from '@/components/LessonModules'
 
 function TeacherTrainingPlanDefaultContent() {
   return (
@@ -45,16 +40,30 @@ function TeacherTrainingPlanDefaultContent() {
 }
 
 function TeacherTrainingPlanBlock({
+  items = [],
   editType,
 }: ITeacherTrainingPlanBlockProps) {
+  const { query } = useRouter()
   const [modalOpen, setModalOpen] = useState<boolean>(false)
+  const [lessonModules, setLessonModules] =
+    useState<ITeacherLessonModule[]>(items)
 
   function handleCloseModal() {
     setModalOpen(false)
   }
 
-  function handleCreateLessonModule(props: ITeacherLessonModuleEditableProps) {
-    console.log('props', props)
+  async function handleCreateLessonModule(props: ITeacherLessonModule) {
+    const lessonId = query._id as string
+    await teacherLessonModuleService.createLessonModule(lessonId, props)
+    loadLessonModules()
+    handleCloseModal()
+  }
+
+  async function loadLessonModules() {
+    const lessonId = query._id as string
+    const responseLessonModules =
+      await teacherLessonModuleService.getLessonModules(lessonId)
+    setLessonModules(responseLessonModules.data)
   }
 
   return (
@@ -63,6 +72,9 @@ function TeacherTrainingPlanBlock({
         <Typography marginBottom={3} variant="h5">
           Add a training plan
         </Typography>
+        <Box marginBottom={4}>
+          <LessonModules items={lessonModules} />
+        </Box>
         {editType ? (
           <Box>
             <Box textAlign="center">
@@ -89,7 +101,7 @@ function TeacherTrainingPlanBlock({
             <Icon
               icon={IconEnum.CROSS_OUTLINE}
               size={20}
-              color={colors.black}
+              color={colors.black_color}
               className="modal-box__button-close-icon"
             />
           </Button>

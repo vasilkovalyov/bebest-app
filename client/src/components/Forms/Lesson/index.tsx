@@ -72,7 +72,6 @@ function LessonForm({
 
     if (initialData.duration_months) {
       setValue('duration_months', initialData.duration_months)
-      console.log(initialData.duration_months)
       setDurationMonthsValue(initialData.duration_months.toString())
     }
     if (initialData.duration_time)

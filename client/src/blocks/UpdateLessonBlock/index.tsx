@@ -48,6 +48,7 @@ function UpdateLessonBlock({ initialData }: IUpdateLessonBlockProps) {
     )
     setLesson(updateLessonResponse.data)
     setIsLoading(false)
+    closeNotification()
   }
 
   function closeNotification() {

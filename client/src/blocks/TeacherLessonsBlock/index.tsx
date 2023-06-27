@@ -57,7 +57,7 @@ function TeacherLessonsBlock() {
             <Icon
               icon={IconEnum.CROSS_OUTLINE}
               size={20}
-              color={colors.black}
+              color={colors.black_color}
               className="modal-box__button-close-icon"
             />
           </Button>

@@ -1,5 +1,6 @@
 import { LessonType } from '../lessons'
 import { ISubject } from '../subjects'
+import { ITeacherLessonModule } from './teacher-lesson-module'
 
 export interface ITeacherLesson {
   _id?: string
@@ -14,13 +15,15 @@ export interface ITeacherLesson {
   price?: number | string
   is_free?: boolean
   type: LessonType
+  modules?: string[] | null
 }
 
 export interface ITeacherLessonEditableProps
   extends Omit<ITeacherLesson, 'type' | '_id'> {}
 
 export interface ITeacherLessonExtended
-  extends Omit<ITeacherLesson, 'subject'> {
+  extends Omit<ITeacherLesson, 'subject' | 'modules'> {
   registeredCount?: number
   subject: Omit<ISubject, 'categories'>
+  modules?: ITeacherLessonModule[] | null
 }

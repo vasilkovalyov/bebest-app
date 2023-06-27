@@ -1,6 +1,4 @@
 //libs
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
 import { GetServerSideProps } from 'next/types'
 import Link from 'next/link'
 import { AxiosError } from 'axios'
@@ -67,7 +65,10 @@ export default function UpdateLesson(props: ITeacherLessonExtended) {
             </Grid>
             {props.type === 'multiple' ? (
               <Grid item xs={12}>
-                <TeacherTrainingPlanBlock editType={true} />
+                <TeacherTrainingPlanBlock
+                  items={props.modules || []}
+                  editType={true}
+                />
               </Grid>
             ) : null}
           </Grid>

@@ -29,4 +29,9 @@ export const PRIVATE_REQUESTS = {
   DELETE_LESSON: 'delete-lesson',
   GET_LESSON: 'get-lesson',
   GET_LESSONS: 'get-lessons',
+  CREATE_LESSON_MODULE: 'create-lesson-module',
+  UPDATE_LESSON_MODULE: 'update-lesson-module',
+  DELETE_LESSON_MODULE: 'delete-lesson-module',
+  GET_LESSON_MODULE: 'get-lesson-module',
+  GET_MODULES_LESSON: 'get-modules-lesson',
 }

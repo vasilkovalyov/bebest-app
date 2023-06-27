@@ -1,11 +1,8 @@
 // libs
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import dayjs from 'dayjs'
-
-//redux
-import { useAppSelector } from '@/redux/hooks'
 
 // material ui components
 import Box from '@mui/material/Box'
@@ -25,7 +22,6 @@ import { LessonModuleFormValidationSchema } from './LessonModule.validation'
 
 // other utils
 import { ITeacherLessonModuleEditableProps } from '@/types/teacher/teacher-lesson-module'
-import { getTimeWithCurrentTimeZone } from '@/utils/date'
 import dateFormat from '@/constants/date-forma'
 import colors from '@/constants/colors'
 import { Typography } from '@mui/material'
@@ -36,9 +32,6 @@ function LessonModuleForm({
   mode,
   onSubmit,
 }: ILessonModuleProps) {
-  const subjects = useAppSelector((store) => store.subjects.subjects)
-  const [isFree, setIsFree] = useState<boolean>(false)
-
   const {
     handleSubmit,
     register,
@@ -47,20 +40,16 @@ function LessonModuleForm({
     formState: { errors },
   } = useForm<ITeacherLessonModuleEditableProps>({
     mode: 'onSubmit',
-    defaultValues: initialData,
     resolver: yupResolver(LessonModuleFormValidationSchema),
   })
 
   function setInitialData() {
     if (!initialData) return
-    const time = initialData.time_start
-      ? initialData.time_start.split('T')[1].split('.')[0]
-      : ''
-    setValue(
-      'start_date',
-      dayjs(initialData.start_date).format(dateFormat.base)
-    )
-    setValue('time_start', time)
+    setValue('topic', initialData.topic)
+    setValue('rich_text', initialData.rich_text)
+    setValue('duration_time', initialData.duration_time)
+    setValue('start_date', initialData.start_date.split('T')[0])
+    setValue('time_start', initialData.time_start)
   }
 
   useEffect(() => {
@@ -170,7 +159,7 @@ function LessonModuleForm({
           </Stack>
         </Grid>
         <Grid item xs={12}>
-          <Box textAlign="center">
+          <Stack direction="row" justifyContent="center" alignItems="center">
             <Button
               type="submit"
               variant="contained"
@@ -183,7 +172,7 @@ function LessonModuleForm({
             <Box ml={2}>
               {isLoading ? <CircularProgress size={16} /> : null}
             </Box>
-          </Box>
+          </Stack>
         </Grid>
       </Grid>
     </form>
