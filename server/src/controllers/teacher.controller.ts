@@ -2,6 +2,7 @@ import { File } from 'buffer';
 import { Request, Response } from 'express';
 import teacherService from '../services/teacher/teacher.service';
 import teacherLessonService from '../services/teacher/teacher-lesson';
+import teacherLessonModuleService from '../services/teacher/teacher-lesson-module';
 import teacherPersonalInfoService from '../services/teacher/teacher-personal-info';
 import teacherPaymentCardService from '../services/teacher/teacher-payment-card';
 import { RequestWithAuthUser } from '../interfaces/token';
@@ -390,10 +391,8 @@ class TeacherController {
         .json(responseTeacherMessages.notUserByToken);
 
     try {
-      const response = await teacherLessonService.updateLesson(
-        req.user._id,
-        req.body
-      );
+      const { _id, ...props } = req.body;
+      const response = await teacherLessonService.updateLesson(_id, props);
       return res.status(status.SUCCESS).json(response);
     } catch (e) {
       if (!(e instanceof Error)) return;
@@ -448,6 +447,107 @@ class TeacherController {
 
     try {
       const response = await teacherLessonService.getUserLessons(req.user._id);
+      return res.status(status.SUCCESS).json(response);
+    } catch (e) {
+      if (!(e instanceof Error)) return;
+      return res.status(status.BAD_REQUEST).json({
+        message: e.message,
+      });
+    }
+  }
+
+  async createLessonModule(req: RequestWithAuthUser, res: Response) {
+    if (!req.user)
+      return res
+        .status(status.NOT_FOUND)
+        .json(responseTeacherMessages.notUserByToken);
+
+    try {
+      const { lessonId, ...props } = req.body;
+      const response = await teacherLessonModuleService.createLessonModule(
+        lessonId,
+        props
+      );
+      return res.status(status.SUCCESS).json(response);
+    } catch (e) {
+      if (!(e instanceof Error)) return;
+      return res.status(status.BAD_REQUEST).json({
+        message: e.message,
+      });
+    }
+  }
+
+  async updateLessonModule(req: RequestWithAuthUser, res: Response) {
+    if (!req.user)
+      return res
+        .status(status.NOT_FOUND)
+        .json(responseTeacherMessages.notUserByToken);
+
+    try {
+      const response = await teacherLessonModuleService.updateLessonModule(
+        req.body
+      );
+      return res.status(status.SUCCESS).json(response);
+    } catch (e) {
+      if (!(e instanceof Error)) return;
+      return res.status(status.BAD_REQUEST).json({
+        message: e.message,
+      });
+    }
+  }
+
+  async deleteLessonModule(req: RequestWithAuthUser, res: Response) {
+    if (!req.user)
+      return res
+        .status(status.NOT_FOUND)
+        .json(responseTeacherMessages.notUserByToken);
+
+    try {
+      const { lessonId, lessonModuleId } = req.body;
+      const response = await teacherLessonModuleService.deleteLessonModule(
+        lessonId,
+        lessonModuleId
+      );
+      return res.status(status.SUCCESS).json(response);
+    } catch (e) {
+      if (!(e instanceof Error)) return;
+      return res.status(status.BAD_REQUEST).json({
+        message: e.message,
+      });
+    }
+  }
+
+  async getLessonModule(req: RequestWithAuthUser, res: Response) {
+    if (!req.user)
+      return res
+        .status(status.NOT_FOUND)
+        .json(responseTeacherMessages.notUserByToken);
+
+    try {
+      const moduleId = req.params.id as string;
+      const response = await teacherLessonModuleService.getLessonModule(
+        moduleId
+      );
+      return res.status(status.SUCCESS).json(response);
+    } catch (e) {
+      if (!(e instanceof Error)) return;
+      return res.status(status.BAD_REQUEST).json({
+        message: e.message,
+      });
+    }
+  }
+
+  async getModulesLesson(req: RequestWithAuthUser, res: Response) {
+    if (!req.user)
+      return res
+        .status(status.NOT_FOUND)
+        .json(responseTeacherMessages.notUserByToken);
+
+    try {
+      const lessonId = req.params.id as string;
+      const response = await teacherLessonModuleService.getModulesLesson(
+        lessonId
+      );
       return res.status(status.SUCCESS).json(response);
     } catch (e) {
       if (!(e instanceof Error)) return;

@@ -36,3 +36,7 @@ export function userCreateSuccessfull(userRole: string) {
 export function lessonResponse(method: CrudMethod): string {
   return `lesson ${method} successfull`;
 }
+
+export function lessonModuleResponse(method: CrudMethod): string {
+  return `lesson module ${method} successfull`;
+}

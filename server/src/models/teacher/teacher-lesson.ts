@@ -16,23 +16,21 @@ export interface ITeacherLesson {
   is_free?: boolean;
   teacher?: string;
   type: LessonType;
+  modules: string[];
 }
-
-export type TeacherLessonModelType = ITeacherLesson;
 
 export type ITeacherLessonSchemaType = Omit<
   ITeacherLesson,
-  'subject' | 'teacher'
+  'subject' | 'teacher' | 'modules'
 > &
   Document & {
     subject: Schema.Types.ObjectId;
     teacher: Schema.Types.ObjectId;
+    modules: Schema.Types.ObjectId[];
   };
 
 const TeacherLessonSchema = new Schema<ITeacherLessonSchemaType>({
   topic: { type: String, required: true },
-  subject: { type: Schema.Types.ObjectId, required: true, ref: 'Subjects' },
-  teacher: { type: Schema.Types.ObjectId, required: true, ref: 'Teacher' },
   description: { type: String, required: true },
   start_date: { type: String, required: true },
   time_start: { type: String, required: true },
@@ -49,6 +47,11 @@ const TeacherLessonSchema = new Schema<ITeacherLessonSchemaType>({
     enum: ['single', 'multiple'],
     required: true,
   },
+  subject: { type: Schema.Types.ObjectId, required: true, ref: 'Subjects' },
+  teacher: { type: Schema.Types.ObjectId, required: true, ref: 'Teacher' },
+  modules: [
+    { type: Schema.Types.ObjectId, required: true, ref: 'TeacherLessonModule' },
+  ],
 });
 
 const TeacherLessonModel = model('TeacherLesson', TeacherLessonSchema);

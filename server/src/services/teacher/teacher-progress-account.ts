@@ -369,7 +369,6 @@ class TeacherProgressAccountService {
   async isFillForActivate(id: string) {
     const fieldObjects = await this.getRequiredObjectWithFields(id);
     let isFill = true;
-    console.log('fieldObjects', fieldObjects);
     for (let key in fieldObjects) {
       const item = fieldObjects[key];
       if (item.value === 0) {
@@ -377,7 +376,6 @@ class TeacherProgressAccountService {
         break;
       }
     }
-    console.log('isFill', isFill);
 
     return isFill;
   }

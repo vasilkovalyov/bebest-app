@@ -35,10 +35,10 @@ class TeacherLessonService {
     };
   }
 
-  async updateLesson(teacherId: string, props: ITeacherLesson) {
+  async updateLesson(lessonId: string, props: ITeacherLesson) {
     await TeacherLessonModel.findOneAndUpdate(
       {
-        teacher: teacherId,
+        _id: lessonId,
       },
       { ...props }
     );
@@ -76,6 +76,10 @@ class TeacherLessonService {
       .populate({
         path: 'subject',
         select: '_id subject',
+      })
+      .populate({
+        path: 'modules',
+        select: '_id topic rich_text start_date time_start duration_time',
       })
       .select(
         'topic subject description start_date time_start duration_months duration_time max_users price is_free teacher type'

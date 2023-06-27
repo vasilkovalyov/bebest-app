@@ -134,4 +134,34 @@ router.get(
   teacherController.getUserLessons
 );
 
+router.post(
+  '/create-lesson-module/teacher',
+  authMiddleware,
+  teacherController.createLessonModule
+);
+
+router.post(
+  '/update-lesson-module/teacher',
+  authMiddleware,
+  teacherController.updateLessonModule
+);
+
+router.delete(
+  '/delete-lesson-module/teacher',
+  authMiddleware,
+  teacherController.deleteLessonModule
+);
+
+router.get(
+  '/get-lesson-module/teacher/:id',
+  authMiddleware,
+  teacherController.getLessonModule
+);
+
+router.get(
+  '/get-modules-lesson/teacher/:id',
+  authMiddleware,
+  teacherController.getModulesLesson
+);
+
 export default router;
