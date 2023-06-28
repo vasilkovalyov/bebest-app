@@ -175,7 +175,7 @@ router.delete(
   teacherController.deleteStudentFromLesson
 );
 router.get(
-  '/get-students-from-lesson',
+  '/get-students-from-lesson/:id',
   authMiddleware,
   teacherController.getStudentsFromLesson
 );

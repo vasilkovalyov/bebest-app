@@ -610,7 +610,7 @@ class TeacherController {
         .json(responseTeacherMessages.notUserByToken);
 
     try {
-      const { lessonId } = req.body;
+      const lessonId = req.params.id as string;
       const response = await teacherLessonService.getStudentsFromLesson(
         lessonId
       );
