@@ -16,6 +16,7 @@ import { lessonResponse } from '../../constants/responseMessages';
 import {
   IStudent,
   IStudentAccountEditableProps,
+  StudentInfoForTeacherType,
 } from 'models/student/student.model';
 
 class TeacherLessonService {
@@ -139,11 +140,12 @@ class TeacherLessonService {
       .then((posts) => {
         const students = posts?.students;
         if (!students?.length) return [];
-        const postArray: IStudentAccountEditableProps[] = [];
+        const postArray: StudentInfoForTeacherType[] = [];
 
         for (let item of students) {
-          const props = item as unknown as IStudent;
+          const props = item as unknown as StudentInfoForTeacherType;
           postArray.push({
+            _id: props._id,
             name: props.name,
             surname: props.surname,
             about: props.about,

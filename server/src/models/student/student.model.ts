@@ -19,6 +19,11 @@ export type IStudentAccountEditableProps = Omit<
   'password' | 'userId' | 'role'
 >;
 
+export type StudentInfoForTeacherType = Pick<
+  IStudentSchemaType,
+  'name' | 'surname' | '_id' | 'about' | 'email' | 'avatar' | 'phone'
+>;
+
 const StudentSchema = new Schema<IStudentSchemaType>({
   name: { type: String, required: true },
   surname: { type: String, required: true },
