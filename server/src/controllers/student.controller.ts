@@ -171,6 +171,25 @@ class StudentController {
       });
     }
   }
+
+  async getUsers(req: RequestWithAuthUser, res: Response) {
+    if (!req.user)
+      return res
+        .status(status.NOT_FOUND)
+        .json(responseStudentMessages.notUserByToken);
+
+    try {
+      const response = await studentService.getUsers();
+
+      return res.status(status.SUCCESS).json(response);
+    } catch (e) {
+      if (!(e instanceof Error)) return;
+      return res.status(status.BAD_REQUEST).json({
+        message: e.message,
+        isAuth: false,
+      });
+    }
+  }
 }
 
 export default new StudentController();
