@@ -13,6 +13,10 @@ import TeacherLessonModel, {
 } from '../../models/teacher/teacher-lesson';
 
 import { lessonResponse } from '../../constants/responseMessages';
+import {
+  IStudent,
+  IStudentAccountEditableProps,
+} from 'models/student/student.model';
 
 class TeacherLessonService {
   async createLesson(teacherId: string, props: ITeacherLesson) {
@@ -97,6 +101,61 @@ class TeacherLessonService {
     });
 
     return teacherLesson;
+  }
+
+  async addStudentToLesson(lessonId: string, studentId: string) {
+    await TeacherLessonModel.findOneAndUpdate(
+      {
+        _id: lessonId,
+      },
+      { $push: { students: studentId } }
+    );
+    return {
+      message: 'student add success',
+    };
+  }
+
+  async deleteStudentFromLesson(lessonId: string, studentId: string) {
+    await TeacherLessonModel.findOneAndUpdate(
+      {
+        _id: lessonId,
+      },
+      { $pull: { students: studentId } }
+    );
+    return {
+      message: 'student remove from lesson success',
+    };
+  }
+
+  async getStudentsFromLesson(lessonId: string) {
+    const students = await TeacherLessonModel.findOne({
+      _id: lessonId,
+    })
+      .populate({
+        path: 'students',
+      })
+      .select('students')
+      .exec()
+      .then((posts) => {
+        const students = posts?.students;
+        if (!students?.length) return [];
+        const postArray: IStudentAccountEditableProps[] = [];
+
+        for (let item of students) {
+          const props = item as unknown as IStudent;
+          postArray.push({
+            name: props.name,
+            surname: props.surname,
+            about: props.about,
+            email: props.email,
+            avatar: props.avatar,
+            phone: props.phone,
+          });
+        }
+
+        return postArray;
+      });
+    return students;
   }
 }
 

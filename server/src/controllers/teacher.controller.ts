@@ -556,6 +556,74 @@ class TeacherController {
       });
     }
   }
+
+  async addStudentToLesson(req: RequestWithAuthUser, res: Response) {
+    if (!req.user)
+      return res
+        .status(status.NOT_FOUND)
+        .json(responseTeacherMessages.notUserByToken);
+
+    try {
+      const { lessonId, studentId } = req.body;
+      const response = await teacherLessonService.addStudentToLesson(
+        lessonId,
+        studentId
+      );
+
+      return res.status(status.SUCCESS).json(response);
+    } catch (e) {
+      if (!(e instanceof Error)) return;
+      return res.status(status.BAD_REQUEST).json({
+        message: e.message,
+        isAuth: false,
+      });
+    }
+  }
+
+  async deleteStudentFromLesson(req: RequestWithAuthUser, res: Response) {
+    if (!req.user)
+      return res
+        .status(status.NOT_FOUND)
+        .json(responseTeacherMessages.notUserByToken);
+
+    try {
+      const { lessonId, studentId } = req.body;
+      const response = await teacherLessonService.deleteStudentFromLesson(
+        lessonId,
+        studentId
+      );
+
+      return res.status(status.SUCCESS).json(response);
+    } catch (e) {
+      if (!(e instanceof Error)) return;
+      return res.status(status.BAD_REQUEST).json({
+        message: e.message,
+        isAuth: false,
+      });
+    }
+  }
+
+  async getStudentsFromLesson(req: RequestWithAuthUser, res: Response) {
+    if (!req.user)
+      return res
+        .status(status.NOT_FOUND)
+        .json(responseTeacherMessages.notUserByToken);
+
+    try {
+      const { lessonId } = req.body;
+      const response = await teacherLessonService.getStudentsFromLesson(
+        lessonId
+      );
+
+      return res.status(status.SUCCESS).json(response);
+    } catch (e) {
+      if (!(e instanceof Error)) return;
+      return res.status(status.BAD_REQUEST).json({
+        message: e.message,
+        isAuth: false,
+      });
+    }
+  }
 }
 
 export default new TeacherController();

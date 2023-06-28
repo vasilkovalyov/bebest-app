@@ -17,16 +17,18 @@ export interface ITeacherLesson {
   teacher?: string;
   type: LessonType;
   modules: string[];
+  students: string[];
 }
 
 export type ITeacherLessonSchemaType = Omit<
   ITeacherLesson,
-  'subject' | 'teacher' | 'modules'
+  'subject' | 'teacher' | 'modules' | 'students'
 > &
   Document & {
     subject: Schema.Types.ObjectId;
     teacher: Schema.Types.ObjectId;
     modules: Schema.Types.ObjectId[];
+    students: Schema.Types.ObjectId[];
   };
 
 const TeacherLessonSchema = new Schema<ITeacherLessonSchemaType>({
@@ -51,6 +53,12 @@ const TeacherLessonSchema = new Schema<ITeacherLessonSchemaType>({
   teacher: { type: Schema.Types.ObjectId, required: true, ref: 'Teacher' },
   modules: [
     { type: Schema.Types.ObjectId, required: true, ref: 'TeacherLessonModule' },
+  ],
+  students: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Student',
+    },
   ],
 });
 

@@ -164,4 +164,20 @@ router.get(
   teacherController.getModulesLesson
 );
 
+router.post(
+  '/add-student-to-lesson',
+  authMiddleware,
+  teacherController.addStudentToLesson
+);
+router.delete(
+  '/delete-student-from-lesson',
+  authMiddleware,
+  teacherController.deleteStudentFromLesson
+);
+router.get(
+  '/get-students-from-lesson',
+  authMiddleware,
+  teacherController.getStudentsFromLesson
+);
+
 export default router;

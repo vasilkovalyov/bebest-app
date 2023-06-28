@@ -2,19 +2,21 @@ import ApiError from '../../utils/api-error';
 import StudentModel, {
   IStudentAccountEditableProps,
 } from '../../models/student/student.model';
-import StudentSubjectsModel, {
-  IStudentSubject,
-  IStudentSubjectsSchemaType,
-} from '../../models/student/student-subjects';
 import UserModel from '../../models/user.model';
 import bcrypt from 'bcrypt';
 import { uploadAvatar } from '../../utils/upload-file';
 import responseMessages, {
   userWithIdNotFound,
 } from '../../constants/responseMessages';
-import responseStudentMessages from '../../constants/responseStudentMessages';
 
 class StudentService {
+  async getUsers() {
+    const studentUser = await StudentModel.find({}).select(
+      '_id name surname email avatar'
+    );
+    return studentUser;
+  }
+
   async removeUser(id: string) {
     const user = await UserModel.deleteOne({
       userId: id,

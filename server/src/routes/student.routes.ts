@@ -54,4 +54,6 @@ router.get(
   studentController.getSubjects
 );
 
+router.get('/get-students', authMiddleware, studentController.getUsers);
+
 export default router;
