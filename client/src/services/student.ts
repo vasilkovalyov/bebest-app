@@ -66,6 +66,11 @@ class StudentService {
 
     return response
   }
+
+  async getStudents(): Promise<AxiosResponse<IStudent[]>> {
+    const response = await $api().get(`/${PRIVATE_REQUESTS.GET_STUDENTS}`)
+    return response
+  }
 }
 
 const studentService = new StudentService()

@@ -11,6 +11,7 @@
   border-radius: $radius-lg;
   box-shadow: $base-shadow;
   padding: $spacing-3-s $spacing-2-l;
+  width: 100%;
 
   @media (min-width: $screen-md) {
     padding: $spacing-4-s $spacing-4-l;

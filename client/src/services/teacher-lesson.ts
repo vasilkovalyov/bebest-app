@@ -57,6 +57,40 @@ class TeacherLessonService {
     const response = await $api().get(`${PRIVATE_REQUESTS.GET_LESSONS}/teacher`)
     return response
   }
+
+  async addStudentToLesson(
+    lessonId: string,
+    studentId: string
+  ): Promise<AxiosResponse<{ message: string }>> {
+    const response = await $api().post(PRIVATE_REQUESTS.ADD_STUDENT_TO_LESSON, {
+      lessonId,
+      studentId,
+    })
+    return response
+  }
+
+  async deleteStudentFromLesson(
+    lessonId: string,
+    studentId: string
+  ): Promise<AxiosResponse<{ message: string }>> {
+    const response = await $api().delete(
+      PRIVATE_REQUESTS.DELETE_STUDENT_FROM_LESSON,
+      {
+        data: {
+          lessonId: lessonId,
+          studentId: studentId,
+        },
+      }
+    )
+    return response
+  }
+
+  async getStudentsFromLesson(lessonId: string) {
+    const response = await $api().get(
+      `${PRIVATE_REQUESTS.GET_STUDENTS_FROM_LESSON}/${lessonId}`
+    )
+    return response
+  }
 }
 
 const teacherService = new TeacherLessonService()

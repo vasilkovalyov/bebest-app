@@ -15,6 +15,7 @@ import Layout from '@/layouts/Layout'
 import { pageRoutesPrivate } from '@/constants/page-routes'
 import UpdateLessonBlock from '@/blocks/UpdateLessonBlock'
 import TeacherTrainingPlanBlock from '@/blocks/TeacherTrainingPlanBlock'
+import AttachStudentsToLessonBlock from '@/blocks/AttachStudentsToLessonBlock'
 
 //other utils
 import teacherLessonService from '@/services/teacher-lesson'
@@ -55,13 +56,15 @@ export default function UpdateLesson(props: ITeacherLessonExtended) {
         <Typography marginBottom={3} variant="h3">
           Update lesson
         </Typography>
-        <Box className="lesson-page">
-          <Grid container gap={1} justifyContent="space-between">
+        <Box className="lesson-page" paddingBottom={6}>
+          <Grid container spacing={5}>
             <Grid item xs={12} md={7}>
               <UpdateLessonBlock initialData={props} />
             </Grid>
-            <Grid item xs={12} md={4}>
-              <Box className="lesson-page__aside" marginBottom={4}></Box>
+            <Grid item xs={12} md={5} display="flex">
+              <Box className="lesson-page__aside" display="flex" width="100%">
+                <AttachStudentsToLessonBlock />
+              </Box>
             </Grid>
             {props.type === 'multiple' ? (
               <Grid item xs={12}>

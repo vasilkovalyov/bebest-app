@@ -34,23 +34,27 @@ function UpdateLessonBlock({ initialData }: IUpdateLessonBlockProps) {
   const [responseMessage, setResponseMessage] = useState<string | null>(null)
 
   async function onHandleSubmit(props: ITeacherLessonEditableProps) {
-    setIsLoading(true)
-    const response = await teacherLessonService.updateLesson({
-      ...props,
-      _id: query._id as string,
-      type: lesson?.type as LessonType,
-    })
-    if (response.status === 200) {
-      setShowNotification(true)
-      setResponseMessage(response.data.message)
+    try {
+      setIsLoading(true)
+      const response = await teacherLessonService.updateLesson({
+        ...props,
+        _id: query._id as string,
+        type: lesson?.type as LessonType,
+      })
+
+      const updateLessonResponse = await teacherLessonService.getLessonById(
+        query._id as string,
+        null
+      )
+      if (response.status === 200) {
+        setResponseMessage(response.data.message)
+        setShowNotification(true)
+      }
+      setLesson(updateLessonResponse.data)
+      setIsLoading(false)
+    } catch (e) {
+      console.log(e)
     }
-    const updateLessonResponse = await teacherLessonService.getLessonById(
-      query._id as string,
-      null
-    )
-    setLesson(updateLessonResponse.data)
-    setIsLoading(false)
-    closeNotification()
   }
 
   function closeNotification() {

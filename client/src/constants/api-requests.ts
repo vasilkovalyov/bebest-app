@@ -34,4 +34,8 @@ export const PRIVATE_REQUESTS = {
   DELETE_LESSON_MODULE: 'delete-lesson-module',
   GET_LESSON_MODULE: 'get-lesson-module',
   GET_MODULES_LESSON: 'get-modules-lesson',
+  GET_STUDENTS: 'get-students',
+  ADD_STUDENT_TO_LESSON: 'add-student-to-lesson',
+  DELETE_STUDENT_FROM_LESSON: 'delete-student-from-lesson',
+  GET_STUDENTS_FROM_LESSON: 'get-students-from-lesson',
 }
