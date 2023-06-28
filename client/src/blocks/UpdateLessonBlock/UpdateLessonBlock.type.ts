@@ -1,5 +1,9 @@
-import { ITeacherLessonExtended } from '@/types/teacher/teacher-lesson'
+import {
+  ITeacherLessonEditableProps,
+  ITeacherLessonExtended,
+  ITeacherLessonUpdateEditableProps,
+} from '@/types/teacher/teacher-lesson'
 
 export interface IUpdateLessonBlockProps {
-  initialData: ITeacherLessonExtended
+  initialData: ITeacherLessonUpdateEditableProps
 }

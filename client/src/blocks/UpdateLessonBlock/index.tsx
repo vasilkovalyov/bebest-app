@@ -14,6 +14,7 @@ import LessonForm from '@/components/Forms/Lesson'
 import {
   ITeacherLessonEditableProps,
   ITeacherLessonExtended,
+  ITeacherLessonUpdateEditableProps,
 } from '@/types/teacher/teacher-lesson'
 
 //other utils
@@ -28,7 +29,8 @@ function UpdateLessonBlock({ initialData }: IUpdateLessonBlockProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [showNotification, setShowNotification] = useState(false)
   const { query } = useRouter()
-  const [lesson, setLesson] = useState<ITeacherLessonExtended>(initialData)
+  const [lesson, setLesson] =
+    useState<ITeacherLessonUpdateEditableProps>(initialData)
   const [responseMessage, setResponseMessage] = useState<string | null>(null)
 
   async function onHandleSubmit(props: ITeacherLessonEditableProps) {

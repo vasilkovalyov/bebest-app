@@ -19,7 +19,13 @@ export interface ITeacherLesson {
 }
 
 export interface ITeacherLessonEditableProps
-  extends Omit<ITeacherLesson, 'type' | '_id'> {}
+  extends Omit<ITeacherLesson, 'type' | '_id' | 'modules'> {}
+
+export interface ITeacherLessonUpdateEditableProps
+  extends Omit<ITeacherLessonEditableProps, 'subject'> {
+  type: LessonType
+  subject: Omit<ISubject, 'categories'>
+}
 
 export interface ITeacherLessonExtended
   extends Omit<ITeacherLesson, 'subject' | 'modules'> {
@@ -27,3 +33,6 @@ export interface ITeacherLessonExtended
   subject: Omit<ISubject, 'categories'>
   modules?: ITeacherLessonModule[] | null
 }
+
+export interface ITeacherLessonUpdate
+  extends Omit<ITeacherLessonExtended, 'modules' | 'registeredCount' | '_id'> {}
