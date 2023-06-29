@@ -5,18 +5,21 @@ import { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
-import Modal from '@mui/material/Modal'
 import Typography from '@mui/material/Typography'
-import Autocomplete from '@mui/material/Autocomplete'
-import TextField from '@mui/material/TextField'
 import CircularProgress from '@mui/material/CircularProgress'
-import Avatar from '@mui/material/Avatar'
+import Modal from '@mui/material/Modal'
+import Snackbar from '@mui/material/Snackbar'
+import Alert from '@mui/material/Alert'
 
 //custom components
-import ContainerWithShadow from '@/components/Generic/ContainerWithShadow'
-import { IStudent } from '@/types/student/student'
 import Icon from '@/components/Generic/Icon'
 import { IconEnum } from '@/types/icons'
+import WarningIcon from '@/components/Generic/WarningIcon'
+
+import ContainerWithShadow from '@/components/Generic/ContainerWithShadow'
+import UserListLesson from '@/components/UserListLesson'
+import { IUserForLesson } from '@/components/UserListLesson/UserListLesson'
+import AutocompleteUserListLesson from '@/components/AutocompleteUserListLesson'
 
 //hooks
 
@@ -24,62 +27,55 @@ import { IconEnum } from '@/types/icons'
 import studentService from '@/services/student'
 import teacherLessonService from '@/services/teacher-lesson'
 import { useRouter } from 'next/router'
+import { convertToUserListLesson } from './AttachStudentsToLessonBlock.utils'
+import colors from '@/constants/colors'
 
-interface IRenderOption {
-  props: IStudent
-  onClick?: (props: IStudent) => void
-}
-
-function RenderOption({ props, onClick }: IRenderOption) {
-  const fullname = props.name + ' ' + props.surname
-
-  return (
-    <Stack
-      direction="row"
-      alignItems="center"
-      gap={1}
-      onClick={() => onClick && onClick(props)}
-    >
-      <Avatar
-        alt={fullname}
-        src={props.avatar || ''}
-        style={{ width: '30px', height: '30px' }}
-      />
-      <Typography variant="body1" marginBottom={0}>
-        {fullname}
-      </Typography>
-    </Stack>
-  )
-}
-
-const defaultStudent: IStudent = {
+const defaultUser: IUserForLesson = {
   _id: '',
-  email: '',
-  name: '',
-  role: null,
-  surname: '',
-  about: '',
+  fullname: '',
   avatar: '',
-  phone: '',
 }
-
-type StudentType = Omit<IStudent, 'role' | 'phone' | 'about'>
 
 function AttachStudentsToLessonBlock() {
   const { query } = useRouter()
   const [loading, setLoading] = useState<boolean>(false)
   const [loadingStudents, setLoadingStudents] = useState<boolean>(false)
-  const [open, setOpen] = useState(false)
-  const [options, setOptions] = useState<IStudent[]>([])
+  const [options, setOptions] = useState<IUserForLesson[]>([])
   const [selectedStudent, setSelectedStudent] =
-    useState<IStudent>(defaultStudent)
-  const [students, setStudents] = useState<StudentType[]>([])
+    useState<IUserForLesson>(defaultUser)
+  const [students, setStudents] = useState<IUserForLesson[]>([])
+  const [modalOpen, setModalOpen] = useState<boolean>(false)
+  const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false)
+
+  function openDropdown() {
+    if (options.length) return
+    loadStudents()
+  }
+
+  function onOpenModal(props: IUserForLesson) {
+    setSelectedStudent(props)
+    setModalOpen(true)
+  }
+
+  function handleCloseModal() {
+    setModalOpen(false)
+  }
 
   async function loadStudents() {
     setLoading(true)
     try {
       const response = await studentService.getStudents()
-      setOptions(response.data)
+
+      const options: IUserForLesson[] = response.data
+        ? response.data.map((item) => {
+            return {
+              _id: item._id,
+              fullname: item.name + ' ' + item.surname,
+              avatar: item.avatar || '',
+            }
+          })
+        : []
+      setOptions(options)
     } catch (e) {
       console.log(e)
     } finally {
@@ -87,20 +83,18 @@ function AttachStudentsToLessonBlock() {
     }
   }
 
-  useEffect(() => {
-    if (options.length) return
-    if (!open) return
-    loadStudents()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open])
-
   async function onHandleAddStudent() {
+    const existInArr = students.find((item) => item._id === selectedStudent._id)
+    if (existInArr) {
+      setSnackbarOpen(true)
+      return
+    }
     try {
       await teacherLessonService.addStudentToLesson(
         query._id as string,
         selectedStudent._id
       )
-      setSelectedStudent(defaultStudent)
+      setSelectedStudent(defaultUser)
       loadStudentFromLesson()
     } catch (e) {
       console.log(e)
@@ -113,7 +107,7 @@ function AttachStudentsToLessonBlock() {
       const students = await teacherLessonService.getStudentsFromLesson(
         query._id as string
       )
-      setStudents(students.data)
+      setStudents(convertToUserListLesson(students.data))
     } catch (e) {
       console.log(e)
     } finally {
@@ -121,16 +115,21 @@ function AttachStudentsToLessonBlock() {
     }
   }
 
-  async function deleteStudentFromLesson(studentId: string) {
+  async function deleteStudentFromLesson() {
     try {
       await teacherLessonService.deleteStudentFromLesson(
         query._id as string,
-        studentId
+        selectedStudent._id
       )
       loadStudentFromLesson()
+      handleCloseModal()
     } catch (e) {
       console.log(e)
     }
+  }
+
+  function handleCloseSnackbar() {
+    setSnackbarOpen(false)
   }
 
   useEffect(() => {
@@ -143,57 +142,14 @@ function AttachStudentsToLessonBlock() {
       className="attach-student-to-lesson-block"
     >
       <Box marginBottom={2}>
-        <Box marginBottom={2}>
-          <Autocomplete
-            open={open}
-            disableClearable
-            onOpen={() => {
-              setOpen(true)
-            }}
-            onClose={() => {
-              setOpen(false)
-            }}
-            getOptionLabel={(option) => `${option.name} ${option.surname}`}
-            isOptionEqualToValue={(option, value) => option._id === value._id}
-            renderOption={(props, option) => (
-              <Box
-                key={option._id}
-                paddingX={2}
-                marginBottom={1}
-                paddingY={1}
-                {...(props as any)}
-              >
-                <RenderOption props={option} onClick={setSelectedStudent} />
-              </Box>
-            )}
-            onChange={(_, props) => {
-              setSelectedStudent(props)
-            }}
-            options={options}
-            loading={loading}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Select student"
-                variant="standard"
-                className="form-field"
-                fullWidth
-                InputLabelProps={{ shrink: true }}
-                InputProps={{
-                  ...params.InputProps,
-                  endAdornment: (
-                    <>
-                      {loading ? (
-                        <CircularProgress color="inherit" size={20} />
-                      ) : null}
-                      {params.InputProps.endAdornment}
-                    </>
-                  ),
-                }}
-              />
-            )}
-          />
-        </Box>
+        <AutocompleteUserListLesson
+          loading={loading}
+          openDropdown={() => openDropdown()}
+          options={options as unknown as IUserForLesson[]}
+          onHandleSelectUser={(prop) => {
+            setSelectedStudent(prop)
+          }}
+        />
         <Button
           size="small"
           variant="contained"
@@ -203,6 +159,7 @@ function AttachStudentsToLessonBlock() {
           Add student
         </Button>
       </Box>
+
       {loadingStudents ? (
         <Box textAlign="center">
           <CircularProgress size={20} />
@@ -214,38 +171,79 @@ function AttachStudentsToLessonBlock() {
               <Stack direction="row" justifyContent="space-between">
                 <Typography variant="subtitle2">List of students</Typography>
                 <Typography variant="subtitle2">
-                  {students.length} student{students.length > 1 ? 's' : ''}
+                  {students.length} student
+                  {students.length > 1 ? 's' : ''}
                 </Typography>
               </Stack>
-              {students.map((student) => (
-                <Stack
-                  key={student._id}
-                  direction="row"
-                  alignItems="center"
-                  justifyContent="space-between"
-                >
-                  <Avatar
-                    alt={`${student.name} ${student.surname}`}
-                    src={student.avatar || ''}
-                    style={{ width: '30px', height: '30px' }}
-                  />
-                  <Typography marginBottom={0} marginX={2} variant="body1">
-                    {student.name} {student.surname}
-                  </Typography>
-                  <Box marginLeft="auto">
-                    <Button
-                      size="small"
-                      onClick={() => deleteStudentFromLesson(student._id)}
-                    >
-                      <Icon icon={IconEnum.BIN} size={14} />
-                    </Button>
-                  </Box>
-                </Stack>
-              ))}
+              <UserListLesson users={students} onHandleDelete={onOpenModal} />
             </>
           ) : null}
         </>
       )}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          variant="filled"
+          severity="error"
+          sx={{ width: '100%' }}
+        >
+          Student already exist in the list!
+        </Alert>
+      </Snackbar>
+      <Modal open={modalOpen} onClose={handleCloseModal}>
+        <Box className="modal-box">
+          <Button
+            className="modal-box__button-close"
+            onClick={handleCloseModal}
+          >
+            <Icon
+              icon={IconEnum.CROSS_OUTLINE}
+              size={20}
+              color="#000000"
+              className="modal-box__button-close-icon"
+            />
+          </Button>
+          <Box className="modal-box__inner">
+            <Box textAlign="center" marginBottom={2}>
+              <WarningIcon />
+            </Box>
+            <Typography variant="h5" className="ta-c">
+              Do you really want to remove student <br /> {'"'}
+              {selectedStudent.fullname}
+              {'"'}
+              <br />
+              from lesson?
+            </Typography>
+            <Stack
+              direction="row"
+              justifyContent="center"
+              marginTop={2}
+              marginBottom={2}
+              spacing={3}
+            >
+              <Button
+                size="small"
+                variant="contained"
+                onClick={handleCloseModal}
+              >
+                decline
+              </Button>
+              <Button
+                size="small"
+                variant="outlined"
+                onClick={deleteStudentFromLesson}
+              >
+                accept
+              </Button>
+            </Stack>
+          </Box>
+        </Box>
+      </Modal>
     </ContainerWithShadow>
   )
 }

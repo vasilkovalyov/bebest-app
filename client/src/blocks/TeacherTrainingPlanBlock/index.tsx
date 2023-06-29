@@ -26,16 +26,23 @@ import LessonModules from '@/components/LessonModules'
 
 function TeacherTrainingPlanDefaultContent() {
   return (
-    <Stack direction="row" justifyContent="center" gap={1}>
-      <Icon
-        icon={IconEnum.INFO_CIRCULAR_OUTLINE}
-        size={20}
-        color={colors.blue}
-      />
-      <Typography marginBottom={3} variant="body1">
-        Create a workshop to start creating modules for it!
-      </Typography>
-    </Stack>
+    <Box marginBottom={4}>
+      <ContainerWithShadow paddingSize="sm">
+        <Typography marginBottom={3} variant="h5">
+          Add a training plan
+        </Typography>
+        <Stack direction="row" justifyContent="center" gap={1}>
+          <Icon
+            icon={IconEnum.INFO_CIRCULAR_OUTLINE}
+            size={20}
+            color={colors.blue}
+          />
+          <Typography marginBottom={3} variant="body1">
+            Create a workshop to start creating modules for it!
+          </Typography>
+        </Stack>
+      </ContainerWithShadow>
+    </Box>
   )
 }
 
@@ -66,6 +73,10 @@ function TeacherTrainingPlanBlock({
     setLessonModules(responseLessonModules.data)
   }
 
+  if (!editType) {
+    return <TeacherTrainingPlanDefaultContent />
+  }
+
   return (
     <Box marginBottom={4}>
       <ContainerWithShadow paddingSize="sm">
@@ -75,22 +86,18 @@ function TeacherTrainingPlanBlock({
         <Box marginBottom={4}>
           <LessonModules items={lessonModules} />
         </Box>
-        {editType ? (
-          <Box>
-            <Box textAlign="center">
-              <Button
-                variant="outlined"
-                size="small"
-                onClick={() => setModalOpen(true)}
-              >
-                <Icon icon={IconEnum.PLUS} color={colors.primary} size={16} />
-                Add module
-              </Button>
-            </Box>
+        <Box>
+          <Box textAlign="center">
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={() => setModalOpen(true)}
+            >
+              <Icon icon={IconEnum.PLUS} color={colors.primary} size={16} />
+              Add module
+            </Button>
           </Box>
-        ) : (
-          <TeacherTrainingPlanDefaultContent />
-        )}
+        </Box>
       </ContainerWithShadow>
       <Modal open={modalOpen} onClose={handleCloseModal}>
         <Box className="modal-box">
