@@ -217,8 +217,17 @@ const theme = createTheme({
         },
       },
     },
+    MuiAutocomplete: {
+      styleOverrides: {
+        input: {
+          padding: '8px 20px !important',
+        },
+      },
+    },
   },
 })
+
+// .css-1h51icj-MuiAutocomplete-root .MuiInput-root .MuiInput-input
 
 // **** TYPOGRAPHY ****
 const fontSizeH1 = {

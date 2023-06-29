@@ -35,6 +35,7 @@ function PageCabinet() {
       dispatch(fetchTeacherPersonalInfo())
       dispatch(fetchPaymentCard(userStore.role))
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userStore])
 
   return (

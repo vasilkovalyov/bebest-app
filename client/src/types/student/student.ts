@@ -26,3 +26,8 @@ export type IStudentAccountFormFields = Pick<
   IStudent,
   'name' | 'surname' | 'phone' | 'about' | 'email'
 >
+
+export type IStudentInfoLesson = Pick<
+  IStudent,
+  '_id' | 'name' | 'surname' | 'avatar'
+>

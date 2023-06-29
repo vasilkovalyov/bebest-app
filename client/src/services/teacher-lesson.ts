@@ -7,6 +7,7 @@ import {
   ITeacherLesson,
   ITeacherLessonExtended,
 } from '@/types/teacher/teacher-lesson'
+import { IStudentInfoLesson } from '@/types/student/student'
 
 class TeacherLessonService {
   async createLesson(props: ITeacherLesson): Promise<
@@ -85,7 +86,9 @@ class TeacherLessonService {
     return response
   }
 
-  async getStudentsFromLesson(lessonId: string) {
+  async getStudentsFromLesson(
+    lessonId: string
+  ): Promise<AxiosResponse<IStudentInfoLesson[]>> {
     const response = await $api().get(
       `${PRIVATE_REQUESTS.GET_STUDENTS_FROM_LESSON}/${lessonId}`
     )
