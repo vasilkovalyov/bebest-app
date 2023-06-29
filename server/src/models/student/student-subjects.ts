@@ -6,13 +6,11 @@ export interface IStudentSubject {
 }
 
 export interface IStudentSubjects {
+  studentId: Schema.Types.ObjectId;
   subjects: IStudentSubject[];
 }
 
-export type IStudentSubjectsSchemaType = IStudentSubjects &
-  Document & {
-    studentId: Schema.Types.ObjectId;
-  };
+export type IStudentSubjectsSchemaType = IStudentSubjects & Document;
 
 const StudentSubjectsSchema = new Schema<IStudentSubjectsSchemaType>({
   studentId: {

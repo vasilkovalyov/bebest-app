@@ -6,9 +6,7 @@ export interface IPaymentCard {
   card_number: string;
 }
 
-export type IPaymentCardModelType = IPaymentCard;
-
-const TeacherPaymentCardSchema = new Schema<IPaymentCardModelType>({
+const TeacherPaymentCardSchema = new Schema<IPaymentCard>({
   teacherId: {
     type: String,
     required: true,

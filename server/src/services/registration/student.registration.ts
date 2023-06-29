@@ -1,9 +1,6 @@
 import { IRegistrationStrategy } from './registration';
-import StudentModel, {
-  IStudent,
-  IStudentSchemaType,
-} from '../../models/student/student.model';
-import UserModel, { IUserSchemaType } from '../../models/user.model';
+import StudentModel, { IStudent } from '../../models/student/student.model';
+import UserModel from '../../models/user.model';
 import ApiError from '../../utils/api-error';
 import bcrypt from 'bcrypt';
 
@@ -32,7 +29,7 @@ class StudentRegistration implements IRegistrationStrategy {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const student: IStudentSchemaType = await new StudentModel({
+    const student = await new StudentModel({
       name: this.props.name,
       surname: this.props.surname,
       email: email,
@@ -41,7 +38,7 @@ class StudentRegistration implements IRegistrationStrategy {
     });
     const savedStudent = await student.save();
 
-    const user: IUserSchemaType = await new UserModel({
+    const user = await new UserModel({
       userId: savedStudent._id,
       email: savedStudent.email,
       role: savedStudent.role,

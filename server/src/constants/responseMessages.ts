@@ -1,4 +1,5 @@
-import { CrudMethod, UserRole } from '../types/role';
+import { CrudMethod } from 'types/common';
+import { UserRole } from '../types/role';
 
 export default {
   unauthorized: 'User is not authorized',

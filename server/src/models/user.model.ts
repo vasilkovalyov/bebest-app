@@ -1,4 +1,4 @@
-import { Schema, Document, model } from 'mongoose';
+import { Schema, model } from 'mongoose';
 import { UserRole } from 'types/role';
 
 export interface IUser {
@@ -7,9 +7,7 @@ export interface IUser {
   role: UserRole;
 }
 
-export type IUserSchemaType = IUser & Document;
-
-export const UserSchema = new Schema<IUserSchemaType>({
+export const UserSchema = new Schema<IUser>({
   email: { type: String, required: true, unique: true },
   userId: { type: String, required: true },
   role: {

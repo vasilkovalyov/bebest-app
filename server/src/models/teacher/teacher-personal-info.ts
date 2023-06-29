@@ -1,4 +1,4 @@
-import { Schema, model, Document, ObjectId } from 'mongoose';
+import { Schema, model, Document } from 'mongoose';
 
 export interface ITeacherCertificate {
   _id?: string;
@@ -16,8 +16,8 @@ export interface ITeacherMainFieldsActivity {
   }[];
 }
 
-export interface ITeacherMainFieldsActivityRequest
-  extends Pick<ITeacherMainFieldsActivity, 'subject'> {
+export interface ITeacherMainFieldsActivityRequest {
+  subject: string;
   categories: string[];
 }
 
@@ -104,9 +104,11 @@ const TeacherPersonalInfoSchema = new Schema<TeacherPersonalInfoModelType>({
       },
       startDate: {
         type: String,
+        require: true,
       },
       endDate: {
         type: String,
+        require: true,
       },
       isStillWorking: {
         type: Boolean,

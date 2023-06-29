@@ -1,23 +1,11 @@
-import ApiError from '../../utils/api-error';
-import TeacherModel, {
-  ITeacher,
-  ITeacherAccountEditableProps,
-} from '../../models/teacher/teacher.model';
-import UserModel from '../../models/user.model';
-import TeacherPersonalInfoModel from '../../models/teacher/teacher-personal-info';
-import TeacherProgressAccountModel from '../../models/teacher/teacher-progress-account';
-import TeacherPaymentCardModel from '../../models/teacher/teacher-payment-card';
+import TeacherModel from '../../models/teacher/teacher.model';
 
 import TeacherLessonModel, {
   ITeacherLesson,
 } from '../../models/teacher/teacher-lesson';
 
 import { lessonResponse } from '../../constants/responseMessages';
-import {
-  IStudent,
-  IStudentAccountEditableProps,
-  StudentInfoForTeacherType,
-} from 'models/student/student.model';
+import { StudentShortInfoForLessonType } from 'models/student/student.model';
 
 class TeacherLessonService {
   async createLesson(teacherId: string, props: ITeacherLesson) {
@@ -140,18 +128,15 @@ class TeacherLessonService {
       .then((posts) => {
         const students = posts?.students;
         if (!students?.length) return [];
-        const postArray: StudentInfoForTeacherType[] = [];
+        const postArray: StudentShortInfoForLessonType[] = [];
 
         for (let item of students) {
-          const props = item as unknown as StudentInfoForTeacherType;
+          const props = item as unknown as StudentShortInfoForLessonType;
           postArray.push({
             _id: props._id,
             name: props.name,
             surname: props.surname,
-            about: props.about,
-            email: props.email,
             avatar: props.avatar,
-            phone: props.phone,
           });
         }
 

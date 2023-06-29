@@ -1,7 +1,7 @@
 import ApiError from '../../utils/api-error';
 import TeacherModel, {
   ITeacher,
-  ITeacherAccountEditableProps,
+  TeacherUpdateAccountType,
 } from '../../models/teacher/teacher.model';
 import UserModel from '../../models/user.model';
 import TeacherPersonalInfoModel from '../../models/teacher/teacher-personal-info';
@@ -119,7 +119,7 @@ class TeacherService {
     };
   }
 
-  async updateUserInfo(id: string, props: ITeacherAccountEditableProps) {
+  async updateUserInfo(id: string, props: TeacherUpdateAccountType) {
     const { video, ...baseProps } = props;
     let videoUrl: IVideo | null = null;
 

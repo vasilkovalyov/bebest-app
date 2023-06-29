@@ -9,9 +9,7 @@ export interface ITeacherLessonModule {
   duration_time: string;
 }
 
-export type ITeacherLessonSchemaType = ITeacherLessonModule & Document;
-
-const TeacherLessonModuleSchema = new Schema<ITeacherLessonSchemaType>({
+const TeacherLessonModuleSchema = new Schema<ITeacherLessonModule>({
   topic: { type: String, required: true },
   rich_text: { type: String, required: true },
   start_date: { type: String, required: true },

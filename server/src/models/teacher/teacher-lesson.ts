@@ -1,7 +1,5 @@
 import { Schema, model, Document } from 'mongoose';
-import { ITeacher } from './teacher.model';
-
-export type LessonType = 'single' | 'multiple';
+import { LessonType } from '../../types/common';
 
 export interface ITeacherLesson {
   topic: string;
@@ -41,9 +39,8 @@ const TeacherLessonSchema = new Schema<ITeacherLessonSchemaType>({
   max_users: { type: Number, required: true },
   price: {
     type: String,
-    required: false,
   },
-  is_free: { type: Boolean, required: false, default: false },
+  is_free: { type: Boolean, required: false },
   type: {
     type: String,
     enum: ['single', 'multiple'],

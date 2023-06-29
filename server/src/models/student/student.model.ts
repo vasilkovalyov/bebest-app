@@ -9,19 +9,19 @@ export interface IStudent extends IUser {
   phone?: string | null;
   about?: string | null;
   avatar?: string;
-  subjects?: IStudentSubject[] | [];
+  subjects?: IStudentSubject[];
 }
 
 export type IStudentSchemaType = IStudent & Document;
 
-export type IStudentAccountEditableProps = Omit<
+export type StudentUpdateAccountType = Omit<
   IStudent,
   'password' | 'userId' | 'role'
 >;
 
-export type StudentInfoForTeacherType = Pick<
+export type StudentShortInfoForLessonType = Pick<
   IStudentSchemaType,
-  'name' | 'surname' | '_id' | 'about' | 'email' | 'avatar' | 'phone'
+  '_id' | 'name' | 'surname' | 'avatar'
 >;
 
 const StudentSchema = new Schema<IStudentSchemaType>({

@@ -1,6 +1,6 @@
 import ApiError from '../../utils/api-error';
 import StudentModel, {
-  IStudentAccountEditableProps,
+  StudentUpdateAccountType,
 } from '../../models/student/student.model';
 import UserModel from '../../models/user.model';
 import bcrypt from 'bcrypt';
@@ -90,7 +90,7 @@ class StudentService {
     };
   }
 
-  async updateUserInfo(id: string, props: IStudentAccountEditableProps) {
+  async updateUserInfo(id: string, props: StudentUpdateAccountType) {
     let avatarImage = '';
     if (props.avatar || props.avatar === null) {
       const res = await uploadAvatar(props.avatar);

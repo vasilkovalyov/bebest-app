@@ -18,7 +18,9 @@ export interface ITeacher extends IUser {
   lessons?: string[];
 }
 
-export type ITeacherSchemaType = Omit<
+export interface ITeacherExtended extends ITeacher {}
+
+export type TeacherSchemaType = Omit<
   ITeacher,
   'personalInfoId' | 'progressAccount' | 'lessons'
 > &
@@ -28,14 +30,14 @@ export type ITeacherSchemaType = Omit<
     lessons: Schema.Types.ObjectId;
   };
 
-export type ITeacherAccountEditableProps = Omit<
+export type TeacherUpdateAccountType = Omit<
   ITeacher,
   'password' | 'userId' | 'role' | 'video'
 > & {
   video?: (File & { tempFilePath: string }) | null;
 };
 
-const TeacherSchema = new Schema<ITeacherSchemaType>({
+const TeacherSchema = new Schema<TeacherSchemaType>({
   name: { type: String, required: true },
   surname: { type: String, required: true },
   email: { type: String, required: true, unique: true },

@@ -1,4 +1,4 @@
-import { Schema, model, Document } from 'mongoose';
+import { Schema, model } from 'mongoose';
 import { IUser } from '../user.model';
 
 export interface ICompany extends IUser {
@@ -11,14 +11,12 @@ export interface ICompany extends IUser {
   avatar?: string;
 }
 
-export type ICompanySchemaType = ICompany & Document;
-
-export type ICompanyAccountEditableProps = Omit<
+export type ICompanyUpdateAccountType = Omit<
   ICompany,
   'password' | 'userId' | 'role'
 >;
 
-const CompanySchema = new Schema<ICompanySchemaType>({
+const CompanySchema = new Schema<ICompany>({
   company_name: { type: String, required: true },
   admin_name: { type: String, required: true },
   admin_surname: { type: String, required: true },
