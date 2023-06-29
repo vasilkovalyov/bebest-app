@@ -54,6 +54,7 @@ function LessonModuleForm({
 
   useEffect(() => {
     setInitialData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   function onHandleSubmit(props: ITeacherLessonModuleEditableProps) {

@@ -59,6 +59,7 @@ function AccountTeacherForm({ onHandleClose }: { onHandleClose: () => void }) {
       setValue('video', user.video.url)
       trigger(['video'])
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   async function onSubmit(props: ITeacherAccountFormFields) {

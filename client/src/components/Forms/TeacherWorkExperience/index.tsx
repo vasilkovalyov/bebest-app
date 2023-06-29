@@ -98,6 +98,7 @@ function TeacherWorkExperienceForm({
   useEffect(() => {
     const checkedArr = workExperienceStore.map((item) => item.isStillWorking)
     setCheckboxArr([...checkedArr, false])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   async function handleAddWorkExperience(data: ITeacherWorkExperienceInfo) {
