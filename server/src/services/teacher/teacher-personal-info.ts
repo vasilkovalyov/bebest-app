@@ -107,7 +107,7 @@ class TeacherPersonalInfoService {
     ).select('work_experience');
 
     if (response && response.work_experience.length === 1) {
-      await teacherProgressAccountService.addWorkExperience(id);
+      await teacherProgressAccountService.createWorkExperience(id);
     }
 
     await teacherService.activateUser(id);
@@ -125,7 +125,7 @@ class TeacherPersonalInfoService {
     ).select('work_experience');
 
     if (response && response.work_experience.length === 0) {
-      await teacherProgressAccountService.removeWorkExperience(id);
+      await teacherProgressAccountService.deleteWorkExperience(id);
     }
 
     await teacherService.activateUser(id);
@@ -231,7 +231,7 @@ class TeacherPersonalInfoService {
     );
 
     if (response && response.certificates.length === 0) {
-      await teacherProgressAccountService.removeCertificate(id);
+      await teacherProgressAccountService.deleteCertificate(id);
     }
 
     return {

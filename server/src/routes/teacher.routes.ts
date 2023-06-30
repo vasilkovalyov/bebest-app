@@ -114,7 +114,7 @@ router.delete(
 ////////////////
 
 router.get('/get-teachers', teacherController.getUsers);
-router.get('/teacher-profile/:id', teacherController.getTeacherProfile);
+router.get('/get-teacher-profile/:id', teacherController.getUserProfile);
 
 // lesson
 router.post(
@@ -165,13 +165,12 @@ router.get(
   authMiddleware,
   teacherController.getLessonModule
 );
-////////////////
-
 router.get(
   '/teacher/get-modules-lesson/:id',
   authMiddleware,
   teacherController.getModulesFromLesson
 );
+////////////////
 
 // students for lesson
 router.post(

@@ -351,7 +351,7 @@ class TeacherController {
     }
   }
 
-  async getTeacherProfile(req: Request, res: Response) {
+  async getUserProfile(req: Request, res: Response) {
     try {
       const response = await teacherService.getUserProfile(req.params.id);
       return res.status(status.SUCCESS).json(response);

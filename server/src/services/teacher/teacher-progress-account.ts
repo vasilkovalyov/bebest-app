@@ -234,7 +234,7 @@ class TeacherProgressAccountService {
     );
   }
 
-  async addWorkExperience(id: string) {
+  async createWorkExperience(id: string) {
     const progressAccount = await TeacherProgressAccountModel.findOne({
       teacherId: id,
     });
@@ -256,7 +256,7 @@ class TeacherProgressAccountService {
     );
   }
 
-  async removeWorkExperience(id: string) {
+  async deleteWorkExperience(id: string) {
     const progressAccount = await TeacherProgressAccountModel.findOne({
       teacherId: id,
     });
@@ -300,7 +300,7 @@ class TeacherProgressAccountService {
     );
   }
 
-  async removeCertificate(id: string) {
+  async deleteCertificate(id: string) {
     const progressAccount = await TeacherProgressAccountModel.findOne({
       teacherId: id,
     });
@@ -344,7 +344,7 @@ class TeacherProgressAccountService {
     );
   }
 
-  async removePaymentCard(id: string) {
+  async deletePaymentCard(id: string) {
     const progressAccount = await TeacherProgressAccountModel.findOne({
       teacherId: id,
     });

@@ -38,7 +38,7 @@ class TeacherPaymentCardService {
       throw ApiError.BadRequestError(responseMessages.paymentCardNotFound);
     }
 
-    await teacherProgressAccountService.removePaymentCard(id);
+    await teacherProgressAccountService.deletePaymentCard(id);
     await teacherService.activateUser(id);
 
     return {
