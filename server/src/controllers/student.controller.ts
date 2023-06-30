@@ -12,6 +12,7 @@ class StudentController {
         .status(status.NOT_FOUND)
         .json(responseStudentMessages.notUserByToken);
     try {
+      const { id } = req.params;
       const response = await studentService.removeUser(req.user?._id);
       return res.status(status.SUCCESS).json({
         data: response,

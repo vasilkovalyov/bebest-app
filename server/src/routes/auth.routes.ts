@@ -7,5 +7,4 @@ const router = express.Router();
 
 router.get('/login', userLoginMiddleware, loginController.login);
 router.get('/is-auth', authMiddleware, loginController.isAuth);
-// authMiddleware
 export default router;

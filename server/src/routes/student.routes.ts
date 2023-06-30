@@ -8,48 +8,52 @@ import authMiddleware from '../middleware/auth.middleware';
 const router = express.Router();
 
 router.post(
-  '/registration/student',
+  '/registration-student',
   studentRegistrationMiddleware,
   registrationController.registration
 );
 
-router.delete('/delete/student', authMiddleware, studentController.removeUser);
+router.delete('/delete-student', authMiddleware, studentController.removeUser);
 
 router.post(
-  '/update-password/student',
+  '/student/update-password',
   authMiddleware,
   userChangePasswordMiddleware,
   studentController.changePassword
 );
 
 router.post(
-  '/user-info/student',
+  '/student/update-account-info',
   authMiddleware,
   studentController.updateUserInfo
 );
 
+router.get(
+  '/student/get-account-info',
+  authMiddleware,
+  studentController.getUserInfo
+);
+
 router.post(
-  '/upload-avatar/student',
+  '/student/upload-avatar',
   authMiddleware,
   studentController.uploadUserAvatar
 );
 
-router.get('/user-info/student', authMiddleware, studentController.getUserInfo);
-
 router.post(
-  '/add-subject/student',
+  '/student/create-subject',
   authMiddleware,
   studentController.addSubject
 );
 
 router.delete(
-  '/remove-subject/student/:id',
+  '/student/delete-subject/:id',
   authMiddleware,
   studentController.removeSubject
 );
 
 router.get(
-  '/get-subjects/student',
+  '/student/get-subjects',
   authMiddleware,
   studentController.getSubjects
 );

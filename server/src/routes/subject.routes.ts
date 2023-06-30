@@ -3,8 +3,11 @@ import subjectController from '../controllers/subject.controller';
 
 const router = express.Router();
 
-router.post('/subjects', subjectController.addSubjects);
-router.post('/subjects-categories', subjectController.addSubjectsCategories);
-router.get('/subjects', subjectController.getSubjects);
+router.post('/add-subjects', subjectController.addSubjects);
+router.post(
+  '/add-subjects-categories',
+  subjectController.addSubjectsCategories
+);
+router.get('/get-subjects', subjectController.getSubjects);
 
 export default router;
