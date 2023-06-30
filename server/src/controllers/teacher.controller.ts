@@ -265,7 +265,7 @@ class TeacherController {
 
     try {
       const response = await teacherPaymentCardService.removePaymentCard(
-        req.user._id
+        req.params._id
       );
       return res.status(status.SUCCESS).json(response);
     } catch (e) {

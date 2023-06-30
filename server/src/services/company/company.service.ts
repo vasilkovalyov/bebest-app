@@ -1,6 +1,6 @@
 import ApiError from '../../utils/api-error';
 import CompanyModel, {
-  ICompanyAccountEditableProps,
+  ICompanyUpdateAccountType,
 } from '../../models/company/company.model';
 import UserModel from '../../models/user.model';
 
@@ -91,7 +91,7 @@ class CompanyService {
     };
   }
 
-  async updateUserInfo(id: string, props: ICompanyAccountEditableProps) {
+  async updateUserInfo(id: string, props: ICompanyUpdateAccountType) {
     const { ...baseProps } = props;
 
     const response = await CompanyModel.findOneAndUpdate(

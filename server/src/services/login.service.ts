@@ -86,12 +86,12 @@ class LoginService {
         throw ApiError.BadRequestError(responseMessages.wrongPassword);
 
       const token = await tokenService.generateTokens({
-        _id: companyModel._id,
+        _id: companyModel._id.toString(),
         role: companyModel.role,
       });
 
       return {
-        userId: companyModel._id,
+        userId: companyModel._id.toString(),
         role: companyModel.role,
         token: token.accessToken,
       };
