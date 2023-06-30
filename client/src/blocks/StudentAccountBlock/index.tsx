@@ -43,7 +43,7 @@ function StudentAccountBlock() {
     try {
       let response: unknown | any
 
-      response = await studentService.deleteUser()
+      response = await studentService.deleteAccount()
 
       if (response.data.data) {
         logOut()

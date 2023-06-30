@@ -10,7 +10,7 @@ export function useLoadUserInfo() {
 
   async function loadUserInfo(userRole: UserRole) {
     if (userRole === 'student') {
-      const studentInfoResponse = await studentService.getUserInfo()
+      const studentInfoResponse = await studentService.getAccountInfo()
       setAuthState({
         name: studentInfoResponse.data.name,
         surname: studentInfoResponse.data.surname,
@@ -19,7 +19,7 @@ export function useLoadUserInfo() {
       setStudentState(studentInfoResponse.data)
     }
     if (userRole === 'teacher') {
-      const teachernfoResponse = await teacherService.getUserInfo()
+      const teachernfoResponse = await teacherService.getAccountInfo()
       setAuthState({
         name: teachernfoResponse.data.name,
         surname: teachernfoResponse.data.surname,
@@ -28,7 +28,7 @@ export function useLoadUserInfo() {
       setTeacherState(teachernfoResponse.data)
     }
     if (userRole === 'company') {
-      const companyInfoResponse = await companyService.getUserInfo()
+      const companyInfoResponse = await companyService.getAccountInfo()
       setAuthState({
         name: companyInfoResponse.data.admin_name,
         surname: companyInfoResponse.data.admin_surname,

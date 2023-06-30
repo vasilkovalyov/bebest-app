@@ -1,10 +1,7 @@
 import $api from '@/utils/ajax'
 import { AxiosResponse } from 'axios'
-import { PRIVATE_REQUESTS } from '@/constants/api-requests'
-import {
-  ITeacherLesson,
-  ITeacherLessonExtended,
-} from '@/types/teacher/teacher-lesson'
+import { TEACHER_REQUESTS } from '@/constants/api-requests'
+import { ITeacherLessonExtended } from '@/types/teacher/teacher-lesson'
 import { ITeacherLessonModule } from '@/types/teacher/teacher-lesson-module'
 
 class TeacherLessonModuleService {
@@ -17,31 +14,25 @@ class TeacherLessonModuleService {
       _id: string
     }>
   > {
-    const response = await $api().post(
-      `/${PRIVATE_REQUESTS.CREATE_LESSON_MODULE}/teacher`,
-      {
-        lessonId,
-        ...props,
-      }
-    )
+    const response = await $api().post(TEACHER_REQUESTS.CREATE_LESSON_MODULE, {
+      lessonId,
+      ...props,
+    })
     return response
   }
 
   async updateLessonModule(
     props: ITeacherLessonModule
   ): Promise<AxiosResponse<{ message: string }>> {
-    const response = await $api().post(
-      `/${PRIVATE_REQUESTS.UPDATE_LESSON_MODULE}/teacher`,
-      {
-        ...props,
-      }
-    )
+    const response = await $api().post(TEACHER_REQUESTS.UPDATE_LESSON_MODULE, {
+      ...props,
+    })
     return response
   }
 
   async deleteLessonModuleById(lessonId: string, lessonModuleId: string) {
     const response = await $api().delete(
-      `/${PRIVATE_REQUESTS.DELETE_LESSON_MODULE}/teacher`,
+      TEACHER_REQUESTS.DELETE_LESSON_MODULE,
       {
         data: {
           lessonId: lessonId,
@@ -57,14 +48,14 @@ class TeacherLessonModuleService {
     token: string | null
   ): Promise<AxiosResponse<ITeacherLessonExtended>> {
     const response = await $api(token || '').get(
-      `${PRIVATE_REQUESTS.GET_LESSON_MODULE}/teacher/${id}`
+      `${TEACHER_REQUESTS.GET_LESSON_MODULE}/${id}`
     )
     return response
   }
 
-  async getLessonModules(id: string) {
+  async getModulesLesson(id: string) {
     const response = await $api().get(
-      `${PRIVATE_REQUESTS.GET_MODULES_LESSON}/teacher/${id}`
+      `${TEACHER_REQUESTS.GET_MODULES_LESSON}/${id}`
     )
     return response
   }

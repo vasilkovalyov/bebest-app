@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { PRIVATE_REQUESTS } from '@/constants/api-requests'
+import { TEACHER_REQUESTS } from '@/constants/api-requests'
 import $api from '@/utils/ajax'
 
 import { defaultTeacherPersonalInfoState } from '../default-state/teacher-personal-info'
@@ -17,9 +17,7 @@ export const fetchTeacherPersonalInfo = createAsyncThunk<
   void
 >('user/fetchTeacherPersonalInfo', async () => {
   try {
-    const response = await $api().get(
-      `/${PRIVATE_REQUESTS.PERSONAL_INFO}/teacher`
-    )
+    const response = await $api().get(TEACHER_REQUESTS.GET_PERSONAL_INFO)
     return response
   } catch (error) {
     throw new Error('Failed to fetch user information.')

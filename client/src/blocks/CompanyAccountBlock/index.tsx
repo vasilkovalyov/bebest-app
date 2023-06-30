@@ -43,7 +43,7 @@ function CompanyAccount() {
     try {
       let response: unknown | any
 
-      response = await teacherService.deleteUser()
+      response = await teacherService.deleteAccount()
 
       if (response.data.data) {
         logOut()

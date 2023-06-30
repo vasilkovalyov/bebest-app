@@ -1,14 +1,14 @@
-import { PRIVATE_REQUESTS } from '@/constants/api-requests'
+import { TEACHER_REQUESTS } from '@/constants/api-requests'
 import { IWorkExperience } from '@/types/common'
 import $api from '@/utils/ajax'
 import { AxiosResponse } from 'axios'
 
 class TeacherWorkExperienceService {
-  async addWorkExperience(
+  async createWorkExperience(
     props: IWorkExperience
   ): Promise<AxiosResponse<{ message: string }>> {
     const response = await $api().post(
-      `/${PRIVATE_REQUESTS.WORK_EXPERIENCE}/teacher`,
+      TEACHER_REQUESTS.CREATE_WORK_EXPERIENCE,
       {
         ...props,
       }
@@ -16,11 +16,11 @@ class TeacherWorkExperienceService {
     return response
   }
 
-  async removeWorkExperience(
+  async deleteWorkExperience(
     id: string
   ): Promise<AxiosResponse<{ message: string }>> {
     const response = await $api().delete(
-      `/${PRIVATE_REQUESTS.WORK_EXPERIENCE}/teacher/${id}`
+      `${TEACHER_REQUESTS.DELETE_WORK_EXPERIENCE}/${id}`
     )
     return response
   }

@@ -57,7 +57,7 @@ function AccountCompanyForm({ onHandleClose }: { onHandleClose: () => void }) {
   async function onSubmit(props: ICompanyAccountFormFields) {
     setIsLoading(true)
     try {
-      await companyService.updateUserAccountInfo({
+      await companyService.updateAccountInfo({
         ...props,
       })
       loadUserInfo('company')

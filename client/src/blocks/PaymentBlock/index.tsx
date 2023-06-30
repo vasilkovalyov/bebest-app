@@ -50,13 +50,10 @@ function PaymentBlock() {
   async function onHandleAddCard() {
     if (!user.role) return
     setModalType('add')
-    await paymentCardService.addPaymentCard(
-      {
-        card_number: cardNumber,
-        username: user.name + ' ' + user.surname,
-      },
-      user.role
-    )
+    await paymentCardService.addPaymentCard({
+      card_number: cardNumber,
+      username: user.name + ' ' + user.surname,
+    })
     dispatch(fetchPaymentCard(user.role))
     loadUserInfo('teacher')
     handleCloseModal()
@@ -65,7 +62,7 @@ function PaymentBlock() {
   async function onHandleRemoveCard() {
     if (!user.role) return
     setModalType('remove')
-    await paymentCardService.removePaymentCard(user.role)
+    await paymentCardService.deletePaymentCard()
     dispatch(fetchPaymentCard(user.role))
     loadUserInfo('teacher')
     handleCloseModal()

@@ -23,6 +23,7 @@ import { ITeacherLessonExtended } from '@/types/teacher/teacher-lesson'
 import { parseCookies } from 'nookies'
 
 export default function UpdateLesson(props: ITeacherLessonExtended) {
+  console.log('props', props)
   return (
     <Layout
       title="Create teacher course"

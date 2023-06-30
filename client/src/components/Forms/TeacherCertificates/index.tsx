@@ -109,7 +109,7 @@ function TeacherCertificates({ onHandleClose }: ITeacherСertificatesFormProps) 
   async function handleRemoveCertificate() {
     setIsLoading(true)
     try {
-      await teacherСertificatesService.removeCertificate(
+      await teacherСertificatesService.deleteCertificate(
         selectRemoveCertificateId.id
       )
 

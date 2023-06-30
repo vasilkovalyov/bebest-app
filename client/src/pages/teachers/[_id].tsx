@@ -62,7 +62,7 @@ export default function Teacher({ name, surname, ...props }: ITeacherFullInfo) {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const teacherId = context.query._id
-    const profile = await teacherService.getUserProfile(teacherId as string)
+    const profile = await teacherService.getProfile(teacherId as string)
     return {
       props: profile.data,
     }

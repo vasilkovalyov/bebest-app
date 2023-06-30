@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { PRIVATE_REQUESTS } from '@/constants/api-requests'
+import { TEACHER_REQUESTS } from '@/constants/api-requests'
 import $api from '@/utils/ajax'
 import { UserRole } from '@/types/role'
 import { defaultPaymentCardState } from '../default-state/payment-card'
@@ -17,9 +17,7 @@ export const fetchPaymentCard = createAsyncThunk<
   UserRole
 >('user/fetchPaymentCard', async (userRole) => {
   try {
-    const response = await $api().get(
-      `/${PRIVATE_REQUESTS.PAYMENT_CARD}/${userRole}`
-    )
+    const response = await $api().get(TEACHER_REQUESTS.GET_PAYMENT_CARD)
     return response
   } catch (error) {
     throw new Error('Failed to fetch payment card.')

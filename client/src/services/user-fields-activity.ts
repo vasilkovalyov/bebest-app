@@ -1,16 +1,16 @@
-import { PRIVATE_REQUESTS } from '@/constants/api-requests'
+import { TEACHER_REQUESTS } from '@/constants/api-requests'
 import $api from '@/utils/ajax'
 import { AxiosResponse } from 'axios'
 import { UserRole } from '@/types/role'
 import { IFieldActivityRequest } from '@/types/common'
 
 class UserFieldsActivityService {
-  async addMainFieldsActivity(
+  async createMainFieldsActivity(
     props: IFieldActivityRequest,
     role: UserRole
   ): Promise<AxiosResponse<{ message: string }>> {
     const response = await $api().post(
-      `/${PRIVATE_REQUESTS.MAIN_FIELDS_ACTIVITY}/${role}`,
+      TEACHER_REQUESTS.CREATE_MAIN_FIELD_ACTIVITY,
       {
         ...props,
       }
@@ -18,12 +18,12 @@ class UserFieldsActivityService {
     return response
   }
 
-  async removeMainFieldsActivity(
+  async deleteMainFieldsActivity(
     id: string,
     role: UserRole
   ): Promise<AxiosResponse<{ message: string }>> {
     const response = await $api().delete(
-      `/${PRIVATE_REQUESTS.MAIN_FIELDS_ACTIVITY}/${role}/${id}`
+      `${TEACHER_REQUESTS.DELETE_MAIN_FIELD_ACTIVITY}/${id}`
     )
 
     return response

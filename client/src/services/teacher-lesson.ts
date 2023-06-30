@@ -1,8 +1,6 @@
 import $api from '@/utils/ajax'
 import { AxiosResponse } from 'axios'
-import { PRIVATE_REQUESTS } from '@/constants/api-requests'
-import { PUBLIC_REQUESTS } from '@/constants/api-requests'
-import { IRegistrationResponse } from '@/interfaces/common'
+import { TEACHER_REQUESTS } from '@/constants/api-requests'
 import {
   ITeacherLesson,
   ITeacherLessonExtended,
@@ -16,30 +14,24 @@ class TeacherLessonService {
       _id: string
     }>
   > {
-    const response = await $api().post(
-      `/${PRIVATE_REQUESTS.CREATE_LESSON}/teacher`,
-      {
-        ...props,
-      }
-    )
+    const response = await $api().post(TEACHER_REQUESTS.CREATE_LESSON, {
+      ...props,
+    })
     return response
   }
 
   async updateLesson(
     props: ITeacherLesson
   ): Promise<AxiosResponse<{ message: string }>> {
-    const response = await $api().post(
-      `/${PRIVATE_REQUESTS.UPDATE_LESSON}/teacher`,
-      {
-        ...props,
-      }
-    )
+    const response = await $api().post(TEACHER_REQUESTS.UPDATE_LESSON, {
+      ...props,
+    })
     return response
   }
 
   async removeLessonById(id: string) {
     const response = await $api().delete(
-      `/${PRIVATE_REQUESTS.DELETE_LESSON}/teacher/${id}`
+      `${TEACHER_REQUESTS.DELETE_LESSON}/${id}`
     )
     return response
   }
@@ -49,13 +41,13 @@ class TeacherLessonService {
     token: string | null
   ): Promise<AxiosResponse<ITeacherLessonExtended>> {
     const response = await $api(token || '').get(
-      `${PRIVATE_REQUESTS.GET_LESSON}/teacher/${id}`
+      `${TEACHER_REQUESTS.GET_LESSON}/${id}`
     )
     return response
   }
 
   async getUserLessons(): Promise<AxiosResponse<ITeacherLessonExtended[]>> {
-    const response = await $api().get(`${PRIVATE_REQUESTS.GET_LESSONS}/teacher`)
+    const response = await $api().get(TEACHER_REQUESTS.GET_LESSONS)
     return response
   }
 
@@ -63,7 +55,7 @@ class TeacherLessonService {
     lessonId: string,
     studentId: string
   ): Promise<AxiosResponse<{ message: string }>> {
-    const response = await $api().post(PRIVATE_REQUESTS.ADD_STUDENT_TO_LESSON, {
+    const response = await $api().post(TEACHER_REQUESTS.ADD_STUDENT_TO_LESSON, {
       lessonId,
       studentId,
     })
@@ -75,7 +67,7 @@ class TeacherLessonService {
     studentId: string
   ): Promise<AxiosResponse<{ message: string }>> {
     const response = await $api().delete(
-      PRIVATE_REQUESTS.DELETE_STUDENT_FROM_LESSON,
+      TEACHER_REQUESTS.DELETE_STUDENT_FROM_LESSON,
       {
         data: {
           lessonId: lessonId,
@@ -90,7 +82,7 @@ class TeacherLessonService {
     lessonId: string
   ): Promise<AxiosResponse<IStudentInfoLesson[]>> {
     const response = await $api().get(
-      `${PRIVATE_REQUESTS.GET_STUDENTS_FROM_LESSON}/${lessonId}`
+      `${TEACHER_REQUESTS.GET_STUDENTS_FROM_LESSON}/${lessonId}`
     )
     return response
   }

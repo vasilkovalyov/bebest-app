@@ -1,29 +1,20 @@
-import { PRIVATE_REQUESTS } from '@/constants/api-requests'
+import { TEACHER_REQUESTS } from '@/constants/api-requests'
 import { IPaymentCard } from '@/types/payment-card'
-import { UserRole } from '@/types/role'
 import $api from '@/utils/ajax'
 import { AxiosResponse } from 'axios'
 
 class PaymentCardService {
   async addPaymentCard(
-    props: IPaymentCard,
-    userRole: UserRole
+    props: IPaymentCard
   ): Promise<AxiosResponse<{ message: string }>> {
-    const response = await $api().post(
-      `/${PRIVATE_REQUESTS.PAYMENT_CARD}/${userRole}`,
-      {
-        ...props,
-      }
-    )
+    const response = await $api().post(TEACHER_REQUESTS.CREATE_PAYMENT_CARD, {
+      ...props,
+    })
     return response
   }
 
-  async removePaymentCard(
-    userRole: UserRole
-  ): Promise<AxiosResponse<{ message: string }>> {
-    const response = await $api().delete(
-      `/${PRIVATE_REQUESTS.PAYMENT_CARD}/${userRole}`
-    )
+  async deletePaymentCard(): Promise<AxiosResponse<{ message: string }>> {
+    const response = await $api().delete(TEACHER_REQUESTS.DELETE_PAYMENT_CARD)
     return response
   }
 }

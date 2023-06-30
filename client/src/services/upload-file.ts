@@ -1,7 +1,7 @@
 import $api from '@/utils/ajax'
 import { AxiosResponse } from 'axios'
 import { UserRole } from '@/types/role'
-import { PRIVATE_REQUESTS } from '@/constants/api-requests'
+import { UPLOAD_REQUESTS } from '@/constants/api-requests'
 
 class UploadFileService {
   async uploadUserAvatar(
@@ -9,7 +9,7 @@ class UploadFileService {
     file: string
   ): Promise<AxiosResponse<{ message: string }>> {
     const response = await $api('', 'multipart/form-data').post(
-      `/${PRIVATE_REQUESTS.UPLOAD_AVATAR}/${userRole}`,
+      `/${UPLOAD_REQUESTS.UPLOAD_AVATAR}/${userRole}`,
       {
         avatar: file,
       }
@@ -23,7 +23,7 @@ class UploadFileService {
     file: string
   ): Promise<AxiosResponse<{ message: string }>> {
     const response = await $api('', 'multipart/form-data').post(
-      `/${PRIVATE_REQUESTS.UPLOAD_VIDEO}/${userRole}`,
+      `/${UPLOAD_REQUESTS.UPLOAD_VIDEO}/${userRole}`,
       {
         video: file,
       }

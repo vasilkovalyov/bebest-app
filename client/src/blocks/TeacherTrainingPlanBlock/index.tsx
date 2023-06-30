@@ -69,7 +69,7 @@ function TeacherTrainingPlanBlock({
   async function loadLessonModules() {
     const lessonId = query._id as string
     const responseLessonModules =
-      await teacherLessonModuleService.getLessonModules(lessonId)
+      await teacherLessonModuleService.getModulesLesson(lessonId)
     setLessonModules(responseLessonModules.data)
   }
 

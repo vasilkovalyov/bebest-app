@@ -65,7 +65,7 @@ function AccountTeacherForm({ onHandleClose }: { onHandleClose: () => void }) {
   async function onSubmit(props: ITeacherAccountFormFields) {
     setIsLoading(true)
     try {
-      await teacherService.updateUserAccountInfo({
+      await teacherService.updateAccountInfo({
         ...props,
         video: props.video,
       })

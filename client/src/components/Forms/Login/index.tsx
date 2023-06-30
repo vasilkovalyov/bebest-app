@@ -62,7 +62,7 @@ function LoginForm() {
 
       router.push(pages.cabinet).then(() => {
         if (role === 'student') {
-          studentService.getUserInfo().then((userResponse) => {
+          studentService.getAccountInfo().then((userResponse) => {
             setAuthState({
               _id: userResponse.data._id,
               name: userResponse.data.name,
@@ -74,7 +74,7 @@ function LoginForm() {
           })
         }
         if (role === 'teacher') {
-          teacherService.getUserInfo().then((userResponse) => {
+          teacherService.getAccountInfo().then((userResponse) => {
             setAuthState({
               _id: userResponse.data._id,
               name: userResponse.data.name,
@@ -86,7 +86,7 @@ function LoginForm() {
           })
         }
         if (role === 'company') {
-          companyService.getUserInfo().then((userResponse) => {
+          companyService.getAccountInfo().then((userResponse) => {
             setAuthState({
               _id: userResponse.data._id,
               name: userResponse.data.admin_name,

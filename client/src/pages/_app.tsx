@@ -84,7 +84,7 @@ App.getInitialProps = wrapper.getInitialAppProps(
         let user: unknown | any
 
         if (role === ('student' as UserRole)) {
-          user = await studentService.getUserInfo(token)
+          user = await studentService.getAccountInfo(token)
           store.dispatch(
             setAuthState({
               _id: user.data._id,
@@ -97,7 +97,7 @@ App.getInitialProps = wrapper.getInitialAppProps(
           store.dispatch(setStudentState(user.data))
         }
         if (role === ('teacher' as UserRole)) {
-          user = await teacherService.getUserInfo(token)
+          user = await teacherService.getAccountInfo(token)
           store.dispatch(
             setAuthState({
               _id: user.data._id,
@@ -110,7 +110,7 @@ App.getInitialProps = wrapper.getInitialAppProps(
           store.dispatch(setTeacherState(user.data))
         }
         if (role === ('company' as UserRole)) {
-          user = await companyService.getUserInfo(token)
+          user = await companyService.getAccountInfo(token)
           store.dispatch(
             setAuthState({
               _id: user.data._id,

@@ -1,6 +1,6 @@
 import $api from '@/utils/ajax'
 import { AxiosResponse } from 'axios'
-import { PRIVATE_REQUESTS } from '@/constants/api-requests'
+import { STUDENT_REQUESTS } from '@/constants/api-requests'
 import { PUBLIC_REQUESTS } from '@/constants/api-requests'
 import { IRegistrationResponse } from '@/interfaces/common'
 import {
@@ -10,12 +10,10 @@ import {
 } from '@/types/student/student'
 
 class StudentService {
-  async getUserInfo(
+  async getAccountInfo(
     token?: string | undefined
   ): Promise<AxiosResponse<IStudent>> {
-    const response = await $api(token).get(
-      `/${PRIVATE_REQUESTS.USER_INFO}/student`
-    )
+    const response = await $api(token).get(STUDENT_REQUESTS.GET_ACCOUNT_INFO)
     return response
   }
 
@@ -23,7 +21,7 @@ class StudentService {
     props: IStudentRegistration
   ): Promise<AxiosResponse<IRegistrationResponse>> {
     const response = await $api().post(
-      `/${PUBLIC_REQUESTS.REGISTRATION_STUDENT}`,
+      `/${PUBLIC_REQUESTS.STUDENT_REGISTRATION}`,
       {
         ...props,
         role: 'student',
@@ -33,23 +31,18 @@ class StudentService {
     return response
   }
 
-  async deleteUser(): Promise<AxiosResponse<{ data: boolean }>> {
-    const response = await $api().delete(
-      `/${PRIVATE_REQUESTS.USER_DELETE}/student`
-    )
+  async deleteAccount(): Promise<AxiosResponse<{ data: boolean }>> {
+    const response = await $api().delete(STUDENT_REQUESTS.DELETE_ACCOUNT)
 
     return response
   }
 
-  async updateUserAccountInfo(
+  async updateAccountInfo(
     props: IStudentAccountFormFields
   ): Promise<AxiosResponse<IStudent>> {
-    const response = await $api().post(
-      `/${PRIVATE_REQUESTS.USER_INFO}/student`,
-      {
-        ...props,
-      }
-    )
+    const response = await $api().post(STUDENT_REQUESTS.UPDATE_ACCOUNT_INFO, {
+      ...props,
+    })
 
     return response
   }
@@ -57,18 +50,15 @@ class StudentService {
   async changePassword(
     password: string
   ): Promise<AxiosResponse<{ message: string }>> {
-    const response = await $api().post(
-      `/${PRIVATE_REQUESTS.UPDATE_PASSWORD}/student`,
-      {
-        password: password,
-      }
-    )
+    const response = await $api().post(STUDENT_REQUESTS.CHANGE_PASSWORD, {
+      password: password,
+    })
 
     return response
   }
 
   async getStudents(): Promise<AxiosResponse<IStudent[]>> {
-    const response = await $api().get(`/${PRIVATE_REQUESTS.GET_STUDENTS}`)
+    const response = await $api().get(`/${STUDENT_REQUESTS.GET_STUDENTS}`)
     return response
   }
 }

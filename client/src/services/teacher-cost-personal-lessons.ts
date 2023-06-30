@@ -1,4 +1,4 @@
-import { PRIVATE_REQUESTS } from '@/constants/api-requests'
+import { TEACHER_REQUESTS } from '@/constants/api-requests'
 import { ICostPersonalLesson } from '@/types/common'
 import $api from '@/utils/ajax'
 import { AxiosResponse } from 'axios'
@@ -10,7 +10,7 @@ class TeacherCostPersonalLessonsService {
     props: ICostPersonalLesson
   ): Promise<AxiosResponse<{ message: string }>> {
     const response = await $api().post(
-      `/${PRIVATE_REQUESTS.PERSONAL_LESSONS_TEACHER}`,
+      TEACHER_REQUESTS.UPDATE_PERSONAL_LESSON,
       {
         ...props,
       }

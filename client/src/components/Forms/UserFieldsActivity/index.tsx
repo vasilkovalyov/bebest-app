@@ -109,7 +109,7 @@ function UserFieldsActivityForm({
         categories: checkedSkills[0].subjects.map((item) => item._id),
       }
 
-      await userFieldsActivityService.addMainFieldsActivity(
+      await userFieldsActivityService.createMainFieldsActivity(
         props,
         user.user.role
       )
@@ -140,7 +140,7 @@ function UserFieldsActivityForm({
   async function handleRemove() {
     if (!user.user.role) return
     try {
-      await userFieldsActivityService.removeMainFieldsActivity(
+      await userFieldsActivityService.deleteMainFieldsActivity(
         selectRemoveFieldActivity.id,
         user.user.role
       )

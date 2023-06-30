@@ -5,7 +5,7 @@ import { AxiosResponse } from 'axios'
 
 class SubjectsService {
   async getSubjects(): Promise<AxiosResponse<ISubject[]>> {
-    const response = await $api(null).get(`/${PUBLIC_REQUESTS.GET_SUBJECTS}`)
+    const response = await $api(null).get(PUBLIC_REQUESTS.GET_SUBJECTS)
     return response
   }
 }

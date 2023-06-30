@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { PRIVATE_REQUESTS } from '@/constants/api-requests'
+import { STUDENT_REQUESTS } from '@/constants/api-requests'
 import $api from '@/utils/ajax'
 import { defaultStudentSubjects } from '../default-state/studentSubjects'
 import { IStudentSubjects } from '@/types/student/student-subject'
@@ -15,9 +15,7 @@ export const fetchStudentSubjects = createAsyncThunk<
   AxiosResponse<IStudentSubjects | null>
 >('user/fetchStudentSubjects', async () => {
   try {
-    const response = await $api().get(
-      `/${PRIVATE_REQUESTS.GET_SUBJECTS_STUDENT}`
-    )
+    const response = await $api().get(STUDENT_REQUESTS.GET_SUBJECTS)
     return response
   } catch (error) {
     throw new Error('Failed to fetch student subjects.')

@@ -106,7 +106,7 @@ function StudentSubjectsForm({ onHandleClose }: IStudentSubjectsFormProps) {
 
   async function handleRemoveSubject() {
     try {
-      await studentSubjectsService.removeSubject(selectRemoveSubjectId.id)
+      await studentSubjectsService.deleteSubject(selectRemoveSubjectId.id)
       remove(selectRemoveSubjectId.index)
       dispatch(fetchStudentSubjects())
       setSelectRemoveSubjectId({

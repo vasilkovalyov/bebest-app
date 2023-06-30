@@ -54,7 +54,7 @@ function AccountStudentForm({ onHandleClose }: { onHandleClose: () => void }) {
     setIsLoading(true)
 
     try {
-      await studentService.updateUserAccountInfo(props)
+      await studentService.updateAccountInfo(props)
       loadUserInfo('student')
       onHandleClose()
     } catch (e) {

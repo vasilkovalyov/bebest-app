@@ -1,6 +1,6 @@
 import $api from '@/utils/ajax'
 import { AxiosResponse } from 'axios'
-import { PRIVATE_REQUESTS } from '@/constants/api-requests'
+import { COMPANY_REQUESTS } from '@/constants/api-requests'
 import { PUBLIC_REQUESTS } from '@/constants/api-requests'
 import { IRegistrationResponse } from '@/interfaces/common'
 import {
@@ -10,12 +10,10 @@ import {
 } from '@/types/company/company'
 
 class CompanyService {
-  async getUserInfo(
+  async getAccountInfo(
     token?: string | undefined
   ): Promise<AxiosResponse<ICompany>> {
-    const response = await $api(token).get(
-      `/${PRIVATE_REQUESTS.USER_INFO}/company`
-    )
+    const response = await $api(token).get(COMPANY_REQUESTS.GET_ACCOUNT_INFO)
     return response
   }
 
@@ -23,7 +21,7 @@ class CompanyService {
     props: ICompanyRegistration
   ): Promise<AxiosResponse<IRegistrationResponse>> {
     const response = await $api().post(
-      `/${PUBLIC_REQUESTS.REGISTRATION_COMPANY}`,
+      `/${PUBLIC_REQUESTS.COMPANY_REGISTRATION}`,
       {
         ...props,
       }
@@ -32,23 +30,18 @@ class CompanyService {
     return response
   }
 
-  async deleteUser(): Promise<AxiosResponse<{ data: boolean }>> {
-    const response = await $api().delete(
-      `/${PRIVATE_REQUESTS.USER_DELETE}/company`
-    )
+  async deleteAccount(): Promise<AxiosResponse<{ data: boolean }>> {
+    const response = await $api().delete(COMPANY_REQUESTS.DELETE_ACCOUNT)
 
     return response
   }
 
-  async updateUserAccountInfo(
+  async updateAccountInfo(
     props: ICompanyAccountFormFields
   ): Promise<AxiosResponse<ICompany>> {
-    const response = await $api().post(
-      `/${PRIVATE_REQUESTS.USER_INFO}/company`,
-      {
-        ...props,
-      }
-    )
+    const response = await $api().post(COMPANY_REQUESTS.UPDATE_ACCOUNT_INFO, {
+      ...props,
+    })
 
     return response
   }
@@ -56,12 +49,9 @@ class CompanyService {
   async changePassword(
     password: string
   ): Promise<AxiosResponse<{ message: string }>> {
-    const response = await $api().post(
-      `/${PRIVATE_REQUESTS.UPDATE_PASSWORD}/company`,
-      {
-        password: password,
-      }
-    )
+    const response = await $api().post(COMPANY_REQUESTS.CHANGE_PASSWORD, {
+      password: password,
+    })
 
     return response
   }

@@ -1,4 +1,4 @@
-import { PRIVATE_REQUESTS } from '@/constants/api-requests'
+import { TEACHER_REQUESTS } from '@/constants/api-requests'
 import { IСertificate } from '@/types/common'
 import $api from '@/utils/ajax'
 import { AxiosResponse } from 'axios'
@@ -8,7 +8,7 @@ class TeacherСertificatesService {
     props: IСertificate
   ): Promise<AxiosResponse<{ message: string }>> {
     const response = await $api('', 'multipart/form-data').post(
-      `/${PRIVATE_REQUESTS.UPLOAD_CERTIFICATE}/teacher`,
+      TEACHER_REQUESTS.CREATE_CERTIFICATE,
       {
         ...props,
       }
@@ -17,11 +17,11 @@ class TeacherСertificatesService {
     return response
   }
 
-  async removeCertificate(
+  async deleteCertificate(
     id: string
   ): Promise<AxiosResponse<{ message: string }>> {
     const response = await $api().delete(
-      `/${PRIVATE_REQUESTS.UPLOAD_CERTIFICATE}/teacher/${id}`
+      `${TEACHER_REQUESTS.DELETE_CERTIFICATE}/${id}`
     )
 
     return response

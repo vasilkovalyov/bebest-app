@@ -106,7 +106,7 @@ function TeacherWorkExperienceForm({
       const workExperience = {
         ...data.work_experience[data.work_experience.length - 1],
       }
-      await teacherWorkExperienceService.addWorkExperience(workExperience)
+      await teacherWorkExperienceService.createWorkExperience(workExperience)
       dispatch(fetchTeacherPersonalInfo())
       loadUserInfo('teacher')
       append(defaultWorkExperience)
@@ -125,7 +125,7 @@ function TeacherWorkExperienceForm({
 
   async function handleRemoveWorkExperience() {
     try {
-      await teacherWorkExperienceService.removeWorkExperience(
+      await teacherWorkExperienceService.deleteWorkExperience(
         selectRemoveWorkExperienceId.id
       )
 
