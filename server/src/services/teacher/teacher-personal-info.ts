@@ -22,7 +22,7 @@ import responseTeacherMessages from '../../constants/responseTeacherMessages';
 import teacherService from './teacher.service';
 
 class TeacherPersonalInfoService {
-  async addMainFieldsActivity(
+  async createMainFieldActivity(
     id: string,
     props: ITeacherMainFieldsActivityRequest
   ) {
@@ -54,7 +54,7 @@ class TeacherPersonalInfoService {
     };
   }
 
-  async removeMainFieldsActivity(id: string, subjectId: string) {
+  async deleteMainFieldActivity(id: string, subjectId: string) {
     const response = await TeacherPersonalInfoModel.findOneAndUpdate(
       {
         teacherId: id,
@@ -99,7 +99,7 @@ class TeacherPersonalInfoService {
     };
   }
 
-  async addWorkExperience(id: string, props: ITeacherWorkExperience) {
+  async createWorkExperience(id: string, props: ITeacherWorkExperience) {
     const response = await TeacherPersonalInfoModel.findOneAndUpdate(
       { teacherId: id },
       { $push: { work_experience: props } },
@@ -117,7 +117,7 @@ class TeacherPersonalInfoService {
     };
   }
 
-  async removeWorkExperience(id: string, workExperienceId: string) {
+  async deleteWorkExperience(id: string, workExperienceId: string) {
     const response = await TeacherPersonalInfoModel.findOneAndUpdate(
       { teacherId: id },
       { $pull: { work_experience: { _id: workExperienceId } } },
@@ -188,7 +188,7 @@ class TeacherPersonalInfoService {
     };
   }
 
-  async uploadCertificate(id: string, props: ITeacherCertificate) {
+  async createCertificate(id: string, props: ITeacherCertificate) {
     let imageUrl = '';
     if (props.image) {
       const res = await uploadCertificate(props.image);
@@ -223,7 +223,7 @@ class TeacherPersonalInfoService {
     };
   }
 
-  async removeCertificate(id: string, certificateId: string) {
+  async deleteCertificate(id: string, certificateId: string) {
     const response = await TeacherPersonalInfoModel.findOneAndUpdate(
       { teacherId: id },
       { $pull: { certificates: { _id: certificateId } } },

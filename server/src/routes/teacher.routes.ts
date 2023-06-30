@@ -8,15 +8,19 @@ import authMiddleware from '../middleware/auth.middleware';
 const router = express.Router();
 
 router.post(
-  '/registration-teacher',
+  '/teacher/registration',
   teacherRegistrationMiddleware,
   registrationController.registration
 );
 
-router.delete('/delete-teacher', authMiddleware, teacherController.removeUser);
+router.delete(
+  '/teacher/delete-account',
+  authMiddleware,
+  teacherController.deleteAccount
+);
 
 router.post(
-  '/teacher/update-password',
+  '/teacher/change-password',
   authMiddleware,
   userChangePasswordMiddleware,
   teacherController.changePassword
@@ -25,31 +29,31 @@ router.post(
 router.post(
   '/teacher/upload-avatar',
   authMiddleware,
-  teacherController.uploadUserAvatar
+  teacherController.uploadAvatar
 );
 
 router.get(
   '/teacher/get-account-info',
   authMiddleware,
-  teacherController.getUserInfo
+  teacherController.getAccountInfo
 );
 
 router.post(
   '/teacher/update-account-info',
   authMiddleware,
-  teacherController.updateUserInfo
+  teacherController.updateAccountInfo
 );
 
 // main activity
 router.post(
   '/teacher/create-main-field-activity',
   authMiddleware,
-  teacherController.addMainFieldsActivity
+  teacherController.createMainFieldActivity
 );
 router.delete(
   '/teacher/delete-main-field-activity/:id',
   authMiddleware,
-  teacherController.removeMainFieldsActivity
+  teacherController.deleteMainFieldActivity
 );
 ////////////////
 
@@ -57,12 +61,12 @@ router.delete(
 router.post(
   '/teacher/create-work-experience',
   authMiddleware,
-  teacherController.addWorkExperience
+  teacherController.createWorkExperience
 );
 router.delete(
   '/teacher/delete-work-experience/:id',
   authMiddleware,
-  teacherController.removeWorkExperience
+  teacherController.deleteWorkExperience
 );
 ////////////////
 
@@ -82,12 +86,12 @@ router.post(
 router.post(
   '/teacher/create-payment-card',
   authMiddleware,
-  teacherController.addPaymentCard
+  teacherController.createPaymentCard
 );
 router.delete(
   '/teacher/delete-payment-card',
   authMiddleware,
-  teacherController.removePaymentCard
+  teacherController.deletePaymentCard
 );
 router.get(
   '/teacher/get-payment-card',
@@ -98,15 +102,14 @@ router.get(
 
 // certificate
 router.post(
-  '/teacher/upload-certificate',
+  '/teacher/create-certificate',
   authMiddleware,
-  teacherController.uploadCertificate
+  teacherController.createCertificate
 );
-
 router.delete(
-  '/teacher/remove-certificate/:id',
+  '/teacher/delete-certificate/:id',
   authMiddleware,
-  teacherController.removeCertificate
+  teacherController.deleteCertificate
 );
 ////////////////
 
@@ -165,9 +168,9 @@ router.get(
 ////////////////
 
 router.get(
-  '/get-modules-lesson/teacher/:id',
+  '/teacher/get-modules-lesson/:id',
   authMiddleware,
-  teacherController.getModulesLesson
+  teacherController.getModulesFromLesson
 );
 
 // students for lesson
@@ -182,7 +185,7 @@ router.delete(
   teacherController.deleteStudentFromLesson
 );
 router.get(
-  '/get-students-from-lesson/:id',
+  '/teacher/get-students-from-lesson/:id',
   authMiddleware,
   teacherController.getStudentsFromLesson
 );

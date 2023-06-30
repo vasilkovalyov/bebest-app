@@ -6,14 +6,14 @@ import status from '../constants/status';
 import responseTeacherMessages from '../constants/responseTeacherMessages';
 
 class CompanyController {
-  async removeUser(req: RequestWithAuthUser, res: Response) {
+  async deleteAccount(req: RequestWithAuthUser, res: Response) {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
         .json(responseTeacherMessages.notUserByToken);
 
     try {
-      const response = await companyService.removeUser(req.user._id);
+      const response = await companyService.deleteAccount(req.user._id);
       return res.status(status.SUCCESS).json({
         data: response,
       });
@@ -45,14 +45,14 @@ class CompanyController {
     }
   }
 
-  async getUserInfo(req: RequestWithAuthUser, res: Response) {
+  async getAccountInfo(req: RequestWithAuthUser, res: Response) {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
         .json(responseTeacherMessages.notUserByToken);
 
     try {
-      const response = await companyService.getUserInfo(req.user._id);
+      const response = await companyService.getAccountInfo(req.user._id);
 
       return res.status(status.SUCCESS).json(response);
     } catch (e) {
@@ -64,14 +64,14 @@ class CompanyController {
     }
   }
 
-  async uploadUserAvatar(req: RequestWithAuthUser, res: Response) {
+  async uploadAvatar(req: RequestWithAuthUser, res: Response) {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
         .json(responseTeacherMessages.notUserByToken);
 
     try {
-      const response = await companyService.uploadUserAvatar(
+      const response = await companyService.uploadAvatar(
         req.user._id,
         req.body.avatar
       );
@@ -85,7 +85,7 @@ class CompanyController {
     }
   }
 
-  async updateUserInfo(
+  async updateAccountInfo(
     req: RequestWithAuthUser & { files?: { video: File } },
     res: Response
   ) {
@@ -95,7 +95,7 @@ class CompanyController {
         .json(responseTeacherMessages.notUserByToken);
 
     try {
-      const response = await companyService.updateUserInfo(req.user._id, {
+      const response = await companyService.updateAccountInfo(req.user._id, {
         ...req.body,
         video: req.files?.video || null,
       });

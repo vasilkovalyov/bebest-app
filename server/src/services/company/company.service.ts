@@ -11,7 +11,7 @@ import responseMessages, {
 } from '../../constants/responseMessages';
 
 class CompanyService {
-  async removeUser(id: string) {
+  async deleteAccount(id: string) {
     const user = await UserModel.deleteOne({
       userId: id,
     });
@@ -46,7 +46,7 @@ class CompanyService {
     };
   }
 
-  async getUserInfo(id: string) {
+  async getAccountInfo(id: string) {
     const companyModel = await CompanyModel.findOne({ _id: id }).select(
       '_id company_name admin_name admin_surname email role phone about avatar'
     );
@@ -68,7 +68,7 @@ class CompanyService {
     };
   }
 
-  async uploadUserAvatar(id: string, file: string) {
+  async uploadAvatar(id: string, file: string) {
     let avatarImage = '';
     if (file) {
       const res = await uploadAvatar(file);
@@ -91,7 +91,7 @@ class CompanyService {
     };
   }
 
-  async updateUserInfo(id: string, props: ICompanyUpdateAccountType) {
+  async updateAccountInfo(id: string, props: ICompanyUpdateAccountType) {
     const { ...baseProps } = props;
 
     const response = await CompanyModel.findOneAndUpdate(

@@ -17,7 +17,7 @@ class StudentService {
     return studentUser;
   }
 
-  async removeUser(id: string) {
+  async deleteAccount(id: string) {
     const user = await UserModel.deleteOne({
       userId: id,
     });
@@ -55,7 +55,7 @@ class StudentService {
     };
   }
 
-  async getUserInfo(id: string) {
+  async getAccountInfo(id: string) {
     const studentModel = await StudentModel.findOne({ _id: id }).select(
       '_id name surname email role phone about avatar'
     );
@@ -67,7 +67,7 @@ class StudentService {
     return studentModel;
   }
 
-  async uploadUserAvatar(id: string, file: string) {
+  async uploadAvatar(id: string, file: string) {
     let avatarImage = '';
     if (file) {
       const res = await uploadAvatar(file);
@@ -90,7 +90,7 @@ class StudentService {
     };
   }
 
-  async updateUserInfo(id: string, props: StudentUpdateAccountType) {
+  async updateAccountInfo(id: string, props: StudentUpdateAccountType) {
     let avatarImage = '';
     if (props.avatar || props.avatar === null) {
       const res = await uploadAvatar(props.avatar);

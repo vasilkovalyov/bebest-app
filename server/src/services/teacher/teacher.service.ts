@@ -17,7 +17,7 @@ import responseMessages, {
 import { IVideo } from '../../interfaces/common';
 
 class TeacherService {
-  async removeUser(id: string) {
+  async deleteAccount(id: string) {
     await UserModel.findOneAndDelete({
       userId: id,
     });
@@ -58,7 +58,7 @@ class TeacherService {
     };
   }
 
-  async getUserInfo(id: string) {
+  async getAccountInfo(id: string) {
     const teacherModel = await TeacherModel.findOne({ _id: id }).select(
       '_id name surname email role phone about avatar video activated'
     );
@@ -85,7 +85,7 @@ class TeacherService {
     };
   }
 
-  async uploadUserAvatar(id: string, file: string) {
+  async uploadAvatar(id: string, file: string) {
     let avatarImage = '';
     if (file) {
       const res = await uploadAvatar(file);
@@ -119,7 +119,7 @@ class TeacherService {
     };
   }
 
-  async updateUserInfo(id: string, props: TeacherUpdateAccountType) {
+  async updateAccountInfo(id: string, props: TeacherUpdateAccountType) {
     const { video, ...baseProps } = props;
     let videoUrl: IVideo | null = null;
 

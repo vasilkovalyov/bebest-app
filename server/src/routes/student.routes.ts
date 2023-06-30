@@ -8,15 +8,19 @@ import authMiddleware from '../middleware/auth.middleware';
 const router = express.Router();
 
 router.post(
-  '/registration-student',
+  '/student/registration',
   studentRegistrationMiddleware,
   registrationController.registration
 );
 
-router.delete('/delete-student', authMiddleware, studentController.removeUser);
+router.delete(
+  '/student/delete-account',
+  authMiddleware,
+  studentController.deleteAccount
+);
 
 router.post(
-  '/student/update-password',
+  '/student/change-password',
   authMiddleware,
   userChangePasswordMiddleware,
   studentController.changePassword
@@ -25,31 +29,31 @@ router.post(
 router.post(
   '/student/update-account-info',
   authMiddleware,
-  studentController.updateUserInfo
+  studentController.updateAccountInfo
 );
 
 router.get(
   '/student/get-account-info',
   authMiddleware,
-  studentController.getUserInfo
+  studentController.getAccountInfo
 );
 
 router.post(
   '/student/upload-avatar',
   authMiddleware,
-  studentController.uploadUserAvatar
+  studentController.uploadAvatar
 );
 
 router.post(
   '/student/create-subject',
   authMiddleware,
-  studentController.addSubject
+  studentController.createSubject
 );
 
 router.delete(
   '/student/delete-subject/:id',
   authMiddleware,
-  studentController.removeSubject
+  studentController.deleteSubject
 );
 
 router.get(

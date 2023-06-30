@@ -8,15 +8,19 @@ import authMiddleware from '../middleware/auth.middleware';
 const router = express.Router();
 
 router.post(
-  '/registration-company',
+  '/company/registration',
   companyRegistrationMiddleware,
   registrationController.registration
 );
 
-router.delete('/delete-company', authMiddleware, companyController.removeUser);
+router.delete(
+  '/company/delete-account',
+  authMiddleware,
+  companyController.deleteAccount
+);
 
 router.post(
-  '/company/update-password',
+  '/company/change-password',
   authMiddleware,
   userChangePasswordMiddleware,
   companyController.changePassword
@@ -25,19 +29,19 @@ router.post(
 router.get(
   '/company/get-account-info',
   authMiddleware,
-  companyController.getUserInfo
+  companyController.getAccountInfo
 );
 
 router.post(
   '/company/upload-avatar',
   authMiddleware,
-  companyController.uploadUserAvatar
+  companyController.uploadAvatar
 );
 
 router.post(
   '/company/update-account-info',
   authMiddleware,
-  companyController.updateUserInfo
+  companyController.updateAccountInfo
 );
 
 export default router;

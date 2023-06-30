@@ -6,14 +6,14 @@ import status from '../constants/status';
 import responseStudentMessages from '../constants/responseStudentMessages';
 
 class StudentController {
-  async removeUser(req: RequestWithAuthUser, res: Response) {
+  async deleteAccount(req: RequestWithAuthUser, res: Response) {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
         .json(responseStudentMessages.notUserByToken);
     try {
       const { id } = req.params;
-      const response = await studentService.removeUser(req.user?._id);
+      const response = await studentService.deleteAccount(req.user?._id);
       return res.status(status.SUCCESS).json({
         data: response,
       });
@@ -46,13 +46,13 @@ class StudentController {
     }
   }
 
-  async getUserInfo(req: RequestWithAuthUser, res: Response) {
+  async getAccountInfo(req: RequestWithAuthUser, res: Response) {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
         .json(responseStudentMessages.notUserByToken);
     try {
-      const response = await studentService.getUserInfo(req.user._id);
+      const response = await studentService.getAccountInfo(req.user._id);
 
       return res.status(status.SUCCESS).json(response);
     } catch (e) {
@@ -64,14 +64,14 @@ class StudentController {
     }
   }
 
-  async uploadUserAvatar(req: RequestWithAuthUser, res: Response) {
+  async uploadAvatar(req: RequestWithAuthUser, res: Response) {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
         .json(responseStudentMessages.notUserByToken);
 
     try {
-      const response = await studentService.uploadUserAvatar(
+      const response = await studentService.uploadAvatar(
         req.user._id,
         req.body.avatar
       );
@@ -85,14 +85,14 @@ class StudentController {
     }
   }
 
-  async updateUserInfo(req: RequestWithAuthUser, res: Response) {
+  async updateAccountInfo(req: RequestWithAuthUser, res: Response) {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
         .json(responseStudentMessages.notUserByToken);
 
     try {
-      const response = await studentService.updateUserInfo(
+      const response = await studentService.updateAccountInfo(
         req.user._id,
         req.body
       );
@@ -106,7 +106,7 @@ class StudentController {
     }
   }
 
-  async addSubject(req: RequestWithAuthUser, res: Response) {
+  async createSubject(req: RequestWithAuthUser, res: Response) {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
@@ -115,7 +115,7 @@ class StudentController {
     try {
       const { subject_study, level_mastery_subject } = req.body;
 
-      const response = await studentSubjectService.addSubjects(req.user._id, {
+      const response = await studentSubjectService.createSubject(req.user._id, {
         subject_study,
         level_mastery_subject,
       });
@@ -130,7 +130,7 @@ class StudentController {
     }
   }
 
-  async removeSubject(req: RequestWithAuthUser, res: Response) {
+  async deleteSubject(req: RequestWithAuthUser, res: Response) {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
@@ -139,7 +139,7 @@ class StudentController {
     try {
       const { id } = req.params;
 
-      const response = await studentSubjectService.removeSubject(
+      const response = await studentSubjectService.deleteSubject(
         req.user._id,
         id
       );

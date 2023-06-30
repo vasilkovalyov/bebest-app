@@ -11,7 +11,7 @@ import PaymentCardModel, {
 import responseMessages from '../../constants/responseMessages';
 
 class TeacherPaymentCardService {
-  async addPaymentCard(id: string, props: IPaymentCard) {
+  async createPaymentCard(id: string, props: IPaymentCard) {
     const paymentCardResponse = await new PaymentCardModel({
       teacherId: id,
       card_number: props.card_number,
@@ -29,7 +29,7 @@ class TeacherPaymentCardService {
       message: responseMessages.paymentCardAddSuccessful,
     };
   }
-  async removePaymentCard(id: string) {
+  async deletePaymentCard(id: string) {
     const paymentCardResponse = await PaymentCardModel.deleteOne({
       teacherId: id,
     });

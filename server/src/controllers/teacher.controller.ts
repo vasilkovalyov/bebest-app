@@ -10,14 +10,14 @@ import status from '../constants/status';
 import responseTeacherMessages from '../constants/responseTeacherMessages';
 
 class TeacherController {
-  async removeUser(req: RequestWithAuthUser, res: Response) {
+  async deleteAccount(req: RequestWithAuthUser, res: Response) {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
         .json(responseTeacherMessages.notUserByToken);
 
     try {
-      const response = await teacherService.removeUser(req.user._id);
+      const response = await teacherService.deleteAccount(req.user._id);
       return res.status(status.SUCCESS).json({
         data: response,
       });
@@ -49,14 +49,14 @@ class TeacherController {
     }
   }
 
-  async getUserInfo(req: RequestWithAuthUser, res: Response) {
+  async getAccountInfo(req: RequestWithAuthUser, res: Response) {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
         .json(responseTeacherMessages.notUserByToken);
 
     try {
-      const response = await teacherService.getUserInfo(req.user._id);
+      const response = await teacherService.getAccountInfo(req.user._id);
 
       return res.status(status.SUCCESS).json(response);
     } catch (e) {
@@ -68,14 +68,14 @@ class TeacherController {
     }
   }
 
-  async uploadUserAvatar(req: RequestWithAuthUser, res: Response) {
+  async uploadAvatar(req: RequestWithAuthUser, res: Response) {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
         .json(responseTeacherMessages.notUserByToken);
 
     try {
-      const response = await teacherService.uploadUserAvatar(
+      const response = await teacherService.uploadAvatar(
         req.user._id,
         req.body.avatar
       );
@@ -89,7 +89,7 @@ class TeacherController {
     }
   }
 
-  async updateUserInfo(
+  async updateAccountInfo(
     req: RequestWithAuthUser & { files?: { video: File } },
     res: Response
   ) {
@@ -99,7 +99,7 @@ class TeacherController {
         .json(responseTeacherMessages.notUserByToken);
 
     try {
-      const response = await teacherService.updateUserInfo(req.user._id, {
+      const response = await teacherService.updateAccountInfo(req.user._id, {
         ...req.body,
         video: req.files?.video || null,
       });
@@ -113,14 +113,14 @@ class TeacherController {
     }
   }
 
-  async addMainFieldsActivity(req: RequestWithAuthUser, res: Response) {
+  async createMainFieldActivity(req: RequestWithAuthUser, res: Response) {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
         .json(responseTeacherMessages.notUserByToken);
 
     try {
-      const response = await teacherPersonalInfoService.addMainFieldsActivity(
+      const response = await teacherPersonalInfoService.createMainFieldActivity(
         req.user._id,
         req.body
       );
@@ -133,7 +133,7 @@ class TeacherController {
     }
   }
 
-  async removeMainFieldsActivity(req: RequestWithAuthUser, res: Response) {
+  async deleteMainFieldActivity(req: RequestWithAuthUser, res: Response) {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
@@ -142,11 +142,10 @@ class TeacherController {
     try {
       const { id } = req.params;
 
-      const response =
-        await teacherPersonalInfoService.removeMainFieldsActivity(
-          req.user._id,
-          id
-        );
+      const response = await teacherPersonalInfoService.deleteMainFieldActivity(
+        req.user._id,
+        id
+      );
       return res.status(status.SUCCESS).json(response);
     } catch (e) {
       if (!(e instanceof Error)) return;
@@ -176,14 +175,14 @@ class TeacherController {
     }
   }
 
-  async addWorkExperience(req: RequestWithAuthUser, res: Response) {
+  async createWorkExperience(req: RequestWithAuthUser, res: Response) {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
         .json(responseTeacherMessages.notUserByToken);
 
     try {
-      const response = await teacherPersonalInfoService.addWorkExperience(
+      const response = await teacherPersonalInfoService.createWorkExperience(
         req.user._id,
         req.body
       );
@@ -196,7 +195,7 @@ class TeacherController {
     }
   }
 
-  async removeWorkExperience(req: RequestWithAuthUser, res: Response) {
+  async deleteWorkExperience(req: RequestWithAuthUser, res: Response) {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
@@ -205,7 +204,7 @@ class TeacherController {
     try {
       const { id } = req.params;
 
-      const response = await teacherPersonalInfoService.removeWorkExperience(
+      const response = await teacherPersonalInfoService.deleteWorkExperience(
         req.user._id,
         id
       );
@@ -237,14 +236,14 @@ class TeacherController {
     }
   }
 
-  async addPaymentCard(req: RequestWithAuthUser, res: Response) {
+  async createPaymentCard(req: RequestWithAuthUser, res: Response) {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
         .json(responseTeacherMessages.notUserByToken);
 
     try {
-      const response = await teacherPaymentCardService.addPaymentCard(
+      const response = await teacherPaymentCardService.createPaymentCard(
         req.user._id,
         req.body
       );
@@ -257,14 +256,14 @@ class TeacherController {
     }
   }
 
-  async removePaymentCard(req: RequestWithAuthUser, res: Response) {
+  async deletePaymentCard(req: RequestWithAuthUser, res: Response) {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
         .json(responseTeacherMessages.notUserByToken);
 
     try {
-      const response = await teacherPaymentCardService.removePaymentCard(
+      const response = await teacherPaymentCardService.deletePaymentCard(
         req.user._id
       );
       return res.status(status.SUCCESS).json(response);
@@ -295,7 +294,7 @@ class TeacherController {
     }
   }
 
-  async uploadCertificate(
+  async createCertificate(
     req: RequestWithAuthUser & { files?: { file: File } },
     res: Response
   ) {
@@ -305,7 +304,7 @@ class TeacherController {
         .json(responseTeacherMessages.notUserByToken);
 
     try {
-      const response = await teacherPersonalInfoService.uploadCertificate(
+      const response = await teacherPersonalInfoService.createCertificate(
         req.user._id,
         req.body
       );
@@ -318,7 +317,7 @@ class TeacherController {
     }
   }
 
-  async removeCertificate(req: RequestWithAuthUser, res: Response) {
+  async deleteCertificate(req: RequestWithAuthUser, res: Response) {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
@@ -327,7 +326,7 @@ class TeacherController {
     try {
       const { id } = req.params;
 
-      const response = await teacherPersonalInfoService.removeCertificate(
+      const response = await teacherPersonalInfoService.deleteCertificate(
         req.user._id,
         id
       );
@@ -537,7 +536,7 @@ class TeacherController {
     }
   }
 
-  async getModulesLesson(req: RequestWithAuthUser, res: Response) {
+  async getModulesFromLesson(req: RequestWithAuthUser, res: Response) {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
@@ -545,7 +544,7 @@ class TeacherController {
 
     try {
       const lessonId = req.params.id as string;
-      const response = await teacherLessonModuleService.getModulesLesson(
+      const response = await teacherLessonModuleService.getModulesFromLesson(
         lessonId
       );
       return res.status(status.SUCCESS).json(response);

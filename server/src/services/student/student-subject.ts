@@ -6,7 +6,7 @@ import StudentSubjectsModel, {
 import responseStudentMessages from '../../constants/responseStudentMessages';
 
 class StudentSubjectService {
-  async addSubjects(_id: string, props: IStudentSubject) {
+  async createSubject(_id: string, props: IStudentSubject) {
     const response =
       await StudentSubjectsModel.findOne<IStudentSubjectsSchemaType>({
         studentId: _id,
@@ -32,7 +32,7 @@ class StudentSubjectService {
     };
   }
 
-  async removeSubject(userId: string, subjectId: string) {
+  async deleteSubject(userId: string, subjectId: string) {
     await StudentSubjectsModel.findOneAndUpdate(
       {
         studentId: userId,

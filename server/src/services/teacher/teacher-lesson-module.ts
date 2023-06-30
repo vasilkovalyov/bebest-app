@@ -1,9 +1,4 @@
-import ApiError from '../../utils/api-error';
 import TeacherLessonModel from '../../models/teacher/teacher-lesson';
-import UserModel from '../../models/user.model';
-import TeacherPersonalInfoModel from '../../models/teacher/teacher-personal-info';
-import TeacherProgressAccountModel from '../../models/teacher/teacher-progress-account';
-import TeacherPaymentCardModel from '../../models/teacher/teacher-payment-card';
 
 import TeacherLessonModuleModel, {
   ITeacherLessonModule,
@@ -67,7 +62,7 @@ class TeacherLessonModuleService {
     return teacherLessonModules;
   }
 
-  async getModulesLesson(lessonId: string) {
+  async getModulesFromLesson(lessonId: string) {
     const teacherLesson = await TeacherLessonModel.find({
       _id: lessonId,
     })
