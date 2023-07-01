@@ -91,17 +91,10 @@ class StudentService {
   }
 
   async updateAccountInfo(id: string, props: StudentUpdateAccountType) {
-    let avatarImage = '';
-    if (props.avatar || props.avatar === null) {
-      const res = await uploadAvatar(props.avatar);
-      avatarImage = res.secure_url;
-    }
-
     const response = await StudentModel.findOneAndUpdate(
       { _id: id },
       {
         ...props,
-        avatar: avatarImage,
       },
       { new: true }
     );
