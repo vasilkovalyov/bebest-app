@@ -9,7 +9,7 @@ class UploadFileService {
     file: string
   ): Promise<AxiosResponse<{ message: string }>> {
     const response = await $api('', 'multipart/form-data').post(
-      `/${UPLOAD_REQUESTS.UPLOAD_AVATAR}/${userRole}`,
+      `/${userRole}/${UPLOAD_REQUESTS.UPLOAD_AVATAR}`,
       {
         avatar: file,
       }
@@ -23,7 +23,7 @@ class UploadFileService {
     file: string
   ): Promise<AxiosResponse<{ message: string }>> {
     const response = await $api('', 'multipart/form-data').post(
-      `/${UPLOAD_REQUESTS.UPLOAD_VIDEO}/${userRole}`,
+      `/${userRole}/${UPLOAD_REQUESTS.UPLOAD_VIDEO}`,
       {
         video: file,
       }
