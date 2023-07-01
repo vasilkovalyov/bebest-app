@@ -1,5 +1,4 @@
 //libs
-import Link from 'next/link'
 import cn from 'classnames'
 import dayjs from 'dayjs'
 
@@ -18,11 +17,9 @@ import Icon from '@/components/Generic/Icon'
 import { ITeacherLessonCardProps } from './TeacherLessonCard.type'
 
 //other utils
-import { pageRoutesPrivate } from '@/constants/page-routes'
 import colors from '@/constants/colors'
 
 function TeacherLessonCard({
-  _id,
   max_users,
   start_date,
   subject,
@@ -33,6 +30,7 @@ function TeacherLessonCard({
   duration_time,
   registeredCount = 0,
   className,
+  actionEdit,
 }: ITeacherLessonCardProps) {
   return (
     <Box
@@ -120,14 +118,7 @@ function TeacherLessonCard({
           are expected
         </Typography>
       </Stack>
-      <Box position="absolute" top={20} right={20}>
-        <Link
-          href={`/${pageRoutesPrivate.cabinetUpdateLesson}/${_id}`}
-          className="teacher-lesson-card__edit"
-        >
-          <Icon icon={IconEnum.EDIT} size={18} color={colors.black_color} />
-        </Link>
-      </Box>
+      {actionEdit}
     </Box>
   )
 }

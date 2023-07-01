@@ -1,4 +1,5 @@
 //libs
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import cn from 'classnames'
 
@@ -24,6 +25,7 @@ import { ITeacherLessonsProps } from './TeacherLessons.type'
 
 //other utils
 import colors from '@/constants/colors'
+import { pageRoutesPrivate } from '@/constants/page-routes'
 
 function TeacherLessons({ className }: ITeacherLessonsProps) {
   const [loading, setLoading] = useState<boolean>(false)
@@ -55,7 +57,23 @@ function TeacherLessons({ className }: ITeacherLessonsProps) {
             <Grid container gap={1.2} justifyContent="space-between">
               {teachers.map((teacher) => (
                 <Grid item key={teacher._id} xs={12} md={5.8}>
-                  <TeacherLessonCard {...teacher} />
+                  <TeacherLessonCard
+                    {...teacher}
+                    actionEdit={
+                      <Box position="absolute" top={20} right={20}>
+                        <Link
+                          href={`/${pageRoutesPrivate.cabinetUpdateLesson}/${teacher._id}`}
+                          className="teacher-lesson-card__edit"
+                        >
+                          <Icon
+                            icon={IconEnum.EDIT}
+                            size={18}
+                            color={colors.black_color}
+                          />
+                        </Link>
+                      </Box>
+                    }
+                  />
                 </Grid>
               ))}
             </Grid>
