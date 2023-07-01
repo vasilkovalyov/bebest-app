@@ -1,71 +1,74 @@
 // libs
-import { useState } from 'react'
+import { useState } from 'react';
 
 //redux
-import { useAppSelector } from '@/redux/hooks'
+import { useAppSelector } from '@/redux/hooks';
 
 // material ui components
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import Stack from '@mui/material/Stack'
-import Modal from '@mui/material/Modal'
-import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import Modal from '@mui/material/Modal';
+import Typography from '@mui/material/Typography';
 
 //custom components
-import AccountCompany from '@/components/Forms/Account/AccountCompany'
-import PreviewUserAccount from '@/components/Previews/PreviewUserAccount'
-import Icon from '@/components/Generic/Icon'
-import { IconEnum } from '@/types/icons'
-import WarningIcon from '@/components/Generic/WarningIcon'
+import AccountCompany from '@/components/Forms/Account/AccountCompany';
+import PreviewUserAccount from '@/components/Previews/PreviewUserAccount';
+import Icon from '@/components/Generic/Icon';
+import { IconEnum } from '@/types/icons';
+import WarningIcon from '@/components/Generic/WarningIcon';
 
 //hooks
-import { useLogout } from '@/hooks/useLogout'
+import { useLogout } from '@/hooks/useLogout';
 
 //other utils
-import { AxiosError } from 'axios'
-import teacherService from '@/services/teacher'
+import { AxiosError } from 'axios';
+import teacherService from '@/services/teacher';
 
 function CompanyAccount() {
-  const { logOut } = useLogout()
-  const user = useAppSelector((store) => store.company.user)
-  const [isEdit, seIsEdit] = useState<boolean>(false)
-  const [modalOpen, setModalOpen] = useState<boolean>(false)
+  const { logOut } = useLogout();
+  const user = useAppSelector((store) => store.company.user);
+  const [isEdit, seIsEdit] = useState<boolean>(false);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   function onHandleOpenModal() {
-    setModalOpen(true)
+    setModalOpen(true);
   }
 
   function handleCloseModal() {
-    setModalOpen(false)
+    setModalOpen(false);
   }
 
   async function handleRemoveAccount() {
     try {
-      let response: unknown | any
+      let response: unknown | any;
 
-      response = await teacherService.deleteAccount()
+      response = await teacherService.deleteAccount();
 
       if (response.data.data) {
-        logOut()
+        logOut();
       }
     } catch (e) {
       if (e instanceof AxiosError) {
-        console.log(e.message)
+        console.log(e.message);
       }
     }
   }
 
   function onHandleClose() {
-    seIsEdit(!isEdit)
+    seIsEdit(!isEdit);
   }
 
   return (
     <Box paddingY={4} className="box-account">
       <Stack direction="row" className="box-account__controllers">
-        <Button onClick={() => seIsEdit(!isEdit)}>
+        <Button
+          onClick={() => seIsEdit(!isEdit)}
+          aria-label="button-open-edit-account-form"
+        >
           {!isEdit ? <Icon icon={IconEnum.EDIT} size={18} /> : 'Close'}
         </Button>
-        <Button onClick={onHandleOpenModal}>
+        <Button onClick={onHandleOpenModal} aria-label="button-remove-account">
           <Icon icon={IconEnum.BIN} size={18} />
         </Button>
       </Stack>
@@ -141,6 +144,6 @@ function CompanyAccount() {
         </Box>
       </Modal>
     </Box>
-  )
+  );
 }
-export default CompanyAccount
+export default CompanyAccount;

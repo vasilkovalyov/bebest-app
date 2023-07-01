@@ -1,41 +1,41 @@
 // libs
-import { useEffect, useState } from 'react'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { useForm, useFieldArray } from 'react-hook-form'
+import { useEffect, useState } from 'react';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm, useFieldArray } from 'react-hook-form';
 
 //redux
-import { useAppSelector } from '@/redux/hooks'
-import { useDispatch } from 'react-redux'
-import { fetchTeacherPersonalInfo } from '@/redux/slices/teacher-personal-info'
+import { useAppSelector } from '@/redux/hooks';
+import { useDispatch } from 'react-redux';
+import { fetchTeacherPersonalInfo } from '@/redux/slices/teacher-personal-info';
 
 // material ui components
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
-import Divider from '@mui/material/Divider'
-import Modal from '@mui/material/Modal'
-import Checkbox from '@mui/material/Checkbox'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Divider from '@mui/material/Divider';
+import Modal from '@mui/material/Modal';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Typography from '@mui/material/Typography';
 
 //custom components
-import { IconEnum } from '@/types/icons'
-import Icon from '@/components/Generic/Icon'
-import WarningIcon from '@/components/Generic/WarningIcon'
+import { IconEnum } from '@/types/icons';
+import Icon from '@/components/Generic/Icon';
+import WarningIcon from '@/components/Generic/WarningIcon';
 
 // relate utils
 import {
   ITeacherWorkExperienceInfo,
   ITeacherWorkExperienceFormProps,
-} from './TeacherWorkExperience.type'
-import { TeacherWorkExperienceFormValidationSchema } from './TeacherWorkExperience.validation'
+} from './TeacherWorkExperience.type';
+import { TeacherWorkExperienceFormValidationSchema } from './TeacherWorkExperience.validation';
 
 // other utils
-import colors from '@/constants/colors'
-import { Stack } from '@mui/material'
-import teacherWorkExperienceService from '@/services/teacher-work-experience'
-import { useLoadUserInfo } from '@/hooks/useLoadUserInfo'
-import { IWorkExperience } from '@/types/common'
+import colors from '@/constants/colors';
+import { Stack } from '@mui/material';
+import teacherWorkExperienceService from '@/services/teacher-work-experience';
+import { useLoadUserInfo } from '@/hooks/useLoadUserInfo';
+import { IWorkExperience } from '@/types/common';
 
 const defaultWorkExperience: IWorkExperience = {
   company_name: '',
@@ -43,36 +43,36 @@ const defaultWorkExperience: IWorkExperience = {
   startDate: '',
   endDate: '',
   isStillWorking: false,
-}
+};
 
 const defaultInitialData: ITeacherWorkExperienceInfo = {
   work_experience: [defaultWorkExperience],
-}
+};
 
 function TeacherWorkExperienceForm({
   onHandleClose,
 }: ITeacherWorkExperienceFormProps) {
   const workExperienceStore = useAppSelector(
     (store) => store.teacherPersonalInfo.work_experience
-  )
-  const dispatch = useDispatch<any>()
-  const { loadUserInfo } = useLoadUserInfo()
+  );
+  const dispatch = useDispatch<any>();
+  const { loadUserInfo } = useLoadUserInfo();
 
-  const [checkboxArr, setCheckboxArr] = useState<boolean[]>([])
+  const [checkboxArr, setCheckboxArr] = useState<boolean[]>([]);
 
-  const [modalOpen, setModalOpen] = useState<boolean>(false)
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [selectRemoveWorkExperienceId, setSelectRemoveWorkExperienceId] =
     useState<{
-      id: string
-      index: number
+      id: string;
+      index: number;
     }>({
       id: '',
       index: -1,
-    })
+    });
 
   const defaultFields = workExperienceStore.length
     ? defaultInitialData.work_experience
-    : []
+    : [];
 
   const {
     handleSubmit,
@@ -88,30 +88,30 @@ function TeacherWorkExperienceForm({
       work_experience: [...(workExperienceStore || []), ...defaultFields],
     },
     resolver: yupResolver(TeacherWorkExperienceFormValidationSchema),
-  })
+  });
 
   const { fields, remove, append } = useFieldArray({
     control,
     name: 'work_experience',
-  })
+  });
 
   useEffect(() => {
-    const checkedArr = workExperienceStore.map((item) => item.isStillWorking)
-    setCheckboxArr([...checkedArr, false])
+    const checkedArr = workExperienceStore.map((item) => item.isStillWorking);
+    setCheckboxArr([...checkedArr, false]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   async function handleAddWorkExperience(data: ITeacherWorkExperienceInfo) {
     try {
       const workExperience = {
         ...data.work_experience[data.work_experience.length - 1],
-      }
-      await teacherWorkExperienceService.createWorkExperience(workExperience)
-      dispatch(fetchTeacherPersonalInfo())
-      loadUserInfo('teacher')
-      append(defaultWorkExperience)
+      };
+      await teacherWorkExperienceService.createWorkExperience(workExperience);
+      dispatch(fetchTeacherPersonalInfo());
+      loadUserInfo('teacher');
+      append(defaultWorkExperience);
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
   }
 
@@ -119,50 +119,50 @@ function TeacherWorkExperienceForm({
     setSelectRemoveWorkExperienceId({
       id,
       index,
-    })
-    setModalOpen(true)
+    });
+    setModalOpen(true);
   }
 
   async function handleRemoveWorkExperience() {
     try {
       await teacherWorkExperienceService.deleteWorkExperience(
         selectRemoveWorkExperienceId.id
-      )
+      );
 
-      dispatch(fetchTeacherPersonalInfo())
-      loadUserInfo('teacher')
-      remove(selectRemoveWorkExperienceId.index)
+      dispatch(fetchTeacherPersonalInfo());
+      loadUserInfo('teacher');
+      remove(selectRemoveWorkExperienceId.index);
       setSelectRemoveWorkExperienceId({
         id: '',
         index: -1,
-      })
-      handleCloseModal()
+      });
+      handleCloseModal();
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
   }
 
   function handleCloseModal() {
-    setModalOpen(false)
+    setModalOpen(false);
   }
 
   function onChangeStillWorkingCheckbox(index: number) {
     const checkedArr = checkboxArr.map((item, key) => {
       if (key === index) {
-        return !checkboxArr[key]
+        return !checkboxArr[key];
       }
-      return item
-    })
-    setCheckboxArr(checkedArr)
-    trigger([`work_experience.${index}.endDate`])
+      return item;
+    });
+    setCheckboxArr(checkedArr);
+    trigger([`work_experience.${index}.endDate`]);
     setValue(
       `work_experience.${index}.isStillWorking`,
       !getValues().work_experience[index].isStillWorking
-    )
+    );
   }
 
   function handleAddFormWorkExperience() {
-    setValue('work_experience', [defaultWorkExperience])
+    setValue('work_experience', [defaultWorkExperience]);
   }
 
   return (
@@ -430,7 +430,7 @@ function TeacherWorkExperienceForm({
         </Box>
       </Modal>
     </Box>
-  )
+  );
 }
 
-export default TeacherWorkExperienceForm
+export default TeacherWorkExperienceForm;

@@ -1,64 +1,64 @@
 // libs
-import { useState } from 'react'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { useForm, useFieldArray } from 'react-hook-form'
+import { ChangeEvent, MouseEventHandler, MouseEvent, useState } from 'react';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm, useFieldArray } from 'react-hook-form';
 
 //redux
-import { useDispatch } from 'react-redux'
-import { useAppSelector } from '@/redux/hooks'
-import { fetchStudentSubjects } from '@/redux/slices/student-subjects'
+import { useDispatch } from 'react-redux';
+import { useAppSelector } from '@/redux/hooks';
+import { fetchStudentSubjects } from '@/redux/slices/student-subjects';
 
 // material ui components
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
-import Divider from '@mui/material/Divider'
-import Modal from '@mui/material/Modal'
-import Typography from '@mui/material/Typography'
-import Stack from '@mui/material/Stack'
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Divider from '@mui/material/Divider';
+import Modal from '@mui/material/Modal';
+import Typography from '@mui/material/Typography';
+import Stack from '@mui/material/Stack';
 
 //custom components
-import { IconEnum } from '@/types/icons'
-import Icon from '@/components/Generic/Icon'
-import WarningIcon from '@/components/Generic/WarningIcon'
+import { IconEnum } from '@/types/icons';
+import Icon from '@/components/Generic/Icon';
+import WarningIcon from '@/components/Generic/WarningIcon';
 
 // relate utils
-import { IStudentSubjectsFormProps } from './StudentSubjectsForm.type'
-import { StudentSubjectsFormValidationSchema } from './StudentSubjectsForm.validation'
+import { IStudentSubjectsFormProps } from './StudentSubjectsForm.type';
+import { StudentSubjectsFormValidationSchema } from './StudentSubjectsForm.validation';
 
 // other utils
-import colors from '@/constants/colors'
-import studentSubjectsService from '@/services/student-subjects'
+import colors from '@/constants/colors';
+import studentSubjectsService from '@/services/student-subjects';
 import {
   IStudentSubject,
   IStudentSubjects,
-} from '@/types/student/student-subject'
+} from '@/types/student/student-subject';
 
 const defaultStudentSubjects: IStudentSubject = {
   subject_study: '',
   level_mastery_subject: '',
-}
+};
 
 const defaultInitialData: IStudentSubjects = {
   subjects: [defaultStudentSubjects],
-}
+};
 
 function StudentSubjectsForm({ onHandleClose }: IStudentSubjectsFormProps) {
-  const dispatch = useDispatch<any>()
+  const dispatch = useDispatch<any>();
   const subjectsStore = useAppSelector(
     (store) => store.studentSubjects.subjects
-  )
+  );
 
-  const [modalOpen, setModalOpen] = useState<boolean>(false)
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [selectRemoveSubjectId, setSelectRemoveSubjectId] = useState<{
-    id: string
-    index: number
+    id: string;
+    index: number;
   }>({
     id: '',
     index: -1,
-  })
+  });
 
-  const defaultFields = subjectsStore.length ? defaultInitialData.subjects : []
+  const defaultFields = subjectsStore.length ? defaultInitialData.subjects : [];
 
   const {
     handleSubmit,
@@ -73,26 +73,26 @@ function StudentSubjectsForm({ onHandleClose }: IStudentSubjectsFormProps) {
       subjects: [...(subjectsStore || []), ...defaultFields],
     },
     resolver: yupResolver(StudentSubjectsFormValidationSchema),
-  })
+  });
 
   const { fields, remove, append } = useFieldArray({
     control,
     name: 'subjects',
-  })
+  });
 
   async function handleAddSubject(data: IStudentSubjects) {
     try {
-      const subject = { ...data.subjects[data.subjects.length - 1] }
-      await studentSubjectsService.createSubject(subject)
+      const subject = { ...data.subjects[data.subjects.length - 1] };
+      await studentSubjectsService.createSubject(subject);
 
       append({
         subject_study: '',
         level_mastery_subject: '',
-      })
+      });
 
-      dispatch(fetchStudentSubjects())
+      dispatch(fetchStudentSubjects());
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
   }
 
@@ -100,30 +100,31 @@ function StudentSubjectsForm({ onHandleClose }: IStudentSubjectsFormProps) {
     setSelectRemoveSubjectId({
       id,
       index,
-    })
-    setModalOpen(true)
+    });
+    setModalOpen(true);
   }
 
   async function handleRemoveSubject() {
     try {
-      await studentSubjectsService.deleteSubject(selectRemoveSubjectId.id)
-      remove(selectRemoveSubjectId.index)
-      dispatch(fetchStudentSubjects())
+      await studentSubjectsService.deleteSubject(selectRemoveSubjectId.id);
+      remove(selectRemoveSubjectId.index);
+      dispatch(fetchStudentSubjects());
       setSelectRemoveSubjectId({
         id: '',
         index: -1,
-      })
+      });
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
   }
 
   function handleCloseModal() {
-    setModalOpen(false)
+    setModalOpen(false);
   }
 
-  function handleAddFormStudentSubject() {
-    setValue('subjects', [defaultStudentSubjects])
+  function handleAddFormStudentSubject(e: MouseEvent<HTMLElement>) {
+    e.preventDefault();
+    setValue('subjects', [defaultStudentSubjects]);
   }
 
   return (
@@ -178,6 +179,7 @@ function StudentSubjectsForm({ onHandleClose }: IStudentSubjectsFormProps) {
                 {fields.length - 1 > index ? (
                   <>
                     <Button
+                      id={`button-remove-subject-${index}`}
                       type="button"
                       size="small"
                       onClick={() => handleOpenModal(_id || '', index)}
@@ -264,6 +266,7 @@ function StudentSubjectsForm({ onHandleClose }: IStudentSubjectsFormProps) {
             variant="contained"
             size="small"
             onClick={handleAddFormStudentSubject}
+            id="button-add-subject"
           >
             <Box
               component="span"
@@ -283,7 +286,7 @@ function StudentSubjectsForm({ onHandleClose }: IStudentSubjectsFormProps) {
                 paddingTop: 2,
               }}
             >
-              Add work experience
+              Add subject
             </Box>
           </Button>
         )}
@@ -331,7 +334,7 @@ function StudentSubjectsForm({ onHandleClose }: IStudentSubjectsFormProps) {
         </Box>
       </Modal>
     </Box>
-  )
+  );
 }
 
-export default StudentSubjectsForm
+export default StudentSubjectsForm;
