@@ -28,7 +28,6 @@ import studentService from '@/services/student'
 import teacherLessonService from '@/services/teacher-lesson'
 import { useRouter } from 'next/router'
 import { convertToUserListLesson } from './AttachStudentsToLessonBlock.utils'
-import colors from '@/constants/colors'
 
 const defaultUser: IUserForLesson = {
   _id: '',

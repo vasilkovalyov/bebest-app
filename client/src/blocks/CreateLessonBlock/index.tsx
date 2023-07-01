@@ -2,9 +2,6 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 
-// material ui components
-import Box from '@mui/material/Box'
-
 //custom components
 import LessonForm from '@/components/Forms/Lesson'
 import { ITeacherLessonEditableProps } from '@/types/teacher/teacher-lesson'

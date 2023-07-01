@@ -1,5 +1,5 @@
 // libs
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import cn from 'classnames'
 
 // material ui components
@@ -16,7 +16,6 @@ import {
   IAutocompleteUserListLessonProps,
   IRenderOptionProps,
 } from './AutocompleteUserListLesson.type'
-import { IUserForLesson } from '../UserListLesson/UserListLesson'
 
 function RenderOption({ fullname, avatar }: IRenderOptionProps) {
   return (
@@ -31,12 +30,6 @@ function RenderOption({ fullname, avatar }: IRenderOptionProps) {
       </Typography>
     </Stack>
   )
-}
-
-const defaultUser: IUserForLesson = {
-  _id: '',
-  fullname: '',
-  avatar: '',
 }
 
 function AutocompleteUserListLesson({
