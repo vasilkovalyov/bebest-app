@@ -17,7 +17,7 @@ import status from '../constants/status';
 class RegistrationController {
   async registration(req: Request, res: Response) {
     try {
-      const role: UserRole = req.route.path.split('/')[2];
+      const role: UserRole = req.route.path.split('/')[1];
       const strategy = new RegistrationStrategy(
         new StudentRegistration(req.body as IRegistrationStudentProps)
       );
@@ -49,7 +49,9 @@ class RegistrationController {
 
       const response = await strategy.registration();
 
-      return res.status(status.SUCCESS).json(response);
+      return res.status(status.SUCCESS).json({
+        message: response.message,
+      });
     } catch (e) {
       if (!(e instanceof Error)) return;
       return res.status(status.BAD_REQUEST).json({
