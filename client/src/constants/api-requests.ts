@@ -4,7 +4,7 @@ export const PUBLIC_REQUESTS = {
   TEACHER_REGISTRATION: 'teacher/registration',
   COMPANY_REGISTRATION: 'company/registration',
   IS_AUTH: 'is-auth',
-  GET_SUBJECTS: 'subjects',
+  GET_SUBJECTS: '/get-subjects',
   GET_TEACHERS: 'get-teachers',
   GET_TEACHER_PROFILE: 'get-teacher-profile',
 }
