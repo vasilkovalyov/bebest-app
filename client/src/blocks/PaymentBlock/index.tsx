@@ -162,7 +162,7 @@ function PaymentBlock() {
                   <Box marginBottom={2}>
                     <PaymentCard
                       fullname={`${user.name} ${user.surname}`}
-                      onChange={(value) => setCardNumber(value)}
+                      onChange={setCardNumber}
                     />
                   </Box>
                   <Typography variant="body1" className="ta-c">
