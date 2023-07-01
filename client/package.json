@@ -9,7 +9,9 @@
     "start": "next start",
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -57,6 +59,8 @@
     "@storybook/react": "^7.0.9",
     "@storybook/testing-library": "^0.0.14-next.2",
     "@types/react-redux": "^7.1.25",
+    "cypress": "^12.16.0",
+    "cypress-slow-down": "^1.2.1",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-storybook": "^0.6.12",
     "storybook": "^7.0.9"
