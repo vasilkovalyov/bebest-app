@@ -1,8 +1,11 @@
 // libs
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 //redux
 import { useAppSelector } from '@/redux/hooks'
+
+// hooks
+import { useProgressAccount } from './useProgressAccount'
 
 // material ui components
 import Box from '@mui/material/Box'
@@ -13,36 +16,16 @@ import LinearProgress from '@mui/material/LinearProgress'
 import ListItemText from '@mui/material/ListItemText'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 
-type ProgressInfoType = {
-  label: string
-  props: {
-    title: string
-    value: string
-  }
-}
-
 function ProgressAccount() {
-  const [progressInfo, setProgressInfo] = useState<ProgressInfoType[]>([])
-  const [toggleContent, setToggleContent] = useState<boolean>(false)
   const progressAccountStore = useAppSelector(
     (store) => store.teacher.user.progress_account
   )
-
-  function getGeneratedProgressInfo() {
-    const progressArr = []
-    if (!progressAccountStore) return
-
-    for (let [key, value] of Object.entries(progressAccountStore)) {
-      if (typeof value === 'object') {
-        progressArr.push({
-          label: key,
-          props: value,
-        })
-      }
-    }
-
-    setProgressInfo(progressArr)
-  }
+  const {
+    progressInfo,
+    toggleContent,
+    setToggleContent,
+    getGeneratedProgressInfo,
+  } = useProgressAccount(progressAccountStore)
 
   useEffect(() => {
     getGeneratedProgressInfo()
