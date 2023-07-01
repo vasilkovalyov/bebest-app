@@ -1,5 +1,8 @@
 // libs
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+
+// hooks
+import { useTeachers } from './useTeachers'
 
 // material ui components
 import Grid from '@mui/material/Grid'
@@ -10,28 +13,16 @@ import CircularProgress from '@mui/material/CircularProgress'
 
 // custom components
 import ContainerWithShadow from '@/components/Generic/ContainerWithShadow'
-
-//other utils
-import teacherService from '@/services/teacher'
-import { ITeacherPreviewInfo } from '@/types/teacher/teacher'
 import TeacherPreviewCard from '@/components/TeacherPreviewCard'
 
 export default function TeachersBlock() {
-  const [teachers, setTeachers] = useState<ITeacherPreviewInfo[]>([])
-  const [loading, setLoading] = useState<boolean>(false)
-
-  async function loadTeachers() {
-    setLoading(true)
-    const response = await teacherService.getUsers()
-    setTeachers(response.data)
-    if (response.data.length) {
-      setLoading(false)
-    }
-  }
+  const { teachers, loading, loadTeachers } = useTeachers()
 
   useEffect(() => {
     loadTeachers()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
   return (
     <Grid container justifyContent="space-between" gap={1}>
       <Grid item md={4}>
