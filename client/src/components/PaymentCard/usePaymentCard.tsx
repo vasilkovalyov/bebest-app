@@ -3,6 +3,14 @@ import { useState } from 'react'
 
 type CardType = 'visa' | 'mastercard'
 
+type UsePaymentCardReturnType = {
+  cardLogo: string
+  cardNumber: string
+  formatCardNumber: (value: string) => string
+  onChangeCardNumber: (number: string) => void
+  getDisplayNumbers: () => string[]
+}
+
 const cardTypeImage = {
   visa: 'https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/visa.png',
   masterCard:
@@ -23,7 +31,7 @@ function getImageTypeOnValue(imageType: CardType | null): string {
   return ''
 }
 
-export function usePaymentCard(value: string | '') {
+export function usePaymentCard(value: string | ''): UsePaymentCardReturnType {
   const [cardNumber, setCardNumber] = useState<string>(value)
   const [cardLogo, setCardLogo] = useState<string>(
     getImageTypeOnValue(getCardType(value))
@@ -39,7 +47,7 @@ export function usePaymentCard(value: string | '') {
     setCardNumber(number)
   }
 
-  function formatCardNumber(value: string) {
+  function formatCardNumber(value: string): string {
     let v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '')
     let matches = v.match(/\d{4,16}/g)
     let match = (matches && matches[0]) || ''
@@ -64,6 +72,7 @@ export function usePaymentCard(value: string | '') {
       }
       displayNumber.push(displayDigit)
     }
+
     return displayNumber
   }
 

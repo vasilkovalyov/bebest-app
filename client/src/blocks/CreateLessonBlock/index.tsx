@@ -1,38 +1,21 @@
-// libs
-import { useState } from 'react'
-import { useRouter } from 'next/router'
+// hooks
+import { useCreateLesson } from './useCreateLesson'
 
 //custom components
 import LessonForm from '@/components/Forms/Lesson'
-import { ITeacherLessonEditableProps } from '@/types/teacher/teacher-lesson'
 
 //other utils
-import teacherLessonService from '@/services/teacher-lesson'
 import { LessonType } from '@/types/lessons'
-import { pageRoutesPrivate } from '@/constants/page-routes'
 
 function CreateLessonBlock({ lessonType }: { lessonType: LessonType }) {
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const router = useRouter()
-
-  async function onHandleSubmit(props: ITeacherLessonEditableProps) {
-    setIsLoading(true)
-    const response = await teacherLessonService.createLesson({
-      ...props,
-      type: lessonType,
-    })
-    setIsLoading(false)
-    router.push(
-      `/${pageRoutesPrivate.cabinetUpdateLesson}/${response.data._id}`
-    )
-  }
+  const { loading, onSubmit } = useCreateLesson(lessonType)
 
   return (
     <LessonForm
-      isLoading={isLoading}
+      isLoading={loading}
       lessonType={lessonType}
       mode="create"
-      onSubmit={onHandleSubmit}
+      onSubmit={onSubmit}
     />
   )
 }

@@ -2,6 +2,7 @@
 import { GetServerSideProps } from 'next/types'
 import Link from 'next/link'
 import { AxiosError } from 'axios'
+import { parseCookies } from 'nookies'
 
 // material ui components
 import Box from '@mui/material/Box'
@@ -20,10 +21,8 @@ import AttachStudentsToLessonBlock from '@/blocks/AttachStudentsToLessonBlock'
 //other utils
 import teacherLessonService from '@/services/teacher-lesson'
 import { ITeacherLessonExtended } from '@/types/teacher/teacher-lesson'
-import { parseCookies } from 'nookies'
 
 export default function UpdateLesson(props: ITeacherLessonExtended) {
-  console.log('props', props)
   return (
     <Layout
       title="Create teacher course"
@@ -91,7 +90,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       props: lessonResponse.data,
     }
   } catch (e) {
-    console.log('e', e)
     if (e instanceof AxiosError) {
       console.log(e.message)
     }

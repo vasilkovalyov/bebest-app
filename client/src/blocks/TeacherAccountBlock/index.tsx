@@ -41,9 +41,7 @@ function TeacherAccount() {
 
   async function handleRemoveAccount() {
     try {
-      let response: unknown | any
-
-      response = await teacherService.deleteAccount()
+      const response = await teacherService.deleteAccount()
 
       if (response.data.data) {
         logOut()
