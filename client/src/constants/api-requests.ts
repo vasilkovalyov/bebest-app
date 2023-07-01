@@ -17,7 +17,7 @@ export const STUDENT_REQUESTS = {
   CREATE_SUBJECT: '/student/create-subject',
   DELETE_SUBJECT: '/student/delete-subject',
   GET_SUBJECTS: '/student/get-subjects',
-  GET_STUDENTS: 'get-students',
+  GET_STUDENTS: '/get-students',
 }
 
 export const TEACHER_REQUESTS = {

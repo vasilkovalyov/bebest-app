@@ -17,7 +17,7 @@ class StudentService {
     return response
   }
 
-  async registrationStudent(
+  async registration(
     props: IStudentRegistration
   ): Promise<AxiosResponse<IRegistrationResponse>> {
     const response = await $api().post(
@@ -33,7 +33,6 @@ class StudentService {
 
   async deleteAccount(): Promise<AxiosResponse<{ data: boolean }>> {
     const response = await $api().delete(STUDENT_REQUESTS.DELETE_ACCOUNT)
-
     return response
   }
 
@@ -58,7 +57,7 @@ class StudentService {
   }
 
   async getStudents(): Promise<AxiosResponse<IStudent[]>> {
-    const response = await $api().get(`/${STUDENT_REQUESTS.GET_STUDENTS}`)
+    const response = await $api().get(STUDENT_REQUESTS.GET_STUDENTS)
     return response
   }
 }

@@ -83,7 +83,7 @@ function StudentSubjectsForm({ onHandleClose }: IStudentSubjectsFormProps) {
   async function handleAddSubject(data: IStudentSubjects) {
     try {
       const subject = { ...data.subjects[data.subjects.length - 1] }
-      await studentSubjectsService.addSubject(subject)
+      await studentSubjectsService.createSubject(subject)
 
       append({
         subject_study: '',

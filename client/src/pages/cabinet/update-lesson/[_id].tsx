@@ -86,7 +86,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const { token } = parseCookies(context)
     const lessonId = context.query._id
-    const lessonResponse = await teacherLessonService.getLessonById(
+    const lessonResponse = await teacherLessonService.getLesson(
       lessonId as string,
       token
     )

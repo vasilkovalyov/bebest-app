@@ -4,7 +4,7 @@ import $api from '@/utils/ajax'
 import { AxiosResponse } from 'axios'
 
 class TeacherСertificatesService {
-  async addCertificate(
+  async createCertificate(
     props: IСertificate
   ): Promise<AxiosResponse<{ message: string }>> {
     const response = await $api('', 'multipart/form-data').post(

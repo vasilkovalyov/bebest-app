@@ -30,7 +30,7 @@ class TeacherLessonModuleService {
     return response
   }
 
-  async deleteLessonModuleById(lessonId: string, lessonModuleId: string) {
+  async deleteLessonModule(lessonId: string, lessonModuleId: string) {
     const response = await $api().delete(
       TEACHER_REQUESTS.DELETE_LESSON_MODULE,
       {
@@ -43,7 +43,7 @@ class TeacherLessonModuleService {
     return response
   }
 
-  async getLessonModuleById(
+  async getLessonModule(
     id: string,
     token: string | null
   ): Promise<AxiosResponse<ITeacherLessonExtended>> {

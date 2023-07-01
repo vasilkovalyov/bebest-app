@@ -44,7 +44,7 @@ export default function Registration() {
     try {
       setIsLoading(true)
       if (role === 'student') {
-        const response = await studentService.registrationStudent(data as S)
+        const response = await studentService.registration(data as S)
         setSuccessMessage(response.data.message)
       }
       if (role === 'teacher') {

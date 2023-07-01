@@ -29,14 +29,14 @@ class TeacherLessonService {
     return response
   }
 
-  async removeLessonById(id: string) {
+  async deleteLesson(id: string) {
     const response = await $api().delete(
       `${TEACHER_REQUESTS.DELETE_LESSON}/${id}`
     )
     return response
   }
 
-  async getLessonById(
+  async getLesson(
     id: string,
     token: string | null
   ): Promise<AxiosResponse<ITeacherLessonExtended>> {

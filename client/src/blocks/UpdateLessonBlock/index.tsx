@@ -42,7 +42,7 @@ function UpdateLessonBlock({ initialData }: IUpdateLessonBlockProps) {
         type: lesson?.type as LessonType,
       })
 
-      const updateLessonResponse = await teacherLessonService.getLessonById(
+      const updateLessonResponse = await teacherLessonService.getLesson(
         query._id as string,
         null
       )

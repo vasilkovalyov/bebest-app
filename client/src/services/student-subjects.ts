@@ -4,7 +4,7 @@ import $api from '@/utils/ajax'
 import { AxiosResponse } from 'axios'
 
 class StudentSubjectsService {
-  async addSubject(
+  async createSubject(
     subject: IStudentSubject
   ): Promise<AxiosResponse<{ message: string }>> {
     const response = await $api().post(STUDENT_REQUESTS.CREATE_SUBJECT, {

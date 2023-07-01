@@ -146,7 +146,7 @@ function LessonModules({ items }: ILessonModulesProps) {
 
   async function onHandleRemoveLessonModule() {
     setIsLoadingRemoveButton(true)
-    await teacherLessonModuleService.deleteLessonModuleById(
+    await teacherLessonModuleService.deleteLessonModule(
       query._id as string,
       selectedId as string
     )
