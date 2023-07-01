@@ -1,6 +1,13 @@
 // libs
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+
+// hooks
+import { useRegistration } from '@/hooks/useRegistration'
+
+// types
+import { ICompanyRegistration } from '@/types/company/company'
 
 // material ui components
 import Box from '@mui/material/Box'
@@ -12,13 +19,13 @@ import CircularProgress from '@mui/material/CircularProgress'
 // relate utils
 import { IRegistrationCompanyFormProps } from './RegistrationCompany.type'
 import { RegistrationFormValidationSchema } from './RegistrationCompany.validation'
-import { ICompanyRegistration } from '@/types/company/company'
 
 function RegistrartionCompanyForm({
-  onSubmit,
-  isLoading,
-  validationMessage,
+  onSuccess,
 }: IRegistrationCompanyFormProps) {
+  const { loading, messageSuccess, messageValidation, onSubmit } =
+    useRegistration<ICompanyRegistration>('company')
+
   const {
     handleSubmit,
     register,
@@ -27,6 +34,13 @@ function RegistrartionCompanyForm({
     mode: 'onSubmit',
     resolver: yupResolver(RegistrationFormValidationSchema),
   })
+
+  useEffect(() => {
+    if (messageSuccess) {
+      onSuccess && onSuccess(messageSuccess)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [messageSuccess])
 
   return (
     <form
@@ -103,6 +117,7 @@ function RegistrartionCompanyForm({
           label="Password"
           variant="standard"
           className="form-field"
+          autoComplete="off"
           fullWidth
           InputLabelProps={{ shrink: true }}
           error={!!errors.password?.message}
@@ -118,15 +133,16 @@ function RegistrartionCompanyForm({
           label="Confirm password"
           variant="standard"
           className="form-field"
+          autoComplete="off"
           fullWidth
           InputLabelProps={{ shrink: true }}
           error={!!errors.confirm_password?.message}
           helperText={errors.confirm_password?.message}
         />
       </Box>
-      {validationMessage && (
+      {messageValidation && (
         <Box marginBottom={2}>
-          <Typography variant="body2">{validationMessage}</Typography>
+          <Typography variant="body2">{messageValidation}</Typography>
         </Box>
       )}
       <Box display="flex" alignItems="center" justifyContent="center">
@@ -134,11 +150,11 @@ function RegistrartionCompanyForm({
           type="submit"
           variant="contained"
           size="small"
-          disabled={isLoading}
+          disabled={loading}
         >
           Registration
         </Button>
-        <Box ml={2}>{isLoading ? <CircularProgress size={16} /> : null}</Box>
+        <Box ml={2}>{loading ? <CircularProgress size={16} /> : null}</Box>
       </Box>
     </form>
   )

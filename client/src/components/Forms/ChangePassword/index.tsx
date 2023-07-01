@@ -103,6 +103,7 @@ function ChangePasswordForm() {
             label="Password"
             variant="standard"
             className="form-field"
+            autoComplete="off"
             fullWidth
             InputLabelProps={{ shrink: true }}
             error={!!errors.password?.message}
@@ -118,6 +119,7 @@ function ChangePasswordForm() {
             label="Confirm password"
             variant="standard"
             className="form-field"
+            autoComplete="off"
             fullWidth
             InputLabelProps={{ shrink: true }}
             error={!!errors.confirm_password?.message}

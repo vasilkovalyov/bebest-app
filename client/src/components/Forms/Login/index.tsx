@@ -6,6 +6,9 @@ import { yupResolver } from '@hookform/resolvers/yup'
 // hooks
 import { useLogin } from './useLogin'
 
+// types
+import { IconEnum } from '@/types/icons'
+
 // material ui components
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -17,9 +20,6 @@ import CircularProgress from '@mui/material/CircularProgress'
 // custom components
 import Icon from '@/components/Generic/Icon'
 import ContainerWithShadow from '@/components/Generic/ContainerWithShadow'
-
-// other utils
-import { IconEnum } from '@/types/icons'
 
 // relate utils
 import { ILogin } from './Login.type'
@@ -54,6 +54,7 @@ function LoginForm() {
             label="Email"
             variant="standard"
             className="form-field"
+            autoComplete="off"
             fullWidth
             InputLabelProps={{ shrink: true }}
             error={!!errors.email?.message}
@@ -69,6 +70,7 @@ function LoginForm() {
             label="Password"
             variant="standard"
             className="form-field"
+            autoComplete="off"
             fullWidth
             InputLabelProps={{ shrink: true }}
             InputProps={{

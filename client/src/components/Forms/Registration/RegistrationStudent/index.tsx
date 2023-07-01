@@ -1,6 +1,13 @@
 // libs
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+
+// hooks
+import { useRegistration } from '@/hooks/useRegistration'
+
+// types
+import { IStudentRegistration } from '@/types/student/student'
 
 // material ui components
 import Box from '@mui/material/Box'
@@ -12,13 +19,12 @@ import CircularProgress from '@mui/material/CircularProgress'
 // relate utils
 import { IRegistrationStudentFormProps } from './RegistrationStudent.type'
 import { RegistrationFormValidationSchema } from './RegistrationStudent.validation'
-import { IStudentRegistration } from '@/types/student/student'
 
 function RegistrartionStudentForm({
-  onSubmit,
-  isLoading,
-  validationMessage,
+  onSuccess,
 }: IRegistrationStudentFormProps) {
+  const { loading, messageSuccess, messageValidation, onSubmit } =
+    useRegistration<IStudentRegistration>('student')
   const {
     handleSubmit,
     register,
@@ -28,10 +34,17 @@ function RegistrartionStudentForm({
     resolver: yupResolver(RegistrationFormValidationSchema),
   })
 
+  useEffect(() => {
+    if (messageSuccess) {
+      onSuccess && onSuccess(messageSuccess)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [messageSuccess])
+
   return (
     <form
       name="form-registration"
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit((props) => onSubmit(props))}
       className="form form-login"
     >
       <Box marginBottom={2}>
@@ -88,6 +101,7 @@ function RegistrartionStudentForm({
           label="Password"
           variant="standard"
           className="form-field"
+          autoComplete="off"
           fullWidth
           InputLabelProps={{ shrink: true }}
           error={!!errors.password?.message}
@@ -103,15 +117,16 @@ function RegistrartionStudentForm({
           label="Confirm password"
           variant="standard"
           className="form-field"
+          autoComplete="off"
           fullWidth
           InputLabelProps={{ shrink: true }}
           error={!!errors.confirm_password?.message}
           helperText={errors.confirm_password?.message}
         />
       </Box>
-      {validationMessage && (
+      {messageValidation && (
         <Box marginBottom={2}>
-          <Typography variant="body2">{validationMessage}</Typography>
+          <Typography variant="body2">{messageValidation}</Typography>
         </Box>
       )}
       <Box display="flex" alignItems="center" justifyContent="center">
@@ -119,11 +134,11 @@ function RegistrartionStudentForm({
           type="submit"
           variant="contained"
           size="small"
-          disabled={isLoading}
+          disabled={loading}
         >
           Registration
         </Button>
-        <Box ml={2}>{isLoading ? <CircularProgress size={16} /> : null}</Box>
+        <Box ml={2}>{loading ? <CircularProgress size={16} /> : null}</Box>
       </Box>
     </form>
   )

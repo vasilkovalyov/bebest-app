@@ -3,7 +3,6 @@ import { useState } from 'react'
 import Link from 'next/link'
 
 // material ui components
-
 import Breadcrumbs from '@mui/material/Breadcrumbs'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
@@ -19,50 +18,13 @@ import ContainerWithShadow from '@/components/Generic/ContainerWithShadow'
 import RegistrationStudentForm from '@/components/Forms/Registration/RegistrationStudent'
 import RegistrationTeacherForm from '@/components/Forms/Registration/RegistrationTeacher'
 import RegistrationCompanyForm from '@/components/Forms/Registration/RegistrationCompany'
-import { IStudentRegistration } from '@/types/student/student'
-import { ITeacherRegistration } from '@/types/teacher/teacher'
-import { ICompanyRegistration } from '@/types/company/company'
-
-// other utils
-import { UserRole } from '@/types/role'
-import studentService from '@/services/student'
-import teacherService from '@/services/teacher'
-import companyService from '@/services/company'
-import { AxiosError } from 'axios'
 
 export default function Registration() {
   const [tabValue, setTabValue] = useState<number>(0)
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [errorMessage, setErrorMessage] = useState<string | null>(null)
-  const [successMessage, setSuccessMessage] = useState<string | null>(null)
+  const [messageSuccess, setMessageSuccess] = useState<string | null>(null)
 
-  async function handleRegistration<
-    S extends IStudentRegistration,
-    T extends ITeacherRegistration,
-    C extends ICompanyRegistration
-  >(role: UserRole, data: S | T | C) {
-    try {
-      setIsLoading(true)
-      if (role === 'student') {
-        const response = await studentService.registration(data as S)
-        setSuccessMessage(response.data.message)
-      }
-      if (role === 'teacher') {
-        const response = await teacherService.registration(data as T)
-        setSuccessMessage(response.data.message)
-      }
-      if (role === 'company') {
-        const response = await companyService.registration(data as C)
-        setSuccessMessage(response.data.message)
-      }
-    } catch (e) {
-      setIsLoading(false)
-      if (e instanceof AxiosError) {
-        setErrorMessage(e.response?.data.message)
-      }
-    } finally {
-      setIsLoading(false)
-    }
+  function onSuccess(msg: string) {
+    setMessageSuccess(msg)
   }
 
   return (
@@ -84,7 +46,7 @@ export default function Registration() {
         <Typography variant="h3" className="ta-c" marginBottom={3}>
           Registration
         </Typography>
-        {successMessage === null ? (
+        {messageSuccess === null ? (
           <Box
             maxWidth={400}
             marginBottom={8}
@@ -130,11 +92,7 @@ export default function Registration() {
                     A student can study, participate in free and paid workshops,
                     courses and book individual lessons
                   </Typography>
-                  <RegistrationStudentForm
-                    onSubmit={(props) => handleRegistration('student', props)}
-                    isLoading={isLoading}
-                    validationMessage={errorMessage}
-                  />
+                  <RegistrationStudentForm onSuccess={onSuccess} />
                 </TabPanel>
                 <TabPanel value={tabValue} index={1}>
                   <Typography
@@ -145,11 +103,7 @@ export default function Registration() {
                     A mentor can create and conduct workshops and individual
                     classes with students, on a paid or free basis
                   </Typography>
-                  <RegistrationTeacherForm
-                    onSubmit={(props) => handleRegistration('teacher', props)}
-                    isLoading={isLoading}
-                    validationMessage={errorMessage}
-                  />
+                  <RegistrationTeacherForm onSuccess={onSuccess} />
                 </TabPanel>
                 <TabPanel value={tabValue} index={2}>
                   <Typography
@@ -160,18 +114,14 @@ export default function Registration() {
                     The company has opportunities to create courses, register,
                     appoint mentors and conduct courses on a paid and free basis
                   </Typography>
-                  <RegistrationCompanyForm
-                    onSubmit={(props) => handleRegistration('company', props)}
-                    isLoading={isLoading}
-                    validationMessage={errorMessage}
-                  />
+                  <RegistrationCompanyForm onSuccess={onSuccess} />
                 </TabPanel>
               </Box>
             </ContainerWithShadow>
           </Box>
         ) : (
           <Box textAlign="center" marginBottom={8}>
-            <Typography marginBottom={2}>{successMessage}</Typography>
+            <Typography marginBottom={2}>{messageSuccess}</Typography>
             <Button href="/" variant="contained" size="small">
               Ok
             </Button>
