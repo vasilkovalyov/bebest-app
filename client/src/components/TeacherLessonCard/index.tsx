@@ -3,18 +3,16 @@ import Link from 'next/link'
 import cn from 'classnames'
 import dayjs from 'dayjs'
 
+//types
+import { IconEnum } from '@/types/icons'
+
 // material ui components
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
-import Divider from '@mui/material/Divider'
 
 //custom components
-import PreviewInfo from '@/components/Previews/PreviewInfo'
-import BadgeDate from '@/components/Badges/BadgeDate'
-import BadgeTime from '@/components/Badges/BadgeTime'
 import Icon from '@/components/Generic/Icon'
-import { IconEnum } from '@/types/icons'
 
 //relate util
 import { ITeacherLessonCardProps } from './TeacherLessonCard.type'

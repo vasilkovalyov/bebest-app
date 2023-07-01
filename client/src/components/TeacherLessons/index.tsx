@@ -2,6 +2,9 @@
 import { useEffect, useState } from 'react'
 import cn from 'classnames'
 
+// services
+import teacherLessonService from '@/services/teacher-lesson'
+
 // material ui components
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
@@ -14,17 +17,12 @@ import Icon from '@/components/Generic/Icon'
 import { IconEnum } from '@/types/icons'
 
 import TeacherLessonCard from '@/components/TeacherLessonCard'
-import {
-  ITeacherLesson,
-  ITeacherLessonExtended,
-} from '@/types/teacher/teacher-lesson'
-import { ITeacherLessonCardProps } from '@/components/TeacherLessonCard/TeacherLessonCard.type'
+import { ITeacherLessonExtended } from '@/types/teacher/teacher-lesson'
 
 //relate util
 import { ITeacherLessonsProps } from './TeacherLessons.type'
 
 //other utils
-import teacherLessonService from '@/services/teacher-lesson'
 import colors from '@/constants/colors'
 
 function TeacherLessons({ className }: ITeacherLessonsProps) {
