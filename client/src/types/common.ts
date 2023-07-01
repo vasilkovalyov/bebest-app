@@ -1,4 +1,11 @@
+import { UserRole } from './role'
 import { ISubjectCategory } from './subjects'
+
+export interface AuthenticationUserResponse {
+  userId: string
+  role: UserRole
+  token: string
+}
 
 export interface IVideo {
   width: number

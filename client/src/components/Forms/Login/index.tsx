@@ -2,11 +2,9 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useRouter } from 'next/router'
-import { AxiosError } from 'axios'
 
-//redux
-import { useActions } from '@/redux/hooks'
+// hooks
+import { useLogin } from './useLogin'
 
 // material ui components
 import Box from '@mui/material/Box'
@@ -22,23 +20,13 @@ import ContainerWithShadow from '@/components/Generic/ContainerWithShadow'
 
 // other utils
 import { IconEnum } from '@/types/icons'
-import studentService from '@/services/student'
-import teacherService from '@/services/teacher'
-import companyService from '@/services/company'
-import pages from '@/constants/pages'
-import { loginUser } from '@/components/Forms/Login/Login.service'
 
 // relate utils
 import { ILogin } from './Login.type'
 import { LoginFormValidationSchema } from './Login.validation'
 
 function LoginForm() {
-  const router = useRouter()
-  const { setAuthState, setStudentState, setTeacherState, setCompanyState } =
-    useActions()
-
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const { loading, messageValidation, onSubmit } = useLogin()
   const [showPassword, setShowPassword] = useState<boolean>(false)
 
   const {
@@ -49,64 +37,6 @@ function LoginForm() {
     mode: 'onSubmit',
     resolver: yupResolver(LoginFormValidationSchema),
   })
-
-  async function onSubmit({ email, password }: ILogin) {
-    try {
-      setIsLoading(true)
-      const loginResponse = await loginUser(email, password)
-      if (loginResponse.status === 200) {
-        setErrorMessage(null)
-      }
-
-      const { role, token, userId } = loginResponse.data
-
-      router.push(pages.cabinet).then(() => {
-        if (role === 'student') {
-          studentService.getAccountInfo().then((userResponse) => {
-            setAuthState({
-              _id: userResponse.data._id,
-              name: userResponse.data.name,
-              surname: userResponse.data.surname,
-              avatar: userResponse.data.avatar,
-              role: userResponse.data.role,
-            })
-            setStudentState(userResponse.data)
-          })
-        }
-        if (role === 'teacher') {
-          teacherService.getAccountInfo().then((userResponse) => {
-            setAuthState({
-              _id: userResponse.data._id,
-              name: userResponse.data.name,
-              surname: userResponse.data.surname,
-              avatar: userResponse.data.avatar,
-              role: userResponse.data.role,
-            })
-            setTeacherState(userResponse.data)
-          })
-        }
-        if (role === 'company') {
-          companyService.getAccountInfo().then((userResponse) => {
-            setAuthState({
-              _id: userResponse.data._id,
-              name: userResponse.data.admin_name,
-              surname: userResponse.data.admin_surname,
-              avatar: userResponse.data.avatar,
-              role: userResponse.data.role,
-            })
-            setCompanyState(userResponse.data)
-          })
-        }
-
-        setIsLoading(false)
-      })
-    } catch (e) {
-      if (e instanceof AxiosError) {
-        setErrorMessage(e.response?.data.error)
-      }
-      setIsLoading(false)
-    }
-  }
 
   return (
     <ContainerWithShadow className="container--login">
@@ -160,10 +90,10 @@ function LoginForm() {
             helperText={errors.password?.message}
           />
         </Box>
-        {errorMessage && (
+        {messageValidation && (
           <Box marginBottom={2}>
             <Typography variant="body2" color="danger" textAlign="center">
-              {errorMessage}
+              {messageValidation}
             </Typography>
           </Box>
         )}
@@ -172,11 +102,11 @@ function LoginForm() {
             type="submit"
             variant="contained"
             size="small"
-            disabled={isLoading}
+            disabled={loading}
           >
             Sign in
           </Button>
-          <Box ml={2}>{isLoading ? <CircularProgress size={16} /> : null}</Box>
+          <Box ml={2}>{loading ? <CircularProgress size={16} /> : null}</Box>
         </Box>
       </form>
     </ContainerWithShadow>
