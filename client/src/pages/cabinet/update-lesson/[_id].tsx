@@ -69,10 +69,7 @@ export default function UpdateLesson(props: ITeacherLessonExtended) {
             </Grid>
             {props.type === 'multiple' ? (
               <Grid item xs={12}>
-                <TeacherTrainingPlanBlock
-                  items={props.modules || []}
-                  editType={true}
-                />
+                <TeacherTrainingPlanBlock items={props.modules || []} />
               </Grid>
             ) : null}
           </Grid>

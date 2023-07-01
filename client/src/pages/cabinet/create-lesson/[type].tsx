@@ -14,7 +14,7 @@ import Layout from '@/layouts/Layout'
 import { pageRoutesPrivate } from '@/constants/page-routes'
 import CreateLessonBlock from '@/blocks/CreateLessonBlock'
 import { LessonType } from '@/types/lessons'
-import TeacherTrainingPlanBlock from '@/blocks/TeacherTrainingPlanBlock'
+import { TeacherTrainingPlanDefaultContent } from '@/blocks/TeacherTrainingPlanBlock'
 
 export default function CreateLesson() {
   const { query } = useRouter()
@@ -61,7 +61,7 @@ export default function CreateLesson() {
               <Box className="lesson-page__aside" marginBottom={4}></Box>
             </Grid>
             <Grid item xs={12}>
-              <TeacherTrainingPlanBlock />
+              <TeacherTrainingPlanDefaultContent />
             </Grid>
           </Grid>
         </Box>

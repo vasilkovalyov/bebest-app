@@ -24,7 +24,7 @@ import { ITeacherLessonModule } from '@/types/teacher/teacher-lesson-module'
 import teacherLessonModuleService from '@/services/teacher-lesson-module'
 import LessonModules from '@/components/LessonModules'
 
-function TeacherTrainingPlanDefaultContent() {
+export function TeacherTrainingPlanDefaultContent() {
   return (
     <Box marginBottom={4}>
       <ContainerWithShadow paddingSize="sm">
@@ -48,7 +48,6 @@ function TeacherTrainingPlanDefaultContent() {
 
 function TeacherTrainingPlanBlock({
   items = [],
-  editType,
 }: ITeacherTrainingPlanBlockProps) {
   const { query } = useRouter()
   const [modalOpen, setModalOpen] = useState<boolean>(false)
@@ -71,10 +70,6 @@ function TeacherTrainingPlanBlock({
     const responseLessonModules =
       await teacherLessonModuleService.getModulesLesson(lessonId)
     setLessonModules(responseLessonModules.data)
-  }
-
-  if (!editType) {
-    return <TeacherTrainingPlanDefaultContent />
   }
 
   return (

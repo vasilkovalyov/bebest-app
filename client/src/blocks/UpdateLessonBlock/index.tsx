@@ -1,6 +1,8 @@
 // libs
-import { useState } from 'react'
 import { useRouter } from 'next/router'
+
+// hooks
+import { useLesson } from './useLesson'
 
 // material ui components
 import Box from '@mui/material/Box'
@@ -11,70 +13,38 @@ import IconButton from '@mui/material/IconButton'
 
 //custom components
 import LessonForm from '@/components/Forms/Lesson'
-import {
-  ITeacherLessonEditableProps,
-  ITeacherLessonExtended,
-  ITeacherLessonUpdateEditableProps,
-} from '@/types/teacher/teacher-lesson'
 
 //other utils
-import teacherLessonService from '@/services/teacher-lesson'
-import { LessonType } from '@/types/lessons'
 import AlertTitle from '@mui/material/AlertTitle'
 
 //relate utils
 import { IUpdateLessonBlockProps } from './UpdateLessonBlock.type'
 
 function UpdateLessonBlock({ initialData }: IUpdateLessonBlockProps) {
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [showNotification, setShowNotification] = useState(false)
   const { query } = useRouter()
-  const [lesson, setLesson] =
-    useState<ITeacherLessonUpdateEditableProps>(initialData)
-  const [responseMessage, setResponseMessage] = useState<string | null>(null)
-
-  async function onHandleSubmit(props: ITeacherLessonEditableProps) {
-    try {
-      setIsLoading(true)
-      const response = await teacherLessonService.updateLesson({
-        ...props,
-        _id: query._id as string,
-        type: lesson?.type as LessonType,
-      })
-
-      const updateLessonResponse = await teacherLessonService.getLesson(
-        query._id as string,
-        null
-      )
-      if (response.status === 200) {
-        setResponseMessage(response.data.message)
-        setShowNotification(true)
-      }
-      setLesson(updateLessonResponse.data)
-      setIsLoading(false)
-    } catch (e) {
-      console.log(e)
-    }
-  }
-
-  function closeNotification() {
-    setShowNotification(false)
-  }
+  const {
+    lesson,
+    loading,
+    responseMessage,
+    notification,
+    onSubmit,
+    closeNotification,
+  } = useLesson(query._id as string, initialData)
 
   return (
     <Box>
       <LessonForm
-        isLoading={isLoading}
+        isLoading={loading}
         lessonType={lesson?.type}
         mode="update"
         initialData={{
           ...lesson,
           subject: lesson.subject._id,
         }}
-        onSubmit={onHandleSubmit}
+        onSubmit={onSubmit}
       />
       <Snackbar
-        open={showNotification}
+        open={notification}
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         autoHideDuration={3000}
         onClose={closeNotification}
