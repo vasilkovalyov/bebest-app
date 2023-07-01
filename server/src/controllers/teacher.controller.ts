@@ -217,14 +217,14 @@ class TeacherController {
     }
   }
 
-  async getPersonalnfo(req: RequestWithAuthUser, res: Response) {
+  async getPersonalInfo(req: RequestWithAuthUser, res: Response) {
     if (!req.user)
       return res
         .status(status.NOT_FOUND)
         .json(responseTeacherMessages.notUserByToken);
 
     try {
-      const response = await teacherPersonalInfoService.getPersonalnfo(
+      const response = await teacherPersonalInfoService.getPersonalInfo(
         req.user._id
       );
       return res.status(status.SUCCESS).json(response);

@@ -135,7 +135,7 @@ class TeacherPersonalInfoService {
     };
   }
 
-  async getPersonalnfo(id: string) {
+  async getPersonalInfo(id: string) {
     const response = await TeacherPersonalInfoModel.findOne({
       teacherId: id,
     }).select(

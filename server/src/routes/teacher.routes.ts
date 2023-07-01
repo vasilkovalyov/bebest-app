@@ -73,7 +73,7 @@ router.delete(
 router.get(
   '/teacher/get-personal-info',
   authMiddleware,
-  teacherController.getPersonalnfo
+  teacherController.getPersonalInfo
 );
 
 router.post(
