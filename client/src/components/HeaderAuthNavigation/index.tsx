@@ -1,6 +1,9 @@
 // libs
 import Link from 'next/link'
 
+// types
+import { IconEnum } from '@/types/icons'
+
 // material ui components
 import Stack from '@mui/material/Stack'
 import Box from '@mui/material/Box'
@@ -9,7 +12,6 @@ import Typography from '@mui/material/Typography'
 
 // custom components
 import Icon from '@/components/Generic/Icon'
-import { IconEnum } from '@/types/icons'
 
 // other utils
 import pages from '@/constants/pages'

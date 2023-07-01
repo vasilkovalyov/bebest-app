@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 //redux
-import { useAppSelector } from '../../redux/hooks'
+import { useAppSelector } from '@/redux/hooks'
 
 // material ui components
 import Container from '@mui/material/Container'
@@ -11,14 +11,16 @@ import Stack from '@mui/material/Stack'
 import Box from '@mui/material/Box'
 
 // custom components
-import HeaderNavigation from '../HeaderNavigation'
-import HeaderToolbar from '../HeaderToolbar'
+import HeaderNavigation from '@/components/HeaderNavigation'
+import HeaderToolbar from '@/components/HeaderToolbar'
 import HeaderAuthNavigation from '@/components/HeaderAuthNavigation'
 import AccountSocialNotification from '@/components/AccountSocialNotification'
 
+// relate utils
+import { menu } from './Header.model'
+
 // other utils
 import pages from '@/constants/pages'
-import { menu } from './Header.model'
 
 function Header() {
   const { isAuth } = useAppSelector((state) => state.user)

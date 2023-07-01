@@ -1,8 +1,12 @@
+// libs
+import Link from 'next/link'
+import Head from 'next/head'
+
 //redux
 import { useAppSelector } from '@/redux/hooks'
 
-import Link from 'next/link'
-import Head from 'next/head'
+// types
+import { UserRole } from '@/types/role'
 
 // material ui components
 import Container from '@mui/material/Container'
@@ -20,6 +24,16 @@ import ProgressAccount from '@/components/ProgressAccount'
 
 // other utils
 import profilePages from '../constants/profile-pages'
+
+function LayoutProgressAccount({ role }: { role: UserRole }) {
+  if (role !== 'teacher') return null
+  return (
+    <Box paddingTop={2} paddingX={3} marginBottom={2}>
+      <ProgressAccount />
+      <Divider />
+    </Box>
+  )
+}
 
 function CabinetLayout({
   currentPageTitle,
@@ -77,13 +91,8 @@ function CabinetLayout({
               className="section-cabinet__aside"
             >
               <CabinetSidebarUserInfo />
-              {teacherStore.role === 'teacher' &&
-              teacherStore.progress_account &&
-              teacherStore.progress_account.profile_progress ? (
-                <Box paddingTop={2} paddingX={3} marginBottom={2}>
-                  <ProgressAccount />
-                  <Divider />
-                </Box>
+              {teacherStore.role ? (
+                <LayoutProgressAccount role={teacherStore.role} />
               ) : null}
               <Box
                 component="ul"

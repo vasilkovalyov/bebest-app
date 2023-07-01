@@ -1,20 +1,22 @@
 // libs
 import Link from 'next/link'
 
-//redux
+// redux
 import { useAppSelector } from '@/redux/hooks'
+
+// types
+import { UserRole } from '@/types/role'
+import { IconEnum } from '@/types/icons'
 
 // material ui components
 import Stack from '@mui/material/Stack'
 import Badge from '@mui/material/Badge'
 
-//custom components
+// custom components
 import Icon from '@/components/Generic/Icon'
-import { IconEnum } from '@/types/icons'
 
 // other utils
 import profilePages from '@/constants/profile-pages'
-import { UserRole } from '@/types/role'
 
 const getLinkByRole = (role: UserRole) => {
   return role !== 'company' ? profilePages.lessons : profilePages.courses
