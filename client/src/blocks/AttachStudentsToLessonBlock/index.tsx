@@ -1,5 +1,6 @@
 // libs
 import { useEffect, useState } from 'react'
+import { AxiosError } from 'axios'
 
 // material ui components
 import Box from '@mui/material/Box'
@@ -45,6 +46,7 @@ function AttachStudentsToLessonBlock() {
   const [students, setStudents] = useState<IUserForLesson[]>([])
   const [modalOpen, setModalOpen] = useState<boolean>(false)
   const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false)
+  const [snackbarMessage, setSnackbarMessage] = useState<string | null>(null)
 
   function openDropdown() {
     if (options.length) return
@@ -82,12 +84,17 @@ function AttachStudentsToLessonBlock() {
     }
   }
 
+  function existUserInList() {
+    return students.find((item) => item._id === selectedStudent._id)
+  }
+
   async function onHandleAddStudent() {
-    const existInArr = students.find((item) => item._id === selectedStudent._id)
-    if (existInArr) {
+    if (existUserInList()) {
+      setSnackbarMessage('Student already exist in the list!')
       setSnackbarOpen(true)
       return
     }
+
     try {
       await teacherLessonService.addStudentToLesson(
         query._id as string,
@@ -96,7 +103,10 @@ function AttachStudentsToLessonBlock() {
       setSelectedStudent(defaultUser)
       loadStudentFromLesson()
     } catch (e) {
-      console.log(e)
+      if (e instanceof AxiosError) {
+        setSnackbarMessage(e.response?.data.message)
+        setSnackbarOpen(true)
+      }
     }
   }
 
@@ -129,6 +139,7 @@ function AttachStudentsToLessonBlock() {
 
   function handleCloseSnackbar() {
     setSnackbarOpen(false)
+    setSnackbarMessage(null)
   }
 
   useEffect(() => {
@@ -192,7 +203,7 @@ function AttachStudentsToLessonBlock() {
           severity="error"
           sx={{ width: '100%' }}
         >
-          Student already exist in the list!
+          {snackbarMessage}
         </Alert>
       </Snackbar>
       <Modal open={modalOpen} onClose={handleCloseModal}>
