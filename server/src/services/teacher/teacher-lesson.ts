@@ -5,7 +5,8 @@ import TeacherLessonModel, {
 } from '../../models/teacher/teacher-lesson';
 
 import { lessonResponse } from '../../constants/responseMessages';
-import { StudentShortInfoForLessonType } from 'models/student/student.model';
+import { StudentShortInfoForLessonType } from '../../models/student/student.model';
+import ApiError from '../../utils/api-error';
 
 class TeacherLessonService {
   async createLesson(teacherId: string, props: ITeacherLesson) {
@@ -93,12 +94,27 @@ class TeacherLessonService {
   }
 
   async addStudentToLesson(lessonId: string, studentId: string) {
-    await TeacherLessonModel.findOneAndUpdate(
-      {
-        _id: lessonId,
-      },
-      { $push: { students: studentId } }
+    const lesson = await TeacherLessonModel.findOne({
+      _id: lessonId,
+    });
+
+    if (lesson?.max_users === lesson?.students.length) {
+      throw ApiError.BadRequestError(
+        `Lesson has max ${lesson?.max_users} students`
+      );
+    }
+    const existStudent = lesson?.students.find(
+      (item) => item.toString() === studentId
     );
+    if (existStudent) {
+      throw ApiError.BadRequestError(`Student already exist in lesson`);
+    }
+    // await TeacherLessonModel.findOneAndUpdate(
+    //   {
+    //     _id: lessonId,
+    //   },
+    //   { $push: { students: studentId } }
+    // );
     return {
       message: 'student add success',
     };

@@ -574,7 +574,6 @@ class TeacherController {
       if (!(e instanceof Error)) return;
       return res.status(status.BAD_REQUEST).json({
         message: e.message,
-        isAuth: false,
       });
     }
   }
@@ -597,7 +596,6 @@ class TeacherController {
       if (!(e instanceof Error)) return;
       return res.status(status.BAD_REQUEST).json({
         message: e.message,
-        isAuth: false,
       });
     }
   }
@@ -619,7 +617,6 @@ class TeacherController {
       if (!(e instanceof Error)) return;
       return res.status(status.BAD_REQUEST).json({
         message: e.message,
-        isAuth: false,
       });
     }
   }
