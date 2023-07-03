@@ -1,5 +1,6 @@
-import { ITeacherPreviewInfo } from '@/types/teacher/teacher'
+import { TeacherProfileCardType } from '@/types/teacher/teacher'
 
-export interface ITeacherPreviewCardProps extends Partial<ITeacherPreviewInfo> {
+export interface ITeacherPreviewCardProps
+  extends Partial<TeacherProfileCardType> {
   className?: string
 }

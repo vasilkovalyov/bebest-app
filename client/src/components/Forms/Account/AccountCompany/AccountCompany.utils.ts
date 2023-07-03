@@ -1,8 +1,8 @@
-import { ICompanyAccountFormFields } from '@/types/company/company'
+import { CompanyAccountUpdateType } from '@/types/company/company'
 
 export const fields: Readonly<
   {
-    readonly name: keyof ICompanyAccountFormFields
+    readonly name: keyof CompanyAccountUpdateType
     readonly label: string
     readonly disabled?: boolean
     readonly textarea?: boolean

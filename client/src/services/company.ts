@@ -5,7 +5,7 @@ import { PUBLIC_REQUESTS } from '@/constants/api-requests'
 import { IRegistrationResponse } from '@/interfaces/common'
 import {
   ICompany,
-  ICompanyAccountFormFields,
+  CompanyAccountUpdateType,
   ICompanyRegistration,
 } from '@/types/company/company'
 
@@ -37,7 +37,7 @@ class CompanyService {
   }
 
   async updateAccountInfo(
-    props: ICompanyAccountFormFields
+    props: CompanyAccountUpdateType
   ): Promise<AxiosResponse<ICompany>> {
     const response = await $api().post(COMPANY_REQUESTS.UPDATE_ACCOUNT_INFO, {
       ...props,

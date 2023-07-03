@@ -20,9 +20,9 @@ import AttachStudentsToLessonBlock from '@/blocks/AttachStudentsToLessonBlock'
 
 //other utils
 import teacherLessonService from '@/services/teacher-lesson'
-import { ITeacherLessonExtended } from '@/types/teacher/teacher-lesson'
+import { TeacherLessonFullInfoType } from '@/types/teacher/teacher-lesson'
 
-export default function UpdateLesson(props: ITeacherLessonExtended) {
+export default function UpdateLesson(props: TeacherLessonFullInfoType) {
   return (
     <Layout
       title="Create teacher course"

@@ -1,8 +1,8 @@
 import { IUserForLesson } from '@/components/UserListLesson/UserListLesson'
-import { IStudentInfoLesson } from '@/types/student/student'
+import { StudentLessonShortInfoType } from '@/types/student/student'
 
 export function convertToUserListLesson(
-  usersList: IStudentInfoLesson[]
+  usersList: StudentLessonShortInfoType[]
 ): IUserForLesson[] {
   const users: IUserForLesson[] = usersList
     ? usersList.map((item) => {

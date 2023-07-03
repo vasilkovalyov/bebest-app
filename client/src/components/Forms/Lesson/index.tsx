@@ -25,7 +25,7 @@ import { ILessonFormProps } from './Lesson.type'
 import { LessonFormValidationSchema } from './Lesson.validation'
 
 // other utils
-import { ITeacherLessonEditableProps } from '@/types/teacher/teacher-lesson'
+import { TeacherLessonCreateType } from '@/types/teacher/teacher-lesson'
 import { getMonthsNumbers } from '@/utils/getMonthsNumbers'
 import dateFormat from '@/constants/date-forma'
 
@@ -48,7 +48,7 @@ function LessonForm({
     register,
     setValue,
     formState: { errors },
-  } = useForm<ITeacherLessonEditableProps>({
+  } = useForm<TeacherLessonCreateType>({
     mode: 'onSubmit',
     // resolver: yupResolver(LessonFormValidationSchema),
   })
@@ -80,7 +80,7 @@ function LessonForm({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialData])
 
-  function onHandleSubmit(props: ITeacherLessonEditableProps) {
+  function onHandleSubmit(props: TeacherLessonCreateType) {
     let formatDate: string = ''
 
     if (props.start_date) {

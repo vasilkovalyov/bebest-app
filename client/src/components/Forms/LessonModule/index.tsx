@@ -21,7 +21,7 @@ import { ILessonModuleProps } from './LessonModule.type'
 import { LessonModuleFormValidationSchema } from './LessonModule.validation'
 
 // other utils
-import { ITeacherLessonModuleEditableProps } from '@/types/teacher/teacher-lesson-module'
+import { TeacherLessonModuleUpdateType } from '@/types/teacher/teacher-lesson-module'
 import dateFormat from '@/constants/date-forma'
 import colors from '@/constants/colors'
 import { Typography } from '@mui/material'
@@ -38,7 +38,7 @@ function LessonModuleForm({
     setValue,
     getValues,
     formState: { errors },
-  } = useForm<ITeacherLessonModuleEditableProps>({
+  } = useForm<TeacherLessonModuleUpdateType>({
     mode: 'onSubmit',
     resolver: yupResolver(LessonModuleFormValidationSchema),
   })
@@ -57,7 +57,7 @@ function LessonModuleForm({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  function onHandleSubmit(props: ITeacherLessonModuleEditableProps) {
+  function onHandleSubmit(props: TeacherLessonModuleUpdateType) {
     const convertedDate = dayjs(props.start_date).format(dateFormat.base)
 
     onSubmit({

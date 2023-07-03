@@ -1,7 +1,7 @@
 import $api from '@/utils/ajax'
 import { AxiosResponse } from 'axios'
 import { TEACHER_REQUESTS } from '@/constants/api-requests'
-import { ITeacherLessonExtended } from '@/types/teacher/teacher-lesson'
+import { TeacherLessonFullInfoType } from '@/types/teacher/teacher-lesson'
 import { ITeacherLessonModule } from '@/types/teacher/teacher-lesson-module'
 
 class TeacherLessonModuleService {
@@ -46,7 +46,7 @@ class TeacherLessonModuleService {
   async getLessonModule(
     id: string,
     token: string | null
-  ): Promise<AxiosResponse<ITeacherLessonExtended>> {
+  ): Promise<AxiosResponse<TeacherLessonFullInfoType>> {
     const response = await $api(token || '').get(
       `${TEACHER_REQUESTS.GET_LESSON_MODULE}/${id}`
     )

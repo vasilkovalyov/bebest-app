@@ -1,5 +1,5 @@
 import { LessonType } from '../lessons'
-import { ISubject } from '../subjects'
+import { SubjectShortType } from '../subjects'
 import { ITeacherLessonModule } from './teacher-lesson-module'
 
 export interface ITeacherLesson {
@@ -18,21 +18,24 @@ export interface ITeacherLesson {
   modules?: string[] | null
 }
 
-export interface ITeacherLessonEditableProps
-  extends Omit<ITeacherLesson, 'type' | '_id' | 'modules'> {}
+export type TeacherLessonCreateType = Omit<
+  ITeacherLesson,
+  '_id' | 'type' | 'modules'
+>
 
-export interface ITeacherLessonUpdateEditableProps
-  extends Omit<ITeacherLessonEditableProps, 'subject'> {
+export type TeacherLessonUpdateType = Omit<
+  TeacherLessonCreateType,
+  'subject'
+> & {
   type: LessonType
-  subject: Omit<ISubject, 'categories'>
+  subject: SubjectShortType
 }
 
-export interface ITeacherLessonExtended
-  extends Omit<ITeacherLesson, 'subject' | 'modules'> {
-  registeredCount?: number
-  subject: Omit<ISubject, 'categories'>
+export type TeacherLessonFullInfoType = Omit<
+  ITeacherLesson,
+  'subject' | 'modules'
+> & {
+  subject: SubjectShortType
   modules?: ITeacherLessonModule[] | null
+  registeredCount?: number
 }
-
-export interface ITeacherLessonUpdate
-  extends Omit<ITeacherLessonExtended, 'modules' | 'registeredCount' | '_id'> {}

@@ -26,7 +26,7 @@ import { fields } from './AccountCompany.utils'
 import { useLoadUserInfo } from '@/hooks/useLoadUserInfo'
 import companyService from '@/services/company'
 import uploadFileService from '@/services/upload-file'
-import { ICompanyAccountFormFields } from '@/types/company/company'
+import { CompanyAccountUpdateType } from '@/types/company/company'
 
 function AccountCompanyForm({ onHandleClose }: { onHandleClose: () => void }) {
   const user = useAppSelector((state) => state.company.user)
@@ -41,7 +41,7 @@ function AccountCompanyForm({ onHandleClose }: { onHandleClose: () => void }) {
     setValue,
     trigger,
     formState: { errors },
-  } = useForm<ICompanyAccountFormFields>({
+  } = useForm<CompanyAccountUpdateType>({
     mode: 'onSubmit',
     defaultValues: {
       company_name: user.company_name,
@@ -54,7 +54,7 @@ function AccountCompanyForm({ onHandleClose }: { onHandleClose: () => void }) {
     resolver: yupResolver(AccountCompanyFormValidationSchema),
   })
 
-  async function onSubmit(props: ICompanyAccountFormFields) {
+  async function onSubmit(props: CompanyAccountUpdateType) {
     setIsLoading(true)
     try {
       await companyService.updateAccountInfo({

@@ -29,8 +29,6 @@ export const TEACHER_REQUESTS = {
   DELETE_MAIN_FIELD_ACTIVITY: '/teacher/delete-main-field-activity',
   GET_PERSONAL_INFO: '/teacher/get-personal-info',
   UPDATE_PERSONAL_LESSON: '/teacher/update-personal-lessons',
-  CREATE_PAYMENT_CARD: '/teacher/create-payment-card',
-  DELETE_PAYMENT_CARD: '/teacher/delete-payment-card',
   GET_PAYMENT_CARD: '/teacher/get-payment-card',
   CREATE_WORK_EXPERIENCE: '/teacher/create-work-experience',
   DELETE_WORK_EXPERIENCE: '/teacher/delete-work-experience',
@@ -61,4 +59,9 @@ export const COMPANY_REQUESTS = {
 export const UPLOAD_REQUESTS = {
   UPLOAD_AVATAR: 'upload-avatar',
   UPLOAD_VIDEO: 'upload-video',
+}
+
+export const PRIVATE_REQUESTS = {
+  CREATE_PAYMENT_CARD: 'create-payment-card',
+  DELETE_PAYMENT_CARD: 'delete-payment-card',
 }

@@ -2,17 +2,11 @@
 import Link from 'next/link'
 import { useState } from 'react'
 
-//redux
-import { useAppSelector } from '@/redux/hooks'
-
 // material ui components
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
-import Divider from '@mui/material/Divider'
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
-import Fade from '@mui/material/Fade'
-import CircularProgress from '@mui/material/CircularProgress'
 import Modal from '@mui/material/Modal'
 
 //custom components

@@ -1,7 +1,7 @@
-import { ITeacherLessonExtended } from '@/types/teacher/teacher-lesson'
+import { TeacherLessonFullInfoType } from '@/types/teacher/teacher-lesson'
 import { ReactNode } from 'react'
 
-export interface ITeacherLessonCardProps extends ITeacherLessonExtended {
+export interface ITeacherLessonCardProps extends TeacherLessonFullInfoType {
   className?: string
   actionEdit?: ReactNode
 }

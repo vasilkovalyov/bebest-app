@@ -23,29 +23,23 @@ export interface ITeacher
   activated: boolean
 }
 
-export type IStudentAccountEditProps = Pick<
-  ITeacher,
-  'name' | 'surname' | 'phone' | 'about' | 'video'
->
-
-export type ITeacherAccountFormFields = Pick<
+export type TeacherAccountUpdateType = Pick<
   ITeacher,
   'name' | 'surname' | 'phone' | 'about' | 'email'
 > & {
   video?: File | string | null
 }
 
-export interface ITeacherPreviewInfo
+interface ITeacherProfile<T>
   extends Pick<
     ITeacher,
     '_id' | 'about' | 'name' | 'surname' | 'avatar' | 'video'
   > {
-  personalInfoId: {
-    fields_activity: IFieldActivity[]
-    personal_lessons: ICostPersonalLesson
-  }
+  personalInfoId: T
 }
 
-export interface ITeacherFullInfo extends ITeacher {
-  personalInfoId: ITeacherPersonalInfo
-}
+export type TeacherProfileCardType = ITeacherProfile<
+  Pick<ITeacherPersonalInfo, 'personal_lessons' | 'fields_activity'>
+>
+
+export type TeacherProfileType = ITeacherProfile<ITeacherPersonalInfo>

@@ -1,8 +1,8 @@
-import { IStudentAccountFormFields } from '@/types/student/student'
+import { StudentAccountUpdateType } from '@/types/student/student'
 
 export const fields: Readonly<
   {
-    name: keyof IStudentAccountFormFields
+    name: keyof StudentAccountUpdateType
     label: string
     disabled?: boolean
     textarea?: boolean

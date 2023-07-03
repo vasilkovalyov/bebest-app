@@ -18,12 +18,7 @@ export interface ICompany
   about?: string | null
 }
 
-export type IStudentAccountEditProps = Pick<
-  ICompany,
-  'company_name' | 'admin_name' | 'admin_surname' | 'about'
->
-
-export type ICompanyAccountFormFields = Pick<
+export type CompanyAccountUpdateType = Pick<
   ICompany,
   'company_name' | 'admin_name' | 'admin_surname' | 'about' | 'phone' | 'email'
 >

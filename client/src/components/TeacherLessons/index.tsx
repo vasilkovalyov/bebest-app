@@ -18,7 +18,7 @@ import Icon from '@/components/Generic/Icon'
 import { IconEnum } from '@/types/icons'
 
 import TeacherLessonCard from '@/components/TeacherLessonCard'
-import { ITeacherLessonExtended } from '@/types/teacher/teacher-lesson'
+import { TeacherLessonFullInfoType } from '@/types/teacher/teacher-lesson'
 
 //relate util
 import { ITeacherLessonsProps } from './TeacherLessons.type'
@@ -29,7 +29,7 @@ import { pageRoutesPrivate } from '@/constants/page-routes'
 
 function TeacherLessons({ className }: ITeacherLessonsProps) {
   const [loading, setLoading] = useState<boolean>(false)
-  const [teachers, setTeachers] = useState<ITeacherLessonExtended[]>([])
+  const [teachers, setTeachers] = useState<TeacherLessonFullInfoType[]>([])
 
   async function loadTeachers() {
     setLoading(true)

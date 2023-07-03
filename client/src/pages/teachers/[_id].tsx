@@ -12,13 +12,17 @@ import Typography from '@mui/material/Typography'
 // custom components
 import Layout from '@/layouts/Layout'
 import teacherService from '@/services/teacher'
-import { ITeacherFullInfo } from '@/types/teacher/teacher'
+import { TeacherProfileType } from '@/types/teacher/teacher'
 import TeacherSidebarBlock from '@/blocks/TeacherSidebarBlock'
 
 //other utils
 import { pageRoutesPublic } from '@/constants/page-routes'
 
-export default function Teacher({ name, surname, ...props }: ITeacherFullInfo) {
+export default function Teacher({
+  name,
+  surname,
+  ...props
+}: TeacherProfileType) {
   return (
     <>
       <Layout

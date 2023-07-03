@@ -26,7 +26,7 @@ import { fields } from './AccountTeacher.utils'
 import { useLoadUserInfo } from '@/hooks/useLoadUserInfo'
 import teacherService from '@/services/teacher'
 import uploadFileService from '@/services/upload-file'
-import { ITeacherAccountFormFields } from '@/types/teacher/teacher'
+import { TeacherAccountUpdateType } from '@/types/teacher/teacher'
 
 function AccountTeacherForm({ onHandleClose }: { onHandleClose: () => void }) {
   const user = useAppSelector((state) => state.teacher.user)
@@ -41,7 +41,7 @@ function AccountTeacherForm({ onHandleClose }: { onHandleClose: () => void }) {
     setValue,
     trigger,
     formState: { errors },
-  } = useForm<ITeacherAccountFormFields>({
+  } = useForm<TeacherAccountUpdateType>({
     mode: 'onSubmit',
     defaultValues: {
       name: user.name,
@@ -62,7 +62,7 @@ function AccountTeacherForm({ onHandleClose }: { onHandleClose: () => void }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  async function onSubmit(props: ITeacherAccountFormFields) {
+  async function onSubmit(props: TeacherAccountUpdateType) {
     setIsLoading(true)
     try {
       await teacherService.updateAccountInfo({

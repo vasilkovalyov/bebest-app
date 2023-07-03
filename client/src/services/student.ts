@@ -5,7 +5,7 @@ import { PUBLIC_REQUESTS } from '@/constants/api-requests'
 import { IRegistrationResponse } from '@/interfaces/common'
 import {
   IStudent,
-  IStudentAccountFormFields,
+  StudentAccountUpdateType,
   IStudentRegistration,
 } from '@/types/student/student'
 
@@ -37,7 +37,7 @@ class StudentService {
   }
 
   async updateAccountInfo(
-    props: IStudentAccountFormFields
+    props: StudentAccountUpdateType
   ): Promise<AxiosResponse<IStudent>> {
     const response = await $api().post(STUDENT_REQUESTS.UPDATE_ACCOUNT_INFO, {
       ...props,

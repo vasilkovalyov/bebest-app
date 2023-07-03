@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 
 // types
 import { LessonType } from '@/types/lessons'
-import { ITeacherLessonEditableProps } from '@/types/teacher/teacher-lesson'
+import { TeacherLessonCreateType } from '@/types/teacher/teacher-lesson'
 
 // services
 import teacherLessonService from '@/services/teacher-lesson'
@@ -14,7 +14,7 @@ import { pageRoutesPrivate } from '@/constants/page-routes'
 
 type UseCreateLessonReturnType = {
   loading: boolean
-  onSubmit: (props: ITeacherLessonEditableProps) => void
+  onSubmit: (props: TeacherLessonCreateType) => void
 }
 
 export function useCreateLesson(
@@ -23,7 +23,7 @@ export function useCreateLesson(
   const router = useRouter()
   const [loading, setLoading] = useState<boolean>(false)
 
-  async function onSubmit(props: ITeacherLessonEditableProps) {
+  async function onSubmit(props: TeacherLessonCreateType) {
     try {
       setLoading(true)
       const response = await teacherLessonService.createLesson({

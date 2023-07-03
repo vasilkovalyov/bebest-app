@@ -8,3 +8,5 @@ export interface ISubject {
   subject: string
   categories: ISubjectCategory[] | []
 }
+
+export type SubjectShortType = Omit<ISubject, 'categories'>

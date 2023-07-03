@@ -4,10 +4,10 @@ import { PUBLIC_REQUESTS, TEACHER_REQUESTS } from '@/constants/api-requests'
 import { IRegistrationResponse } from '@/interfaces/common'
 import {
   ITeacherRegistration,
-  ITeacherAccountFormFields,
+  TeacherAccountUpdateType,
   ITeacher,
-  ITeacherPreviewInfo,
-  ITeacherFullInfo,
+  TeacherProfileCardType,
+  TeacherProfileType,
 } from '@/types/teacher/teacher'
 
 class TeacherService {
@@ -38,7 +38,7 @@ class TeacherService {
   }
 
   async updateAccountInfo(
-    props: ITeacherAccountFormFields
+    props: TeacherAccountUpdateType
   ): Promise<AxiosResponse<ITeacher>> {
     const response = await $api('', 'multipart/form-data').post(
       TEACHER_REQUESTS.UPDATE_ACCOUNT_INFO,
@@ -61,12 +61,12 @@ class TeacherService {
     return response
   }
 
-  async getUsers(): Promise<AxiosResponse<ITeacherPreviewInfo[]>> {
+  async getUsers(): Promise<AxiosResponse<TeacherProfileCardType[]>> {
     const response = await $api().get(PUBLIC_REQUESTS.GET_TEACHERS)
     return response
   }
 
-  async getProfile(id: string): Promise<AxiosResponse<ITeacherFullInfo>> {
+  async getProfile(id: string): Promise<AxiosResponse<TeacherProfileType>> {
     const response = await $api(null).get(
       `${PUBLIC_REQUESTS.GET_TEACHER_PROFILE}/${id}`
     )

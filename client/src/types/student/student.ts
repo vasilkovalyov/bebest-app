@@ -17,17 +17,12 @@ export interface IStudent
   about?: string | null
 }
 
-export type IStudentAccountEditProps = Pick<
-  IStudent,
-  'name' | 'surname' | 'phone' | 'about'
->
-
-export type IStudentAccountFormFields = Pick<
+export type StudentAccountUpdateType = Pick<
   IStudent,
   'name' | 'surname' | 'phone' | 'about' | 'email'
 >
 
-export type IStudentInfoLesson = Pick<
+export type StudentLessonShortInfoType = Pick<
   IStudent,
   '_id' | 'name' | 'surname' | 'avatar'
 >

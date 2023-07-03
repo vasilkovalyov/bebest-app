@@ -7,11 +7,5 @@ export interface ITeacherLessonModule {
   duration_time: string
 }
 
-export interface ITeacherLessonModuleEditableProps
+export interface TeacherLessonModuleUpdateType
   extends Omit<ITeacherLessonModule, '_id'> {}
-
-// export interface ITeacherLessonExtended
-//   extends Omit<ITeacherLesson, 'subject'> {
-//   registeredCount?: number
-//   subject: Omit<ISubject, 'categories'>
-// }

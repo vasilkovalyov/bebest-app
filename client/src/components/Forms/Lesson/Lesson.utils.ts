@@ -1,9 +1,6 @@
-import {
-  ITeacherLessonEditableProps,
-  ITeacherLessonExtended,
-} from '@/types/teacher/teacher-lesson'
+import { TeacherLessonFullInfoType } from '@/types/teacher/teacher-lesson'
 
-export const defaultInitialDate: ITeacherLessonExtended = {
+export const defaultInitialDate: TeacherLessonFullInfoType = {
   topic: '',
   description: '',
   start_date: '',

@@ -3,8 +3,6 @@ import { useState } from 'react'
 
 //redux
 import { useAppSelector } from '@/redux/hooks'
-import { useDispatch } from 'react-redux'
-import { fetchPaymentCard } from '@/redux/slices/payment-card'
 
 // material ui components
 import Box from '@mui/material/Box'
@@ -20,22 +18,28 @@ import { IconEnum } from '@/types/icons'
 import WarningIcon from '@/components/Generic/WarningIcon'
 
 //other utils
-import paymentCardService from '@/services/payment-card'
 import colors from '@/constants/colors'
 import { useLoadUserInfo } from '@/hooks/useLoadUserInfo'
+
+// relate utils
+import { usePayment } from './usePayment'
 
 type PaymentModalType = 'add' | 'remove'
 
 function PaymentBlock() {
   const user = useAppSelector((store) => store.user.user)
+
   const paymentCardStore = useAppSelector((store) => store.paymentCard)
-  const dispatch = useDispatch<any>()
   const { loadUserInfo } = useLoadUserInfo()
+  const {
+    cardNumberLength,
+    cardNumber,
+    setCardNumber,
+    createCard,
+    deleteCard,
+  } = usePayment(`${user.name} ${user.surname}`)
 
   const [modalOpen, setModalOpen] = useState<boolean>(false)
-  const cardNumberLength = 16
-  const [cardNumber, setCardNumber] = useState<string>('')
-
   const [modalType, setModalType] = useState<PaymentModalType>('add')
 
   function onHandleOpenModal(type: PaymentModalType) {
@@ -50,20 +54,15 @@ function PaymentBlock() {
   async function onHandleAddCard() {
     if (!user.role) return
     setModalType('add')
-    await paymentCardService.addPaymentCard({
-      card_number: cardNumber,
-      username: user.name + ' ' + user.surname,
-    })
-    dispatch(fetchPaymentCard(user.role))
+    createCard(user.role)
     loadUserInfo('teacher')
     handleCloseModal()
   }
 
-  async function onHandleRemoveCard() {
+  async function onHandleDeleteCard() {
     if (!user.role) return
     setModalType('remove')
-    await paymentCardService.deletePaymentCard()
-    dispatch(fetchPaymentCard(user.role))
+    await deleteCard(user.role)
     loadUserInfo('teacher')
     handleCloseModal()
   }
@@ -199,7 +198,7 @@ function PaymentBlock() {
                   <Button
                     variant="outlined"
                     size="small"
-                    onClick={onHandleRemoveCard}
+                    onClick={onHandleDeleteCard}
                   >
                     accept
                   </Button>

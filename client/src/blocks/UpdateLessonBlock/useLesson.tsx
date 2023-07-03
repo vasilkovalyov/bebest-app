@@ -2,8 +2,8 @@ import { useState } from 'react'
 
 // types
 import {
-  ITeacherLessonEditableProps,
-  ITeacherLessonUpdateEditableProps,
+  TeacherLessonCreateType,
+  TeacherLessonUpdateType,
 } from '@/types/teacher/teacher-lesson'
 import { LessonType } from '@/types/lessons'
 
@@ -11,25 +11,24 @@ import { LessonType } from '@/types/lessons'
 import teacherLessonService from '@/services/teacher-lesson'
 
 type UseLessonReturnType = {
-  lesson: ITeacherLessonUpdateEditableProps
+  lesson: TeacherLessonUpdateType
   loading: boolean
   notification: boolean
   responseMessage: string | null
-  onSubmit: (props: ITeacherLessonEditableProps) => void
+  onSubmit: (props: TeacherLessonCreateType) => void
   closeNotification: () => void
 }
 
 export function useLesson(
   lessonId: string,
-  initialData: ITeacherLessonUpdateEditableProps
+  initialData: TeacherLessonUpdateType
 ): UseLessonReturnType {
   const [loading, setloading] = useState<boolean>(false)
-  const [lesson, setLesson] =
-    useState<ITeacherLessonUpdateEditableProps>(initialData)
+  const [lesson, setLesson] = useState<TeacherLessonUpdateType>(initialData)
   const [notification, setNotification] = useState<boolean>(false)
   const [responseMessage, setResponseMessage] = useState<string | null>(null)
 
-  async function onSubmit(props: ITeacherLessonEditableProps) {
+  async function onSubmit(props: TeacherLessonCreateType) {
     try {
       setloading(true)
       const response = await teacherLessonService.updateLesson({

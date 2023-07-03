@@ -29,7 +29,7 @@ import LessonModuleForm from '@/components/Forms/LessonModule'
 import dateFormat from '@/constants/date-forma'
 import {
   ITeacherLessonModule,
-  ITeacherLessonModuleEditableProps,
+  TeacherLessonModuleUpdateType,
 } from '@/types/teacher/teacher-lesson-module'
 import colors from '@/constants/colors'
 import teacherLessonModuleService from '@/services/teacher-lesson-module'
@@ -131,7 +131,7 @@ function LessonModules({ items }: ILessonModulesProps) {
   }
 
   async function onHandleUpdateLessonModule(
-    props: ITeacherLessonModuleEditableProps
+    props: TeacherLessonModuleUpdateType
   ) {
     if (!selectedLessonModule) return
     setIsLoadingUpdateButton(true)

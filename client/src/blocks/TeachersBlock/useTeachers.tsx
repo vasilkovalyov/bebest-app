@@ -2,19 +2,19 @@
 import { useState } from 'react'
 
 // types
-import { ITeacherPreviewInfo } from '@/types/teacher/teacher'
+import { TeacherProfileCardType } from '@/types/teacher/teacher'
 
 // services
 import teacherService from '@/services/teacher'
 
 type UseTeachersReturnType = {
-  teachers: ITeacherPreviewInfo[]
+  teachers: TeacherProfileCardType[]
   loading: boolean
   loadTeachers: () => void
 }
 
 export function useTeachers(): UseTeachersReturnType {
-  const [teachers, setTeachers] = useState<ITeacherPreviewInfo[]>([])
+  const [teachers, setTeachers] = useState<TeacherProfileCardType[]>([])
   const [loading, setLoading] = useState<boolean>(false)
 
   async function loadTeachers() {

@@ -25,7 +25,7 @@ import { fields } from './AccountStudent.utils'
 import studentService from '@/services/student'
 import { useLoadUserInfo } from '@/hooks/useLoadUserInfo'
 import uploadFileService from '@/services/upload-file'
-import { IStudentAccountFormFields } from '@/types/student/student'
+import { StudentAccountUpdateType } from '@/types/student/student'
 
 function AccountStudentForm({ onHandleClose }: { onHandleClose: () => void }) {
   const user = useAppSelector((state) => state.student.user)
@@ -38,7 +38,7 @@ function AccountStudentForm({ onHandleClose }: { onHandleClose: () => void }) {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm<IStudentAccountFormFields>({
+  } = useForm<StudentAccountUpdateType>({
     mode: 'onSubmit',
     defaultValues: {
       name: user.name,
@@ -50,7 +50,7 @@ function AccountStudentForm({ onHandleClose }: { onHandleClose: () => void }) {
     resolver: yupResolver(AccountStudentFormValidationSchema),
   })
 
-  async function onSubmit(props: IStudentAccountFormFields) {
+  async function onSubmit(props: StudentAccountUpdateType) {
     setIsLoading(true)
 
     try {

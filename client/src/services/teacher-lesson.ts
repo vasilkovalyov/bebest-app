@@ -3,9 +3,9 @@ import { AxiosResponse } from 'axios'
 import { TEACHER_REQUESTS } from '@/constants/api-requests'
 import {
   ITeacherLesson,
-  ITeacherLessonExtended,
+  TeacherLessonFullInfoType,
 } from '@/types/teacher/teacher-lesson'
-import { IStudentInfoLesson } from '@/types/student/student'
+import { StudentLessonShortInfoType } from '@/types/student/student'
 
 class TeacherLessonService {
   async createLesson(props: ITeacherLesson): Promise<
@@ -39,14 +39,14 @@ class TeacherLessonService {
   async getLesson(
     id: string,
     token: string | null
-  ): Promise<AxiosResponse<ITeacherLessonExtended>> {
+  ): Promise<AxiosResponse<TeacherLessonFullInfoType>> {
     const response = await $api(token || '').get(
       `${TEACHER_REQUESTS.GET_LESSON}/${id}`
     )
     return response
   }
 
-  async getUserLessons(): Promise<AxiosResponse<ITeacherLessonExtended[]>> {
+  async getUserLessons(): Promise<AxiosResponse<TeacherLessonFullInfoType[]>> {
     const response = await $api().get(TEACHER_REQUESTS.GET_LESSONS)
     return response
   }
@@ -80,7 +80,7 @@ class TeacherLessonService {
 
   async getStudentsFromLesson(
     lessonId: string
-  ): Promise<AxiosResponse<IStudentInfoLesson[]>> {
+  ): Promise<AxiosResponse<StudentLessonShortInfoType[]>> {
     const response = await $api().get(
       `${TEACHER_REQUESTS.GET_STUDENTS_FROM_LESSON}/${lessonId}`
     )
