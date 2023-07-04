@@ -59,6 +59,7 @@ function LoginForm() {
             InputLabelProps={{ shrink: true }}
             error={!!errors.email?.message}
             helperText={errors.email?.message}
+            data-cy="email"
           />
         </Box>
         <Box marginBottom={2}>
@@ -90,6 +91,7 @@ function LoginForm() {
             }}
             error={!!errors.password?.message}
             helperText={errors.password?.message}
+            data-cy="password"
           />
         </Box>
         {messageValidation && (
@@ -105,6 +107,7 @@ function LoginForm() {
             variant="contained"
             size="small"
             disabled={loading}
+            data-cy="submit-login"
           >
             Sign in
           </Button>

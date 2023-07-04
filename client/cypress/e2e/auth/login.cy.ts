@@ -1,12 +1,8 @@
 describe('Login spec', () => {
   it('login', () => {
-    // go to the login page
-    cy.visit('http://localhost:3000/login');
-    // add email
-    cy.get('#email').type('vasilkovalyov@gmail.com');
-    // add password
-    cy.get('#password').type('Kovalyov1994$');
-    // submit form
-    cy.get('button').contains('Sign in').click();
-  });
-});
+    cy.visit('http://localhost:3000/login')
+    cy.get('[data-cy="email"]').type('vasilkovalyov@gmail.com')
+    cy.get('[data-cy="password"]').type('Kovalyov1994$')
+    cy.get('[data-cy="submit-login').contains('Sign in').click()
+  })
+})

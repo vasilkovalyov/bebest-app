@@ -1,21 +1,12 @@
 describe('Teacher registration spec', () => {
   it('passes', () => {
-    // go to the registration page
-    cy.visit('http://localhost:3000/registration');
-    // choose student registration
-    cy.get('button').contains('Teacher').click();
-    // add name
-    cy.get('#name').type('Vasiliy');
-    // add surname
-    cy.get('#surname').type('Kovalyov');
-    // add email
-    cy.get('#email').type('vasilkovalyov@gmail.com');
-    // add password
-    cy.get('#password').type('Kovalyov1994$');
-    // add confirm_password
-    cy.get('#confirm_password').type('Kovalyov1994$');
-
-    // submit form
-    cy.get('button').contains('Registration').click();
-  });
-});
+    cy.visit('http://localhost:3000/registration')
+    cy.get('[data-cy="teacher-tab"]').click()
+    cy.get('[data-cy="name"]').type('Vasiliy')
+    cy.get('[data-cy="surname"]').type('Kovalyov')
+    cy.get('[data-cy="email"]').type('vasilkovalyov@gmail.com')
+    cy.get('[data-cy="password"]').type('Kovalyov1994$')
+    cy.get('[data-cy="confirm_password"]').type('Kovalyov1994$')
+    cy.get('[data-cy="submit-registration"]').click()
+  })
+})

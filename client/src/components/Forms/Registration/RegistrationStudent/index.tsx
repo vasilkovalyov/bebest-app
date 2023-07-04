@@ -60,6 +60,7 @@ function RegistrartionStudentForm({
           InputLabelProps={{ shrink: true }}
           error={!!errors.name?.message}
           helperText={errors.name?.message}
+          data-cy="name"
         />
       </Box>
       <Box marginBottom={2}>
@@ -75,6 +76,7 @@ function RegistrartionStudentForm({
           InputLabelProps={{ shrink: true }}
           error={!!errors.surname?.message}
           helperText={errors.surname?.message}
+          data-cy="surname"
         />
       </Box>
       <Box marginBottom={2}>
@@ -90,6 +92,7 @@ function RegistrartionStudentForm({
           InputLabelProps={{ shrink: true }}
           error={!!errors.email?.message}
           helperText={errors.email?.message}
+          data-cy="email"
         />
       </Box>
       <Box marginBottom={2}>
@@ -105,6 +108,7 @@ function RegistrartionStudentForm({
           fullWidth
           InputLabelProps={{ shrink: true }}
           error={!!errors.password?.message}
+          data-cy="password"
           helperText={errors.password?.message}
         />
       </Box>
@@ -122,6 +126,7 @@ function RegistrartionStudentForm({
           InputLabelProps={{ shrink: true }}
           error={!!errors.confirm_password?.message}
           helperText={errors.confirm_password?.message}
+          data-cy="confirm_password"
         />
       </Box>
       {messageValidation && (
@@ -135,6 +140,7 @@ function RegistrartionStudentForm({
           variant="contained"
           size="small"
           disabled={loading}
+          data-cy="submit-registration"
         >
           Registration
         </Button>

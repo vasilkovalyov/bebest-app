@@ -61,6 +61,7 @@ function RegistrartionCompanyForm({
           InputLabelProps={{ shrink: true }}
           error={!!errors.company_name?.message}
           helperText={errors.company_name?.message}
+          data-cy="company_name"
         />
       </Box>
       <Box marginBottom={2}>
@@ -76,6 +77,7 @@ function RegistrartionCompanyForm({
           InputLabelProps={{ shrink: true }}
           error={!!errors.admin_name?.message}
           helperText={errors.admin_name?.message}
+          data-cy="admin_name"
         />
       </Box>
       <Box marginBottom={2}>
@@ -91,6 +93,7 @@ function RegistrartionCompanyForm({
           InputLabelProps={{ shrink: true }}
           error={!!errors.admin_surname?.message}
           helperText={errors.admin_surname?.message}
+          data-cy="admin_surname"
         />
       </Box>
       <Box marginBottom={2}>
@@ -106,6 +109,7 @@ function RegistrartionCompanyForm({
           InputLabelProps={{ shrink: true }}
           error={!!errors.email?.message}
           helperText={errors.email?.message}
+          data-cy="email"
         />
       </Box>
       <Box marginBottom={2}>
@@ -122,6 +126,7 @@ function RegistrartionCompanyForm({
           InputLabelProps={{ shrink: true }}
           error={!!errors.password?.message}
           helperText={errors.password?.message}
+          data-cy="password"
         />
       </Box>
       <Box marginBottom={2}>
@@ -138,6 +143,7 @@ function RegistrartionCompanyForm({
           InputLabelProps={{ shrink: true }}
           error={!!errors.confirm_password?.message}
           helperText={errors.confirm_password?.message}
+          data-cy="confirm_password"
         />
       </Box>
       {messageValidation && (
@@ -151,6 +157,7 @@ function RegistrartionCompanyForm({
           variant="contained"
           size="small"
           disabled={loading}
+          data-cy="submit-registration"
         >
           Registration
         </Button>
