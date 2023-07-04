@@ -70,16 +70,19 @@ export default function Registration() {
                       className="registration-switcher__tab-item font-semibold"
                       value={0}
                       label="Student"
+                      data-cy="student-tab"
                     />
                     <Tab
                       className="registration-switcher__tab-item font-semibold"
                       value={1}
                       label="Teacher"
+                      data-cy="teacher-tab"
                     />
                     <Tab
                       className="registration-switcher__tab-item font-semibold"
                       value={2}
                       label="Company"
+                      data-cy="company-tab"
                     />
                   </Tabs>
                 </Box>
