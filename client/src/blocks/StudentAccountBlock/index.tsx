@@ -1,62 +1,62 @@
 // libs
-import { useState } from 'react';
+import { useState } from 'react'
 
 //redux
-import { useAppSelector } from '@/redux/hooks';
+import { useAppSelector } from '@/redux/hooks'
 
 // material ui components
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
-import Modal from '@mui/material/Modal';
-import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Stack from '@mui/material/Stack'
+import Modal from '@mui/material/Modal'
+import Typography from '@mui/material/Typography'
 
 //custom components
-import AccountStudentForm from '@/components/Forms/Account/AccountStudent';
-import Icon from '@/components/Generic/Icon';
-import { IconEnum } from '@/types/icons';
-import WarningIcon from '@/components/Generic/WarningIcon';
-import PreviewUserAccount from '@/components/Previews/PreviewUserAccount';
+import AccountStudentForm from '@/components/Forms/Account/AccountStudent'
+import Icon from '@/components/Generic/Icon'
+import { IconEnum } from '@/types/icons'
+import WarningIcon from '@/components/Generic/WarningIcon'
+import PreviewUserAccount from '@/components/Previews/PreviewUserAccount'
 
 //hooks
-import { useLogout } from '@/hooks/useLogout';
+import { useLogout } from '@/hooks/useLogout'
 
 //other utils
-import { AxiosError } from 'axios';
-import studentService from '@/services/student';
+import { AxiosError } from 'axios'
+import studentService from '@/services/student'
 
 function StudentAccountBlock() {
-  const { logOut } = useLogout();
-  const user = useAppSelector((store) => store.student.user);
-  const [isEdit, seIsEdit] = useState<boolean>(false);
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const { logOut } = useLogout()
+  const user = useAppSelector((store) => store.student.user)
+  const [isEdit, seIsEdit] = useState<boolean>(false)
+  const [modalOpen, setModalOpen] = useState<boolean>(false)
 
   function onHandleOpenModal() {
-    setModalOpen(true);
+    setModalOpen(true)
   }
 
   function handleCloseModal() {
-    setModalOpen(false);
+    setModalOpen(false)
   }
 
   async function handleRemoveAccount() {
     try {
-      let response: unknown | any;
+      let response: unknown | any
 
-      response = await studentService.deleteAccount();
+      response = await studentService.deleteAccount()
 
       if (response.data.data) {
-        logOut();
+        logOut()
       }
     } catch (e) {
       if (e instanceof AxiosError) {
-        console.log(e.message);
+        console.log(e.message)
       }
     }
   }
 
   function onHandleClose() {
-    seIsEdit(!isEdit);
+    seIsEdit(!isEdit)
   }
 
   return (
@@ -64,12 +64,15 @@ function StudentAccountBlock() {
       <Stack direction="row" className="box-account__controllers">
         <Button
           onClick={() => seIsEdit(!isEdit)}
-          aria-label="button-open-edit-account-form"
+          data-cy="button-open-edit-account-form"
           id="open-edit-form"
         >
           {!isEdit ? <Icon icon={IconEnum.EDIT} size={18} /> : 'Close'}
         </Button>
-        <Button onClick={onHandleOpenModal} aria-label="button-remove-account">
+        <Button
+          onClick={onHandleOpenModal}
+          data-cy="button-remove-account-open-modal"
+        >
           <Icon icon={IconEnum.BIN} size={18} />
         </Button>
       </Stack>
@@ -141,6 +144,6 @@ function StudentAccountBlock() {
         </Box>
       </Modal>
     </Box>
-  );
+  )
 }
-export default StudentAccountBlock;
+export default StudentAccountBlock

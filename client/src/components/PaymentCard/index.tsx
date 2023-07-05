@@ -75,6 +75,7 @@ function PaymentCard({
         </Box>
         {editMode ? (
           <TextField
+            id="payment-card"
             className="number-input"
             size="small"
             variant="standard"

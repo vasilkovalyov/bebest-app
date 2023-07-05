@@ -1,32 +1,32 @@
 // libs
-import { useState } from 'react';
+import { useState } from 'react'
 
 //redux
-import { useAppSelector } from '@/redux/hooks';
+import { useAppSelector } from '@/redux/hooks'
 
 // material ui components
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
-import Fade from '@mui/material/Fade';
-import CircularProgress from '@mui/material/CircularProgress';
+import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box'
+import Divider from '@mui/material/Divider'
+import Button from '@mui/material/Button'
+import Stack from '@mui/material/Stack'
+import Fade from '@mui/material/Fade'
+import CircularProgress from '@mui/material/CircularProgress'
 
 //custom components
-import Icon from '@/components/Generic/Icon';
-import { IconEnum } from '@/types/icons';
-import StudentSubjectsForm from '@/components/Forms/Account/StudentSubjectsForm';
-import ContainerWithShadow from '@/components/Generic/ContainerWithShadow';
-import PreviewStudentSubjects from '@/components/Previews/PreviewStudentSubjects';
+import Icon from '@/components/Generic/Icon'
+import { IconEnum } from '@/types/icons'
+import StudentSubjectsForm from '@/components/Forms/Account/StudentSubjectsForm'
+import ContainerWithShadow from '@/components/Generic/ContainerWithShadow'
+import PreviewStudentSubjects from '@/components/Previews/PreviewStudentSubjects'
 
 function StudentSubjectsBlock() {
-  const [isEdit, seIsEdit] = useState<boolean>(false);
+  const [isEdit, seIsEdit] = useState<boolean>(false)
 
-  const studentSubjectsStore = useAppSelector((store) => store.studentSubjects);
+  const studentSubjectsStore = useAppSelector((store) => store.studentSubjects)
 
   function onHandleClose() {
-    seIsEdit(!isEdit);
+    seIsEdit(!isEdit)
   }
 
   return (
@@ -45,7 +45,7 @@ function StudentSubjectsBlock() {
         <Stack direction="row" className="box-account__controllers">
           <Button
             onClick={() => seIsEdit(!isEdit)}
-            aria-label="button-open-edit-subject-form"
+            data-cy="button-open-edit-subject-form"
           >
             {!isEdit ? <Icon icon={IconEnum.EDIT} size={18} /> : 'Close'}
           </Button>
@@ -67,7 +67,7 @@ function StudentSubjectsBlock() {
         )}
       </Box>
     </ContainerWithShadow>
-  );
+  )
 }
 
-export default StudentSubjectsBlock;
+export default StudentSubjectsBlock

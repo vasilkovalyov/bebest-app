@@ -145,6 +145,7 @@ function AccountTeacherForm({ onHandleClose }: { onHandleClose: () => void }) {
                   InputLabelProps={{ shrink: true }}
                   error={!!errors[name]?.message}
                   helperText={errors[name]?.message}
+                  data-cy={name}
                 />
               </Box>
             ))}
@@ -162,6 +163,7 @@ function AccountTeacherForm({ onHandleClose }: { onHandleClose: () => void }) {
                 size="small"
                 disabled={isLoading}
                 onClick={handleSubmit(onSubmit)}
+                data-cy="submit-save-user-account"
               >
                 Save
               </Button>

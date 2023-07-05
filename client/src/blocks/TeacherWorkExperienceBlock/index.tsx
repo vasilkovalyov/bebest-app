@@ -47,7 +47,10 @@ function TeacherWorkExperienceBlock() {
       </Box>
       <Box className="box-account">
         <Stack direction="row" className="box-account__controllers">
-          <Button onClick={() => seIsEdit(!isEdit)}>
+          <Button
+            onClick={() => seIsEdit(!isEdit)}
+            aria-label="button-open-edit-work-experience"
+          >
             {!isEdit ? <Icon icon={IconEnum.EDIT} size={18} /> : 'Close'}
           </Button>
         </Stack>

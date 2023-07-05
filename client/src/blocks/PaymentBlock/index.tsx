@@ -114,10 +114,10 @@ function PaymentBlock() {
       ) : (
         <Box display="flex" alignItems="center">
           <Button
-            type="submit"
             variant="contained"
             size="small"
             onClick={() => onHandleOpenModal('add')}
+            aria-label="button-open-modal-add-paymen-card"
           >
             <Icon
               icon={IconEnum.PLUS}
@@ -174,6 +174,7 @@ function PaymentBlock() {
                       variant="outlined"
                       onClick={onHandleAddCard}
                       disabled={cardNumber.length !== cardNumberLength}
+                      aria-label="button-add-payment-card"
                     >
                       Add card
                     </Button>

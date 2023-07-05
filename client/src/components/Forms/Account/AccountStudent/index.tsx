@@ -130,6 +130,7 @@ function AccountStudentForm({ onHandleClose }: { onHandleClose: () => void }) {
                   InputLabelProps={{ shrink: true }}
                   error={!!errors[name]?.message}
                   helperText={errors[name]?.message}
+                  data-cy={name}
                 />
               </Box>
             ))}
@@ -139,6 +140,7 @@ function AccountStudentForm({ onHandleClose }: { onHandleClose: () => void }) {
                 variant="contained"
                 size="small"
                 disabled={isLoading}
+                data-cy="submit-save-user-account"
               >
                 Save
               </Button>
