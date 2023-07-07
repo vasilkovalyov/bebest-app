@@ -15,7 +15,6 @@ import Divider from '@mui/material/Divider'
 import Modal from '@mui/material/Modal'
 import Typography from '@mui/material/Typography'
 import MenuItem from '@mui/material/MenuItem'
-import InputLabel from '@mui/material/InputLabel'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import Checkbox from '@mui/material/Checkbox'
 import ListItemText from '@mui/material/ListItemText'
@@ -96,7 +95,7 @@ function UserFieldsActivityForm({
     name: 'fields_activity',
   })
 
-  async function handleAdd(data: IUserFieldsActivityInfo) {
+  async function handleCreateActivity(data: IUserFieldsActivityInfo) {
     if (!user.user.role) return
 
     try {
@@ -106,7 +105,9 @@ function UserFieldsActivityForm({
 
       const props: IFieldActivityRequest = {
         subject: fieldsActivity._id || '',
-        categories: checkedSkills[0].subjects.map((item) => item._id),
+        categories: checkedSkills[checkedSkills.length - 1].subjects.map(
+          (item) => item._id
+        ),
       }
 
       await userFieldsActivityService.createMainFieldsActivity(
@@ -210,7 +211,8 @@ function UserFieldsActivityForm({
 
     values.forEach((item) => {
       if (!item) return
-      const subject = selectedSkills[0].subjects.find(
+
+      const subject = selectedSkills[selectedSkills.length - 1].subjects.find(
         (skill) => skill.category === item
       )
       if (subject) {
@@ -296,7 +298,9 @@ function UserFieldsActivityForm({
                   </TextField>
                 </Box>
                 <Box marginBottom={2}>
-                  <InputLabel>Skills</InputLabel>
+                  <Typography variant="body1" fontWeight={500}>
+                    Skills
+                  </Typography>
                   <Select
                     {...register(`fields_activity.${index}.categories`)}
                     id={`fields_activity-${index}-skills`}
@@ -400,7 +404,7 @@ function UserFieldsActivityForm({
                   type="submit"
                   variant="outlined"
                   size="small"
-                  onClick={handleSubmit(handleAdd)}
+                  onClick={handleSubmit(handleCreateActivity)}
                 >
                   <Box
                     component="span"
@@ -424,7 +428,7 @@ function UserFieldsActivityForm({
                       paddingTop: 2,
                     }}
                   >
-                    Add activity
+                    Create activity
                   </Box>
                 </Button>
                 <Button variant="outlined" size="small" onClick={onHandleClose}>
