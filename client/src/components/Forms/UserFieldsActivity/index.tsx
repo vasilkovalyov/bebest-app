@@ -1,11 +1,9 @@
 // libs
-import { ChangeEvent, useState, useEffect } from 'react'
+import { ChangeEvent, useState } from 'react'
 import { useForm, useFieldArray } from 'react-hook-form'
 
 //redux
-import { useDispatch } from 'react-redux'
 import { useAppSelector } from '@/redux/hooks'
-import { fetchTeacherPersonalInfo } from '@/redux/slices/teacher-personal-info'
 
 // material ui components
 import Box from '@mui/material/Box'
@@ -29,20 +27,13 @@ import WarningIcon from '@/components/Generic/WarningIcon'
 import {
   IUserFieldsActivityInfo,
   IUserFieldsActivityFormProps,
-  ISkillsChecked,
-  ISubjectsActivities,
 } from './UserFieldsActivity.type'
-import {
-  getFieldsAndSubjectsData,
-  getUpdatedCheckedSkills,
-} from './UserFieldsActivity.utils'
+
+import { useUserFieldsActivity } from './useUserFieldsActivity'
 
 // other utils
 import colors from '@/constants/colors'
-import userFieldsActivityService from '@/services/user-fields-activity'
-import { useLoadUserInfo } from '@/hooks/useLoadUserInfo'
-import { IFieldActivity, IFieldActivityRequest } from '@/types/common'
-import { ISubjectCategory } from '@/types/subjects'
+import { IFieldActivity } from '@/types/common'
 
 const defaultWorkExperience: IFieldActivity = {
   subject: '',
@@ -56,27 +47,22 @@ const defaultInitialData: IUserFieldsActivityInfo = {
 function UserFieldsActivityForm({
   onHandleClose,
 }: IUserFieldsActivityFormProps) {
-  const dispatch = useDispatch<any>()
-  const fieldsActivityStore = useAppSelector(
-    (store) => store.teacherPersonalInfo.fields_activity
-  )
-
   const user = useAppSelector((store) => store.user)
-  const subjects = useAppSelector((store) => store.subjects.subjects)
-  const { loadUserInfo } = useLoadUserInfo()
-
-  const [checkedSkills, setCheckedSkills] = useState<ISkillsChecked[] | []>([])
-  const [selectedSkills, setSelectedSkills] = useState<
-    ISubjectsActivities[] | []
-  >([])
   const [modalOpen, setModalOpen] = useState<boolean>(false)
-  const [selectRemoveFieldActivity, setSelectRemoveFieldActivity] = useState<{
-    id: string
-    index: number
-  }>({
-    id: '',
-    index: -1,
-  })
+
+  const {
+    checkedSkills,
+    selectedSkills,
+    subjects,
+    selectRemoveFieldActivity,
+    fieldsActivityStore,
+    createActivity,
+    changeActivity,
+    deleteActivity,
+    getSubjectByActivityName,
+    changeAndUpdatedSkills,
+    setSelectRemoveFieldActivity,
+  } = useUserFieldsActivity()
 
   const defaultFields = fieldsActivityStore.length
     ? defaultInitialData.fields_activity
@@ -95,73 +81,26 @@ function UserFieldsActivityForm({
     name: 'fields_activity',
   })
 
-  async function handleCreateActivity(data: IUserFieldsActivityInfo) {
-    if (!user.user.role) return
-
-    try {
-      const fieldsActivity = {
-        ...data.fields_activity[data.fields_activity.length - 1],
-      }
-
-      const props: IFieldActivityRequest = {
-        subject: fieldsActivity._id || '',
-        categories: checkedSkills[checkedSkills.length - 1].subjects.map(
-          (item) => item._id
-        ),
-      }
-
-      await userFieldsActivityService.createMainFieldsActivity(
-        props,
-        user.user.role
-      )
-
-      dispatch(fetchTeacherPersonalInfo())
-      loadUserInfo('teacher')
-      append(defaultWorkExperience)
-      setSelectedSkills((prevState) => [...prevState, { subjects: [] }])
-    } catch (e) {
-      console.log(e)
-    }
-  }
-
-  function removeCheckedSkill() {
-    const checkedArr = checkedSkills.filter((item, key) => {
-      if (key !== selectRemoveFieldActivity.index) return item
-    })
-    setCheckedSkills(checkedArr)
-  }
-
-  function removeSelectedSkill() {
-    const selectedSkillsArr = selectedSkills.filter((item, key) => {
-      if (key !== selectRemoveFieldActivity.index) return item
-    })
-    setSelectedSkills(selectedSkillsArr)
-  }
-
-  async function handleRemove() {
+  async function onHandleCreateActivity(data: IUserFieldsActivityInfo) {
     if (!user.user.role) return
     try {
-      await userFieldsActivityService.deleteMainFieldsActivity(
-        selectRemoveFieldActivity.id,
-        user.user.role
-      )
-      dispatch(fetchTeacherPersonalInfo())
-      loadUserInfo('teacher')
-      remove(selectRemoveFieldActivity.index)
-      setSelectRemoveFieldActivity({
-        id: '',
-        index: -1,
+      createActivity(data, user.user.role).then(() => {
+        append(defaultWorkExperience)
       })
-      handleCloseModal()
-
-      removeCheckedSkill()
-      removeSelectedSkill()
     } catch (e) {
       console.log(e)
     }
   }
 
-  function handleOpenModal(id: string, index: number) {
+  async function onHandleDelete() {
+    if (!user.user.role) return
+    deleteActivity(user.user.role).then(() => {
+      remove(selectRemoveFieldActivity.index)
+      onHandleCloseModal()
+    })
+  }
+
+  function onHandleOpenModal(id: string, index: number) {
     setSelectRemoveFieldActivity({
       id,
       index,
@@ -169,37 +108,16 @@ function UserFieldsActivityForm({
     setModalOpen(true)
   }
 
-  function handleCloseModal() {
+  function onHandleCloseModal() {
     setModalOpen(false)
   }
 
   function onHandleChangeActivity(activity: string, index: number) {
-    let tempArr = [...selectedSkills]
-    let checkedSkillsArr = [...checkedSkills]
-
-    const activitySubjects = subjects.filter((item) => {
-      if (item.subject === activity) return item
-    })
-
-    if (tempArr.length === 0 && checkedSkillsArr.length === 0) {
-      tempArr.push({ subjects: activitySubjects[0].categories })
-    } else {
-      tempArr = tempArr.map((item, key) => {
-        if (index !== key) return item
-        return { subjects: activitySubjects[0].categories }
-      })
-
-      checkedSkillsArr = checkedSkillsArr.map((item, key) => {
-        if (index !== key) return item
-        item = { subjects: [] }
-        return item
-      })
-    }
+    changeActivity(activity, index)
+    const activitySubjects = getSubjectByActivityName(activity)
 
     setValue(`fields_activity.${index}._id`, activitySubjects[0]._id)
     setValue(`fields_activity.${index}.subject`, activitySubjects[0].subject)
-    setSelectedSkills(tempArr)
-    setCheckedSkills(checkedSkillsArr)
   }
 
   function onHandleChangeSkills(
@@ -207,51 +125,17 @@ function UserFieldsActivityForm({
     index: number
   ) {
     const values = event.target.value as string[]
-    const categories: ISubjectCategory[] = []
-
-    values.forEach((item) => {
-      if (!item) return
-
-      const subject = selectedSkills[selectedSkills.length - 1].subjects.find(
-        (skill) => skill.category === item
-      )
-      if (subject) {
-        categories.push(subject)
-      }
-    })
-
-    const updatedCheckedSkills = getUpdatedCheckedSkills(
-      checkedSkills,
-      categories,
-      index
-    )
+    const updatedCheckedSkills = changeAndUpdatedSkills(values, index)
 
     setValue(
       `fields_activity.${index}.categories`,
       updatedCheckedSkills[index].subjects
     )
-
-    setCheckedSkills(updatedCheckedSkills)
   }
 
-  function loadSubjects() {
-    if (!fieldsActivityStore.length) return
-    const { subjectArr, checkedSubjectArr } = getFieldsAndSubjectsData(
-      fieldsActivityStore,
-      subjects
-    )
-    setSelectedSkills(subjectArr)
-    setCheckedSkills(checkedSubjectArr)
-  }
-
-  function handleAddFormActivity() {
+  function onHandleAddFormActivity() {
     setValue('fields_activity', [defaultWorkExperience])
   }
-
-  useEffect(() => {
-    loadSubjects()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   return (
     <Box>
@@ -359,7 +243,7 @@ function UserFieldsActivityForm({
                     <Button
                       type="button"
                       size="small"
-                      onClick={() => handleOpenModal(_id || '', index)}
+                      onClick={() => onHandleOpenModal(_id || '', index)}
                     >
                       <Box
                         component="span"
@@ -404,7 +288,7 @@ function UserFieldsActivityForm({
                   type="submit"
                   variant="outlined"
                   size="small"
-                  onClick={handleSubmit(handleCreateActivity)}
+                  onClick={handleSubmit(onHandleCreateActivity)}
                 >
                   <Box
                     component="span"
@@ -442,7 +326,7 @@ function UserFieldsActivityForm({
             type="submit"
             variant="contained"
             size="small"
-            onClick={handleAddFormActivity}
+            onClick={onHandleAddFormActivity}
           >
             <Box
               component="span"
@@ -467,11 +351,11 @@ function UserFieldsActivityForm({
           </Button>
         )}
       </form>
-      <Modal open={modalOpen} onClose={handleCloseModal}>
+      <Modal open={modalOpen} onClose={onHandleCloseModal}>
         <Box className="modal-box">
           <Button
             className="modal-box__button-close"
-            onClick={handleCloseModal}
+            onClick={onHandleCloseModal}
           >
             <Icon
               icon={IconEnum.CROSS_OUTLINE}
@@ -497,11 +381,11 @@ function UserFieldsActivityForm({
               <Button
                 variant="contained"
                 size="small"
-                onClick={handleCloseModal}
+                onClick={onHandleCloseModal}
               >
                 decline
               </Button>
-              <Button variant="outlined" size="small" onClick={handleRemove}>
+              <Button variant="outlined" size="small" onClick={onHandleDelete}>
                 accept
               </Button>
             </Stack>
