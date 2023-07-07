@@ -15,7 +15,7 @@ function PreviewInfo({
   return (
     <Box marginBottom={marginBottom}>
       {category ? (
-        <Typography variant="h6" fontWeight={700} marginBottom={2}>
+        <Typography variant="body1" fontWeight={700} marginBottom={2}>
           {category}
         </Typography>
       ) : null}

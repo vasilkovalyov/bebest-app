@@ -1,5 +1,5 @@
 // libs
-import { ChangeEvent, useEffect, useState } from 'react'
+import { useState } from 'react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, useFieldArray } from 'react-hook-form'
 
@@ -286,7 +286,7 @@ function TeacherCertificates({ onHandleClose }: ITeacherСertificatesFormProps) 
                       paddingTop: 2,
                     }}
                   >
-                    Add certificate
+                    Create certificate
                   </Box>
                   <Box ml={2}>
                     {isLoading ? <CircularProgress size={16} /> : null}

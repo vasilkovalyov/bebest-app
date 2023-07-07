@@ -21,7 +21,7 @@ function PreviewUserAccount({
           <Box key={index} marginBottom={marginBottom}>
             <Stack direction={directionItems} gap={gap}>
               <Typography
-                variant="subtitle1"
+                variant="body2"
                 className="font-normal"
                 marginBottom={0}
               >
