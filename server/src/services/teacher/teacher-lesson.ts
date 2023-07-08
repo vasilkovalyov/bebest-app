@@ -109,12 +109,12 @@ class TeacherLessonService {
     if (existStudent) {
       throw ApiError.BadRequestError(`Student already exist in lesson`);
     }
-    // await TeacherLessonModel.findOneAndUpdate(
-    //   {
-    //     _id: lessonId,
-    //   },
-    //   { $push: { students: studentId } }
-    // );
+    await TeacherLessonModel.findOneAndUpdate(
+      {
+        _id: lessonId,
+      },
+      { $push: { students: studentId } }
+    );
     return {
       message: 'student add success',
     };
