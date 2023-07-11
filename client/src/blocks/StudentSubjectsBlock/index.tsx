@@ -1,8 +1,10 @@
 // libs
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 //redux
+import { useDispatch } from 'react-redux'
 import { useAppSelector } from '@/redux/hooks'
+import { fetchStudentSubjects } from '@/redux/slices/student-subjects'
 
 // material ui components
 import Typography from '@mui/material/Typography'
@@ -22,12 +24,18 @@ import PreviewStudentSubjects from '@/components/Previews/PreviewStudentSubjects
 
 function StudentSubjectsBlock() {
   const [isEdit, seIsEdit] = useState<boolean>(false)
+  const dispatch = useDispatch<any>()
 
   const studentSubjectsStore = useAppSelector((store) => store.studentSubjects)
 
   function onHandleClose() {
     seIsEdit(!isEdit)
   }
+
+  useEffect(() => {
+    dispatch(fetchStudentSubjects())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <ContainerWithShadow paddingSize="sm">

@@ -22,9 +22,11 @@ class TeacherLessonModuleService {
   }
 
   async updateLessonModule(
+    lessonId: string,
     props: ITeacherLessonModule
   ): Promise<AxiosResponse<{ message: string }>> {
     const response = await $api().post(TEACHER_REQUESTS.UPDATE_LESSON_MODULE, {
+      lessonId,
       ...props,
     })
     return response

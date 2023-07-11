@@ -1,6 +1,7 @@
 //libs
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { AxiosError } from 'axios'
 
 // material ui components
 import Typography from '@mui/material/Typography'
@@ -53,25 +54,35 @@ function TeacherTrainingPlanBlock({
   const [modalOpen, setModalOpen] = useState<boolean>(false)
   const [lessonModules, setLessonModules] =
     useState<ITeacherLessonModule[]>(items)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   function handleCloseModal() {
     setModalOpen(false)
   }
 
   async function handleCreateLessonModule(props: ITeacherLessonModule) {
-    const lessonId = query._id as string
-    await teacherLessonModuleService.createLessonModule(lessonId, props)
-    loadLessonModules()
-    handleCloseModal()
+    try {
+      const lessonId = query._id as string
+      await teacherLessonModuleService.createLessonModule(lessonId, props)
+      loadLessonModules()
+      handleCloseModal()
+    } catch (e) {
+      if (e instanceof AxiosError) {
+        setErrorMessage(e.response?.data.message)
+      }
+    }
   }
 
   async function loadLessonModules() {
-    const lessonId = query._id as string
-    const responseLessonModules =
-      await teacherLessonModuleService.getModulesLesson(lessonId)
-    setLessonModules(responseLessonModules.data)
+    try {
+      const lessonId = query._id as string
+      const responseLessonModules =
+        await teacherLessonModuleService.getModulesLesson(lessonId)
+      setLessonModules(responseLessonModules.data)
+    } catch (e) {
+      console.log(e)
+    }
   }
-
   return (
     <Box marginBottom={4}>
       <ContainerWithShadow paddingSize="sm">
@@ -113,6 +124,19 @@ function TeacherTrainingPlanBlock({
               mode="create"
               onSubmit={handleCreateLessonModule}
             />
+            {errorMessage ? (
+              <Box paddingY={2}>
+                <Typography
+                  variant="subtitle1"
+                  textAlign="center"
+                  style={{
+                    color: colors.primary,
+                  }}
+                >
+                  {errorMessage}
+                </Typography>
+              </Box>
+            ) : null}
           </Box>
         </Box>
       </Modal>

@@ -6,7 +6,6 @@ import { useAppSelector } from '@/redux/hooks'
 import { useDispatch } from 'react-redux'
 import { fetchTeacherPersonalInfo } from '@/redux/slices/teacher-personal-info'
 import { fetchPaymentCard } from '@/redux/slices/payment-card'
-import { fetchStudentSubjects } from '@/redux/slices/student-subjects'
 
 // material ui components
 import Box from '@mui/material/Box'
@@ -23,20 +22,18 @@ import TeacherCostPersonalLessonsBlock from '@/blocks/TeacherCostPersonalLessons
 import UserFieldsActivityBlock from '@/blocks/UserFieldsActivityBlock'
 
 function PageCabinet() {
+  const authUser = useAppSelector((store) => store.user.isAuth)
   const userStore = useAppSelector((store) => store.user.user)
   const dispatch = useDispatch<any>()
 
   useEffect(() => {
-    if (userStore.role === 'student') {
-      dispatch(fetchStudentSubjects())
-    }
-
+    console.log('authUser', authUser)
     if (userStore.role === 'teacher') {
       dispatch(fetchTeacherPersonalInfo())
       dispatch(fetchPaymentCard(userStore.role))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [authUser])
 
   return (
     <CabinetLayout>

@@ -1,6 +1,8 @@
 import { UserRole } from './role'
 import { ISubjectCategory } from './subjects'
 
+export type NotificationType = 'success' | 'error'
+
 export interface AuthenticationUserResponse {
   userId: string
   role: UserRole

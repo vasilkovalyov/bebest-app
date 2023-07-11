@@ -53,7 +53,7 @@ export default function CreateLesson() {
           Create lesson {query.type}
         </Typography>
         <Box className="lesson-page">
-          <Grid container gap={1} justifyContent="space-between">
+          <Grid container gap={3} justifyContent="space-between">
             <Grid item xs={12} md={7}>
               <CreateLessonBlock lessonType={query.type as LessonType} />
             </Grid>

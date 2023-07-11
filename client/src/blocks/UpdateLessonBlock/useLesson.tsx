@@ -9,12 +9,15 @@ import { LessonType } from '@/types/lessons'
 
 //services
 import teacherLessonService from '@/services/teacher-lesson'
+import { AxiosError } from 'axios'
+import { NotificationType } from '@/types/common'
 
 type UseLessonReturnType = {
   lesson: TeacherLessonUpdateType
   loading: boolean
   notification: boolean
   responseMessage: string | null
+  typeNotification: NotificationType
   onSubmit: (props: TeacherLessonCreateType) => void
   closeNotification: () => void
 }
@@ -26,6 +29,9 @@ export function useLesson(
   const [loading, setloading] = useState<boolean>(false)
   const [lesson, setLesson] = useState<TeacherLessonUpdateType>(initialData)
   const [notification, setNotification] = useState<boolean>(false)
+  const [typeNotification, setTypeNotification] = useState<'success' | 'error'>(
+    'success'
+  )
   const [responseMessage, setResponseMessage] = useState<string | null>(null)
 
   async function onSubmit(props: TeacherLessonCreateType) {
@@ -48,7 +54,13 @@ export function useLesson(
       setLesson(updateLessonResponse.data)
       setloading(false)
     } catch (e) {
-      console.log(e)
+      setTypeNotification('error')
+      if (e instanceof AxiosError) {
+        setResponseMessage(e.response?.data.message)
+        setNotification(true)
+      }
+    } finally {
+      setloading(false)
     }
   }
 
@@ -61,6 +73,7 @@ export function useLesson(
     loading,
     notification,
     responseMessage,
+    typeNotification,
     onSubmit,
     closeNotification,
   }

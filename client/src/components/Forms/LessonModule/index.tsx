@@ -148,11 +148,13 @@ function LessonModuleForm({
         </Grid>
         <Grid item xs={12} marginBottom={2}>
           <Stack direction="row" spacing={1}>
-            <Icon
-              icon={IconEnum.INFO_CIRCULAR_OUTLINE}
-              size={18}
-              color={colors.blue}
-            />
+            <Box width={18}>
+              <Icon
+                icon={IconEnum.INFO_CIRCULAR_OUTLINE}
+                size={18}
+                color={colors.blue}
+              />
+            </Box>
             <Typography variant="body1">
               The date and time of the module must not be later than the start
               date of the workshop

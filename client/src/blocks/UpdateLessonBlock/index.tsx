@@ -27,6 +27,7 @@ function UpdateLessonBlock({ initialData }: IUpdateLessonBlockProps) {
     loading,
     responseMessage,
     notification,
+    typeNotification,
     onSubmit,
     closeNotification,
   } = useLesson(query._id as string, initialData)
@@ -51,7 +52,7 @@ function UpdateLessonBlock({ initialData }: IUpdateLessonBlockProps) {
       >
         <Alert
           variant="filled"
-          severity="success"
+          severity={typeNotification}
           action={
             <IconButton
               aria-label="close"
@@ -63,7 +64,9 @@ function UpdateLessonBlock({ initialData }: IUpdateLessonBlockProps) {
             </IconButton>
           }
         >
-          <AlertTitle color="inherit">Success</AlertTitle>
+          <AlertTitle color="inherit" style={{ textTransform: 'capitalize' }}>
+            {typeNotification}
+          </AlertTitle>
           {responseMessage}
         </Alert>
       </Snackbar>

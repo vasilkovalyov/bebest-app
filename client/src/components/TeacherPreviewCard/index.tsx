@@ -20,6 +20,7 @@ function TeacherPreviewCard({
   className,
   personalInfoId,
 }: ITeacherPreviewCardProps) {
+  console.log('personalInfoId', personalInfoId)
   return (
     <Box className={cn('teacher-preview-card', className)}>
       <Box>
@@ -33,9 +34,7 @@ function TeacherPreviewCard({
           </Typography>
         ) : null}
         {personalInfoId?.personal_lessons?.use_trial ? (
-          <Button variant="contained" disabled>
-            Trial lesson
-          </Button>
+          <Button variant="contained">Trial lesson</Button>
         ) : null}
       </Box>
       <Box>
