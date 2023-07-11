@@ -11,7 +11,8 @@
   transform: translate(-50%, -50%);
 
   @media (max-width: $screen-sm-max) {
-    height: 100vh;
+    width: 90%;
+    height: 90vh;
     overflow-y: scroll;
   }
 
@@ -34,10 +35,14 @@
   &__inner {
     position: relative;
     background-color: $white;
-    padding: $spacing-3-l $spacing-4-l;
+    padding: $spacing-5-m $spacing-2-l;
     max-width: 774px;
     width: 100%;
     border-radius: $radius-lg;
+
+    @media (min-width: $screen-sm) {
+      padding: $spacing-3-l $spacing-4-l;
+    }
   }
 
   &__body {
