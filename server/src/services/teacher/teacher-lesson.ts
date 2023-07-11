@@ -30,6 +30,25 @@ class TeacherLessonService {
   }
 
   async updateLesson(lessonId: string, props: ITeacherLesson) {
+    const modules = await TeacherLessonModel.find({
+      _id: lessonId,
+    })
+      .select('modules')
+      .populate({
+        path: 'modules',
+      })
+      .select('start_date')
+      .exec()
+      .then((posts) => {
+        return posts?.map((item) => item.start_date);
+      });
+
+    const date = props.start_date;
+
+    if (!this.hasEarlierDateInArray(date, modules)) {
+      throw new Error('Lesson date should not bigger then modules dates');
+    }
+
     await TeacherLessonModel.findOneAndUpdate(
       {
         _id: lessonId,
@@ -159,6 +178,20 @@ class TeacherLessonService {
         return postArray;
       });
     return students;
+  }
+
+  hasEarlierDateInArray(date: string, dateArr: string[]): boolean {
+    const dateTime = new Date(date).getTime();
+    let isEarlyDate = true;
+    for (let key in dateArr) {
+      const item = dateArr[key];
+      const itemDateTime = new Date(item).getTime();
+      if (dateTime >= itemDateTime) {
+        isEarlyDate = false;
+        break;
+      }
+    }
+    return isEarlyDate;
   }
 }
 

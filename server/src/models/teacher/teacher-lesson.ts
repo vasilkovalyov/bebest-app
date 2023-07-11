@@ -1,5 +1,6 @@
 import { Schema, model, Document } from 'mongoose';
 import { LessonType } from '../../types/common';
+import { ITeacherLessonModule } from './teacher-lesson-module';
 
 export interface ITeacherLesson {
   topic: string;
@@ -17,6 +18,13 @@ export interface ITeacherLesson {
   modules: string[];
   students: string[];
 }
+
+export type ITeacherLessonWithModulesDataType = Omit<
+  ITeacherLesson,
+  'modules'
+> & {
+  modules: ITeacherLessonModule[];
+};
 
 export type ITeacherLessonSchemaType = Omit<
   ITeacherLesson,

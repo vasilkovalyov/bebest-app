@@ -482,9 +482,12 @@ class TeacherController {
         .status(status.NOT_FOUND)
         .json(responseTeacherMessages.notUserByToken);
 
+    const { lessonId, ...props } = req.body;
+
     try {
       const response = await teacherLessonModuleService.updateLessonModule(
-        req.body
+        lessonId,
+        props
       );
       return res.status(status.SUCCESS).json(response);
     } catch (e) {
